@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Scenario>
  */
-class ScenarioFactory extends Factory
+class ScenarioFactory extends AppFactory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class ScenarioFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'title' => fake()->title(),
+            'title' => $this->getFakeName(1,2),
             'description' => fake()->text(),
         ];
     }

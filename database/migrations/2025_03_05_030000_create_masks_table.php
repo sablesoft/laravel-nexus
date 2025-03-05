@@ -17,6 +17,7 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->string('name')->nullable(false)->unique();
             $table->text('description')->nullable();
+            $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

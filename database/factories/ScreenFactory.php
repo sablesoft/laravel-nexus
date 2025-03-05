@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Screen>
  */
-class ScreenFactory extends Factory
+class ScreenFactory extends AppFactory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class ScreenFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'title' => fake()->title(),
+            'title' => $this->getFakeName(1, 2),
             'description' => fake()->text(),
         ];
     }

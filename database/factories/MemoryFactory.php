@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Memory>
  */
-class MemoryFactory extends Factory
+class MemoryFactory extends AppFactory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class MemoryFactory extends Factory
     {
         return [
             'chat_id' => Chat::factory(),
-            'title' => fake()->title(),
+            'title' => $this->getFakeName(2, 5),
             'content' => fake()->text(),
             'type' => fake()->word(),
         ];

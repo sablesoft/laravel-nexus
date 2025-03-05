@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Chat>
  */
-class ChatFactory extends Factory
+class ChatFactory extends AppFactory
 {
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class ChatFactory extends Factory
         return [
             'user_id' => User::factory(),
             'application_id' => Application::factory(),
-            'title' => fake()->title(),
+            'title' => $this->getFakeName(3,4),
         ];
     }
 }
