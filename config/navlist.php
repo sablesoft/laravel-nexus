@@ -42,24 +42,31 @@ return [
         'heading' => 'Workshop',
         'prefix' => 'workshop', // route and uri prefix
         'items' => [
+            'masks' => [
+                'icon' => 'identification',
+                'title' => 'Masks',
+                'action' => \App\Livewire\Workshop\Mask::class,
+                'middleware' => ['auth', 'verified'],
+                'tooltip' => 'Manage your masks!'
+            ],
             'applications' => [
                 'icon' => 'home',
                 'title' => 'Applications',
-                'action' => \App\Livewire\Settings\Profile::class,
+                'action' => \App\Livewire\Workshop\Application::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Build your apps!'
             ],
             'screens' => [
                 'icon' => 'window',
                 'title' => 'Screens',
-                'action' => \App\Livewire\Settings\Profile::class,
+                'action' => \App\Livewire\Workshop\Screen::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Build screens for your apps'
             ],
             'scenarios' => [
                 'icon' => 'puzzle-piece',
                 'title' => 'Scenarios',
-                'action' => \App\Livewire\Settings\Profile::class,
+                'action' => \App\Livewire\Workshop\Scenario::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Build scenarios for your screens'
             ]
