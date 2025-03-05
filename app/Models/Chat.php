@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Database\Factories\ChatFactory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasOwner;
 use App\Models\Interfaces\HasOwnerInterface;
@@ -24,7 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Chat extends Model implements HasOwnerInterface
 {
-    use HasOwner;
+    /** @use HasFactory<ChatFactory> */
+    use HasOwner, HasFactory;
 
     protected $fillable = [
         'user_id', 'application_id', 'title'

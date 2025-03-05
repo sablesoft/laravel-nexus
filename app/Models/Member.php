@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasOwner;
 use Carbon\Carbon;
+use Database\Factories\MemberFactory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,7 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Member extends Model implements HasOwnerInterface
 {
-    use HasOwner;
+    /** @use HasFactory<MemberFactory> */
+    use HasOwner, HasFactory;
 
     protected $fillable = [
         'user_id', 'name', 'description'
