@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasOwner;
 use Carbon\Carbon;
-use Database\Factories\MemberFactory;
+use Database\Factories\MaskFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,9 +24,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Chat>|Chat[] $chats
  * @property-read Collection<int, Memory>|Memory[] $memories
  */
-class Member extends Model implements HasOwnerInterface
+class Mask extends Model implements HasOwnerInterface
 {
-    /** @use HasFactory<MemberFactory> */
+    /** @use HasFactory<MaskFactory> */
     use HasOwner, HasFactory;
 
     protected $fillable = [

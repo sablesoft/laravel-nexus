@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read null|Application $application
  * @property-read Collection<int, Memory>|Memory[] $memories
- * @property-read Collection<int, Member>|Member[] $members
+ * @property-read Collection<int, Mask>|Mask[] $masks
  */
 class Chat extends Model implements HasOwnerInterface
 {
@@ -43,9 +43,9 @@ class Chat extends Model implements HasOwnerInterface
         return $this->hasMany(Memory::class);
     }
 
-    public function members(): BelongsToMany
+    public function masks(): BelongsToMany
     {
-        return $this->BelongsToMany(Member::class);
+        return $this->BelongsToMany(Mask::class);
     }
 
     public static function boot(): void

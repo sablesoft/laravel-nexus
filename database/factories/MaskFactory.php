@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Member;
+use App\Models\Mask;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Member>
+ * @extends Factory<Mask>
  */
-class MemberFactory extends Factory
+class MaskFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -26,7 +26,7 @@ use Illuminate\Support\Str;
  * @property-read Collection<int, Screen>|Screen[] $screens
  * @property-read Collection<int, Scenario>|Scenario[] $scenarios
  * @property-read Collection<int, Chat>|Chat[] $chats
- * @property-read Collection<int, Member>|Member[] $members
+ * @property-read Collection<int, Mask>|Mask[] $masks
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -87,9 +87,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Chat::class);
     }
 
-    public function members(): HasMany
+    public function masks(): HasMany
     {
-        return $this->hasMany(Member::class);
+        return $this->hasMany(Mask::class);
     }
 
     /**

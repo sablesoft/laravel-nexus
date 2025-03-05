@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chat_member', function (Blueprint $table) {
+        Schema::create('chat_mask', function (Blueprint $table) {
             $table->foreignId('chat_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('member_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('mask_id')->constrained()->cascadeOnDelete();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->unique(['chat_id', 'member_id']);
+            $table->unique(['chat_id', 'mask_id']);
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chat_member');
+        Schema::dropIfExists('chat_mask');
     }
 };
