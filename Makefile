@@ -20,7 +20,7 @@ horizon: ## Run horizon service
 	./vendor/bin/sail artisan horizon
 
 reverb: ## Run reverb server
-	./vendor/bin/sail artisan reverb:start --host="0.0.0.0" --port=8080 --hostname="laravel.test"
+	./vendor/bin/sail artisan reverb:start --debug
 
 schedule: ## Run scheduler locally
 	./vendor/bin/sail artisan schedule:work
