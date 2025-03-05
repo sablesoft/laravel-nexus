@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -12,7 +15,17 @@ use Illuminate\Support\Str;
  * @property int|null $id
  * @property string|null $name
  * @property string|null $email
+ * @property Carbon|null $email_verified_at
  * @property string|null $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read Collection<int, Application>|Application[] $application
+ * @property-read Collection<int, Screen>|Screen[] $screens
+ * @property-read Collection<int, Scenario>|Scenario[] $scenarios
+ * @property-read Collection<int, Chat>|Chat[] $chats
+ * @property-read Collection<int, Member>|Member[] $members
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -51,6 +64,31 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function screens(): HasMany
+    {
+        return $this->hasMany(Screen::class);
+    }
+
+    public function scenarios(): HasMany
+    {
+        return $this->hasMany(Scenario::class);
+    }
+
+    public function chats(): HasMany
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function members(): HasMany
+    {
+        return $this->hasMany(Member::class);
     }
 
     /**
