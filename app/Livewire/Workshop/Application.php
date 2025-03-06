@@ -43,7 +43,13 @@ class Application extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'is_public' => $this->isPublicField(),
+            'is_public' => [
+                'title' => 'Public',
+                'action' => ['index', 'edit', 'view'],
+                'type' => 'checkbox',
+                'rules' => 'bool',
+                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
+            ],
             'user' => $this->userField('Author'),
         ]);
     }
