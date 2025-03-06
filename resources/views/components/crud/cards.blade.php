@@ -1,9 +1,10 @@
 <div>
     @foreach($models as $id => $data)
-        <div class="bg-white dark:bg-gray-800 shadow rounded-lg mb-6 p-4">
+        <div class="bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 shadow rounded-md mb-6 p-4">
             <div class="flex justify-between items-center mb-2">
                 <div class="text-sm font-medium text-gray-500 dark:text-gray-300">No. {{ $id }}</div>
                 <div class="flex space-x-2">
+                    <flux:button.group>
                     @foreach($actions as $actionName => $actionInfo)
                         @if(in_array($id, $actionInfo['ids']))
                             <flux:tooltip :content="\App\Livewire\Workshop\AbstractCrud::title($actionName)">
@@ -12,6 +13,7 @@
                             </flux:tooltip>
                         @endif
                     @endforeach
+                    </flux:button.group>
                 </div>
             </div>
             <div class="text-sm text-gray-600 dark:text-gray-300">

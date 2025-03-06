@@ -1,73 +1,71 @@
-<!--suppress XmlUnboundNsPrefix, HtmlUnknownAttribute -->
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ $resourceTitle }}
-    </h2>
-</x-slot>
 <div x-data="{ isMobile: window.innerWidth < 768 }" id="crud-index" x-init="
     window.addEventListener('resize', () => {
         isMobile = window.innerWidth < 768;
-    })" class="py-12">
-    <div class="max-w-full sm:px-6 lg:px-8">
-        <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded dark:bg-gray-800"
-             :class="{'dark:bg-gray-900' : isMobile, 'dark:bg-gray-800' : !isMobile}">
-            <div wire:loading.delay>Loading...</div>
-            <!-- Index Buttons -->
-            <div class="mb-2 flex flex-wrap justify-end">
-            @foreach($this->indexButtons() as $buttonAction => $buttonTitle)
-                <flux:button wire:click="{{  $buttonAction }}" class="cursor-pointer">
-                    {{ $buttonTitle }}
-                </flux:button>
-            @endforeach
-            </div>
+    })">
+    <div class="max-w-full">
+        <div wire:loading.delay>Loading...</div>
 
-            <!-- Pagination -->
-            <div class="my-2">
-                {{ $models->links() }}
+        <div class="mb-2 flex flex-wrap items-center justify-between w-full">
+            <flux:breadcrumbs>
+                <flux:breadcrumbs.item class="text-base!">{{ __('Workshop') }}</flux:breadcrumbs.item>
+                <flux:breadcrumbs.item class="text-base!">{{ __($resourceTitle) }}</flux:breadcrumbs.item>
+                <flux:breadcrumbs.item class="text-base!">{{ __('List') }}</flux:breadcrumbs.item>
+            </flux:breadcrumbs>
+            <div class="flex flex-wrap justify-end">
+                <flux:button.group>
+                @foreach($this->indexButtons() as $buttonAction => $buttonTitle)
+                    <flux:button wire:click="{{  $buttonAction }}" class="cursor-pointer">
+                        {{ $buttonTitle }}
+                    </flux:button>
+                @endforeach
+                </flux:button.group>
             </div>
+        </div>
 
-            <!-- Custom Index Components -->
-            <div wire:key="custom-components">
-            @foreach($this->components('index') as $index => $component)
-                <div wire:key="component-{{ $component }}-{{ $index }}">
-                @livewire($component, $this->componentParams($action))
+        <!-- Pagination Top -->
+        <div class="my-2">
+            {{ $models->links() }}
+        </div>
+        <!-- Custom Index Components -->
+        <div wire:key="custom-components">
+        @foreach($this->components('index') as $index => $component)
+            <div wire:key="component-{{ $component }}-{{ $index }}">
+            @livewire($component, $this->componentParams($action))
+            </div>
+        @endforeach
+        </div>
+        <!-- Custom Index Templates -->
+        <div wire:key="custom-templates">
+        @foreach($this->templates('index') as $index => $template)
+            <div wire:key="template-{{ $template }}-{{ $index }}">
+            @include($template, $this->templateParams($action))
+            </div>
+        @endforeach
+        </div>
+        <!-- Content -->
+        <div wire:key="index-content">
+            @if($this->checkedModels())
+                <!-- Table for large screens -->
+                <div x-show="!isMobile" x-cloak class="overflow-hidden w-full md:block rounded-md">
+                    <x-crud.table :models="$this->checkedModels()"
+                                  :fields="$this->checkedFields()"
+                                  :actions="$this->checkedActions()"/>
                 </div>
-            @endforeach
-            </div>
-            <!-- Custom Index Templates -->
-            <div wire:key="custom-templates">
-            @foreach($this->templates('index') as $index => $template)
-                <div wire:key="template-{{ $template }}-{{ $index }}">
-                @include($template, $this->templateParams($action))
+
+                <!-- Cards for mobile screens -->
+                <div x-show="isMobile" x-cloak class="md:hidden">
+                    <x-crud.cards :models="$this->checkedModels()"
+                                  :fields="$this->checkedFields()"
+                                  :actions="$this->checkedActions()"/>
                 </div>
-            @endforeach
-            </div>
+            @else
+                <p class="text-center py-4 text-gray-500">{{ __('No records found') }}</p>
+            @endif
 
-            <div wire:key="index-content">
-                @if($this->checkedModels())
-                    <!-- Table for large screens -->
-                    <div x-show="!isMobile" x-cloak class="overflow-hidden w-full md:block">
-                        <x-crud.table :models="$this->checkedModels()"
-                                      :fields="$this->checkedFields()"
-                                      :actions="$this->checkedActions()"/>
-                    </div>
-
-                    <!-- Cards for mobile screens -->
-                    <div x-show="isMobile" x-cloak class="md:hidden">
-                        <x-crud.cards :models="$this->checkedModels()"
-                                      :fields="$this->checkedFields()"
-                                      :actions="$this->checkedActions()"/>
-                    </div>
-                @else
-                    <p class="text-center py-4 text-gray-500">{{ __('No records found') }}</p>
-                @endif
-
-            </div>
-
-            <!-- Pagination -->
-            <div class="my-2">
-                {{ $models->links() }}
-            </div>
+        </div>
+        <!-- Pagination Bottom -->
+        <div class="my-2">
+            {{ $models->links() }}
         </div>
     </div>
 </div>
