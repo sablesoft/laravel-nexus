@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Workshop\Traits;
+namespace App\Crud\Traits;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\CursorPaginator;
 use Livewire\WithPagination;
-use App\Models\Interfaces\HasOwnerInterface;
 
 trait HandlePaginate
 {

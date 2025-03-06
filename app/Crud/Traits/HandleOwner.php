@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Workshop\Traits;
+namespace App\Crud\Traits;
 
 use App\Models\Interfaces\HasOwnerInterface;
 

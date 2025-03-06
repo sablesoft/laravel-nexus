@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Workshop;
 
-use App\Livewire\Workshop\Traits\HandleOwner;
-use App\Livewire\Workshop\Traits\HandleUnique;
+use App\Crud\AbstractCrud;
+use App\Crud\Traits\HandleOwner;
+use App\Crud\Traits\HandleUnique;
 
 class Mask extends AbstractCrud
 {
@@ -27,7 +28,7 @@ class Mask extends AbstractCrud
     {
         return [
             'id' => 'ID',
-            'name' => 'name'
+            'name' => 'Name',
         ];
     }
 
@@ -47,7 +48,13 @@ class Mask extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'is_public' => $this->isPublicField(),
+            'is_public' => [
+                'title' => 'Public',
+                'action' => ['index', 'edit', 'view'],
+                'type' => 'checkbox',
+                'rules' => 'bool',
+                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
+            ],
             'user' => $this->userField('Owner'),
         ];
     }

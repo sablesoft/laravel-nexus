@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Workshop;
 
-use App\Livewire\Workshop\Traits\HandleOwner;
+use App\Crud\AbstractCrud;
+use App\Crud\Traits\HandleOwner;
 
 class Scenario extends AbstractCrud
 {

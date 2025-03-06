@@ -37,7 +37,7 @@
                 <flux:button.group>
                 @foreach($actions as $actionName => $actionInfo)
                     @if(in_array($id, $actionInfo['ids']))
-                        <flux:tooltip :content="\App\Livewire\Workshop\AbstractCrud::title($actionName)">
+                        <flux:tooltip :content="\App\Crud\AbstractCrud::title($actionName)">
                             <flux:button :icon="$actionInfo['icon']" class="cursor-pointer"
                                          wire:click="{{ $actionName }}({{ $id }})"></flux:button>
                         </flux:tooltip>

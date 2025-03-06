@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Workshop\Interfaces;
+namespace App\Crud\Interfaces;
 
 interface ResourceInterface
 {

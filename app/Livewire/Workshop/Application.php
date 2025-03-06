@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Workshop;
 
-use App\Livewire\Workshop\Traits\HandleOwner;
+use App\Crud\AbstractCrud;
+use App\Crud\Traits\HandleOwner;
 
 class Application extends AbstractCrud
 {
@@ -13,7 +14,7 @@ class Application extends AbstractCrud
      */
     public function className(): string
     {
-        return  \App\Models\Application::class;
+        return \App\Models\Application::class;
     }
 
     /**

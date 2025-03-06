@@ -2,18 +2,18 @@
 /** @noinspection PhpUndefinedMethodInspection */
 /** @noinspection PhpUndefinedClassInspection */
 
-namespace App\Livewire\Workshop;
+namespace App\Crud;
 
+use App\Crud\Interfaces\ResourceInterface;
+use App\Crud\Traits\HandleForm;
+use App\Crud\Traits\HandleIndex;
+use App\Crud\Traits\HandlePaginate;
+use App\Models\Services\StoreService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
-use App\Models\Services\StoreService;
-use App\Livewire\Workshop\Traits\HandleForm;
-use App\Livewire\Workshop\Traits\HandleIndex;
-use App\Livewire\Workshop\Traits\HandlePaginate;
-use App\Livewire\Workshop\Interfaces\ResourceInterface;
 
 abstract class AbstractCrud extends Component implements ResourceInterface
 {
@@ -86,16 +86,16 @@ abstract class AbstractCrud extends Component implements ResourceInterface
     {
         $params = [];
         if ($this->showForm) {
-            $view = 'livewire.workshop.form';
+            $view = 'crud.form';
         } elseif ($this->action === 'index') {
-            $view = 'livewire.workshop.index';
+            $view = 'crud.index';
             $params = [
                 'models' => $this->loadModels()
             ];
         } elseif ($this->action === 'view') {
-            $view = 'livewire.workshop.view';
+            $view = 'crud.view';
         } else {
-            throw new \Exception('Unknown workshop view');
+            throw new \Exception('Unknown crud view');
         }
 
         $title = config('app.name') . ' - ' . $this->classTitle();
@@ -264,6 +264,10 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $config = $this->fieldsConfig()[$field];
         if (!empty($config['callback'])) {
             $callback = $config['callback'];
+            if (is_callable($callback)) {
+                return $callback($model);
+            }
+
             return $this->$callback($model);
         }
 

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Livewire\Workshop\Traits;
+namespace App\Crud\Traits;
 
 use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Support\Facades\Auth;
 
 trait HandleIndex
 {
-
     protected $checkedModels = null;
 
     /**
