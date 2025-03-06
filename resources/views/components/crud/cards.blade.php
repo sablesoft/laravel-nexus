@@ -6,9 +6,10 @@
                 <div class="flex space-x-2">
                     @foreach($actions as $actionName => $actionInfo)
                         @if(in_array($id, $actionInfo['ids']))
-                            <x-crud.icon-button :title="\App\Livewire\Workshop\AbstractCrud::title($actionName)"
-                                                :icon="$actionInfo['icon']"
-                                                wire:click="{{ $actionName }}({{ $id }})"/>
+                            <flux:tooltip :content="\App\Livewire\Workshop\AbstractCrud::title($actionName)">
+                                <flux:button :icon="$actionInfo['icon']" class="cursor-pointer"
+                                             wire:click="{{ $actionName }}({{ $id }})"></flux:button>
+                            </flux:tooltip>
                         @endif
                     @endforeach
                 </div>

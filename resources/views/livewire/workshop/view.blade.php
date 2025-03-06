@@ -12,19 +12,13 @@
         <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded dark:bg-gray-800"
              :class="{'dark:bg-gray-900' : isMobile, 'dark:bg-gray-800' : !isMobile}">
             <div class="px-4 py-3 sm:px-6 flex justify-end space-x-2">
-                <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                    <button wire:click="close()" type="button"
-                            class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white dark:bg-gray-600 text-base leading-6 font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring-blue-500 sm:text-sm sm:leading-5">
-                        {{ __('Close') }}
-                    </button>
-                </span>
+                <flux:button wire:click="close()">
+                    {{ __('Close') }}
+                </flux:button>
                 @if($this->canRun('edit', $modelId))
-                <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                    <button wire:click="edit({{ $modelId }})" type="button"
-                            class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-gray-800 dark:bg-gray-200 text-base leading-6 font-medium text-white dark:text-gray-800 shadow-sm hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm sm:leading-5">
-                        {{ __('Edit') }}
-                    </button>
-                </span>
+                <flux:button wire:click="edit({{ $modelId }})">
+                    {{ __('Edit') }}
+                </flux:button>
                 @endif
             </div>
             <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -64,19 +58,13 @@
                 </div>
             </div>
             <div class="px-4 py-3 sm:px-6 flex justify-end space-x-2">
-                <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                    <button wire:click="close()" type="button"
-                            class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white dark:bg-gray-600 text-base leading-6 font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring-blue-500 sm:text-sm sm:leading-5">
-                        {{ __('Close') }}
-                    </button>
-                </span>
+                <flux:button wire:click="close()">
+                    {{ __('Close') }}
+                </flux:button>
                 @if($this->canRun('edit', $modelId))
-                <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                    <button wire:click="edit({{ $modelId }})" type="button"
-                            class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-gray-800 dark:bg-gray-200 text-base leading-6 font-medium text-white dark:text-gray-800 shadow-sm hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm sm:leading-5">
-                        {{ __('Edit') }}
-                    </button>
-                </span>
+                <flux:button wire:click="edit({{ $modelId }})">
+                    {{ __('Edit') }}
+                </flux:button>
                 @endif
             </div>
         </div>

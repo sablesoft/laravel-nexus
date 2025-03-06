@@ -15,9 +15,9 @@
             <!-- Index Buttons -->
             <div class="mb-2 flex flex-wrap justify-end">
             @foreach($this->indexButtons() as $buttonAction => $buttonTitle)
-                <x-crud.button wire:click="{{  $buttonAction }}" class="ml-2">
+                <flux:button wire:click="{{  $buttonAction }}" class="cursor-pointer">
                     {{ $buttonTitle }}
-                </x-crud.button>
+                </flux:button>
             @endforeach
             </div>
 
@@ -44,10 +44,9 @@
             </div>
 
             <div wire:key="index-content">
-
                 @if($this->checkedModels())
                     <!-- Table for large screens -->
-                    <div x-show="!isMobile" x-cloak class="overflow-hidden w-full hidden md:block">
+                    <div x-show="!isMobile" x-cloak class="overflow-hidden w-full md:block">
                         <x-crud.table :models="$this->checkedModels()"
                                       :fields="$this->checkedFields()"
                                       :actions="$this->checkedActions()"/>

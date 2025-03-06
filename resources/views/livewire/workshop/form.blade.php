@@ -14,26 +14,19 @@
             <form>
                 <div id="header-buttons">
                     <div class="px-4 py-3 sm:px-6 flex justify-end space-x-2">
-                    <span class="mb-2 flex w-full rounded-md shadow-sm sm:w-auto">
-                        <button wire:click="close()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white dark:bg-gray-600 text-base leading-6 font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring-blue-500 sm:text-sm sm:leading-5">
+                        <flux:button wire:click="close()">
                             {{ __('Close') }}
-                        </button>
-                    </span>
+                        </flux:button>
                         @if($modelId)
-                            <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                        <button wire:click="view()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-gray-800 dark:bg-gray-200 text-base leading-6 font-medium text-white dark:text-gray-800 shadow-sm hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm sm:leading-5">
-                            {{ __('View') }}
-                        </button>
-                    </span>
+                            <flux:button wire:click="view()">
+                                {{ __('View') }}
+                            </flux:button>
                         @endif
                         <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                        <button wire:click.prevent="{{ $formAction }}()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-gray-800 dark:bg-gray-200 text-base leading-6 font-medium text-white dark:text-gray-800 shadow-sm hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm sm:leading-5">
+                        <flux:button wire:click.prevent="{{ $formAction }}()">
                             {{ \App\Livewire\Workshop\AbstractCrud::title($action) }}
-                        </button>
-                    </span>
+                        </flux:button>
+                        </span>
                     </div>
                 </div>
                 <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -133,25 +126,17 @@
                 </div>
                 <div id="footer-buttons">
                     <div class="px-4 py-3 sm:px-6 flex justify-end space-x-2">
-                    <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                        <button wire:click="close()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white dark:bg-gray-600 text-base leading-6 font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring-blue-500 sm:text-sm sm:leading-5">
+                        <flux:button wire:click="close()">
                             {{ __('Close') }}
-                        </button>
-                    </span>
+                        </flux:button>
                         @if($modelId)
-                            <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                        <button wire:click="view()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-gray-800 dark:bg-gray-200 text-base leading-6 font-medium text-white dark:text-gray-800 shadow-sm hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm sm:leading-5">
-                            {{ __('View') }}
-                        </button>
-                    </span>
+                            <flux:button wire:click="view()">
+                                {{ __('View') }}
+                            </flux:button>
                         @endif
-                        <span class="flex w-full rounded-md shadow-sm sm:w-auto">
-                        <button wire:click.prevent="{{ $formAction }}()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-gray-800 dark:bg-gray-200 text-base leading-6 font-medium text-white dark:text-gray-800 shadow-sm hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm sm:leading-5">
+                        <flux:button wire:click.prevent="{{ $formAction }}()">
                             {{ \App\Livewire\Workshop\AbstractCrud::title($action) }}
-                        </button>
+                        </flux:button>
                     </span>
                     </div>
                 </div>
