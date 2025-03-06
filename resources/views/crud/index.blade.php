@@ -3,7 +3,6 @@
         isMobile = window.innerWidth < 768;
     })">
     <div class="max-w-full">
-        <div wire:loading.delay>Loading...</div>
 
         <div class="mb-2 flex flex-wrap items-center justify-between w-full">
             <flux:breadcrumbs>
@@ -11,6 +10,7 @@
                 <flux:breadcrumbs.item class="text-base!">{{ __($resourceTitle) }}</flux:breadcrumbs.item>
                 <flux:breadcrumbs.item class="text-base!">{{ __('List') }}</flux:breadcrumbs.item>
             </flux:breadcrumbs>
+            <div wire:loading.delay><flux:icon.loading /></div>
             <div class="flex flex-wrap justify-end">
                 <flux:button.group>
                 @foreach($this->indexButtons() as $buttonAction => $buttonTitle)
@@ -68,4 +68,28 @@
             {{ $models->links() }}
         </div>
     </div>
+
+    <flux:modal name="delete-confirmation" class="min-w-[22rem]" x-on:cancel="$wire.deleteId = null;">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('Delete') }} {{ $this->classTItle(false) }}?</flux:heading>
+                <flux:subheading>
+                    <p>{{ __('Are you sure you want to delete this item?') }}</p>
+                    <p>{{ __('This action cannot be reversed.') }}</p>
+                </flux:subheading>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Cancel') }}
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button variant="danger" wire:click="deleteConfirmed" class="cursor-pointer">
+                    {{ __('Delete') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
+
 </div>

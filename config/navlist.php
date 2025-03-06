@@ -50,7 +50,7 @@ return [
                 'tooltip' => 'Manage your masks!'
             ],
             'applications' => [
-                'icon' => 'home',
+                'icon' => 'server-stack',
                 'title' => 'Applications',
                 'action' => \App\Livewire\Workshop\Application::class,
                 'middleware' => ['auth', 'verified'],

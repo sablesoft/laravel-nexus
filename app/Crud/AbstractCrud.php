@@ -9,6 +9,7 @@ use App\Crud\Traits\HandleForm;
 use App\Crud\Traits\HandleIndex;
 use App\Crud\Traits\HandlePaginate;
 use App\Models\Services\StoreService;
+use Flux\Flux;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -26,6 +27,8 @@ abstract class AbstractCrud extends Component implements ResourceInterface
     public string $action = 'index';
     #[Locked]
     public int $userId;
+
+    public ?int $deleteId = null;
 
     /**
      * @return bool
@@ -197,10 +200,17 @@ abstract class AbstractCrud extends Component implements ResourceInterface
      */
     public function delete(int $id): void
     {
-        /** @noinspection PhpUndefinedMethodInspection */
+        $this->deleteId = $id;
+        Flux::modal('delete-confirmation')->show();
+    }
+
+    public function deleteConfirmed(): void
+    {
         $this->close();
         $this->resetCursor();
-        $this->getModel($id)->delete();
+        $this->getModel($this->deleteId)?->delete();
+        $this->deleteId = null;
+        Flux::modal('delete-confirmation')->close();
         $this->notification($this->classTitle(false) . ' deleted');
     }
 
@@ -208,7 +218,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
      * @param bool $plural
      * @return string
      */
-    protected function classTitle(bool $plural = true): string
+    public function classTitle(bool $plural = true): string
     {
         $parts = explode('\\', $this->className());
         return self::title(end($parts), $plural);
