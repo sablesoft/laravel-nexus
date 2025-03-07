@@ -33,12 +33,16 @@ class Screen extends Model implements HasOwnerInterface
 
     public function applications(): BelongsToMany
     {
-        return $this->belongsToMany(Application::class)->withTimestamps();
+        return $this->belongsToMany(Application::class)
+            ->withPivot('is_default')
+            ->withTimestamps();
     }
 
     public function scenarios(): BelongsToMany
     {
-        return $this->belongsToMany(Scenario::class)->withTimestamps();
+        return $this->belongsToMany(Scenario::class)
+            ->withPivot('is_default')
+            ->withTimestamps();
     }
 
     public static function boot(): void

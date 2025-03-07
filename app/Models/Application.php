@@ -39,7 +39,9 @@ class Application extends Model implements HasOwnerInterface
 
     public function screens(): BelongsToMany
     {
-        return $this->belongsToMany(Screen::class)->withTimestamps();
+        return $this->belongsToMany(Screen::class)
+            ->withPivot('is_default')
+            ->withTimestamps();
     }
 
     public function chats(): HasMany
