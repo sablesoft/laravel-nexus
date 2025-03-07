@@ -3,14 +3,11 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
-use App\Crud\Traits\HandleOwner;
 use App\Crud\Traits\HandleUnique;
 
 class Mask extends AbstractCrud
 {
-    use
-        HandleOwner,
-        HandleUnique;
+    use  HandleUnique;
 //        HandleImage
 
     /**
@@ -55,7 +52,6 @@ class Mask extends AbstractCrud
                 'rules' => 'bool',
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ],
-            'user' => $this->userField('Owner'),
         ];
     }
 }

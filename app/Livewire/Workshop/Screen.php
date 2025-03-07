@@ -3,11 +3,11 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
-use App\Crud\Traits\HandleOwner;
+use App\Crud\Traits\HandleHasMany;
 
 class Screen extends AbstractCrud
 {
-    use HandleOwner;
+    use HandleHasMany;
 
     /**
      * @return string
@@ -40,7 +40,8 @@ class Screen extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'user' => $this->userField('Author'),
+            'applications' => $this->hasManyField('applications'),
+            'scenarios' => $this->hasManyField('scenarios', ['view'])
         ];
     }
 }

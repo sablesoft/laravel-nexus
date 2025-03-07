@@ -50,7 +50,7 @@
                         @break
                     @default
                         <div class="px-4 py-2 whitespace-normal text-gray-900 dark:text-gray-300">
-                            {!! nl2br(e($state[$field])) !!}
+                            {!! nl2br($state[$field]) !!}
                         </div>
                         @break
                 @endswitch

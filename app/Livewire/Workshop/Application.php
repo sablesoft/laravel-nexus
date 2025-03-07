@@ -3,11 +3,11 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
-use App\Crud\Traits\HandleOwner;
+use App\Crud\Traits\HandleHasMany;
 
 class Application extends AbstractCrud
 {
-    use HandleOwner;
+    use HandleHasMany;
 
     /**
      * @return string
@@ -43,14 +43,14 @@ class Application extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
+            'screens' => $this->hasManyField('screens'),
             'is_public' => [
                 'title' => 'Public',
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'rules' => 'bool',
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
-            ],
-            'user' => $this->userField('Author'),
+            ]
         ]);
     }
 }
