@@ -3,16 +3,16 @@
 namespace App\Crud\Traits;
 
 use App\Models\Interfaces\HasOwnerInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\CursorPaginator;
 use Livewire\WithPagination;
 
 trait HandlePaginate
 {
     use WithPagination;
 
-    protected ?CursorPaginator $models = null;
+    protected ?LengthAwarePaginator $models = null;
 
     public string $search = '';
 
@@ -52,9 +52,9 @@ trait HandlePaginate
     }
 
     /**
-     * @return CursorPaginator
+     * @return LengthAwarePaginator
      */
-    protected function loadModels(): CursorPaginator
+    protected function loadModels(): LengthAwarePaginator
     {
         $query = $this->initQuery();
         if ($this->search) {
@@ -64,7 +64,7 @@ trait HandlePaginate
         $this->totalRecords = $query->count();
 
         $this->models = $this->modifyQuery($query)
-            ->orderBy($this->orderBy, $this->orderDirection)->cursorPaginate($this->perPage);
+            ->orderBy($this->orderBy, $this->orderDirection)->paginate($this->perPage);
 
         return $this->models;
     }
