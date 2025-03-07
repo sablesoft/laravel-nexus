@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('masks', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('image_id')->nullable()
-                ->constrained()->nullOnDelete();
-            $table->string('name')->nullable(false)->unique();
-            $table->text('description')->nullable();
+            $table->string('title')->nullable(false);
+            $table->text('prompt')->nullable();
+            // todo - create 3 diff dimensions:
+            $table->string('path')->nullable(false)->unique();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('masks');
+        Schema::dropIfExists('images');
     }
 };

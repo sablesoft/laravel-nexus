@@ -31,7 +31,7 @@ class Result extends \App\Services\OpenAI\Result
         }
         $imageContent = $response->getBody()->getContents();
         $imageName = basename(parse_url($imageUrl, PHP_URL_PATH));
-        $path = 'public/images/' . $imageName;
+        $path = 'images/' . $imageName;
         Storage::put($path, $imageContent);
         $this->add('path', $path);
         $this->markSuccess();

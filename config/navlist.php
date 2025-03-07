@@ -42,6 +42,13 @@ return [
         'heading' => 'Workshop',
         'prefix' => 'workshop', // route and uri prefix
         'items' => [
+            'images' => [
+                'icon' => 'photo',
+                'title' => 'Images',
+                'action' => \App\Livewire\Workshop\Image::class,
+                'middleware' => ['auth', 'verified'],
+                'tooltip' => 'Manage your images!'
+            ],
             'masks' => [
                 'icon' => 'identification',
                 'title' => 'Masks',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use Carbon\Carbon;
 use Database\Factories\MaskFactory;
@@ -28,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Mask extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<MaskFactory> */
-    use HasOwner, HasFactory;
+    use HasOwner, HasFactory, HasImage;
 
     protected $fillable = [
         'user_id', 'name', 'description', 'is_public'

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use App\Models\Interfaces\HasOwnerInterface;
 
@@ -24,7 +25,7 @@ use App\Models\Interfaces\HasOwnerInterface;
 class Screen extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory;
+    use HasOwner, HasFactory, HasImage;
 
     protected $fillable = [
         'user_id', 'title', 'description'
