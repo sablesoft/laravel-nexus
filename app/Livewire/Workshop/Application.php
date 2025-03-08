@@ -3,13 +3,15 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
+use App\Crud\Interfaces\ShouldBelongsTo;
 use App\Crud\Interfaces\ShouldHasMany;
+use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 
-class Application extends AbstractCrud implements ShouldHasMany
+class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
-    use HandleHasMany, HandleImage;
+    use HandleHasMany, HandleBelongsTo, HandleImage;
 
     public function className(): string
     {
@@ -28,15 +30,11 @@ class Application extends AbstractCrud implements ShouldHasMany
     {
         if (array_key_exists($field, $this->getHasManyFields())) {
             $class = $this->getHasManyFields()[$field];
-            return [
-                'field' => $field,
-                'options' =>
-                    $class::where('user_id', auth()->id())
-                        ->select(['id', 'title as name'])->get()->toArray()
-            ];
+            return $this->optionsParam($field, $class);
         }
 
         return match ($field) {
+            'screen_id' => $this->optionsParam($field, \App\Models\Screen::class),
             'image_id' => $this->imageParam(),
             default => [],
         };
@@ -56,6 +54,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
+            'screen_id' => $this->belongsToField('Default Screen', 'screen'),
             'screens' => $this->hasManyField('screens'),
             'is_public' => [
                 'title' => 'Public',
@@ -71,6 +70,13 @@ class Application extends AbstractCrud implements ShouldHasMany
     {
         return [
             'screens' => \App\Models\Screen::class
+        ];
+    }
+
+    public function getBelongsToFields(): array
+    {
+        return [
+            'screen_id' => \App\Models\Screen::class
         ];
     }
 }

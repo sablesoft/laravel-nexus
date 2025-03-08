@@ -27,12 +27,7 @@ trait HandleHasMany
     {
         if (array_key_exists($field, $this->getHasManyFields())) {
             $class = $this->getHasManyFields()[$field];
-            return [
-                'field' => $field,
-                'options' =>
-                    $class::where('user_id', auth()->id())
-                        ->select(['id', 'title as name'])->get()->toArray()
-            ];
+            return $this->optionsParam($field, $class);
         }
 
         return [];

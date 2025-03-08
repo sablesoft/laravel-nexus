@@ -7,6 +7,7 @@ use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
@@ -15,12 +16,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property null|int $id
+ * @property null|int $screen_id
  * @property null|string $title
  * @property null|string $description
  * @property null|bool $is_public
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|Screen $screen
  * @property-read Collection<int, Screen>|Screen[] $screens
  * @property-read Collection<int, Chat>|Chat[] $chats
  */
@@ -30,7 +33,7 @@ class Application extends Model implements HasOwnerInterface
     use HasOwner, HasFactory, HasImage;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public'
+        'user_id', 'screen_id', 'title', 'description', 'is_public'
     ];
 
     protected $casts = [
@@ -42,6 +45,11 @@ class Application extends Model implements HasOwnerInterface
         return $this->belongsToMany(Screen::class)
             ->withPivot('is_default')
             ->withTimestamps();
+    }
+
+    public function screen(): BelongsTo
+    {
+        return $this->belongsTo(Screen::class);
     }
 
     public function chats(): HasMany

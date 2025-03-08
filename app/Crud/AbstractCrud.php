@@ -78,6 +78,15 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         return [];
     }
 
+    public function optionsParam(string $field, string $class): array
+    {
+        return [
+            'field' => $field,
+            'options' => $this->filteredQuery($class)
+                ->select(['id', 'title as name'])->get()->toArray()
+        ];
+    }
+
     public function selectedOptionTitle(string $field, int $id): string
     {
         $options = $this->selectOptions($field);

@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('screens', function (Blueprint $table) {
+        Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()
                 ->constrained()->nullOnDelete();
+            $table->foreignId('screen_id')->nullable()
+                ->constrained()->nullOnDelete();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
+            $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('screens');
+        Schema::dropIfExists('applications');
     }
 };

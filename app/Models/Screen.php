@@ -14,12 +14,14 @@ use App\Models\Interfaces\HasOwnerInterface;
 
 /**
  * @property null|int $id
+ * @property null|int $scenario_id
  * @property null|string $title
  * @property null|string $description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
  * @property-read Collection<int, Application>|Application[] $applications
+ * @property-read null|Scenario $scenario
  * @property-read Collection<int, Scenario>|Scenario[] $scenarios
  */
 class Screen extends Model implements HasOwnerInterface
@@ -28,7 +30,7 @@ class Screen extends Model implements HasOwnerInterface
     use HasOwner, HasFactory, HasImage;
 
     protected $fillable = [
-        'user_id', 'title', 'description'
+        'user_id', 'scenario_id', 'title', 'description',
     ];
 
     public function applications(): BelongsToMany
