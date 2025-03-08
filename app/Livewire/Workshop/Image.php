@@ -31,7 +31,7 @@ class Image extends AbstractCrud
     {
         return [
             'thumbnail' => [
-                'title' => 'File',
+                'title' => 'Thumbnail',
                 'action' => ['index'],
                 'type' => 'image',
                 'callback' => 'getThumbnail',

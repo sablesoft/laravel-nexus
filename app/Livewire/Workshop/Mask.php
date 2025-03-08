@@ -3,12 +3,12 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
+use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleUnique;
 
 class Mask extends AbstractCrud
 {
-    use  HandleUnique;
-//        HandleImage
+    use HandleUnique, HandleImage;
 
     /**
      * @return string
@@ -29,17 +29,26 @@ class Mask extends AbstractCrud
         ];
     }
 
+    public function templateParams(string $action, ?string $field = null): array
+    {
+        return match ($field) {
+            'image_id' => $this->imageParam(),
+            default => [],
+        };
+    }
+
     /**
      * @return array[]
      */
     protected function fieldsConfig(): array
     {
         return [
+            'image' => $this->getThumbnailField(),
             'name' => [
                 'action' => ['index', 'edit', 'create', 'view'],
                 'rules' => ['required', 'string', $this->uniqueRule('masks', 'name')],
             ],
-//            'image_id' => $this->imageField(),
+            'image_id' => $this->imageField(),
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',

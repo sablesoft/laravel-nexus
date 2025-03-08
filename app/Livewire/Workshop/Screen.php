@@ -4,10 +4,11 @@ namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleHasMany;
+use App\Crud\Traits\HandleImage;
 
 class Screen extends AbstractCrud
 {
-    use HandleHasMany;
+    use HandleHasMany, HandleImage;
 
     /**
      * @return string
@@ -28,13 +29,23 @@ class Screen extends AbstractCrud
         ];
     }
 
+    public function templateParams(string $action, ?string $field = null): array
+    {
+        return match ($field) {
+            'image_id' => $this->imageParam(),
+            default => [],
+        };
+    }
+
     protected function fieldsConfig(): array
     {
         return [
+            'image' => $this->getThumbnailField(),
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
+            'image_id' => $this->imageField(),
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
