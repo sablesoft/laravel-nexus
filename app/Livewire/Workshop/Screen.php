@@ -13,17 +13,11 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
     use HandleHasMany, HandleBelongsTo, HandleImage;
 
-    /**
-     * @return string
-     */
     public function className(): string
     {
         return \App\Models\Screen::class;
     }
 
-    /**
-     * @return string[]
-     */
     public function orderByFields(): array
     {
         return [

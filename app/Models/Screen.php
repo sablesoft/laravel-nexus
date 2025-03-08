@@ -7,6 +7,7 @@ use Database\Factories\ScreenFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
@@ -45,6 +46,11 @@ class Screen extends Model implements HasOwnerInterface
         return $this->belongsToMany(Scenario::class)
             ->withPivot('is_default')
             ->withTimestamps();
+    }
+
+    public function scenario(): BelongsTo
+    {
+        return $this->belongsTo(Scenario::class);
     }
 
     public static function boot(): void

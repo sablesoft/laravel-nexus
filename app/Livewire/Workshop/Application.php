@@ -42,7 +42,7 @@ class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 
     protected function fieldsConfig(): array
     {
-        return array_merge([
+        return [
             'image' => $this->getThumbnailField(),
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
@@ -63,7 +63,7 @@ class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'bool',
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ]
-        ]);
+        ];
     }
 
     public function getHasManyFields(): array
