@@ -1,4 +1,4 @@
-<div x-data="select_{{ $field }}">
+<div x-data='searchableSelect("{{ $field }}", @json($options))'>
     <x-searchable id="{{ $field }}" :keep-selected="true" :allow-new="false"
                   @searchable-init="searchableInit"
                   @searchable-selected="searchableSelected"
@@ -8,11 +8,10 @@
 
 @script
 <script>
-    Alpine.data('select_{{ $field }}', () => {
-        return {
-            field: '{{ $field }}',
-            model: $wire.entangle("state.{{ $field }}"),
-            selectOptions: @json($options),
+    window.searchableSelect = function (field, options) {
+        let component = {
+            field: field,
+            selectOptions: options,
             showSearchableSelectDebug: false, // todo
 
             init() {
@@ -27,12 +26,16 @@
                 }
             },
 
+            selectedField() {
+                return this.field + 'Selected';
+            },
+
             // handlers:
             searchableInit() {
                 this.debug('Send options to component', {options: this.selectOptions});
                 this.$dispatch( this.field + '-options', this.selectOptions);
-                if (this.model) {
-                    this.$dispatch( this.field + '-selection', this.model);
+                if (this[this.selectedField()]) {
+                    this.$dispatch( this.field + '-selection', this[this.selectedField()]);
                 } else {
                     this.$dispatch( this.field + '-clear');
                 }
@@ -41,14 +44,22 @@
                 this.debug('Searchable selected', e);
                 let option = e.detail.option;
                 if (option.id) {
-                    this.model = option.id;
+                    this[this.selectedField()] = option.id;
                 }
             },
             searchableCleared(e) {
                 this.debug('Searchable cleared', e);
-                this.model = null;
+                this[this.selectedField()] = null;
             },
+
+            get model() {
+                return this[this.selectedField()];
+            }
         }
-    });
+
+        component[field + 'Selected'] = $wire.entangle('state.' + field);
+
+        return component;
+    };
 </script>
 @endscript
