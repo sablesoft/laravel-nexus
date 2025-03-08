@@ -3,10 +3,11 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
+use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 
-class Screen extends AbstractCrud
+class Screen extends AbstractCrud implements ShouldHasMany
 {
     use HandleHasMany, HandleImage;
 
@@ -31,6 +32,16 @@ class Screen extends AbstractCrud
 
     public function templateParams(string $action, ?string $field = null): array
     {
+        if (array_key_exists($field, $this->getHasManyFields())) {
+            $class = $this->getHasManyFields()[$field];
+            return [
+                'field' => $field,
+                'options' =>
+                    $class::where('user_id', auth()->id())
+                        ->select(['id', 'title as name'])->get()->toArray()
+            ];
+        }
+
         return match ($field) {
             'image_id' => $this->imageParam(),
             default => [],
@@ -52,7 +63,15 @@ class Screen extends AbstractCrud
                 'rules' => 'nullable|string'
             ],
             'applications' => $this->hasManyField('applications'),
-            'scenarios' => $this->hasManyField('scenarios', ['view'])
+            'scenarios' => $this->hasManyField('scenarios', ['view', 'edit'])
+        ];
+    }
+
+    public function getHasManyFields(): array
+    {
+        return [
+            'applications' => \App\Models\Application::class,
+            'scenarios' => \App\Models\Scenario::class,
         ];
     }
 }

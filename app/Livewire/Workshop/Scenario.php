@@ -3,9 +3,10 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
+use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleHasMany;
 
-class Scenario extends AbstractCrud
+class Scenario extends AbstractCrud implements ShouldHasMany
 {
     use HandleHasMany;
 
@@ -46,6 +47,13 @@ class Scenario extends AbstractCrud
                 'rules' => 'nullable|string'
             ],
             'screens' => $this->hasManyField('screens')
+        ];
+    }
+
+    public function getHasManyFields(): array
+    {
+        return [
+            'screens' => \App\Models\Screen::class
         ];
     }
 }

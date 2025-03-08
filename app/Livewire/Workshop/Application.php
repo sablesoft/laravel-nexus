@@ -3,24 +3,19 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
+use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 
-class Application extends AbstractCrud
+class Application extends AbstractCrud implements ShouldHasMany
 {
     use HandleHasMany, HandleImage;
 
-    /**
-     * @return string
-     */
     public function className(): string
     {
         return \App\Models\Application::class;
     }
 
-    /**
-     * @return string[]
-     */
     public function orderByFields(): array
     {
         return [
@@ -31,15 +26,22 @@ class Application extends AbstractCrud
 
     public function templateParams(string $action, ?string $field = null): array
     {
+        if (array_key_exists($field, $this->getHasManyFields())) {
+            $class = $this->getHasManyFields()[$field];
+            return [
+                'field' => $field,
+                'options' =>
+                    $class::where('user_id', auth()->id())
+                        ->select(['id', 'title as name'])->get()->toArray()
+            ];
+        }
+
         return match ($field) {
             'image_id' => $this->imageParam(),
             default => [],
         };
     }
 
-    /**
-     * @return array[]
-     */
     protected function fieldsConfig(): array
     {
         return array_merge([
@@ -63,5 +65,12 @@ class Application extends AbstractCrud
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ]
         ]);
+    }
+
+    public function getHasManyFields(): array
+    {
+        return [
+            'screens' => \App\Models\Screen::class
+        ];
     }
 }

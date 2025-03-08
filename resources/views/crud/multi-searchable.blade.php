@@ -31,7 +31,6 @@
             showMultiSearchableSelectDebug: false, // todo
 
             init() {
-
                 this.debug('Init', {
                     field: this.field,
                     options: this.multiSearchableOptions,
