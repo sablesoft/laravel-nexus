@@ -131,7 +131,7 @@ class Image extends AbstractCrud
         $request = new Request();
         $request->addParams($data);
         GenerateImage::dispatch($request, auth()->user(), $data['title'] ?? null);
-        $this->notification('Your generate request is processing. Please wait.');
+        $this->dispatch('flash', message: 'Your generate request is processing. Please wait.');
         $this->close();
     }
 

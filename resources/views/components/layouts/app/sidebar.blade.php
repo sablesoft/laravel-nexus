@@ -124,5 +124,8 @@
         {{ $slot }}
 
         @fluxScripts
+
+        <x-notification/>
+        <x-flash/>
     </body>
 </html>

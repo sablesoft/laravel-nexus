@@ -49,9 +49,9 @@ class GenerateImage implements ShouldQueue
             DB::beginTransaction();
             $service = new OpenAI($this->user);
             $result = $service->imageCreate($this->request);
-            $result->add('route', 'images');
             if ($result->success) {
                 $this->createImage($result);
+                $result->add('refresh', 'image');
                 DB::commit();
             } else {
                 DB::rollBack();
@@ -59,7 +59,6 @@ class GenerateImage implements ShouldQueue
         } catch (Throwable $e) {
             $this->user->notify(new GenerateNotification([
                 'success' => false,
-                'route' => 'images'
             ], $this->user->id));
             DB::rollBack();
             throw $e;

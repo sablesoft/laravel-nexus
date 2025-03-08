@@ -15,7 +15,6 @@ class GenerateNotification extends Notification implements ShouldQueue
 
     public int $userId;
 
-    protected string $route;
     protected array $result;
     protected string $message;
     protected array $context;
@@ -33,15 +32,8 @@ class GenerateNotification extends Notification implements ShouldQueue
         ]);
         $this->result = $result;
         $this->userId = $userId;
-        $this->route = $result['route'];
         if ($result['success']) {
             $this->message = __('Your generate task has been completed');
-            if ($this->route === 'notes') {
-                $this->context[] = __('Generated Notes:');
-                foreach ($this->result['notes'] as $note) {
-                    $this->context[] = 'Title: ' . $note['title'] . '. Text: ' . $note['text'];
-                }
-            }
         } else {
             $this->message = __('Your generate task has been failed');
             $this->context[] = 'We sincerely regret this. Try a different context or contact us for help';
@@ -83,11 +75,9 @@ class GenerateNotification extends Notification implements ShouldQueue
         foreach ($this->context as $line) {
             $message->line($line);
         }
-        $message->action('View All', url('/' . $this->route));
         $message->line('Thank you for using our application!');
 
         $message->tag('generate');
-        $message->tag($this->route);
 
         return $message;
     }
@@ -102,11 +92,10 @@ class GenerateNotification extends Notification implements ShouldQueue
     {
         $success = $this->result['success'];
         return [
-            'reload' => !!$success,
+            'refresh' => $this->result['refresh'] ?? null,
             'flash' => $success ? 'message' : 'error',
             'message' => $this->message,
             'success' => $success,
-            'route' => $this->route,
         ];
     }
 }

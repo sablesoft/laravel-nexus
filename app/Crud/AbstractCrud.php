@@ -51,6 +51,13 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->resourceTitle = $this->classTitle();
     }
 
+    protected function getListeners(): array
+    {
+        return [
+             'refresh.'. $this->getType() => '$refresh',
+        ];
+    }
+
     public function components(string $action): array
     {
         return [];
@@ -71,20 +78,12 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         return [];
     }
 
-    /**
-     * @param string $field
-     * @param int $id
-     * @return string
-     */
     public function selectedOptionTitle(string $field, int $id): string
     {
         $options = $this->selectOptions($field);
         return $options[$id];
     }
 
-    /**
-     * @throws \Exception
-     */
     public function render()
     {
         $params = [];
@@ -106,9 +105,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         return view($view, $params)->title($title);
     }
 
-    /**
-     * @return void
-     */
     public function create(): void
     {
         $this->action = 'create';
@@ -122,9 +118,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->openForm();
     }
 
-    /**
-     * @return void
-     */
     public function store(): void
     {
         $rules = $this->actionConfig($this->action, 'rules');
@@ -136,18 +129,14 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         try {
             $model = $this->getModel($this->modelId);
             StoreService::handle($data['state'], $model);
-//            $this->notification($this->classTitle(false) . ($this->modelId ? ' updated' : ' created'));
+            $this->dispatch('flash', message: $this->classTitle(false) . ($this->modelId ? ' updated' : ' created'));
             $this->close();
         } catch (\Throwable $e) {
-//            $this->notification(config('app.debug') ? $e->getMessage() : 'Failed. Something wrong.', 'error');
+            $this->dispatch('flash', message: config('app.debug') ? $e->getMessage() : 'Failed. Something wrong.');
             Log::error($e->getMessage(), ['exception' => $e]);
         }
     }
 
-
-    /**
-     * @return void
-     */
     public function close(): void
     {
         $this->formAction = 'store';
@@ -157,10 +146,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->resetState();
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
     public function edit(int $id): void
     {
         /** @noinspection PhpUndefinedMethodInspection */
@@ -175,10 +160,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->openForm();
     }
 
-    /**
-     * @param int|null $id
-     * @return void
-     */
     public function view(?int $id = null): void
     {
         $id = $id ?: $this->modelId;
@@ -194,10 +175,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->action = 'view';
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
     public function delete(int $id): void
     {
         $this->deleteId = $id;
@@ -211,24 +188,21 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->getModel($this->deleteId)?->delete();
         $this->deleteId = null;
         Flux::modal('delete-confirmation')->close();
-        $this->notification($this->classTitle(false) . ' deleted');
+        $this->dispatch('flash', message: $this->classTitle(false) . ' deleted');
     }
 
-    /**
-     * @param bool $plural
-     * @return string
-     */
     public function classTitle(bool $plural = true): string
     {
         $parts = explode('\\', $this->className());
         return self::title(end($parts), $plural);
     }
 
-    /**
-     * @param string $action
-     * @param string|null $option
-     * @return array
-     */
+    public function getType(): string
+    {
+        $parts = explode('\\', $this->className());
+        return self::code(end($parts));
+    }
+
     protected function actionConfig(string $action, ?string $option = null): array
     {
         $config = [];
@@ -256,19 +230,11 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         return $prepared;
     }
 
-    /**
-     * @return string[]
-     */
     protected function fields(string $action): array
     {
         return array_keys($this->actionConfig($action));
     }
 
-    /**
-     * @param Model $model
-     * @param string $field
-     * @return string|null
-     */
     protected function getValue(Model $model, string $field): ?string
     {
         $config = $this->fieldsConfig()[$field];
@@ -284,19 +250,12 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         return $model->$field;
     }
 
-    /**
-     * @param int|null $id
-     * @return Model|null
-     */
     protected function getModel(?int $id = null): ?Model
     {
         $className = $this->className();
         return $id ? $className::findOrFail($id) : new $className();
     }
 
-    /**
-     * @return void
-     */
     protected function resetState(): void
     {
         foreach($this->fields('all') as $field) {
@@ -304,35 +263,11 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         }
     }
 
-    /**
-     * @param string $message
-     * @param string $type
-     * @return void
-     */
-    protected function notification(string $message, string $type = 'message'): void
-    {
-        $this->dispatch('notification', params: [
-            'flash' => $type,
-            'message' => $message
-        ]);
-    }
-
-
-    /**
-     * @param string $name
-     * @param bool $plural
-     * @return string
-     */
     public static function code(string $name, bool $plural = false): string
     {
         return Str::of($name)->kebab()->plural($plural ? 2 : 1);
     }
 
-    /**
-     * @param string $name
-     * @param bool $plural
-     * @return string
-     */
     public static function title(string $name, bool $plural = false): string
     {
         return Str::of(self::code($name, $plural))->replace('-', ' ')->title();

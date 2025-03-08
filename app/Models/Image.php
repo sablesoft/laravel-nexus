@@ -43,7 +43,6 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
         // after scenario deleted:
         static::deleted(function(Image $image) {
             FileService::remove($image);
-            static::detachStories($image);
         });
     }
 
