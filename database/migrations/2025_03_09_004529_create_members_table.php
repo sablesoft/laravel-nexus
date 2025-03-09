@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('memories', function (Blueprint $table) {
+        Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('chat_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('mask_id')->nullable()
+            $table->foreignId('mask_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
-            $table->string('title')->nullable(false);
-            $table->text('content')->nullable(false);
-            $table->string('type', 20)->nullable(false)->index();
-            $table->jsonb('meta')->nullable();
+            $table->foreignId('user_id')->nullable()
+                ->constrained()->nullOnDelete();
+            $table->boolean('is_confirmed')->nullable(false)->default(false);
+
+            $table->unique(['chat_id', 'mask_id']);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('memories');
+        Schema::dropIfExists('members');
     }
 };

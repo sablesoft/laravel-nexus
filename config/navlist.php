@@ -13,19 +13,19 @@ return [
                 'middleware' => ['auth'],
                 'tooltip' => 'Main page'
             ],
-            'community' => [ // route and uri key
-                'icon' => 'globe-alt',
-                'title' => 'Community',
+            'heroes' => [ // route and uri key
+                'icon' => 'user-group',
+                'title' => 'Heroes',
                 'action' => \App\Livewire\Settings\Profile::class,
                 'middleware' => ['auth', 'verified'],
-                'tooltip' => 'Find yourself some friends!'
+                'tooltip' => 'Our stories in faces'
             ],
-            'applications' => [
+            'play' => [
                 'icon' => 'play',
-                'title' => 'Applications',
+                'title' => 'Play',
                 'action' => \App\Livewire\Settings\Profile::class,
                 'middleware' => ['auth', 'verified'],
-                'tooltip' => 'What you want to try today?'
+                'tooltip' => 'What do you want to try today?'
             ],
             'chats' => [
                 'icon' => 'chat-bubble-left-ellipsis',

@@ -23,8 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $updated_at
  *
  * @property-read null|User $user
- * @property-read Collection<int, Chat>|Chat[] $chats
- * @property-read Collection<int, Memory>|Memory[] $memories
+ * @property-read Collection<int, Member>|Member[] $members
  */
 class Mask extends Model implements HasOwnerInterface
 {
@@ -35,14 +34,9 @@ class Mask extends Model implements HasOwnerInterface
         'user_id', 'name', 'description', 'is_public'
     ];
 
-    public function chats(): BelongsToMany
+    public function members(): HasMany
     {
-        return $this->belongsToMany(Chat::class);
-    }
-
-    public function memories(): HasMany
-    {
-        return $this->hasMany(Memory::class);
+        return $this->hasMany(Member::class);
     }
 
     public static function boot(): void
