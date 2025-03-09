@@ -58,7 +58,14 @@ class Mask extends AbstractCrud
                 'title' => 'Public',
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
-                'rules' => 'bool',
+                'rules' => [
+                    'boolean',
+                    function ($attribute, $value, $fail) {
+                        if ($value === true && is_null($this->state['image_id'])) {
+                            $fail('You cannot make this mask public without image.');
+                        }
+                    }
+                ],
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ],
         ];

@@ -127,6 +127,20 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->openForm();
     }
 
+    public function edit(int $id): void
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $model = $this->getModel($id);
+        $this->modelId = $id;
+        $this->resetState();
+        foreach($this->fields('edit') as $field) {
+            $this->state[$field] = $model->$field;
+        }
+        $this->action = 'edit';
+
+        $this->openForm();
+    }
+
     public function store(): void
     {
         $rules = $this->actionConfig($this->action, 'rules');
@@ -153,20 +167,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->modelId = null;
         $this->action = 'index';
         $this->resetState();
-    }
-
-    public function edit(int $id): void
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $model = $this->getModel($id);
-        $this->modelId = $id;
-        $this->resetState();
-        foreach($this->fields('edit') as $field) {
-            $this->state[$field] = $model->$field;
-        }
-        $this->action = 'edit';
-
-        $this->openForm();
     }
 
     public function view(?int $id = null): void
