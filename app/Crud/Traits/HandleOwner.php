@@ -29,13 +29,14 @@ trait HandleOwner
         ];
     }
 
-    protected function isPublicField(): array
+    protected function isPublicField(array $action = ['edit', 'view']): array
     {
         return [
             'title' => 'Is Public',
-            'action' => ['edit', 'view'],
+            'action' => $action,
             'type' => 'checkbox',
-            'rules' => 'bool'
+            'rules' => 'bool',
+            'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
         ];
     }
 }

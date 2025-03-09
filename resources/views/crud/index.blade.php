@@ -22,10 +22,14 @@
             </div>
         </div>
 
+        <!-- Control -->
+        <x-crud.control/>
+
         <!-- Pagination Top -->
         <div class="my-2">
             {{ $models->links() }}
         </div>
+
         <!-- Custom Index Components -->
         <div wire:key="custom-components">
         @foreach($this->components('index') as $index => $component)

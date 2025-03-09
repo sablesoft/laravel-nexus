@@ -46,7 +46,7 @@ class Image extends AbstractCrud
                 'type' => 'image',
                 'rules' => ['string', $this->uniqueRule('images', 'path')],
             ],
-            'is_public' => $this->isPublicField(),
+            'is_public' => $this->isPublicField(['index', 'edit', 'view']),
 
             // generate:
             'prompt' => [

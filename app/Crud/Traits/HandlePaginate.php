@@ -6,6 +6,7 @@ use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 trait HandlePaginate
@@ -15,21 +16,13 @@ trait HandlePaginate
     protected ?LengthAwarePaginator $models = null;
 
     public string $search = '';
-
     public int $perPage = 10;
     public string $orderBy = 'id';
     public string $orderDirection = 'desc';
 
     public int $totalRecords = 0;
 
-    public function apply(): void
-    {
-        $this->resetCursor();
-    }
-
-    /**
-     * @return void
-     */
+    #[On('updated:orderBy', 'updated:orderDirection', 'updated:perPage', 'updated:search')]
     protected function resetCursor(): void
     {
         $this->paginators['cursor'] = '';
