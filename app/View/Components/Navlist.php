@@ -28,10 +28,19 @@ class Navlist extends Component
                 $routeName = $prefix . $key;
                 $action = $item['action'] ?? null;
                 $middleware = $item['middleware'] ?? null;
+                $uri = $item['uri'] ?? str_replace('.', '/', $routeName);
                 if (!Route::has($routeName) && $action) {
-                    Route::get(str_replace('.', '/', $routeName), $action)
-                        ->name($routeName)
-                        ->middleware($middleware);
+                    Route::get($uri, $action)->name($routeName)->middleware($middleware);
+                }
+                $routes = $item['routes'] ?? [];
+                foreach ($routes as $k => $route) {
+                    $method = $route['method'] ?? 'get';
+                    $action = $route['action'] ?? null;
+                    $routeName = $prefix . $k;
+                    $uri = $route['uri'] ?? str_replace('.', '/', $routeName);
+                    if (!Route::has($routeName) && $action) {
+                        Route::$method($uri, $action)->name($routeName)->middleware($middleware);
+                    }
                 }
             }
         }
