@@ -30,9 +30,15 @@ return [
             'chats' => [
                 'icon' => 'chat-bubble-left-ellipsis',
                 'title' => 'Chats',
-                'action' => \App\Livewire\Settings\Profile::class,
+                'action' => \App\Livewire\Chat\Index::class,
                 'middleware' => ['auth', 'verified'],
-                'tooltip' => 'Time to chat!'
+                'tooltip' => 'Time to chat!',
+                'routes' => [
+                    'chats.view' => [
+                        'uri' => 'chats/{id}',
+                        'action' => \App\Livewire\Chat\View::class,
+                    ],
+                ]
             ],
         ]
     ],
