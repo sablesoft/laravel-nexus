@@ -25,6 +25,10 @@
         </flux:select>
     </flux:tooltip>
 
+    @isset($filters)
+        {{ $filters }}
+    @endisset
+
     <flux:tooltip>
         <flux:input wire:model.live.debounce.500ms="search" placeholder="Search...">
             @if($this->search)
