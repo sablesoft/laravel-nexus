@@ -38,6 +38,10 @@ return [
                         'uri' => 'chats/{id}',
                         'action' => \App\Livewire\Chat\View::class,
                     ],
+                    'chats.edit' => [
+                        'uri' => 'chats/edit/{id}',
+                        'action' => \App\Livewire\Chat\Edit::class,
+                    ]
                 ]
             ],
         ]

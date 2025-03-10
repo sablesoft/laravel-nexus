@@ -10,9 +10,17 @@
                     {{ __('Close') }}
                 </flux:button>
                 @if($this->canEdit())
-                <flux:button wire:click="edit" variant="primary" class="cursor-pointer">
+                <flux:button wire:click="edit" class="cursor-pointer">
                     {{ __('Edit') }}
                 </flux:button>
+                <flux:button wire:click="publish" class="cursor-pointer">
+                    {{ __('Publish') }}
+                </flux:button>
+                @endif
+                @if($this->canJoin())
+                    <flux:button wire:click="join" class="cursor-pointer">
+                        {{ __('Join') }}
+                    </flux:button>
                 @endif
             </flux:button.group>
         </div>
@@ -61,10 +69,41 @@
                 {{ __('Close') }}
             </flux:button>
             @if($this->canEdit())
-            <flux:button wire:click="edit" variant="primary" class="cursor-pointer">
+            <flux:button wire:click="edit" class="cursor-pointer">
                 {{ __('Edit') }}
             </flux:button>
+            <flux:button wire:click="publish" class="cursor-pointer">
+                {{ __('Publish') }}
+            </flux:button>
+            @endif
+            @if($this->canJoin())
+                <flux:button wire:click="join" class="cursor-pointer">
+                    {{ __('Join') }}
+                </flux:button>
             @endif
         </flux:button.group>
     </div>
+
+    <flux:modal name="publish-confirmation" class="min-w-[22rem]">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('Publish') }}?</flux:heading>
+                <flux:subheading>
+                    <p>{{ __('Are you sure you want to publish this chat?') }}</p>
+                    <p>{{ __('This action cannot be reversed.') }}</p>
+                </flux:subheading>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Cancel') }}
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button variant="primary" wire:click="publishConfirmed" class="cursor-pointer">
+                    {{ __('Publish') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
 </div>
