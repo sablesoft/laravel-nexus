@@ -16,14 +16,14 @@ return [
             'heroes' => [ // route and uri key
                 'icon' => 'user-group',
                 'title' => 'Heroes',
-                'action' => \App\Livewire\Settings\Profile::class,
+                'action' => \App\Livewire\Hero::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Our stories in faces'
             ],
-            'play' => [
-                'icon' => 'play',
-                'title' => 'Play',
-                'action' => \App\Livewire\Settings\Profile::class,
+            'catalog' => [
+                'icon' => 'book-open',
+                'title' => 'Catalog',
+                'action' => \App\Livewire\Catalog::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'What do you want to try today?'
             ],
