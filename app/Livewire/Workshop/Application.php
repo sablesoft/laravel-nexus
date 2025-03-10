@@ -8,6 +8,7 @@ use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use Illuminate\Database\Eloquent\Builder;
 
 class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
@@ -54,16 +55,35 @@ class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'screen_id' => $this->belongsToField('Default Screen', 'screen'),
-            'screens' => $this->hasManyField('screens'),
+            'screen_id' => $this->belongsToField('Default Screen', 'screen', [
+                'create', 'edit', 'view', 'index'
+            ]),
+            'screens' => $this->hasManyField('screens', ['view', 'edit']),
             'is_public' => [
                 'title' => 'Public',
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
-                'rules' => 'bool',
+                'rules' => [
+                    'bool',
+                    function ($attribute, $value, $fail) {
+                        if ($value === true && is_null($this->state['image_id'])) {
+                            $fail('You cannot make this application public without image.');
+                        }
+                    },
+                    function ($attribute, $value, $fail) {
+                        if ($value === true && is_null($this->state['screen_id'])) {
+                            $fail('You cannot make this application public without default screen.');
+                        }
+                    }
+                ],
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ]
         ];
+    }
+
+    protected function modifyQuery(Builder $query): Builder
+    {
+        return $query->with('image', 'screen', 'screens');
     }
 
     public function getHasManyFields(): array

@@ -30,7 +30,7 @@ trait HandleImage
             return '---';
         }
 
-        return '<img src="' . Storage::url($model->image->path) .
+        return '<img src="' . Storage::url($model->imagePath) .
             '" class="w-'.$size.' h-'.$size.' object-cover rounded-md" alt="Image"/>';
     }
 
@@ -56,7 +56,7 @@ trait HandleImage
     {
         return [
             'options' =>
-                $this->filteredQuery(Image::class)
+                $this->filterByOwner($this->getQuery(Image::class))
                     ->select(['id', 'title as name'])->get()->toArray()
         ];
     }

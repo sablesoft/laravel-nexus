@@ -82,7 +82,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
     {
         return [
             'field' => $field,
-            'options' => $this->filteredQuery($class)
+            'options' => $this->filterByOwner($this->getQuery($class))
                 ->select(['id', 'title as name'])->get()->toArray()
         ];
     }
@@ -101,7 +101,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         } elseif ($this->action === 'index') {
             $view = 'crud.index';
             $params = [
-                'models' => $this->loadModels()
+                'models' => $this->paginator()
             ];
         } elseif ($this->action === 'view') {
             $view = 'crud.view';
