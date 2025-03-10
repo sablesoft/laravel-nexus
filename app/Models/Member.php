@@ -15,6 +15,7 @@ use App\Models\Traits\HasOwner;
  * @property null|int $id
  * @property null|int $chat_id
  * @property null|int $mask_id
+ * @property null|bool $is_confirmed
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *

@@ -10,7 +10,6 @@ use Database\Factories\MaskFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -22,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|string $title
  * @property-read null|User $user
  * @property-read Collection<int, Member>|Member[] $members
  */
@@ -33,6 +33,11 @@ class Mask extends Model implements HasOwnerInterface
     protected $fillable = [
         'user_id', 'name', 'description', 'is_public'
     ];
+
+    public function getTitleAttribute(): ?string
+    {
+        return $this->name;
+    }
 
     public function members(): HasMany
     {

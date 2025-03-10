@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\ChatStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,8 +19,9 @@ return new class extends Migration
             $table->foreignId('application_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
             $table->string('title')->nullable(false);
-            $table->unsignedSmallInteger('places')->nullable(false)->default(1);
-            $table->unsignedSmallInteger('status')->nullable(false)->default(0);
+            $table->unsignedSmallInteger('seats')->nullable(false)->default(1);
+            $table->enum('status', ChatStatus::values())->index()
+                ->nullable(false)->default(ChatStatus::Created->value);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
