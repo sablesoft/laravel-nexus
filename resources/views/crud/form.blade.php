@@ -40,7 +40,7 @@
                         @endif
                         @switch($this->type($field))
                             @case('input')
-                                <flux:input wire:model="state.{{ $field }}" type="text"/>
+                                <flux:input wire:model="state.{{ $field }}"/>
                                 @break
                             @case('number')
                                 <flux:input wire:model="state.{{ $field }}" min="1" step="1" type="number"/>

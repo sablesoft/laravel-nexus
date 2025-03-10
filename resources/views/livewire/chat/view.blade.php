@@ -2,6 +2,7 @@
     <div class="flex flex-wrap items-center justify-between w-full mb-2">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item class="text-base!">{{ __('Chats') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item class="text-base!">{{ __('View') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item class="text-base!">{{ $chat->id }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div class="flex justify-end space-x-2">

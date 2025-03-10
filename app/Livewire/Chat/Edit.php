@@ -3,11 +3,14 @@
 namespace App\Livewire\Chat;
 
 use App\Models\Chat;
+use App\Models\Services\StoreService;
 use Livewire\Component;
 
 class Edit extends Component
 {
     public Chat $chat;
+
+    public array $state;
 
     public function mount(int $id): void
     {
@@ -15,6 +18,18 @@ class Edit extends Component
         if (!$this->canEdit()) {
             $this->redirectRoute('chats.view', ['id' => $id], true, true);
         }
+        $this->state = $this->chat->only('title', 'seats');
+    }
+
+    public function render(): mixed
+    {
+        return view('livewire.chat.edit')
+            ->title('Chat Edit: ' . $this->chat->title);
+    }
+
+    public function close(): void
+    {
+        $this->redirectRoute('chats.view', ['id' => $this->chat->id], true, true);
     }
 
     public function canEdit(): bool
@@ -22,15 +37,14 @@ class Edit extends Component
         return $this->chat->id === auth()->id();
     }
 
-    public function edit(): void
+    public function update(): void
     {
-        dd($this->chat);
-    }
-
-    public function render(): mixed
-    {
-        return view('livewire.chat.edit', [
-            'chat' => $this->chat,
-        ])->title('Chat Edit: ' . $this->chat->title);
+        $rules = [
+            'title' => 'string|required',
+            'seats' => 'int|required|min:1'
+        ];
+        $data = $this->validate(\Arr::prependKeysWith($rules, 'state.'));
+        StoreService::handle($data['state'], $this->chat);
+        $this->dispatch('flash', message: 'Your chat was updated!');
     }
 }
