@@ -187,7 +187,9 @@ class View extends Component
     public function canStart(): bool
     {
         return $this->isOwner() &&
-            $this->chat->status === ChatStatus::Published;
+            $this->chat->status === ChatStatus::Published &&
+            !!$this->chat->members->whereNotNull('user_id')
+                ->where('is_confirmed', true)->count();
     }
 
     public function start(): void
