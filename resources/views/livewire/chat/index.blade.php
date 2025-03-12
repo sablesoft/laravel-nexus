@@ -9,19 +9,19 @@
     <!-- Control -->
     <x-crud.control>
         <x-slot name="filters">
-            <flux:tooltip content="Status">
-                <flux:select id="status" wire:model.live="status" placeholder="Status" class="cursor-pointer">
-                    <flux:select.option selected value="all">{{ 'All' }}</flux:select.option>
-                    @foreach(\App\Models\Enums\ChatStatus::values() as $value)
-                        <flux:select.option value="{{ $value }}">{{ ucfirst($value) }}</flux:select.option>
-                    @endforeach
-                </flux:select>
-            </flux:tooltip>
             <flux:tooltip content="Owner">
                 <flux:select id="owner" wire:model.live="owner" placeholder="Owner" class="cursor-pointer">
                     <flux:select.option selected value="all">{{ 'All' }}</flux:select.option>
                     <flux:select.option value="user">{{ 'You' }}</flux:select.option>
                     <flux:select.option value="others">{{ 'Others' }}</flux:select.option>
+                </flux:select>
+            </flux:tooltip>
+            <flux:tooltip content="Status">
+                <flux:select id="status" wire:model.live="status" placeholder="Status" class="cursor-pointer">
+                    <flux:select.option selected value="all">{{ 'All' }}</flux:select.option>
+                    @foreach($this->getStatuses() as $value)
+                        <flux:select.option value="{{ $value }}">{{ ucfirst($value) }}</flux:select.option>
+                    @endforeach
                 </flux:select>
             </flux:tooltip>
             <flux:tooltip content="Only With You">
@@ -44,6 +44,11 @@
                     <flux:heading size="lg" class="h-[3.5rem] overflow-hidden">
                         {{ $model->title }}
                     </flux:heading>
+                    <flux:subheading>
+                        <p>Owner: {{ ucfirst($model->user->name) }}</p>
+                        <p>Seats: {{ $model->allowedSeatsCount() }} / {{ $model->seats }}</p>
+                        <p>Status: {{ ucfirst($model->status->value) }}</p>
+                    </flux:subheading>
                 </div>
             </div>
         @endforeach

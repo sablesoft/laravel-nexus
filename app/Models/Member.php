@@ -29,7 +29,7 @@ class Member extends Model
     use HasOwner, HasFactory;
 
     protected $fillable = [
-        'chat_id', 'mask_id', 'user_id'
+        'chat_id', 'mask_id', 'user_id', 'is_confirmed'
     ];
 
     public function chat(): BelongsTo
