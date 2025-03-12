@@ -18,9 +18,9 @@
                     {{ __('Publish') }}
                 </flux:button>
                 @endif
-                @if($this->canJoin())
-                    <flux:button wire:click="join" class="cursor-pointer">
-                        {{ __('Join') }}
+                @if($this->canAddMask())
+                    <flux:button wire:click="mask" class="cursor-pointer">
+                        {{ __('Mask') }}
                     </flux:button>
                 @endif
             </flux:button.group>
@@ -43,6 +43,11 @@
         </div>
 
         <div class="mb-4">
+            <h3>{{ __('Host') }}</h3>
+            <p>{{ $chat->user->name }}</p>
+        </div>
+
+        <div class="mb-4">
             <p>{{ __('Seats') }}: {{ $chat->allowedSeatsCount() }} / {{ $chat->seats }}</p>
         </div>
 
@@ -51,18 +56,11 @@
             <p>{{ __('Status') }}: {{ ucfirst($chat->status->value) }}</p>
         </div>
 
-        @if($chat->members->count())
-        <div class="mb-4">
-            <h3>{{ __('Members') }}</h3>
-            @foreach($chat->members as $i => $member)
-                <p>
-                    <span>{{ $i }}) </span>
-                    <span>{{ $member->mask->title }} - {{ $member->user_id ? 'Taken' : 'Free' }}</span>
-                    <span> ({{ $member->is_confirmed ? 'Confirmed' : 'Not confirmed' }})</span>
-                </p>
-            @endforeach
-        </div>
-        @endif
+        <x-chat.members
+            :members="$chat->members"
+            :masks="$masks"
+            :is-owner="$this->isOwner()"
+            :is-joined="$this->isJoined()"/>
     </div>
     <div class="py-3 flex justify-end space-x-2">
         <flux:button.group>
@@ -77,9 +75,9 @@
                 {{ __('Publish') }}
             </flux:button>
             @endif
-            @if($this->canJoin())
-                <flux:button wire:click="join" class="cursor-pointer">
-                    {{ __('Join') }}
+            @if($this->canAddMask())
+                <flux:button wire:click="member" class="cursor-pointer">
+                    {{ __('Member') }}
                 </flux:button>
             @endif
         </flux:button.group>
