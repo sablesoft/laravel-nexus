@@ -51,6 +51,53 @@ class Index extends Component
         $this->redirectRoute('chats.view', ['id' => $id], true, true);
     }
 
+    public function canLeave(int $id): bool
+    {
+        $chat = $this->getChat($id);
+        if (!$chat || !in_array($chat->status, [ChatStatus::Created, ChatStatus::Published])) {
+            return false;
+        }
+
+        return $this->isJoined($chat);
+    }
+
+    public function leave(int $id): void
+    {
+        $chat = $this->getChat($id);
+        if (!$chat) {
+            return;
+        }
+        $member = $chat->members->where('user_id', auth()->id())->first();
+        if (!$member) {
+            return;
+        }
+        if (!$member->is_confirmed) {
+            $member->delete();
+        } else {
+            $member->update(['user_id' => null]);
+        }
+        $this->dispatch('flash', message: 'Your leaved this chat!');
+    }
+
+    public function canPlay(int $id): bool
+    {
+        $chat = $this->getChat($id);
+        if (!$chat || $chat->status !== ChatStatus::Started) {
+            return false;
+        }
+
+        return $this->isJoined($chat);
+    }
+
+    public function play(int $id): void
+    {
+        if (!$this->canPlay($id)) {
+            return;
+        }
+
+        $this->redirectRoute('chats.play', ['id' => $id], true, true);
+    }
+
     protected function filterByOwner(Builder $query): Builder
     {
         return $query;
@@ -95,5 +142,15 @@ class Index extends Component
         }
 
         return $query;
+    }
+
+    protected function isJoined(Chat $chat): bool
+    {
+        return !!$chat->members->where('user_id', auth()->id())->count();
+    }
+
+    protected function getChat(int $id): ?Chat
+    {
+        return Chat::with('members')->where('id', $id)->first();
     }
 }
