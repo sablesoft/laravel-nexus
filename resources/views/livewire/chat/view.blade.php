@@ -19,9 +19,19 @@
                 </flux:button>
                 @endif
                 @if($this->canAddMask())
-                    <flux:button wire:click="mask" class="cursor-pointer">
-                        {{ __('Mask') }}
-                    </flux:button>
+                <flux:button wire:click="member" class="cursor-pointer">
+                    {{ __('Member') }}
+                </flux:button>
+                @endif
+                @if($this->canStart())
+                <flux:button wire:click="start" class="cursor-pointer">
+                    {{ __('Start') }}
+                </flux:button>
+                @endif
+                @if($this->canPlay())
+                <flux:button wire:click="play" class="cursor-pointer">
+                    {{ __('Play') }}
+                </flux:button>
                 @endif
             </flux:button.group>
         </div>
@@ -59,6 +69,7 @@
         <x-chat.members
             :members="$chat->members"
             :masks="$masks"
+            :is-started="$this->isStarted()"
             :is-owner="$this->isOwner()"
             :is-joined="$this->isJoined()"/>
     </div>
@@ -76,9 +87,19 @@
             </flux:button>
             @endif
             @if($this->canAddMask())
-                <flux:button wire:click="member" class="cursor-pointer">
-                    {{ __('Member') }}
-                </flux:button>
+            <flux:button wire:click="member" class="cursor-pointer">
+                {{ __('Member') }}
+            </flux:button>
+            @endif
+            @if($this->canStart())
+            <flux:button wire:click="start" class="cursor-pointer">
+                {{ __('Start') }}
+            </flux:button>
+            @endif
+            @if($this->canPlay())
+            <flux:button wire:click="play" class="cursor-pointer">
+                {{ __('Play') }}
+            </flux:button>
             @endif
         </flux:button.group>
     </div>
@@ -101,6 +122,30 @@
                 </flux:modal.close>
                 <flux:button variant="primary" wire:click="publishConfirmed" class="cursor-pointer">
                     {{ __('Publish') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
+
+    <flux:modal name="start-confirmation" class="min-w-[22rem]">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('Start Chat') }}?</flux:heading>
+                <flux:subheading>
+                    <p>{{ __('Are you sure you want to start this chat?') }}</p>
+                    <p>{{ __('This action cannot be reversed.') }}</p>
+                    {{-- TODO: check seats and write warning --}}
+                </flux:subheading>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Cancel') }}
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button variant="primary" wire:click="startConfirmed" class="cursor-pointer">
+                    {{ __('Start') }}
                 </flux:button>
             </div>
         </div>

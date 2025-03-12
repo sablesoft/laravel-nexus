@@ -16,7 +16,9 @@
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
                 Confirmed
             </th>
+            @if(!$isStarted)
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">{{ __('Actions') }}</th>
+            @endif
         </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -32,6 +34,7 @@
                 <td class="px-4 py-2">
                     {{ $member->is_confirmed ? 'Yes' : 'No' }}
                 </td>
+                @if(!$isStarted)
                 <td class="px-4 py-2 whitespace-nowrap">
                     <flux:button.group>
                     @if(!$member->user && !$isJoined)
@@ -46,6 +49,12 @@
                                          wire:click="leave({{ $member->id }})"></flux:button>
                         </flux:tooltip>
                     @endif
+                    @if(!$member->is_confirmed && $isOwner)
+                        <flux:tooltip content="Confirm">
+                            <flux:button icon="check" class="cursor-pointer"
+                                         wire:click="confirm({{ $member->id }})"></flux:button>
+                        </flux:tooltip>
+                    @endif
                     @if($isOwner)
                         <flux:tooltip content="Delete">
                             <flux:button icon="trash" class="cursor-pointer"
@@ -54,6 +63,7 @@
                     @endif
                     </flux:button.group>
                 </td>
+                @endif
             </tr>
         @endforeach
         </tbody>
@@ -78,6 +88,7 @@
                         {{ __('Cancel') }}
                     </flux:button>
                 </flux:modal.close>
+                <!--suppress JSUnresolvedReference -->
                 <flux:button variant="primary" wire:click="addMask" class="cursor-pointer">
                     {{ __('Add') }}
                 </flux:button>

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedMethodInspection */
 
 namespace App\Livewire\Chat;
 
@@ -154,6 +154,59 @@ class View extends Component
         $member->delete();
         $this->reload();
         $this->dispatch('flash', message: 'Member deleted from chat!');
+    }
+
+    public function confirm(int $id): void
+    {
+        $member = $this->findMember($id);
+        if (!$member || !$this->isOwner() || $member->is_confirmed) {
+            return;
+        }
+        $member->update(['is_confirmed' => true]);
+        $this->reload();
+        $this->dispatch('flash', message: 'Member confirmed');
+    }
+
+    public function canStart(): bool
+    {
+        return $this->isOwner() &&
+            $this->chat->status === ChatStatus::Published;
+    }
+
+    public function start(): void
+    {
+        if (!$this->canStart()) {
+            return;
+        }
+
+        Flux::modal('start-confirmation')->show();
+    }
+
+    public function startConfirmed(): void
+    {
+        Flux::modal('start-confirmation')->close();
+        if (!$this->canStart()) {
+            return;
+        }
+
+        $this->chat->update(['status' => ChatStatus::Started]);
+        $this->dispatch('flash', message: 'Your chat was started!');
+    }
+
+    public function isStarted(): bool
+    {
+        return !in_array($this->chat->status, [ChatStatus::Created, ChatStatus::Published]);
+    }
+
+    public function canPlay(): bool
+    {
+        return $this->chat->status === ChatStatus::Started &&
+            $this->isJoined();
+    }
+
+    public function play(): void
+    {
+        $this->redirectRoute('chats.play', ['id' => $this->chat->id], true, true);
     }
 
     public function close(): void
