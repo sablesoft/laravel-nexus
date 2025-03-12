@@ -1,4 +1,9 @@
 <div>
+    <div class="flex flex-wrap items-center justify-between w-full mb-2">
+        <flux:breadcrumbs>
+            <flux:breadcrumbs.item class="text-base!">{{ __('Catalog') }}</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+    </div>
     <div class="flex flex-wrap gap-4">
         @foreach($models as $model)
             <div wire:click="show({{ $model->id }})"

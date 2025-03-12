@@ -11,7 +11,10 @@
                 Name
             </th>
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
-                User
+                Description
+            </th>
+            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
+                Player
             </th>
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
                 Confirmed
@@ -24,10 +27,15 @@
         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
         @foreach($members as $member)
             <tr>
-                <td class="px-4 py-2 whitespace-nowrap">
+                <td class="px-4 py-2 cursor-pointer" wire:click="showMask({{ $member->mask_id }})">
                     <img src="{{ Storage::url($member->mask->imagePath) }}" alt="{{ $member->mask->title }}">
                 </td>
-                <td class="px-4 py-2 whitespace-nowrap">{{ $member->mask->title }}</td>
+                <td class="px-4 py-2">{{ $member->mask->title }}</td>
+                <td class="px-4 py-2">
+                    <div class="max-h-26 overflow-hidden">
+                        {{ $member->mask->description }}
+                    </div>
+                </td>
                 <td class="px-4 py-2">
                     {{ $member->user ? $member->user->name : '---' }}
                 </td>
@@ -92,6 +100,27 @@
                 <flux:button variant="primary" wire:click="addMask" class="cursor-pointer">
                     {{ __('Add') }}
                 </flux:button>
+            </div>
+        </div>
+    </flux:modal>
+    <flux:modal name="show-mask" x-on:cancel="$wire.mask = null;">
+        <div class="space-y-6">
+            <img src="{{ Storage::url($mask?->imagePath) }}" alt="{{ $mask?->title }}" class="w-full object-cover">
+            <div>
+                <flux:heading size="lg">
+                    {{ $mask?->title }}
+                </flux:heading>
+                <flux:subheading>
+                    {{ $mask?->description }}
+                </flux:subheading>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Close') }}
+                    </flux:button>
+                </flux:modal.close>
             </div>
         </div>
     </flux:modal>

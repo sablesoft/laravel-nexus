@@ -69,6 +69,7 @@
         <x-chat.members
             :members="$chat->members"
             :masks="$masks"
+            :mask="$mask"
             :is-started="$this->isStarted()"
             :is-owner="$this->isOwner()"
             :is-joined="$this->isJoined()"/>

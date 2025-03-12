@@ -13,6 +13,7 @@ use Livewire\Component;
 class View extends Component
 {
     public Chat $chat;
+    public ?Mask $mask = null;
     public Collection $masks;
     public ?int $maskId = null;
 
@@ -87,8 +88,18 @@ class View extends Component
         foreach ($this->chat->members as $member) {
             $takenMaskIds[] = $member->mask_id;
         }
-        $this->masks = Mask::where(['is_public' => true])
-            ->whereNotIn('id', $takenMaskIds)->get();
+
+        $query = Mask::whereNotIn('id', $takenMaskIds);
+        if ($this->isOwner()) {
+            $query->where(function($q) {
+                $q->where('is_public', true)
+                    ->orWhere('user_id', auth()->id());
+            });
+        } else {
+            $query->where('is_public', true);
+        }
+
+        $this->masks = $query->get();
         if (!$this->masks->count()) {
             return;
         }
@@ -112,6 +123,12 @@ class View extends Component
         ]);
         $this->reload();
         $this->dispatch('flash', message: 'Member added to chat!');
+    }
+
+    public function showMask(int $id): void
+    {
+        $this->mask = Mask::findOrFail($id);
+        Flux::modal('show-mask')->show();
     }
 
     public function isJoined(): bool
