@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $updated_at
  *
  * @property-read null|Chat $chat
- * @property-read null|Mask $mask
+ * @property-read null|Member $member
  */
 class Memory extends Model
 {
@@ -28,7 +28,7 @@ class Memory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'mask_id', 'chat_id', 'title', 'content', 'type', 'meta'
+        'member_id', 'chat_id', 'title', 'content', 'type', 'meta'
     ];
 
     public function chat(): BelongsTo
@@ -36,12 +36,12 @@ class Memory extends Model
         return $this->belongsTo(Chat::class);
     }
 
-    public function mask(): BelongsTo
+    public function member(): BelongsTo
     {
-        return $this->belongsTo(Mask::class);
+        return $this->belongsTo(Member::class);
     }
 
     protected $casts = [
-        'meta' => 'json'
+        'meta' => 'array'
     ];
 }

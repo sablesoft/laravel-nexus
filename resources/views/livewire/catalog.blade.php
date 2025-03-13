@@ -22,7 +22,9 @@
     </div>
     <flux:modal name="details" x-on:cancel="$wire.application = null;">
         <div class="space-y-6">
-            <img src="{{ Storage::url($application?->imagePath) }}" alt="{{ $application?->title }}" class="w-full object-cover">
+            @if($application)
+            <img src="{{ Storage::url($application->imagePath) }}" alt="{{ $application->title }}" class="w-full object-cover">
+            @endif
             <div>
                 <flux:heading size="lg">
                     {{ $application?->title }}

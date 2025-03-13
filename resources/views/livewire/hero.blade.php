@@ -22,7 +22,9 @@
 
         <flux:modal name="details" x-on:cancel="$wire.mask = null;">
             <div class="space-y-6">
-                <img src="{{ Storage::url($mask?->imagePath) }}" alt="{{ $mask?->title }}" class="w-full object-cover">
+                @if($mask)
+                <img src="{{ Storage::url($mask->imagePath) }}" alt="{{ $mask->title }}" class="w-full object-cover">
+                @endif
                 <div>
                     <flux:heading size="lg">
                         {{ $mask?->title }}
