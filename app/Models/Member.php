@@ -21,6 +21,7 @@ use App\Models\Traits\HasOwner;
  *
  * @property-read null|Chat $chat
  * @property-read null|Mask $mask
+ * @property-read null|string $mask_name
  * @property-read Collection<int, Memory>|Memory[] $memories
  */
 class Member extends Model
@@ -45,5 +46,10 @@ class Member extends Model
     public function memories(): HasMany
     {
         return $this->hasMany(Memory::class);
+    }
+
+    public function getMaskNameAttribute(): ?string
+    {
+        return $this->mask?->name;
     }
 }
