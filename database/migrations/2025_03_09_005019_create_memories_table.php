@@ -17,7 +17,9 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('member_id')->nullable()
                 ->constrained()->cascadeOnDelete();
-            $table->string('title')->nullable(false);
+            $table->foreignId('image_id')->nullable()
+                ->constrained()->nullOnDelete();
+            $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->string('type', 20)->nullable(false)->index();
             $table->jsonb('meta')->nullable();

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $id
  * @property null|int $chat_id
  * @property null|int $mask_id
+ * @property null|int $image_id
  * @property null|string $title
  * @property null|string $content
  * @property null|string $type
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property-read null|Chat $chat
  * @property-read null|Member $member
+ * @property-read null|Image $image
  */
 class Memory extends Model
 {
@@ -28,7 +30,7 @@ class Memory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'member_id', 'chat_id', 'title', 'content', 'type', 'meta'
+        'member_id', 'chat_id', 'image_id', 'title', 'content', 'type', 'meta'
     ];
 
     public function chat(): BelongsTo
@@ -39,6 +41,11 @@ class Memory extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function image(): BelongsTo
+    {
+        return $this->belongsTo(Image::class);
     }
 
     protected $casts = [
