@@ -13,8 +13,6 @@ class GenerateNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public int $userId;
-
     protected array $result;
     protected string $message;
     protected array $context;
@@ -24,14 +22,12 @@ class GenerateNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(array $result, int $userId)
+    public function __construct(array $result)
     {
         Log::debug('[GenerateNotification] Init', [
             'result' => $result,
-            'user_id' => $userId
         ]);
         $this->result = $result;
-        $this->userId = $userId;
         if ($result['success']) {
             $this->message = __('Your generate task has been completed');
         } else {
@@ -93,8 +89,7 @@ class GenerateNotification extends Notification implements ShouldQueue
         $success = $this->result['success'];
         return [
             'refresh' => $this->result['refresh'] ?? null,
-            'flash' => $success ? 'message' : 'error',
-            'message' => $this->message,
+            'flash' => $this->message,
             'success' => $success,
         ];
     }

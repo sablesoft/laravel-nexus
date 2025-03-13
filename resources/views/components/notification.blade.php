@@ -8,10 +8,11 @@
                     if (notification.refresh) {
                         Livewire.dispatch('refresh.' + notification.refresh);
                     }
-                    Livewire.dispatch('flash', {
-                        message: notification.message,
-                        type: notification.flash
-                    });
+                    if (notification.flash) {
+                        Livewire.dispatch('flash', {
+                            message: notification.flash
+                        });
+                    }
                 });
             console.debug('[Notification] Listening');
         } else {

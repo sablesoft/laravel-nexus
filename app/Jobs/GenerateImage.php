@@ -59,7 +59,7 @@ class GenerateImage implements ShouldQueue
         } catch (Throwable $e) {
             $this->user->notify(new GenerateNotification([
                 'success' => false,
-            ], $this->user->id));
+            ]));
             DB::rollBack();
             throw $e;
         }
@@ -87,7 +87,7 @@ class GenerateImage implements ShouldQueue
      */
     protected function notify(Result $result): void
     {
-        $this->user->notify(new GenerateNotification($result->toArray(), $this->user->id));
+        $this->user->notify(new GenerateNotification($result->toArray()));
         $context = [
             'user' => $this->user->only(['id', 'name', 'email']),
             'result' => $result
