@@ -11,27 +11,27 @@
                     {{ __('Close') }}
                 </flux:button>
                 @if($this->canEdit())
-                <flux:button wire:click="edit" class="cursor-pointer">
-                    {{ __('Edit') }}
-                </flux:button>
-                <flux:button wire:click="publish" class="cursor-pointer">
-                    {{ __('Publish') }}
-                </flux:button>
+                    <flux:button wire:click="edit" class="cursor-pointer">
+                        {{ __('Edit') }}
+                    </flux:button>
+                    <flux:button wire:click="publish" class="cursor-pointer">
+                        {{ __('Publish') }}
+                    </flux:button>
                 @endif
-                @if($this->canAddMask())
-                <flux:button wire:click="member" class="cursor-pointer">
-                    {{ __('Member') }}
-                </flux:button>
+                @if($this->canAddMember())
+                    <flux:button wire:click="member" class="cursor-pointer">
+                        {{ __('Member') }}
+                    </flux:button>
                 @endif
                 @if($this->canStart())
-                <flux:button wire:click="start" class="cursor-pointer">
-                    {{ __('Start') }}
-                </flux:button>
+                    <flux:button wire:click="start" class="cursor-pointer">
+                        {{ __('Start') }}
+                    </flux:button>
                 @endif
                 @if($this->canPlay())
-                <flux:button wire:click="play" class="cursor-pointer">
-                    {{ __('Play') }}
-                </flux:button>
+                    <flux:button wire:click="play" class="cursor-pointer">
+                        {{ __('Play') }}
+                    </flux:button>
                 @endif
             </flux:button.group>
         </div>
@@ -67,12 +67,12 @@
         </div>
 
         <x-chat.members
-            :members="$chat->members"
-            :masks="$masks"
-            :mask="$mask"
-            :is-started="$this->isStarted()"
-            :is-owner="$this->isOwner()"
-            :is-joined="$this->isJoined()"/>
+                :members="$chat->members"
+                :masks="$masks"
+                :mask="$mask"
+                :is-started="$this->isStarted()"
+                :is-owner="$this->isOwner()"
+                :is-joined="$this->isJoined()"/>
     </div>
     <div class="py-3 flex justify-end space-x-2">
         <flux:button.group>
@@ -80,27 +80,27 @@
                 {{ __('Close') }}
             </flux:button>
             @if($this->canEdit())
-            <flux:button wire:click="edit" class="cursor-pointer">
-                {{ __('Edit') }}
-            </flux:button>
-            <flux:button wire:click="publish" class="cursor-pointer">
-                {{ __('Publish') }}
-            </flux:button>
+                <flux:button wire:click="edit" class="cursor-pointer">
+                    {{ __('Edit') }}
+                </flux:button>
+                <flux:button wire:click="publish" class="cursor-pointer">
+                    {{ __('Publish') }}
+                </flux:button>
             @endif
-            @if($this->canAddMask())
-            <flux:button wire:click="member" class="cursor-pointer">
-                {{ __('Member') }}
-            </flux:button>
+            @if($this->canAddMember())
+                <flux:button wire:click="member" class="cursor-pointer">
+                    {{ __('Member') }}
+                </flux:button>
             @endif
             @if($this->canStart())
-            <flux:button wire:click="start" class="cursor-pointer">
-                {{ __('Start') }}
-            </flux:button>
+                <flux:button wire:click="start" class="cursor-pointer">
+                    {{ __('Start') }}
+                </flux:button>
             @endif
             @if($this->canPlay())
-            <flux:button wire:click="play" class="cursor-pointer">
-                {{ __('Play') }}
-            </flux:button>
+                <flux:button wire:click="play" class="cursor-pointer">
+                    {{ __('Play') }}
+                </flux:button>
             @endif
         </flux:button.group>
     </div>
@@ -115,7 +115,7 @@
                 </flux:subheading>
             </div>
             <div class="flex gap-2">
-                <flux:spacer />
+                <flux:spacer/>
                 <flux:modal.close>
                     <flux:button variant="ghost" class="cursor-pointer">
                         {{ __('Cancel') }}
@@ -139,7 +139,7 @@
                 </flux:subheading>
             </div>
             <div class="flex gap-2">
-                <flux:spacer />
+                <flux:spacer/>
                 <flux:modal.close>
                     <flux:button variant="ghost" class="cursor-pointer">
                         {{ __('Cancel') }}

@@ -30,11 +30,29 @@ class View extends Component
         ])->title('Chat View: ' . $this->chat->title);
     }
 
+    public function close(): void
+    {
+        $this->redirectRoute('chats', [], true, true);
+    }
+
+    // edit flow
+
     public function canEdit(): bool
     {
         return $this->isOwner() &&
             $this->chat->status === ChatStatus::Created;
     }
+
+    public function edit(): void
+    {
+        if (!$this->canEdit()) {
+            return;
+        }
+
+        $this->redirectRoute('chats.edit', ['id' => $this->chat->id], true, true);
+    }
+
+    // publish flow
 
     public function publish(): void
     {
@@ -56,16 +74,9 @@ class View extends Component
         $this->dispatch('flash', message: 'Your chat was published!');
     }
 
-    public function edit(): void
-    {
-        if (!$this->canEdit()) {
-            return;
-        }
+    // member flow
 
-        $this->redirectRoute('chats.edit', ['id' => $this->chat->id], true, true);
-    }
-
-    public function canAddMask(): bool
+    public function canAddMember(): bool
     {
         if (!$this->isOwner() &&
             $this->chat->members->where('user_id', auth()->id())->count()) {
@@ -81,7 +92,7 @@ class View extends Component
 
     public function member(): void
     {
-        if (!$this->canAddMask()) {
+        if (!$this->canAddMember()) {
             return;
         }
         $takenMaskIds = [];
@@ -108,10 +119,10 @@ class View extends Component
         Flux::modal('add-member')->show();
     }
 
-    public function addMask(): void
+    public function addMember(): void
     {
         Flux::modal('add-member')->close();
-        if (!$this->canAddMask()) {
+        if (!$this->canAddMember()) {
             return;
         }
         $userId = $this->isOwner() ? null : auth()->id();
@@ -121,14 +132,19 @@ class View extends Component
             'user_id' => $userId,
             'is_confirmed' => $this->isOwner()
         ]);
-        $this->reload();
+        $this->reloadChat();
         $this->dispatch('flash', message: 'Member added to chat!');
     }
 
-    public function showMask(int $id): void
+    public function deleteMember(int $id): void
     {
-        $this->mask = Mask::findOrFail($id);
-        Flux::modal('show-mask')->show();
+        $member = $this->findMember($id);
+        if (!$member || !$this->isOwner()) {
+            return;
+        }
+        $member->delete();
+        $this->reloadChat();
+        $this->dispatch('flash', message: 'Member deleted from chat!');
     }
 
     public function isJoined(): bool
@@ -143,7 +159,7 @@ class View extends Component
             return;
         }
         $member->update(['user_id' => auth()->id()]);
-        $this->reload();
+        $this->reloadChat();
         $this->dispatch('flash', message: 'Your joined this chat!');
     }
 
@@ -158,19 +174,8 @@ class View extends Component
         } else {
             $member->update(['user_id' => null]);
         }
-        $this->reload();
+        $this->reloadChat();
         $this->dispatch('flash', message: 'Your leaved this chat!');
-    }
-
-    public function deleteMember(int $id): void
-    {
-        $member = $this->findMember($id);
-        if (!$member || !$this->isOwner()) {
-            return;
-        }
-        $member->delete();
-        $this->reload();
-        $this->dispatch('flash', message: 'Member deleted from chat!');
     }
 
     public function confirm(int $id): void
@@ -180,9 +185,17 @@ class View extends Component
             return;
         }
         $member->update(['is_confirmed' => true]);
-        $this->reload();
+        $this->reloadChat();
         $this->dispatch('flash', message: 'Member confirmed');
     }
+
+    public function showMask(int $id): void
+    {
+        $this->mask = Mask::findOrFail($id);
+        Flux::modal('show-mask')->show();
+    }
+
+    // start flow
 
     public function canStart(): bool
     {
@@ -217,6 +230,8 @@ class View extends Component
         return !in_array($this->chat->status, [ChatStatus::Created, ChatStatus::Published]);
     }
 
+    // play flow
+
     public function canPlay(): bool
     {
         return $this->chat->status === ChatStatus::Started &&
@@ -226,11 +241,6 @@ class View extends Component
     public function play(): void
     {
         $this->redirectRoute('chats.play', ['id' => $this->chat->id], true, true);
-    }
-
-    public function close(): void
-    {
-        $this->redirectRoute('chats', [], true, true);
     }
 
     public function isOwner(): bool
@@ -243,7 +253,7 @@ class View extends Component
         return $this->chat->members->where('id', $id)->first();
     }
 
-    protected function reload(): void
+    protected function reloadChat(): void
     {
         $this->chat->refresh()->load(['user', 'application', 'members.mask', 'members.user']);
     }
