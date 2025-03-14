@@ -19,3 +19,9 @@ Broadcast::channel('play.{chatId}', function(User $user, int $chatId) {
         'id' => $member->user_id
     ] : false;
 });
+
+Broadcast::channel('chat.view.{chatId}', function(User $user, int $chatId) {
+    return [
+        'id' => $user->id
+    ];
+});

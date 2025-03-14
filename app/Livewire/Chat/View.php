@@ -2,20 +2,35 @@
 
 namespace App\Livewire\Chat;
 
+use App\Livewire\PresenceTrait;
 use App\Models\Chat;
 use App\Models\Enums\ChatStatus;
 use App\Models\Mask;
 use App\Models\Member;
+use App\Models\User;
+use App\Notifications\ChatUpdated;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class View extends Component
 {
+    use PresenceTrait;
+
     public Chat $chat;
     public ?Mask $mask = null;
     public Collection $masks;
     public ?int $maskId = null;
+
+    protected function getListeners(): array
+    {
+        return [
+            'usersHere' => 'here',
+            'userJoining' => 'joining',
+            'userLeaving' => 'leaving',
+            'refresh.chat' => '$refresh'
+        ];
+    }
 
     public function mount(int $id): void
     {
@@ -133,6 +148,10 @@ class View extends Component
             'is_confirmed' => $this->isOwner()
         ]);
         $this->reloadChat();
+        $messages = $userId ? [
+            'owner' => __('Member added to your chat') .': '. $this->chat->title
+        ] : [];
+        $this->notify($messages);
         $this->dispatch('flash', message: 'Member added to chat!');
     }
 
@@ -142,6 +161,11 @@ class View extends Component
         if (!$member || !$this->isOwner()) {
             return;
         }
+        $userId = $member->user_id;
+        $messages = $userId && $userId !== auth()->id() ? [
+            $userId => __('Your seat was deleted from chat') .': '. $this->chat->title
+        ] : [];
+        $this->notify($messages);
         $member->delete();
         $this->reloadChat();
         $this->dispatch('flash', message: 'Member deleted from chat!');
@@ -160,7 +184,11 @@ class View extends Component
         }
         $member->update(['user_id' => auth()->id()]);
         $this->reloadChat();
-        $this->dispatch('flash', message: 'Your joined this chat!');
+        $messages = $member->user_id !== $this->chat->user_id ? [
+            'owner' => __('User joined your chat') . ': ' . $this->chat->title
+        ] : [];
+        $this->notify($messages);
+        $this->dispatch('flash', message: 'You joined this chat!');
     }
 
     public function leave(int $id): void
@@ -175,7 +203,11 @@ class View extends Component
             $member->update(['user_id' => null]);
         }
         $this->reloadChat();
-        $this->dispatch('flash', message: 'Your leaved this chat!');
+        $messages = $member->user_id !== $this->chat->user_id ? [
+            'owner' => __('User leaved your chat') . ': ' . $this->chat->title
+        ] : [];
+        $this->notify($messages);
+        $this->dispatch('flash', message: 'You leaved this chat!');
     }
 
     public function confirm(int $id): void
@@ -186,6 +218,10 @@ class View extends Component
         }
         $member->update(['is_confirmed' => true]);
         $this->reloadChat();
+        $messages = $member->user_id ? [
+            $member->user_id => __('Your seat was confirmed in the chat') . ': ' . $this->chat->title
+        ] : [];
+        $this->notify($messages);
         $this->dispatch('flash', message: 'Member confirmed');
     }
 
@@ -222,7 +258,8 @@ class View extends Component
         }
 
         $this->chat->update(['status' => ChatStatus::Started]);
-        $this->dispatch('flash', message: 'Your chat was started!');
+        $this->dispatch('flash', message: __('Your chat was started!'));
+        $this->notify(['others' => __('Chat is ready to play') . ': ' . $this->chat->title]);
     }
 
     public function isStarted(): bool
@@ -256,5 +293,35 @@ class View extends Component
     protected function reloadChat(): void
     {
         $this->chat->refresh()->load(['user', 'application', 'members.mask', 'members.user']);
+    }
+
+    protected function notify(array $messages = []): void
+    {
+        $link = route('chats.view', ['id' => $this->chat->id]);
+        $handledIds = [];
+        // handle seats users:
+        foreach ($this->chat->takenSeats as $member) {
+            $flash = $messages['others'] ?? null;
+            $flash = $messages[$member->user_id] ?? $flash;
+            if ($flash && $member->user_id !== auth()->id()) {
+                $member->user->notifyNow(new ChatUpdated($flash, $link));
+                $handledIds[] = $member->user_id;
+            }
+        }
+        // handle chat owner:
+        $flash = $messages['owner'] ?? null;
+        if ($flash) {
+            $this->chat->user->notifyNow(new ChatUpdated($flash, $link));
+            $handledIds[] = $this->chat->user_id;
+        }
+        // handle remain presence:
+        $remainIds = array_diff($this->userIds, array_unique($handledIds));
+        if ($remainIds) {
+            $instance = new ChatUpdated();
+            $users = User::whereIn('id', $remainIds)->get();
+            foreach ($users as $user) {
+                $user->notifyNow($instance);
+            }
+        }
     }
 }

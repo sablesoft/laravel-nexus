@@ -97,7 +97,7 @@
                     </flux:button>
                 </flux:modal.close>
                 <!--suppress JSUnresolvedReference -->
-                <flux:button variant="primary" wire:click="addMask" class="cursor-pointer">
+                <flux:button variant="primary" wire:click="addMember" class="cursor-pointer">
                     {{ __('Add') }}
                 </flux:button>
             </div>
@@ -105,7 +105,9 @@
     </flux:modal>
     <flux:modal name="show-mask" x-on:cancel="$wire.mask = null;">
         <div class="space-y-6">
+            @if($mask?->imagePath)
             <img src="{{ Storage::url($mask?->imagePath) }}" alt="{{ $mask?->title }}" class="w-full object-cover">
+            @endif
             <div>
                 <flux:heading size="lg">
                     {{ $mask?->title }}

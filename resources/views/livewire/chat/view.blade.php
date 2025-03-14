@@ -41,11 +41,12 @@
         <div class="mb-4">
             <h2>{{ $chat->title }}</h2>
         </div>
-
+        @if($chat->application->imagePath)
         <div class="mt-4">
-            <img src="{{ Storage::url( $chat->application->imagePath) }}" alt="Image"
+            <img src="{{ Storage::url($chat->application->imagePath) }}" alt="Image"
                  class="mt-2 rounded-lg shadow-lg w-96">
         </div>
+        @endif
 
         <div class="mb-4">
             <h3>{{ __('Description') }}</h3>
@@ -151,4 +152,6 @@
             </div>
         </div>
     </flux:modal>
+
+    <x-js-presence channel="chat.view.{{ $chat->id }}"/>
 </div>

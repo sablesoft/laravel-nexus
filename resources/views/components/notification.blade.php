@@ -10,7 +10,8 @@
                     }
                     if (notification.flash) {
                         Livewire.dispatch('flash', {
-                            message: notification.flash
+                            message: notification.flash,
+                            link: notification.link
                         });
                     }
                 });
