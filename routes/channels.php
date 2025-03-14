@@ -8,7 +8,7 @@ Broadcast::channel('users.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('play.{chatId}', function(User $user, int $chatId) {
+Broadcast::channel('chats.play.{chatId}', function(User $user, int $chatId) {
     $query = Member::where('user_id', $user->id)
         ->where('chat_id', $chatId)
         ->where('is_confirmed', true);
@@ -20,7 +20,7 @@ Broadcast::channel('play.{chatId}', function(User $user, int $chatId) {
     ] : false;
 });
 
-Broadcast::channel('chat.view.{chatId}', function(User $user, int $chatId) {
+Broadcast::channel('chats.view.{chatId}', function(User $user, int $chatId) {
     return [
         'id' => $user->id
     ];

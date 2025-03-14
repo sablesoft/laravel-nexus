@@ -8,6 +8,7 @@
                 <div class="max-w-3xl mx-auto">
                     <!-- Chat messages -->
                     <div wire:loading.class="opacity-50">
+                        {{-- TODO - ASC by time --}}
                         @foreach($chat->memories as $memory)
                             <div class="mb-4 p-3 rounded-lg shadow-sm
                                 {{ $memory->member?->user_id === auth()->id() ? 'bg-blue-100 dark:bg-blue-900 self-end' : 'bg-gray-100 dark:bg-gray-700' }}">
@@ -60,41 +61,16 @@
         </flux:sidebar>
     </div>
 
-    <!-- Control panel -->
+    <!-- TODO: Control panel -->
     <div
         class="p-4 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
-        <flux:input wire:model.defer="message" placeholder="Type your message..." class="flex-1"/>
+        <flux:input wire:model.defer="message" placeholder="Type your message..." class="flex-1"
+                    wire:keydown.enter="sendMessage"/>
         <flux:button wire:click="sendMessage" variant="primary" icon="paper-airplane" class="cursor-pointer">
             Send
         </flux:button>
     </div>
-    @script
-    <script>
-        let initPresence = function (chatId) {
-            let channelName = `play.${chatId}`;
-            console.debug('Join presence', channelName);
-            Echo.join(channelName)
-                .here((users) => {
-                    console.debug('[Play][Here]', users);
-                    $wire.dispatchSelf('usersHere', {members: users});
-                }).joining((user) => {
-                console.debug('[Play][Joining]', user.id);
-                $wire.dispatchSelf('userJoining', {id: user.id});
-            }).leaving((user) => {
-                console.debug('[Play][Leaving]', user.id);
-                $wire.dispatchSelf('userLeaving', {id: user.id});
-            }).error((error) => {
-                console.error(error);
-            });
-        }
-        let playNavigate = function(chatId) {
-            console.debug(`[Play][Navigate] Leaving chat ${chatId}`);
-            Echo.leave(`play.${chatId}`);
-        }
-        document.addEventListener("livewire:navigate", function () {
-            playNavigate({{ $chat->id }});
-        });
-        initPresence({{ $chat->id }});
-    </script>
-    @endscript
+
+    <x-js-presence channel="chats.play.{{ $chat->id }}"/>
+
 </div>

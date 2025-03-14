@@ -2,8 +2,13 @@
 
 namespace App\Livewire\Chat;
 
+use App\Livewire\PresenceTrait;
 use App\Models\Chat;
 use App\Models\Enums\ChatStatus;
+use App\Models\Member;
+use App\Models\Memory;
+use App\Notifications\ChatPlaying;
+use App\Notifications\ScreenUpdated;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -12,27 +17,34 @@ use Livewire\Component;
 #[Layout('components.layouts.play')]
 class Play extends Component
 {
+    use PresenceTrait;
+
     public Chat $chat;
     #[Locked]
-    public array $userIds = [];
+    public int $memberId;
     public string $message = '';
     #[Locked]
     public Collection $onlineMembers;
     #[Locked]
     public Collection $offlineMembers;
 
-    protected $listeners = [
-        "usersHere" => 'here',
-        "userJoining" => 'joining',
-        "userLeaving" => 'leaving',
-    ];
+    protected function getListeners(): array
+    {
+        return [
+            'usersHere' => 'here',
+            'userJoining' => 'joining',
+            'userLeaving' => 'leaving',
+            'refresh.screen' => '$refresh'
+        ];
+    }
 
     public function mount(int $id): void
     {
-        $this->chat = Chat::with('application', 'members.mask')->findOrFail($id);
+        $this->chat = Chat::with('application', 'members.mask', 'memories')->findOrFail($id);
         if (!$this->canPlay()) {
             $this->redirectRoute('chats.view', ['id' => $id], true, true);
         }
+        $this->memberId = $this->chat->takenSeats->where('user_id', auth()->id())->first()->id;
         $this->prepareMembers();
     }
 
@@ -42,26 +54,26 @@ class Play extends Component
             ->title('Chat Play: ' . $this->chat->title);
     }
 
-    public function here(array $members): void
+    protected function handleHere(): void
     {
-        $this->userIds = array_column($members, 'id');
         $this->prepareMembers();
-        \Log::debug('[Play][Here]', $this->userIds);
+
+        $message = $this->member()->mask_name . ' is playing ' . $this->chat->title;
+        $link = route('chats.play', ['id' => $this->chat->id]);
+        /** @var Member $member */
+        foreach ($this->offlineMembers as $member) {
+            $member->user->notifyNow(new ChatPlaying($message, $link));
+        }
     }
 
-    public function joining(int $id): void
+    protected function handleJoining(int $id): void
     {
-        $this->userIds[] = $id;
-        $this->userIds = array_unique($this->userIds);
         $this->prepareMembers();
-        \Log::debug('[Play][Joining]', compact('id'));
     }
 
-    public function leaving(int $id): void
+    protected function handleLeaving(int $id): void
     {
-        $this->userIds = array_values(array_diff($this->userIds, [$id]));
         $this->prepareMembers();
-        \Log::debug('[Play][Leaving]', compact('id'));
     }
 
     public function prepareMembers(): void
@@ -79,10 +91,33 @@ class Play extends Component
         $this->redirectRoute('chats.view', ['id' => $this->chat->id], true, true);
     }
 
-    public function canPlay(): bool
+    public function sendMessage(): void
+    {
+        // todo - test messages:
+        Memory::create([
+            'chat_id' => $this->chat->id,
+            'member_id' => $this->memberId,
+            'content' => $this->message,
+            'type' => 'chat'
+        ]);
+        $this->message = '';
+        /** @var Member $member */
+        foreach ($this->onlineMembers as $member) {
+            if ($member->id !== $this->memberId) {
+                $member->user->notifyNow(new ScreenUpdated());
+            }
+        }
+    }
+
+    protected function canPlay(): bool
     {
         return $this->chat->status === ChatStatus::Started &&
             !!$this->chat->members->where('user_id', auth()->id())
                 ->where('is_confirmed', true)->count();
+    }
+
+    protected function member(): Member
+    {
+        return $this->chat->takenSeats->where('id', $this->memberId)->first();
     }
 }
