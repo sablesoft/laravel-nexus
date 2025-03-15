@@ -1,13 +1,14 @@
 @props([
     'channel' => 'users',
+    'events' => [],
 ])
 
 @script
 <script>
     let initPresence = function (channel) {
         console.debug('[Presence][Init]', channel);
-        Echo.join(channel)
-            .here((users) => {
+        let presenceChannel = Echo.join(channel);
+            presenceChannel.here((users) => {
                 console.debug('[Presence][Here]', channel, users);
                 $wire.dispatchSelf('usersHere', {members: users});
             }).joining((user) => {
@@ -19,6 +20,16 @@
             }).error((error) => {
                 console.error(error);
             });
+        let events = @json($events);
+        Object.entries(events).forEach(([event, handler]) => {
+            console.log('[Presence][Listen]', channel +': '+ event +' => '+  handler);
+            presenceChannel.listen(`.${event}`, (e) => {
+                console.log('[Presence][Event]', channel +': '+ event, e);
+                if (handler && typeof $wire !== 'undefined') {
+                    $wire.dispatch(handler, e);
+                }
+            });
+        });
     }
     let navigate = function(channel) {
         console.debug(`[Presence][Navigate] Leave ${channel}`);

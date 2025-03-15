@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Database\Factories\ChatFactory;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Chat extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ChatFactory> */
-    use HasOwner, HasFactory;
+    use HasOwner, HasFactory, BroadcastsEvents;
 
     protected $fillable = [
         'user_id', 'application_id', 'title', 'status'
@@ -75,5 +77,20 @@ class Chat extends Model implements HasOwnerInterface
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [new Channel('chats.index')];
+    }
+
+    public function broadcastAs(string $event): ?string
+    {
+        return 'refresh';
+    }
+
+    public function broadcastWith(string $event): array
+    {
+        return  ['id' => $this->id];
     }
 }

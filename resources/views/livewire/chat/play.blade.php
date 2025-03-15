@@ -84,8 +84,7 @@
     </div>
 
     <!-- TODO: Control panel -->
-    <div
-        class="p-4 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
+    <div class="p-4 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
         <flux:input wire:model.defer="message" placeholder="Type your message..." class="flex-1"
                     wire:keydown.enter="sendMessage"
                     x-on:input.debounce.500ms="
@@ -96,6 +95,5 @@
         </flux:button>
     </div>
 
-    <x-js-presence channel="chats.play.{{ $chat->id }}"/>
-
+    <x-echo-presence channel="chats.play.{{ $chat->id }}"/>
 </div>

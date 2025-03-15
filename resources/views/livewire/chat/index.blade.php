@@ -68,4 +68,6 @@
             </div>
         @endforeach
     </div>
+
+    <x-echo-public channel="chats.index"/>
 </div>
