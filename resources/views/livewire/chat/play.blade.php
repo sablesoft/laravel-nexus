@@ -1,4 +1,16 @@
-<div class="flex flex-col h-full">
+<div class="flex flex-col h-full"
+     x-data="{ typingUsers: {}, typingTimers: {} }"
+     x-init="Echo.join('chats.play.{{ $chat->id }}')
+                .listenForWhisper('typing', (e) => {
+                    if (typingTimers[e.userId]) {
+                        clearTimeout(typingTimers[e.userId]);
+                    }
+                    typingUsers[e.userId] = true;
+                    typingTimers[e.userId] = setTimeout(() => {
+                        delete typingUsers[e.userId];
+                        delete typingTimers[e.userId];
+                    }, 2000);
+                });">
     <!-- Main content container (chat + right sidebar) -->
     <div class="flex flex-1 overflow-hidden">
         <!-- Chat area -->
@@ -36,6 +48,16 @@
                 <ul class="space-y-2">
                     @foreach($onlineMembers as $member)
                         <li class="flex items-center gap-2">
+                            <span class="w-3 text-gray-500 dark:text-gray-400 text-sm relative top-[-15px] right-[2px]">
+                                <template x-if="typingUsers[{{ $member->user_id }}]">
+                                    <flux:icon name="chat-bubble-oval-left-ellipsis"
+                                               class="animate-pulse scale-x-[-1]"/>
+                                </template>
+                                <template x-if="!typingUsers[{{ $member->user_id }}]">
+                                    <flux:icon name="chat-bubble-oval-left-ellipsis"
+                                               class="invisible scale-x-[-1]"/>
+                                </template>
+                            </span>
                             <img src="{{ Storage::url($member->mask->imagePath) }}"
                                  alt="{{ $member->mask_name }}" class="h-8 w-8 rounded-full">
                             <span class="text-green-600 dark:text-green-400">{{ $member->mask_name }}</span>
@@ -65,7 +87,10 @@
     <div
         class="p-4 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
         <flux:input wire:model.defer="message" placeholder="Type your message..." class="flex-1"
-                    wire:keydown.enter="sendMessage"/>
+                    wire:keydown.enter="sendMessage"
+                    x-on:input.debounce.500ms="
+                    Echo.join('chats.play.{{ $chat->id }}')
+                        .whisper('typing', { userId: {{ auth()->id() }} });"/>
         <flux:button wire:click="sendMessage" variant="primary" icon="paper-airplane" class="cursor-pointer">
             Send
         </flux:button>

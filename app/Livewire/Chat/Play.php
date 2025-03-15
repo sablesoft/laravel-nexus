@@ -58,7 +58,7 @@ class Play extends Component
     {
         $this->prepareMembers();
 
-        $message = $this->member()->mask_name . ' is playing ' . $this->chat->title;
+        $message = $this->member()->mask_name . ' is playing "' . $this->chat->title . '"';
         $link = route('chats.play', ['id' => $this->chat->id]);
         /** @var Member $member */
         foreach ($this->offlineMembers as $member) {
