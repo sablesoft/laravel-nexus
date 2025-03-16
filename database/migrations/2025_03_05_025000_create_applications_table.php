@@ -17,10 +17,9 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()
                 ->constrained()->nullOnDelete();
-            $table->foreignId('screen_id')->nullable()
-                ->constrained()->nullOnDelete();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
+            $table->json('constants')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();

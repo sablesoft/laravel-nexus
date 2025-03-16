@@ -32,7 +32,7 @@
                     @break
                 @case('checkbox')
                     <div class="px-4 py-2 whitespace-normal text-gray-900 dark:text-gray-300">
-                        {{ $state[$field] ? __('Yes') : __('No') }}
+                        {{ $state[$field] }}
                     </div>
                     @break
                 @case('image')

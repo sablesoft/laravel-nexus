@@ -2,6 +2,7 @@
 
 namespace App\Crud\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 
 trait HandleForm
@@ -46,6 +47,15 @@ trait HandleForm
     public function type(string $field): string
     {
         return $this->config($field, 'type', 'input');
+    }
+
+    /**
+     * @return Model
+     */
+    public function getModel(): Model
+    {
+        $class = $this->className();
+        return $class::findOrFail($this->modelId);
     }
 
     /**

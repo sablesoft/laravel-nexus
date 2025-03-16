@@ -85,14 +85,17 @@
 
     <!-- TODO: Control panel -->
     <div class="p-4 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
+        <flux:button wire:click="test" class="cursor-pointer">
+            Test 1
+        </flux:button>
+        <flux:button wire:click="test2" class="cursor-pointer">
+            Test 2
+        </flux:button>
         <flux:input wire:model.defer="message" placeholder="Type your message..." class="flex-1"
                     wire:keydown.enter="sendMessage"
                     x-on:input.debounce.500ms="
                     Echo.join('chats.play.{{ $chat->id }}')
                         .whisper('typing', { userId: {{ auth()->id() }} });"/>
-        <flux:button wire:click="sendMessage" variant="primary" icon="paper-airplane" class="cursor-pointer">
-            Send
-        </flux:button>
     </div>
 
     <x-echo-presence channel="chats.play.{{ $chat->id }}"/>

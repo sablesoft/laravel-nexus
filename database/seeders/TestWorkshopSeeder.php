@@ -27,9 +27,9 @@ class TestWorkshopSeeder extends Seeder
         }
 
         $masks = Mask::factory()->for($user)->count(7)->create();
-        $scenarios = Scenario::factory()->for($user)->count(14)->create();
-        $screens = Screen::factory()->for($user)->recycle($scenarios)->count(6)->create();
-        $applications = Application::factory()->for($user)->recycle($screens)->count(3)->create();
+        $applications = Application::factory()->for($user)->count(3)->create();
+        $screens = Screen::factory()->for($user)->recycle($applications)->count(6)->create();
+        $scenarios = Scenario::factory()->for($user)->recycle($screens)->count(14)->create();
         $chats = Chat::factory()->for($user)->recycle($masks)->recycle($applications)->count(5)->create();
         $memories = Memory::factory()->recycle($chats)->count(30)->create();
     }

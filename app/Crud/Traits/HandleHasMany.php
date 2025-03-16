@@ -48,7 +48,10 @@ trait HandleHasMany
         $model = $this->getModel($this->modelId);
         foreach ($this->getHasManyFields() as $relation => $class) {
             $ids = Arr::get($this->state, $relation);
-            $model->$relation()->sync($ids);
+            $r = $model->$relation();
+            if (method_exists($r, 'sync')) {
+                $r->sync($ids);
+            }
         }
     }
 

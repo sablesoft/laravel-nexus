@@ -8,21 +8,25 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use App\Models\Interfaces\HasOwnerInterface;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property null|int $id
- * @property null|int $scenario_id
+ * @property null|int $application_id
+ * @property null|string $code
  * @property null|string $title
  * @property null|string $description
+ * @property null|bool $is_default
+ * @property null|bool $constants
+ * @property null|string $template
+ * @property null|string $control
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read Collection<int, Application>|Application[] $applications
- * @property-read null|Scenario $scenario
+ * @property-read null|Application $application
  * @property-read Collection<int, Scenario>|Scenario[] $scenarios
  */
 class Screen extends Model implements HasOwnerInterface
@@ -31,26 +35,28 @@ class Screen extends Model implements HasOwnerInterface
     use HasOwner, HasFactory, HasImage;
 
     protected $fillable = [
-        'user_id', 'scenario_id', 'title', 'description',
+        'user_id', 'application_id', 'code', 'title', 'description', 'is_default',
+        'constants', 'template', 'control'
     ];
 
-    public function applications(): BelongsToMany
+    protected $casts = [
+        'is_default' => 'boolean',
+        'constants' => 'array'
+    ];
+
+    public function application(): BelongsTo
     {
-        return $this->belongsToMany(Application::class)
-            ->withPivot('is_default')
-            ->withTimestamps();
+        return $this->belongsTo(Application::class);
     }
 
-    public function scenarios(): BelongsToMany
+    public function scenarios(): HasMany
     {
-        return $this->belongsToMany(Scenario::class)
-            ->withPivot('is_default')
-            ->withTimestamps();
+        return $this->hasMany(Scenario::class);
     }
 
-    public function scenario(): BelongsTo
+    public function scenario(): ?Scenario
     {
-        return $this->belongsTo(Scenario::class);
+        return $this->scenarios()->where('is_default', true)->first();
     }
 
     public static function boot(): void

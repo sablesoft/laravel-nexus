@@ -22,7 +22,8 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
     {
         return [
             'id' => 'ID',
-            'title' => 'Title'
+            'title' => 'Title',
+            'code' => 'Code',
         ];
     }
 
@@ -32,9 +33,12 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             $class = $this->getHasManyFields()[$field];
             return $this->optionsParam($field, $class);
         }
+        if (array_key_exists($field, $this->getBelongsToFields())) {
+            $class = $this->getBelongsToFields()[$field];
+            return $this->optionsParam($field, $class);
+        }
 
         return match ($field) {
-            'scenario_id' => $this->optionsParam('scenario_id', \App\Models\Scenario::class),
             'image_id' => $this->imageParam(),
             default => [],
         };
@@ -48,22 +52,46 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
+            'code' => [
+                'action' => ['index', 'create', 'edit', 'view'],
+                'rules' => 'required|string',
+            ],
             'image_id' => $this->imageField(),
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'applications' => $this->hasManyField('applications'),
-            'scenario_id' => $this->belongsToField('Default Scenario', 'scenario'),
-            'scenarios' => $this->hasManyField('scenarios', ['view', 'edit'])
+            'is_default' => [
+                'title' => 'Is Default',
+                'action' => ['index', 'edit', 'view', 'create'],
+                'type' => 'checkbox',
+                'rules' => 'required|bool',
+                'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
+            ],
+            'constants' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|json'
+            ],
+            'template' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|string'
+            ],
+            'control' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|string'
+            ],
+            'application_id' => $this->belongsToField('Application', 'application'),
+            'scenarios' => $this->hasManyField('scenarios', ['view'])
         ];
     }
 
     public function getHasManyFields(): array
     {
         return [
-            'applications' => \App\Models\Application::class,
             'scenarios' => \App\Models\Scenario::class,
         ];
     }
@@ -71,7 +99,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
     public function getBelongsToFields(): array
     {
         return [
-            'scenario_id' => \App\Models\Scenario::class
+            'application_id' => \App\Models\Application::class
         ];
     }
 }

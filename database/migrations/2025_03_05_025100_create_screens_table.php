@@ -15,15 +15,23 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
+            $table->foreignId('application_id')->nullable(false)
+                ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()
                 ->constrained()->nullOnDelete();
-            $table->foreignId('scenario_id')->nullable()
-                ->constrained()->nullOnDelete();
+            $table->string('code')->nullable(false)->index();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
+            $table->boolean('is_default')->nullable(false)
+                ->default(false)->index();
+            $table->json('constants')->nullable();
+            $table->text('template')->nullable();
+            $table->text('control')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+
+            $table->unique(['application_id', 'code']);
         });
     }
 

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Scenario;
+use App\Models\Screen;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,9 +19,12 @@ class ScenarioFactory extends AppFactory
      */
     public function definition(): array
     {
+        $title = $this->getFakeName(1, 2);
         return [
             'user_id' => User::factory(),
-            'title' => $this->getFakeName(1,2),
+            'screen_id' => Screen::factory(),
+            'title' => $title,
+            'code' => \Str::kebab($title),
             'description' => fake()->text(),
         ];
     }

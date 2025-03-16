@@ -3,16 +3,14 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
-use App\Crud\Interfaces\ShouldBelongsTo;
 use App\Crud\Interfaces\ShouldHasMany;
-use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 use Illuminate\Database\Eloquent\Builder;
 
-class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
+class Application extends AbstractCrud implements ShouldHasMany
 {
-    use HandleHasMany, HandleBelongsTo, HandleImage;
+    use HandleHasMany, HandleImage;
 
     public function className(): string
     {
@@ -55,10 +53,12 @@ class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'screen_id' => $this->belongsToField('Default Screen', 'screen', [
-                'create', 'edit', 'view', 'index'
-            ]),
-            'screens' => $this->hasManyField('screens', ['view', 'edit']),
+            'constants' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|json'
+            ],
+            'screens' => $this->hasManyField('screens', ['view']),
             'is_public' => [
                 'title' => 'Public',
                 'action' => ['index', 'edit', 'view'],
@@ -66,15 +66,15 @@ class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => [
                     'bool',
                     function ($attribute, $value, $fail) {
-                        if ($value === true && is_null($this->state['image_id'])) {
-                            $fail('You cannot make this application public without image.');
+                        if ($value === true) {
+                            if (is_null($this->state['image_id'])) {
+                                $fail('You cannot make this application public without an image.');
+                            }
+                            if (!$this->getModel()->screens()->where('is_default', true)->exists()) {
+                                $fail('You cannot make this application public without a default screen.');
+                            }
                         }
                     },
-                    function ($attribute, $value, $fail) {
-                        if ($value === true && is_null($this->state['screen_id'])) {
-                            $fail('You cannot make this application public without default screen.');
-                        }
-                    }
                 ],
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ]
@@ -83,20 +83,13 @@ class Application extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 
     protected function modifyQuery(Builder $query): Builder
     {
-        return $query->with('image', 'screen', 'screens');
+        return $query->with(['image', 'screens']);
     }
 
     public function getHasManyFields(): array
     {
         return [
             'screens' => \App\Models\Screen::class
-        ];
-    }
-
-    public function getBelongsToFields(): array
-    {
-        return [
-            'screen_id' => \App\Models\Screen::class
         ];
     }
 }

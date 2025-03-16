@@ -3,12 +3,12 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
-use App\Crud\Interfaces\ShouldHasMany;
-use App\Crud\Traits\HandleHasMany;
+use App\Crud\Interfaces\ShouldBelongsTo;
+use App\Crud\Traits\HandleBelongsTo;
 
-class Scenario extends AbstractCrud implements ShouldHasMany
+class Scenario extends AbstractCrud implements ShouldBelongsTo
 {
-    use HandleHasMany;
+    use HandleBelongsTo;
 
     /**
      * @return string
@@ -25,7 +25,8 @@ class Scenario extends AbstractCrud implements ShouldHasMany
     {
         return [
             'id' => 'ID',
-            'title' => 'Title'
+            'title' => 'Title',
+            'code' => 'Code'
         ];
     }
 
@@ -37,23 +38,35 @@ class Scenario extends AbstractCrud implements ShouldHasMany
                 'rules' => 'required|string',
 
             ],
-//            'code' => [
-//                'action' => ['index', 'create', 'edit', 'view'],
-//                'rules' => ['required', 'string', $this->uniqueRule('scenarios', 'code')],
-//            ],
+            'code' => [
+                'action' => ['index', 'create', 'edit', 'view'],
+                'rules' => 'required|string',
+            ],
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'screens' => $this->hasManyField('screens')
+            'is_default' => [
+                'title' => 'Is Default',
+                'action' => ['index', 'edit', 'view', 'create'],
+                'type' => 'checkbox',
+                'rules' => 'required|bool',
+                'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
+            ],
+            'screen_id' => $this->belongsToField('Screen', 'screen'),
+            'constants' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|json'
+            ],
         ];
     }
 
-    public function getHasManyFields(): array
+    public function getBelongsToFields(): array
     {
         return [
-            'screens' => \App\Models\Screen::class
+            'screen_id' => \App\Models\Screen::class
         ];
     }
 }
