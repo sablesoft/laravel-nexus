@@ -15,6 +15,9 @@ use App\Models\Interfaces\HasOwnerInterface;
  * @property string|null $prompt
  * @property string|null $path
  * @property bool|null $is_public
+ * @property bool|null $has_glitches
+ * @property string|null $aspect
+ * @property int|null $attempts
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -22,7 +25,10 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
 {
     use HasOwner;
 
-    protected $fillable = ['title', 'prompt', 'path', 'user_id', 'is_public'];
+    protected $fillable = [
+        'title', 'prompt', 'path', 'user_id', 'is_public',
+        'has_glitches', 'aspect', 'attempts'
+    ];
 
     protected $casts = [
         'is_public' => 'boolean'

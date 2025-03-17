@@ -7,6 +7,7 @@ use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleOwner;
 use App\Crud\Traits\HandleUnique;
 use App\Jobs\GenerateImage;
+use App\Services\OpenAI\Enums\ImageAspect;
 use App\Services\OpenAI\Images\Request;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
@@ -19,7 +20,7 @@ class Image extends AbstractCrud
     use HandleOwner, HandleUnique;
     use WithFileUploads;
 
-    #[Validate('required|image|max:2048')]
+    #[Validate('required|image|max:10240')]
     public ?TemporaryUploadedFile $image = null;
 
     public function className(): string
@@ -30,21 +31,16 @@ class Image extends AbstractCrud
     protected function fieldsConfig(): array
     {
         return [
-            'thumbnail' => [
-                'title' => 'Thumbnail',
-                'action' => ['index'],
+            'path' => [
+                'title' => 'File',
+                'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'image',
-                'callback' => 'getThumbnail',
+                'callback' => fn($model) => $model->path ? Storage::url($model->path) : null,
+                'rules' => ['string', $this->uniqueRule('images', 'path')],
             ],
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view', 'generate'],
                 'rules' => 'required|string',
-            ],
-            'path' => [
-                'title' => 'File',
-                'action' => ['create', 'edit', 'view'],
-                'type' => 'image',
-                'rules' => ['string', $this->uniqueRule('images', 'path')],
             ],
             'is_public' => $this->isPublicField(['index', 'edit', 'view']),
 
@@ -55,10 +51,23 @@ class Image extends AbstractCrud
                 'placeholder' => '(ENGLISH ONLY) Describe your image...',
                 'rules' => 'required|string'
             ],
-            'size' => [
-                'action' => ['generate'],
+            'aspect' => [
+                'title' => 'Aspect Ratio',
+                'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
-                'rules' => 'required|string'
+                'rules' => 'required|string',
+            ],
+            'has_glitches' => [
+                'title' => 'Has Glitches',
+                'action' => ['view', 'edit', 'index'],
+                'type' => 'checkbox',
+                'rules' => 'required|bool',
+                'callback' => fn($model) => $model->has_glitches ? 'Yes' : 'No'
+            ],
+            'attempts' => [
+                'action' => ['view'],
+                'type' => 'number',
+                'rules' => 'required|number'
             ],
             'style' => [
                 'action' => ['generate'],
@@ -73,6 +82,11 @@ class Image extends AbstractCrud
         ];
     }
 
+    public function getImageRatio(int $modelId): ?string
+    {
+        return $this->getModel($modelId)?->aspect;
+    }
+
     /**
      * @return string[]
      */
@@ -80,7 +94,9 @@ class Image extends AbstractCrud
     {
         return [
             'id' => 'ID',
-            'title' => 'Title'
+            'title' => 'Title',
+            'aspect' => 'Ratio',
+            'has_glitches' => 'Glitches'
         ];
     }
 
@@ -102,7 +118,7 @@ class Image extends AbstractCrud
     public function selectOptions(string $field): array
     {
         return match ($field) {
-            'size' => Request::sizes(),
+            'aspect' => ImageAspect::options(),
             'quality' => Request::qualities(),
             'style' => Request::styles(),
             default => [],
@@ -154,11 +170,5 @@ class Image extends AbstractCrud
             }
             throw $e;
         }
-    }
-
-    protected function getThumbnail(\App\Models\Image $image): string
-    {
-        return '<img src="' . Storage::url($image->path) .
-            '" class="w-32 h-32 object-cover rounded-md" alt="Thumbnail"/>';
     }
 }

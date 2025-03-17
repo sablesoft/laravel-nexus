@@ -28,13 +28,7 @@ trait HandleForm
         return [];
     }
 
-    /**
-     * @param string $field
-     * @param string $param
-     * @param string|null $default
-     * @return string|null
-     */
-    public function config(string $field, string $param, ?string $default = null): ?string
+    public function config(string $field, string $param, ?string $default = null): mixed
     {
         $config = $this->fieldsConfig()[$field];
         return $config[$param] ?? $default;

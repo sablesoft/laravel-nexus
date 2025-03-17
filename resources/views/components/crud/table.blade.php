@@ -5,7 +5,7 @@
         -webkit-line-clamp: 4;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-height: 6rem;
+        max-height: 9rem;
         line-height: 1.5rem;
     }
 </style>
@@ -29,7 +29,16 @@
             @foreach($fields as $field => $title)
                 <td class="px-4 py-2">
                     <div class="table-cell-content" data-field="{{ $field }}">
+                    @switch($this->type($field))
+                        @case('image')
+                        <div class="max-w-40">
+                            <x-image-viewer src="{{ $data[$field] }}" alt="{{ $field }}"/>
+                        </div>
+                        @break
+                        @default
                         {!! $data[$field] !!}
+                        @break
+                    @endswitch
                     </div>
                 </td>
             @endforeach

@@ -49,6 +49,7 @@
                                 <flux:input wire:model="state.{{ $field }}" min="0" step="0.01" type="number"/>
                                 @break
                             @case('image')
+                                @if ($this->className() === \App\Models\Image::class)
                                 <div x-data="{ uploading: false, progress: 0 }"
                                      x-on:livewire-upload-start="uploading = true"
                                      x-on:livewire-upload-finish="uploading = false"
@@ -63,11 +64,20 @@
                                     </div>
                                     @error('image')<span class="text-red-500">{{ $message }}</span> @enderror
                                     @if ($image)
+                                    <div class="px-4 py-2 whitespace-normal w-1/3">
                                         <img src="{{ $image->temporaryUrl() }}">
-                                    @elseif(!empty($state[$field]))
-                                        <img src="{{ Storage::url($state[$field]) }}">
+                                    </div>
+                                    @else
+                                    <div class="px-4 py-2 whitespace-normal w-1/3">
+                                        <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}" uuid="form"/>
+                                    </div>
                                     @endif
                                 </div>
+                                @else
+                                    <div class="px-4 py-2 whitespace-normal w-1/3">
+                                        <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}" uuid="form"/>
+                                    </div>
+                                @endif
                                 @break
                             @case('checkbox')
                                 <flux:switch wire:model.live="state.{{ $field }}"/>

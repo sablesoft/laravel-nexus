@@ -29,26 +29,18 @@ class Mask extends AbstractCrud
         ];
     }
 
-    public function templateParams(string $action, ?string $field = null): array
-    {
-        return match ($field) {
-            'image_id' => $this->imageParam(),
-            default => [],
-        };
-    }
-
     /**
      * @return array[]
      */
     protected function fieldsConfig(): array
     {
         return [
-            'image' => $this->getThumbnailField(),
             'name' => [
                 'action' => ['index', 'edit', 'create', 'view'],
                 'rules' => ['required', 'string', $this->uniqueRule('masks', 'name')],
             ],
-            'image_id' => $this->imageField(),
+            'image' => $this->imageViewerField(),
+            'image_id' => $this->imageSelectorField(),
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',

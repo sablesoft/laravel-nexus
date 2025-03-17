@@ -87,10 +87,10 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         ];
     }
 
-    public function selectedOptionTitle(string $field, int $id): string
+    public function selectedOptionTitle(string $field, string $key): string
     {
         $options = $this->selectOptions($field);
-        return $options[$id];
+        return $options[$key];
     }
 
     public function render()
@@ -134,7 +134,13 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->modelId = $id;
         $this->resetState();
         foreach($this->fields('edit') as $field) {
-            $this->state[$field] = $model->$field;
+            if ($this->type($field) === 'image') {
+                $callback = $this->config($field, 'callback');
+                $this->state[$field] = is_callable($callback) ?
+                    $callback($model) : $model->$field;
+            } else {
+                $this->state[$field] = $model->$field;
+            }
         }
         $this->action = 'edit';
 

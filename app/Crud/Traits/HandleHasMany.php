@@ -64,7 +64,13 @@ trait HandleHasMany
             if (in_array($field, array_keys($this->getHasManyFields()))) {
                 $this->state[$field] = $model->$field()->pluck('id')->toArray();
             } else {
-                $this->state[$field] = $model->$field;
+                if ($this->type($field) === 'image') {
+                    $callback = $this->config($field, 'callback');
+                    $this->state[$field] = is_callable($callback) ?
+                        $callback($model) : $model->$field;
+                } else {
+                    $this->state[$field] = $model->$field;
+                }
             }
         }
         $this->action = 'edit';

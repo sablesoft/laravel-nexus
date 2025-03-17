@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +18,13 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->string('title')->nullable(false);
             $table->text('prompt')->nullable();
-            // todo - create 3 diff dimensions:
+            $table->boolean('has_glitches')->nullable(false)
+                ->default(false)->index();
+            $table->unsignedSmallInteger('attempts')->nullable(false)->default(1);
+            $table->enum('aspect', ImageAspect::values())->nullable(false)
+                ->default(ImageAspect::getDefault()->value)->index();
             $table->string('path')->nullable(false)->unique();
+            $table->string('path_thumbnail')->nullable()->unique();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();

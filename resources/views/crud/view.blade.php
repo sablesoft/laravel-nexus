@@ -36,13 +36,27 @@
                     </div>
                     @break
                 @case('image')
-                    <div class="px-4 py-2 whitespace-normal text-gray-900 dark:text-gray-300">
-                        <img src="{{ Storage::url($state[$field]) }}" alt="{{ $field }}">
-                    </div>
-                    @break
+                    @switch($this->getImageRatio($modelId))
+                        @case('square')
+                        <div class="px-4 py-2 whitespace-normal w-2/3">
+                            <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}"/>
+                        </div>
+                        @break
+                        @case('portrait')
+                        <div class="px-4 py-2 whitespace-normal w-2/5">
+                            <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}"/>
+                        </div>
+                        @break
+                        @default
+                        <div class="px-4 py-2 whitespace-normal w-full">
+                            <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}"/>
+                        </div>
+                        @break
+                   @endswitch
+                @break
                 @case('select')
                     <div class="px-4 py-2 whitespace-normal text-gray-900 dark:text-gray-300">
-                        {!!  $this->selectedOptionTitle($field, $state[$field]) !!}
+                        {!! $this->selectedOptionTitle($field, $state[$field]) !!}
                     </div>
                     @break
                 @default

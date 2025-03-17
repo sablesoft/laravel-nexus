@@ -3,61 +3,65 @@
 namespace App\Crud\Traits;
 
 use App\Models\Image;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
+use Storage;
 
 trait HandleImage
 {
+    protected function getImageIdField(): string
+    {
+        return 'image_id';
+    }
+
+    protected function getImageField(): string
+    {
+        return 'image';
+    }
+
+    #[On('imageSelected')]
+    public function imageSelected(int $imageId): void
+    {
+        $this->state[$this->getImageIdField()] = $imageId;
+        $this->state[$this->getImageField()] = $this->getImageUrl($imageId);
+    }
+
+    public function getImageRatio(int $modelId): ?string
+    {
+        return $this->getModel($modelId)?->image?->aspect;
+    }
+
     /**
      * @param string $title
+     * @param array $action
      * @return array
      */
-    protected function imageField(string $title = 'Image'): array
+    protected function imageSelectorField(string $title = 'Image', array $action = ['create', 'edit']): array
     {
         return [
             'title' => $title,
-            'action' => ['create', 'edit', 'view'],
-            'type' => 'template',
-            'template' => 'crud.searchable',
-            'callback' => 'getImageHtml',
+            'action' => $action,
+            'type' => 'component',
+            'component' => 'image-selector',
             'rules' => 'nullable|int',
         ];
     }
 
-    protected function getImageHtml(Model $model, int $size = 96): string
-    {
-        if (!$model->image) {
-            return '---';
-        }
-
-        return '<img src="' . Storage::url($model->imagePath) .
-            '" class="w-'.$size.' h-'.$size.' object-cover rounded-md" alt="Image"/>';
-    }
-
-    protected function getThumbnailField(string $title = 'Image'): array
+    protected function imageViewerField(
+        string $title = 'Image',
+        array $action = ['create', 'edit', 'index', 'view']
+    ): array
     {
         return [
             'title' => $title,
-            'action' => ['index'],
+            'action' => $action,
             'type' => 'image',
-            'callback' => 'getThumbnailHtml',
+            'callback' => fn($model) => $model->image ? Storage::url($model->image->path) : null
         ];
     }
 
-    protected function getThumbnailHtml(Model $model): string
+    protected function getImageUrl(int $imageId): string
     {
-        return $this->getImageHtml($model, 32);
-    }
-
-    /**
-     * @return array
-     */
-    protected function imageParam(): array
-    {
-        return [
-            'options' =>
-                $this->filterByOwner($this->getQuery(Image::class))
-                    ->select(['id', 'title as name'])->get()->toArray()
-        ];
+        $image = Image::findOrFail($imageId);
+        return Storage::url($image->path);
     }
 }

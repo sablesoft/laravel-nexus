@@ -19,10 +19,20 @@
             <div class="text-sm text-gray-600 dark:text-gray-300">
                 @foreach($fields as $field => $title)
                     <div class="flex justify-between mb-1">
-                                    <span class="font-semibold text-gray-900 dark:text-gray-300 pr-2">
-                                        {{ $title }}:
-                                    </span>
-                        <span>{!! $data[$field] !!}</span>
+                        @switch($this->type($field))
+                            @case('image')
+                                <div class="w-96"></div>
+                                    <x-image-viewer src="{{ $data[$field] }}" alt="{{ $field }}"/>
+                                </div>
+                                @break
+                            @default
+                                <span class="font-semibold text-gray-900 dark:text-gray-300 pr-2">
+                                {{ $title }}:
+                                </span>
+                                <span>{!! $data[$field] !!}</span>
+                                @break
+                        @endswitch
+
                     </div>
                 @endforeach
             </div>

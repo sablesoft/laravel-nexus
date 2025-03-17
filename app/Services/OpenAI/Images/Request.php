@@ -2,6 +2,7 @@
 
 namespace App\Services\OpenAI\Images;
 
+use App\Services\OpenAI\Enums\ImageAspect;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Log;
@@ -20,22 +21,13 @@ class Request extends \App\Services\OpenAI\Request implements Arrayable
     public function addParams(array $params): self
     {
         $this->validate($params);
-        foreach (['prompt', 'size', 'style', 'quality'] as $param) {
+        foreach (['prompt', 'style', 'quality'] as $param) {
             $this->addParam($param, $params[$param]);
         }
-        return $this;
-    }
+        $aspect = $params['aspect'] ?? ImageAspect::getDefault()->value;
+        $this->addParam('size', ImageAspect::from($aspect)->getSize());
 
-    /**
-     * @return string[]
-     */
-    public static function sizes(): array
-    {
-        return [
-            '1024x1024' => 'Square',
-            '1024x1792' => 'Portrait',
-            '1792x1024' => 'Landscape',
-        ];
+        return $this;
     }
 
     /**
@@ -75,12 +67,12 @@ class Request extends \App\Services\OpenAI\Request implements Arrayable
             throw new Exception($message);
         }
         $selects = [
-            'size' => array_keys(self::sizes()),
+            'aspect' => ImageAspect::values(),
             'quality' => array_keys(self::qualities()),
             'style' => array_keys(self::styles())
         ];
         $defaults = [
-            'size' => self::DEFAULT_SIZE,
+            'aspect' => ImageAspect::getDefault(),
             'quality' => self::DEFAULT_QUALITY,
             'style' => self::DEFAULT_STYLE,
         ];

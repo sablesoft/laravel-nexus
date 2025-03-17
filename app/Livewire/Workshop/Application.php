@@ -34,7 +34,6 @@ class Application extends AbstractCrud implements ShouldHasMany
 
         return match ($field) {
             'screen_id' => $this->optionsParam($field, \App\Models\Screen::class),
-            'image_id' => $this->imageParam(),
             default => [],
         };
     }
@@ -42,12 +41,12 @@ class Application extends AbstractCrud implements ShouldHasMany
     protected function fieldsConfig(): array
     {
         return [
-            'image' => $this->getThumbnailField(),
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
-            'image_id' => $this->imageField(),
+            'image' => $this->imageViewerField(),
+            'image_id' => $this->imageSelectorField(),
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
