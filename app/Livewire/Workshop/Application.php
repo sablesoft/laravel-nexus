@@ -57,6 +57,11 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
+            'screen' => [
+                'title' => 'Base Screen',
+                'action' => ['view'],
+                'callback' => fn($model) => $model->screen()?->title
+            ],
             'screens' => $this->hasManyField('screens', ['view']),
             'is_public' => [
                 'title' => 'Public',

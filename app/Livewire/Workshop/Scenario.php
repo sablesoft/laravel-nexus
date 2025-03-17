@@ -26,7 +26,8 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'code' => 'Code'
+            'code' => 'Code',
+            'is_default' => 'Is Default'
         ];
     }
 

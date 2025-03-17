@@ -25,6 +25,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             'id' => 'ID',
             'title' => 'Title',
             'code' => 'Code',
+            'is_default' => 'Is Default',
         ];
     }
 
@@ -60,6 +61,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
+            'application_id' => $this->belongsToField('Application', 'application'),
             'is_default' => [
                 'title' => 'Is Default',
                 'action' => ['index', 'edit', 'view', 'create'],
@@ -67,6 +69,12 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
+            'screen' => [
+                'title' => 'Default Scenario',
+                'action' => ['view'],
+                'callback' => fn($model) => $model->scenario()?->title
+            ],
+            'scenarios' => $this->hasManyField('scenarios', ['view']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -82,8 +90,6 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'application_id' => $this->belongsToField('Application', 'application'),
-            'scenarios' => $this->hasManyField('scenarios', ['view'])
         ];
     }
 

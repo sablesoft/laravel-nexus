@@ -27,6 +27,7 @@ class Mask extends AbstractCrud
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'is_public' => 'Is Public'
         ];
     }
 
