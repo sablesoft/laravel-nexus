@@ -267,6 +267,10 @@ abstract class AbstractCrud extends Component implements ResourceInterface
 
     protected function getModel(?int $id = null): ?Model
     {
+        if (!is_null($this->models)) {
+            $collection = collect($this->models->items());
+            return $collection->where('id', $id)->first();
+        }
         $className = $this->className();
         return $id ? $className::findOrFail($id) : new $className();
     }

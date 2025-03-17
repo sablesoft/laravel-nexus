@@ -5,6 +5,7 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleUnique;
+use Illuminate\Database\Eloquent\Builder;
 
 class Mask extends AbstractCrud
 {
@@ -61,5 +62,10 @@ class Mask extends AbstractCrud
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ],
         ];
+    }
+
+    protected function modifyQuery(Builder $query): Builder
+    {
+        return $query->with('image');
     }
 }

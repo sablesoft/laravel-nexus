@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 trait HandleIndex
 {
-    protected $checkedModels = null;
+    public ?array $checkedModels = null;
 
     /**
      * @return array

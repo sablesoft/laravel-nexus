@@ -8,6 +8,7 @@ use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use Illuminate\Database\Eloquent\Builder;
 
 class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
@@ -98,5 +99,10 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
         return [
             'application_id' => \App\Models\Application::class
         ];
+    }
+
+    protected function modifyQuery(Builder $query): Builder
+    {
+        return $query->with('image');
     }
 }

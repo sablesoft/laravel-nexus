@@ -21,7 +21,7 @@
                     <div class="flex justify-between mb-1">
                         @switch($this->type($field))
                             @case('image')
-                                <div class="w-96"></div>
+                                <div class="w-96">
                                     <x-image-viewer src="{{ $data[$field] }}" alt="{{ $field }}"/>
                                 </div>
                                 @break
@@ -32,7 +32,6 @@
                                 <span>{!! $data[$field] !!}</span>
                                 @break
                         @endswitch
-
                     </div>
                 @endforeach
             </div>
