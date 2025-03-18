@@ -23,6 +23,15 @@ trait HandlePaginate
     protected function resetCursor(): void
     {
         $this->paginators['cursor'] = '';
+        $this->paginators['page'] = 1;
+        $this->checkedModels = null;
+    }
+
+    public function updated(string $property): void
+    {
+        if (in_array($property, ['orderBy', 'orderDirection', 'perPage', 'search'] )) {
+            $this->resetCursor();
+        }
     }
 
     public function orderByFields(): array
