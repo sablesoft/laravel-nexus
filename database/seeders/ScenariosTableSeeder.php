@@ -14,12 +14,12 @@ class ScenariosTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('scenarios')->delete();
-        
-        \DB::table('scenarios')->insert(array (
-            0 => 
+
+        \DB::table('app.scenarios')->delete();
+
+        \DB::table('app.scenarios')->insert(array (
+            0 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -32,7 +32,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -45,7 +45,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -58,7 +58,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -71,7 +71,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -84,7 +84,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -97,7 +97,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -110,7 +110,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -123,7 +123,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -136,7 +136,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 10,
                 'user_id' => 1,
@@ -149,7 +149,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 11,
                 'user_id' => 1,
@@ -162,7 +162,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 12,
                 'user_id' => 1,
@@ -175,7 +175,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -188,7 +188,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 14,
                 'user_id' => 1,
@@ -201,7 +201,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            14 => 
+            14 =>
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -214,7 +214,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            15 => 
+            15 =>
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -227,7 +227,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            16 => 
+            16 =>
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -240,7 +240,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            17 => 
+            17 =>
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -253,7 +253,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            18 => 
+            18 =>
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -266,7 +266,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            19 => 
+            19 =>
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -279,7 +279,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            20 => 
+            20 =>
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -292,7 +292,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            21 => 
+            21 =>
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -305,7 +305,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            22 => 
+            22 =>
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -318,7 +318,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            23 => 
+            23 =>
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -331,7 +331,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            24 => 
+            24 =>
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -344,7 +344,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            25 => 
+            25 =>
             array (
                 'id' => 26,
                 'user_id' => 1,
@@ -357,7 +357,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            26 => 
+            26 =>
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -370,7 +370,7 @@ class ScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            27 => 
+            27 =>
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -384,7 +384,7 @@ class ScenariosTableSeeder extends Seeder
                 'updated_at' => '2025-03-16 16:47:12',
             ),
         ));
-        
-        
+
+
     }
 }

@@ -14,12 +14,12 @@ class ImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('images')->delete();
-        
-        \DB::table('images')->insert(array (
-            0 => 
+
+        \DB::table('app.images')->delete();
+
+        \DB::table('app.images')->insert(array (
+            0 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -33,7 +33,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -47,7 +47,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -61,7 +61,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -75,7 +75,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -89,7 +89,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -103,7 +103,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -117,7 +117,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -131,7 +131,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -145,7 +145,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -159,7 +159,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -173,7 +173,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -187,7 +187,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -201,7 +201,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -215,7 +215,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            14 => 
+            14 =>
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -229,7 +229,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            15 => 
+            15 =>
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -243,7 +243,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            16 => 
+            16 =>
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -257,7 +257,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            17 => 
+            17 =>
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -271,7 +271,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            18 => 
+            18 =>
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -285,7 +285,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            19 => 
+            19 =>
             array (
                 'id' => 26,
                 'user_id' => 1,
@@ -299,7 +299,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            20 => 
+            20 =>
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -313,7 +313,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            21 => 
+            21 =>
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -327,7 +327,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'square',
                 'attempts' => 1,
             ),
-            22 => 
+            22 =>
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -341,7 +341,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            23 => 
+            23 =>
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -355,7 +355,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            24 => 
+            24 =>
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -369,7 +369,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            25 => 
+            25 =>
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -383,7 +383,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            26 => 
+            26 =>
             array (
                 'id' => 40,
                 'user_id' => 1,
@@ -397,7 +397,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            27 => 
+            27 =>
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -411,7 +411,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            28 => 
+            28 =>
             array (
                 'id' => 38,
                 'user_id' => 1,
@@ -425,7 +425,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            29 => 
+            29 =>
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -439,7 +439,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            30 => 
+            30 =>
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -453,7 +453,7 @@ class ImagesTableSeeder extends Seeder
                 'aspect' => 'portrait',
                 'attempts' => 1,
             ),
-            31 => 
+            31 =>
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -468,7 +468,7 @@ class ImagesTableSeeder extends Seeder
                 'attempts' => 1,
             ),
         ));
-        
-        
+
+
     }
 }

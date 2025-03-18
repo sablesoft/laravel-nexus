@@ -14,12 +14,12 @@ class MasksTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('masks')->delete();
-        
-        \DB::table('masks')->insert(array (
-            0 => 
+
+        \DB::table('app.masks')->delete();
+
+        \DB::table('app.masks')->insert(array (
+            0 =>
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -30,7 +30,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -41,7 +41,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -52,7 +52,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 14,
                 'user_id' => 1,
@@ -63,7 +63,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:17:50',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -74,7 +74,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:18:06',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 12,
                 'user_id' => 1,
@@ -85,7 +85,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:18:25',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 10,
                 'user_id' => 1,
@@ -96,7 +96,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:18:54',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 11,
                 'user_id' => 1,
@@ -107,7 +107,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:19:42',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -118,7 +118,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:19:51',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -129,7 +129,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:20:40',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -140,7 +140,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:20:52',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -151,7 +151,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:20:57',
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -162,7 +162,7 @@ class MasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:21:02',
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -174,7 +174,7 @@ class MasksTableSeeder extends Seeder
                 'updated_at' => '2025-03-16 17:21:49',
             ),
         ));
-        
-        
+
+
     }
 }

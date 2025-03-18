@@ -14,12 +14,12 @@ class ApplicationsTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('applications')->delete();
-        
-        \DB::table('applications')->insert(array (
-            0 => 
+
+        \DB::table('app.applications')->delete();
+
+        \DB::table('app.applications')->insert(array (
+            0 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -31,7 +31,7 @@ class ApplicationsTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -43,7 +43,7 @@ class ApplicationsTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -55,7 +55,7 @@ class ApplicationsTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -67,7 +67,7 @@ class ApplicationsTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -79,7 +79,7 @@ class ApplicationsTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -92,7 +92,7 @@ class ApplicationsTableSeeder extends Seeder
                 'updated_at' => '2025-03-17 06:11:43',
             ),
         ));
-        
-        
+
+
     }
 }
