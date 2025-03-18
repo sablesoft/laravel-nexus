@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Closure;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ class Navlist extends Component
 
             foreach ($group['items'] as $key => $item) {
                 $routeName = $prefix . $key;
-                $action = $item['action'] ?? null;
+                $action = static::prepareAction($item['action'] ?? null);
                 $middleware = $item['middleware'] ?? null;
                 $uri = $item['uri'] ?? str_replace('.', '/', $routeName);
                 if (!Route::has($routeName) && $action) {
@@ -35,7 +36,7 @@ class Navlist extends Component
                 $routes = $item['routes'] ?? [];
                 foreach ($routes as $k => $route) {
                     $method = $route['method'] ?? 'get';
-                    $action = $route['action'] ?? null;
+                    $action = static::prepareAction($route['action'] ?? null);
                     $routeName = $prefix . $k;
                     $uri = $route['uri'] ?? str_replace('.', '/', $routeName);
                     if (!Route::has($routeName) && $action) {
@@ -44,5 +45,10 @@ class Navlist extends Component
                 }
             }
         }
+    }
+
+    protected static function prepareAction(?string $action): string|Closure|null
+    {
+        return (!$action || class_exists($action)) ? $action : fn() => view($action);
     }
 }

@@ -9,7 +9,7 @@ return [
             'dashboard' => [ // route and uri key
                 'icon' => 'home',
                 'title' => 'Dashboard',
-                'action' => fn() => view('dashboard'),
+                'action' => 'dashboard',
                 'middleware' => ['auth'],
                 'tooltip' => 'Main page'
             ],
