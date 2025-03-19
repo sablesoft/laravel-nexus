@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ScreensTableSeeder::class);
         $this->call(ScenariosTableSeeder::class);
         $this->call(MasksTableSeeder::class);
+        $this->call(SequencesSeeder::class);
     }
 }
