@@ -54,8 +54,13 @@ abstract class AbstractCrud extends Component implements ResourceInterface
     protected function getListeners(): array
     {
         return [
-             'refresh.'. $this->getType() => '$refresh',
+             'refresh.'. $this->getType() => 'refresh',
         ];
+    }
+
+    public function refresh(): void
+    {
+        $this->checkedModels = null;
     }
 
     public function components(string $action): array

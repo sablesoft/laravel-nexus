@@ -3,53 +3,25 @@
 namespace App\Services\OpenAI\Images;
 
 use App\Services\OpenAI\Enums\ImageAspect;
+use App\Services\OpenAI\Enums\ImageQuality;
+use App\Services\OpenAI\Enums\ImageStyle;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Log;
 
 class Request extends \App\Services\OpenAI\Request implements Arrayable
 {
-    const DEFAULT_SIZE = '1024x1024';
-    const DEFAULT_QUALITY = 'standard';
-    const DEFAULT_STYLE = 'vivid';
-
     /**
-     * @param array $params
-     * @return $this
      * @throws Exception
      */
     public function addParams(array $params): self
     {
         $this->validate($params);
-        foreach (['prompt', 'style', 'quality'] as $param) {
+        foreach (['prompt', 'style', 'quality', 'aspect', 'size'] as $param) {
             $this->addParam($param, $params[$param]);
         }
-        $aspect = $params['aspect'] ?? ImageAspect::getDefault()->value;
-        $this->addParam('size', ImageAspect::from($aspect)->getSize());
 
         return $this;
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function qualities(): array
-    {
-        return [
-            'standard' => 'Standard',
-            'hd' => 'HD'
-        ];
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function styles(): array
-    {
-        return [
-            'vivid' => 'Vivid',
-            'natural' => 'Natural'
-        ];
     }
 
     /**
@@ -68,13 +40,13 @@ class Request extends \App\Services\OpenAI\Request implements Arrayable
         }
         $selects = [
             'aspect' => ImageAspect::values(),
-            'quality' => array_keys(self::qualities()),
-            'style' => array_keys(self::styles())
+            'quality' => ImageQuality::values(),
+            'style' => ImageStyle::values()
         ];
         $defaults = [
-            'aspect' => ImageAspect::getDefault(),
-            'quality' => self::DEFAULT_QUALITY,
-            'style' => self::DEFAULT_STYLE,
+            'aspect' => ImageAspect::getDefault()->value,
+            'quality' => ImageQuality::getDefault()->value,
+            'style' => ImageStyle::getDefault()->value,
         ];
         foreach ($selects as $select => $options) {
             if (!isset($params[$select])) {
@@ -88,5 +60,21 @@ class Request extends \App\Services\OpenAI\Request implements Arrayable
                 throw new Exception($error);
             }
         }
+        $aspect = $params['aspect'];
+        $size = ImageAspect::from($aspect)->getSize();
+        $params['size'] = $size;
+        $this->addParam('original_prompt', $params['prompt']);
+        $params['prompt'] = $params['prompt'] .
+            " [Aspect ratio: $aspect, $size".
+            "; Style: ". $params['style'].
+            "; Quality: " . $params['quality'] ."]";
+    }
+
+    public function toArray(): array
+    {
+        $params = parent::toArray();
+        unset($params['aspect'], $params['original_prompt']);
+
+        return $params;
     }
 }

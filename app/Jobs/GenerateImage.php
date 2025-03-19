@@ -25,11 +25,6 @@ class GenerateImage implements ShouldQueue
     protected User $user;
     protected ?string $title;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
     public function __construct(Request $request, User $user, ?string $title = null)
     {
         $this->request = $request;
@@ -38,9 +33,6 @@ class GenerateImage implements ShouldQueue
     }
 
     /**
-     * Execute the job.
-     *
-     * @return void
      * @throws Throwable
      */
     public function handle(): void
@@ -66,25 +58,20 @@ class GenerateImage implements ShouldQueue
         $this->notify($result);
     }
 
-    /**
-     * @param Result $result
-     * @return void
-     */
     protected function createImage(Result $result): void
     {
         $image = Image::create([
             'path' => $result->get('path'),
             'title' => $this->title,
-            'prompt' => $this->request->getParam('prompt'),
-            'user_id' => $this->user->id
+            'prompt' => $this->request->getParam('original_prompt'),
+            'user_id' => $this->user->id,
+            'aspect' => $this->request->getParam('aspect'),
+            'quality' => $this->request->getParam('quality'),
+            'style' => $this->request->getParam('style')
         ]);
         $result->add('image', $image);
     }
 
-    /**
-     * @param Result $result
-     * @return void
-     */
     protected function notify(Result $result): void
     {
         $this->user->notify(new GenerateNotification($result->toArray()));

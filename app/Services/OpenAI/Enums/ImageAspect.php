@@ -20,11 +20,11 @@ enum ImageAspect: string
 
     public static function options(): array
     {
-        return array_reduce(self::cases(), function ($result, $case) {
-            $value = $case->value;
-            $result[$value] = ucfirst($value);
-            return $result;
-        }, []);
+        return [
+            self::Square->value => 'Square',
+            self::Portrait->value => 'Portrait',
+            self::Landscape->value => 'Landscape',
+        ];
     }
 
     public static function getSizes(): array
