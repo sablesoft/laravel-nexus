@@ -27,6 +27,11 @@ trait HandlePaginate
         $this->checkedModels = null;
     }
 
+    public function updatedPaginators($page, $pageName): void
+    {
+        $this->checkedModels = null;
+    }
+
     public function updated(string $property): void
     {
         if (in_array($property, ['orderBy', 'orderDirection', 'perPage', 'search'] )) {

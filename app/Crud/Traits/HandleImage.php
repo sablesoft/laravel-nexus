@@ -27,7 +27,7 @@ trait HandleImage
 
     public function getImageRatio(int $modelId): ?string
     {
-        return $this->getModel($modelId)?->image?->aspect;
+        return $this->getModel($modelId)?->image?->aspect?->value;
     }
 
     /**

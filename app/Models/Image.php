@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\OpenAI\Enums\ImageAspect;
+use App\Services\OpenAI\Enums\ImageQuality;
+use App\Services\OpenAI\Enums\ImageStyle;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\FileService;
@@ -16,7 +19,9 @@ use App\Models\Interfaces\HasOwnerInterface;
  * @property string|null $path
  * @property bool|null $is_public
  * @property bool|null $has_glitches
- * @property string|null $aspect
+ * @property ImageAspect|null $aspect
+ * @property ImageQuality|null $quality
+ * @property ImageStyle|null $style
  * @property int|null $attempts
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -27,11 +32,14 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
 
     protected $fillable = [
         'title', 'prompt', 'path', 'user_id', 'is_public',
-        'has_glitches', 'aspect', 'attempts'
+        'has_glitches', 'aspect', 'quality', 'style', 'attempts'
     ];
 
     protected $casts = [
-        'is_public' => 'boolean'
+        'is_public' => 'boolean',
+        'aspect' => ImageAspect::class,
+        'quality' => ImageQuality::class,
+        'style' => ImageStyle::class,
     ];
 
     public static function boot(): void

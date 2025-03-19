@@ -8,6 +8,8 @@ use App\Crud\Traits\HandleOwner;
 use App\Crud\Traits\HandleUnique;
 use App\Jobs\GenerateImage;
 use App\Services\OpenAI\Enums\ImageAspect;
+use App\Services\OpenAI\Enums\ImageQuality;
+use App\Services\OpenAI\Enums\ImageStyle;
 use App\Services\OpenAI\Images\Request;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
@@ -39,7 +41,7 @@ class Image extends AbstractCrud
                 'rules' => ['string', $this->uniqueRule('images', 'path')],
             ],
             'title' => [
-                'action' => ['index', 'create', 'edit', 'view', 'generate'],
+                'action' => ['create', 'edit', 'view', 'generate'],
                 'rules' => 'required|string',
             ],
             'is_public' => $this->isPublicField(['index', 'edit', 'view']),
@@ -56,13 +58,14 @@ class Image extends AbstractCrud
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
                 'rules' => 'required|string',
+                'callback' => fn(\App\Models\Image $model) => $model->aspect->value
             ],
             'has_glitches' => [
                 'title' => 'Has Glitches',
                 'action' => ['view', 'edit', 'index'],
                 'type' => 'checkbox',
                 'rules' => 'required|bool',
-                'callback' => fn($model) => $model->has_glitches ? 'Yes' : 'No'
+                'callback' => fn(\App\Models\Image $model) => $model->has_glitches ? 'Yes' : 'No'
             ],
             'attempts' => [
                 'action' => ['view'],
@@ -70,29 +73,32 @@ class Image extends AbstractCrud
                 'rules' => 'required|number'
             ],
             'style' => [
-                'action' => ['generate'],
+                'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
-                'rules' => 'required|string'
+                'rules' => 'required|string',
+                'callback' => fn(\App\Models\Image $model) => $model->style->value
             ],
             'quality' => [
-                'action' => ['generate'],
+                'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
-                'rules' => 'required|string'
+                'rules' => 'required|string',
+                'callback' => fn(\App\Models\Image $model) => $model->quality->value
             ],
         ];
     }
 
     public function getImageRatio(int $modelId): ?string
     {
-        return $this->getModel($modelId)?->aspect;
+        return $this->getModel($modelId)?->aspect->value;
     }
 
     public function orderByFields(): array
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
             'aspect' => 'Ratio',
+            'quality' => 'Quality',
+            'style' => 'Style',
             'has_glitches' => 'Glitches'
         ];
     }
@@ -109,8 +115,8 @@ class Image extends AbstractCrud
     {
         return match ($field) {
             'aspect' => ImageAspect::options(),
-            'quality' => Request::qualities(),
-            'style' => Request::styles(),
+            'quality' => ImageQuality::options(),
+            'style' => ImageStyle::options(),
             default => [],
         };
     }
@@ -120,9 +126,9 @@ class Image extends AbstractCrud
         $this->resetState();
         $this->action = 'generate';
         $this->formAction = 'generate';
-        $this->state['size'] = Request::DEFAULT_SIZE;
-        $this->state['quality'] = Request::DEFAULT_QUALITY;
-        $this->state['style'] = Request::DEFAULT_STYLE;
+        $this->state['aspect'] = ImageAspect::getDefault()->value;
+        $this->state['quality'] = ImageQuality::getDefault()->value;
+        $this->state['style'] = ImageStyle::getDefault()->value;
         $this->openForm();
     }
 
