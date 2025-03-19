@@ -22,11 +22,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|bool $is_default
  * @property null|bool $constants
  * @property null|string $template
- * @property null|string $control
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
  * @property-read null|Application $application
+ * @property-read null|Scenario $scenario
+ * @property-read Collection<int, Transfer>|Transfer[] $transfers
  * @property-read Collection<int, Scenario>|Scenario[] $scenarios
  */
 class Screen extends Model implements HasOwnerInterface
@@ -35,8 +36,8 @@ class Screen extends Model implements HasOwnerInterface
     use HasOwner, HasFactory, HasImage;
 
     protected $fillable = [
-        'user_id', 'application_id', 'code', 'title', 'description', 'is_default',
-        'constants', 'template', 'control'
+        'user_id', 'application_id', 'code', 'title', 'description',
+        'is_default', 'constants', 'template',
     ];
 
     protected $casts = [
@@ -47,6 +48,11 @@ class Screen extends Model implements HasOwnerInterface
     public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class);
+    }
+
+    public function transfers(): HasMany
+    {
+        return $this->hasMany(Transfer::class, 'screen_from_id');
     }
 
     public function scenarios(): HasMany

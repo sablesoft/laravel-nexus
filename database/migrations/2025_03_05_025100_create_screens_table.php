@@ -26,7 +26,6 @@ return new class extends Migration
                 ->default(false)->index();
             $table->json('constants')->nullable();
             $table->text('template')->nullable();
-            $table->text('control')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

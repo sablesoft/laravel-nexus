@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Enums;
+
 enum ChatStatus: string
 {
     case Created = 'created';

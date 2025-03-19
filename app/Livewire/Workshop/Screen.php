@@ -69,6 +69,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
+            'transfers' => $this->hasManyField('transfers', ['view']),
             'screen' => [
                 'title' => 'Default Scenario',
                 'action' => ['view'],
@@ -83,12 +84,12 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             'template' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
-                'rules' => 'nullable|string'
+                'rules' => 'nullable|string|not_regex:/@php|@include|@component/'
             ],
             'control' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
-                'rules' => 'nullable|string'
+                'rules' => 'nullable|string|not_regex:/@php|@include|@component/'
             ],
         ];
     }
@@ -110,5 +111,14 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
     protected function modifyQuery(Builder $query): Builder
     {
         return $query->with('image');
+    }
+
+    public function validate($rules = null, $messages = [], $attributes = []): array
+    {
+        $data = parent::validate($rules, $messages, $attributes);
+
+        // todo - validate template
+
+        return $data;
     }
 }

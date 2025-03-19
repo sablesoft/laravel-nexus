@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Enums\ScenarioType;
 use App\Models\Scenario;
 use App\Models\Screen;
 use App\Models\User;
@@ -23,8 +24,10 @@ class ScenarioFactory extends AppFactory
         return [
             'user_id' => User::factory(),
             'screen_id' => Screen::factory(),
-            'title' => $title,
             'code' => \Str::kebab($title),
+            'title' => $title,
+            'tooltip' => $this->faker->text(100),
+            'type' => $this->faker->randomElement(ScenarioType::values()),
             'description' => fake()->text(),
         ];
     }

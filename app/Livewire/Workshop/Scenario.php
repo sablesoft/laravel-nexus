@@ -5,6 +5,7 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldBelongsTo;
 use App\Crud\Traits\HandleBelongsTo;
+use App\Models\Enums\ScenarioType;
 
 class Scenario extends AbstractCrud implements ShouldBelongsTo
 {
@@ -27,6 +28,7 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
             'id' => 'ID',
             'title' => 'Title',
             'code' => 'Code',
+            'type' => 'Type',
             'is_default' => 'Is Default'
         ];
     }
@@ -34,14 +36,25 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
     protected function fieldsConfig(): array
     {
         return [
+            'code' => [
+                'action' => ['index', 'create', 'edit', 'view'],
+                'rules' => 'required|string',
+            ],
+            'type' => [
+                'action' => ['index', 'create', 'edit', 'view'],
+                'rules' => 'required|string',
+                'type' => 'select',
+                'callback' => fn($model) => $model->type->value
+            ],
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
 
             ],
-            'code' => [
-                'action' => ['index', 'create', 'edit', 'view'],
-                'rules' => 'required|string',
+            'tooltip' => [
+                'action' => ['create', 'edit', 'view'],
+                'rules' => 'nullable|string',
+
             ],
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
@@ -61,7 +74,20 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
+            'active' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|json'
+            ],
         ];
+    }
+
+    public function selectOptions(string $field): array
+    {
+        return match ($field) {
+            'type' => ScenarioType::options(),
+            default => [],
+        };
     }
 
     public function getBelongsToFields(): array

@@ -87,9 +87,6 @@ class Image extends AbstractCrud
         return $this->getModel($modelId)?->aspect;
     }
 
-    /**
-     * @return string[]
-     */
     public function orderByFields(): array
     {
         return [
@@ -100,9 +97,6 @@ class Image extends AbstractCrud
         ];
     }
 
-    /**
-     * @return array
-     */
     public function indexButtons(): array
     {
         return [
@@ -111,10 +105,6 @@ class Image extends AbstractCrud
         ];
     }
 
-    /**
-     * @param string $field
-     * @return array|string[]
-     */
     public function selectOptions(string $field): array
     {
         return match ($field) {
@@ -137,7 +127,6 @@ class Image extends AbstractCrud
     }
 
     /**
-     * @return void
      * @throws Throwable
      */
     public function generate(): void
