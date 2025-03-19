@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class ScreensTableSeeder extends Seeder
+class AppScreensTableSeeder extends Seeder
 {
 
     /**
@@ -14,12 +14,12 @@ class ScreensTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.screens')->delete();
-
+        
         \DB::table('app.screens')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -34,7 +34,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -49,7 +49,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -64,7 +64,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -79,7 +79,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -94,7 +94,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -109,7 +109,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 16:40:32',
             ),
-            6 =>
+            6 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -124,7 +124,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            7 =>
+            7 => 
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -139,7 +139,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            8 =>
+            8 => 
             array (
                 'id' => 10,
                 'user_id' => 1,
@@ -154,7 +154,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 16:47:12',
             ),
-            9 =>
+            9 => 
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -169,7 +169,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 18:22:18',
             ),
-            10 =>
+            10 => 
             array (
                 'id' => 12,
                 'user_id' => 1,
@@ -184,7 +184,7 @@ class ScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-17 06:12:23',
             ),
-            11 =>
+            11 => 
             array (
                 'id' => 11,
                 'user_id' => 1,
@@ -200,7 +200,7 @@ class ScreensTableSeeder extends Seeder
                 'updated_at' => '2025-03-17 06:12:45',
             ),
         ));
-
-
+        
+        
     }
 }

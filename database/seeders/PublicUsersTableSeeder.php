@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
+class PublicUsersTableSeeder extends Seeder
 {
 
     /**
@@ -14,12 +14,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('public.users')->delete();
-
+        
         \DB::table('public.users')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'name' => 'Raman',
@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
                 'created_at' => '2025-03-04 21:17:48',
                 'updated_at' => '2025-03-05 18:48:07',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'name' => 'Vasia',
@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2025-03-10 20:07:28',
             ),
         ));
-
-
+        
+        
     }
 }

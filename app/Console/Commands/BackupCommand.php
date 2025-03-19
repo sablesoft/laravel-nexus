@@ -24,14 +24,14 @@ class BackupCommand extends Command
      * @var array|string[]
      */
     protected array $tables = [
-        'users',
-        'images',
-        'applications',
-        'screens',
-        'scenarios',
+        'public.users',
+        'app.images',
+        'app.applications',
+        'app.screens',
+        'app.scenarios',
     ];
 
-    protected string $lastTable = 'masks';
+    protected string $lastTable = 'app.masks';
 
     /**
      * Execute the console command.

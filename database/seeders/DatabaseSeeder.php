@@ -11,12 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(UsersTableSeeder::class);
-        $this->call(ImagesTableSeeder::class);
-        $this->call(ApplicationsTableSeeder::class);
-        $this->call(ScreensTableSeeder::class);
-        $this->call(ScenariosTableSeeder::class);
-        $this->call(MasksTableSeeder::class);
+        $this->call(PublicUsersTableSeeder::class);
+        $this->call(AppImagesTableSeeder::class);
+        $this->call(AppApplicationsTableSeeder::class);
+        $this->call(AppScreensTableSeeder::class);
+        $this->call(AppScenariosTableSeeder::class);
+        $this->call(AppMasksTableSeeder::class);
         $this->call(SequencesSeeder::class);
     }
 }

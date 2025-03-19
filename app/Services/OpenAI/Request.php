@@ -57,9 +57,13 @@ class Request implements Arrayable
         return $this->params[$key] ?? $default;
     }
 
-    /**
-     * @return array
-     */
+    public function unsetParam(string $key): self
+    {
+        unset($this->params[$key]);
+
+        return $this;
+    }
+
     public function toArray(): array
     {
         return array_merge($this->getParam(), [
