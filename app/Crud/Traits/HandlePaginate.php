@@ -24,12 +24,6 @@ trait HandlePaginate
     {
         $this->paginators['cursor'] = '';
         $this->paginators['page'] = 1;
-        $this->checkedModels = null;
-    }
-
-    public function updatedPaginators($page, $pageName): void
-    {
-        $this->checkedModels = null;
     }
 
     public function updated(string $property): void

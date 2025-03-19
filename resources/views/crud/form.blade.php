@@ -80,13 +80,13 @@
                                 @endif
                                 @break
                             @case('checkbox')
-                                <flux:switch wire:model.live="state.{{ $field }}"/>
+                                <flux:switch wire:model.live="state.{{ $field }}" class="cursor-pointer"/>
                                 @break
                             @case('hidden')
                                 <flux:input wire:model="state.{{ $field }}" type="hidden"/>
                                 @break
                             @case('select')
-                                <flux:select wire:model="state.{{ $field }}">
+                                <flux:select wire:model="state.{{ $field }}" class="cursor-pointer">
                                     @foreach ($this->selectOptions($field) as $value => $title)
                                         <flux:select.option value="{{ $value }}">
                                             {{ $title }}

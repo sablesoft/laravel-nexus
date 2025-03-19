@@ -54,13 +54,8 @@ abstract class AbstractCrud extends Component implements ResourceInterface
     protected function getListeners(): array
     {
         return [
-             'refresh.'. $this->getType() => 'refresh',
+             'refresh.'. $this->getType() => '$refresh',
         ];
-    }
-
-    public function refresh(): void
-    {
-        $this->checkedModels = null;
     }
 
     public function components(string $action): array
@@ -101,6 +96,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
     public function render()
     {
         $params = [];
+        $this->checkedModels = null;
         if ($this->showForm) {
             $view = 'crud.form';
         } elseif ($this->action === 'index') {
