@@ -22,8 +22,15 @@
             </div>
         </div>
 
-        <!-- Control -->
-        <x-crud.control/>
+            <!-- Control with custom filters -->
+            <x-crud.control>
+                <x-slot name="filters">
+                @foreach($this->filterTemplates() as $template)
+                    @include($template)
+                @endforeach
+                </x-slot>
+            </x-crud.control>
+
 
         <!-- Pagination Top -->
         <div class="my-2">
@@ -35,14 +42,6 @@
         @foreach($this->components('index') as $index => $component)
             <div wire:key="component-{{ $component }}-{{ $index }}">
             @livewire($component, $this->componentParams($action))
-            </div>
-        @endforeach
-        </div>
-        <!-- Custom Index Templates -->
-        <div wire:key="custom-templates">
-        @foreach($this->templates('index') as $index => $template)
-            <div wire:key="template-{{ $template }}-{{ $index }}">
-            @include($template, $this->templateParams($action))
             </div>
         @endforeach
         </div>

@@ -19,6 +19,11 @@ trait HandlePaginate
     public string $orderBy = 'id';
     public string $orderDirection = 'desc';
 
+    protected function getPaginationFields(): array
+    {
+        return ['orderBy', 'orderDirection', 'perPage', 'search'];
+    }
+
     #[On('updated:orderBy', 'updated:orderDirection', 'updated:perPage', 'updated:search')]
     protected function resetCursor(): void
     {
@@ -26,9 +31,14 @@ trait HandlePaginate
         $this->paginators['page'] = 1;
     }
 
+    public function filterTemplates(): array
+    {
+        return [];
+    }
+
     public function updated(string $property): void
     {
-        if (in_array($property, ['orderBy', 'orderDirection', 'perPage', 'search'] )) {
+        if (in_array($property, $this->getPaginationFields())) {
             $this->resetCursor();
         }
     }

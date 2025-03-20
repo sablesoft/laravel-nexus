@@ -70,11 +70,6 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         return [];
     }
 
-    public function templates(string $action): array
-    {
-        return [];
-    }
-
     public function templateParams(string $action, ?string $field = null): array
     {
         return [];
