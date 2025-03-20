@@ -1,4 +1,4 @@
-<div class="mt-6 space-y-4">
+<div class="space-y-4">
     @php /** @var \App\Models\Transfer $transfer */ @endphp
     @foreach($transfers as $transfer)
         <div x-data="{ open: false }">

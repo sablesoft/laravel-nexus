@@ -12,6 +12,8 @@ class Application extends AbstractCrud implements ShouldHasMany
 {
     use HandleHasMany, HandleImage;
 
+    public string $filterIsPublic = 'all';
+
     public function className(): string
     {
         return \App\Models\Application::class;
@@ -21,8 +23,19 @@ class Application extends AbstractCrud implements ShouldHasMany
     {
         return [
             'id' => 'ID',
-            'title' => 'Title'
+            'title' => 'Title',
+            'is_public' => 'Is Public'
         ];
+    }
+
+    public function filterTemplates(): array
+    {
+        return ['crud.filter-public'];
+    }
+
+    protected function getPaginationFields(): array
+    {
+        return ['orderBy', 'orderDirection', 'perPage', 'search', 'filterIsPublic'];
     }
 
     public function templateParams(string $action, ?string $field = null): array
@@ -87,6 +100,10 @@ class Application extends AbstractCrud implements ShouldHasMany
 
     protected function modifyQuery(Builder $query): Builder
     {
+        if ($this->filterIsPublic !== 'all') {
+            $query->where('is_public', $this->filterIsPublic === 'yes');
+        }
+
         return $query->with(['image', 'screens']);
     }
 
