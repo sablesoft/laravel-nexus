@@ -25,6 +25,8 @@ class GenerateImage implements ShouldQueue
     protected User $user;
     protected ?string $title;
 
+    public int $timeout = 180;
+
     public function __construct(Request $request, User $user, ?string $title = null)
     {
         $this->request = $request;

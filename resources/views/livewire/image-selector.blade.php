@@ -26,7 +26,7 @@
                         </flux:select>
                     </flux:tooltip>
                     <flux:tooltip content="Rendering Artifacts">
-                        <flux:select id="isPublic" wire:model.live="hasArtifacts" placeholder="Rendering Artifacts"
+                        <flux:select id="hasArtifact" wire:model.live="hasArtifacts" placeholder="Rendering Artifacts"
                                      class="cursor-pointer">
                             <flux:select.option value="all">{{ __('All') }}</flux:select.option>
                             <flux:select.option value="1">{{ __('Yes') }}</flux:select.option>

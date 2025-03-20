@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property null|int $id
- * @property null|int $application_id
  * @property null|int $screen_from_id
  * @property null|int $screen_to_id
  * @property null|string $code
@@ -19,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read null|Application $application
  * @property-read null|Screen $screenFrom
  * @property-read null|Screen $screenTo
  */
@@ -28,18 +26,12 @@ class Transfer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'application_id', 'screen_from_id', 'screen_to_id',
-        'code', 'tooltip', 'active'
+        'screen_from_id', 'screen_to_id', 'code', 'title', 'tooltip', 'active'
     ];
 
     protected $casts = [
         'active' => 'array',
     ];
-
-    public function application(): BelongsTo
-    {
-        return $this->belongsTo(Application::class);
-    }
 
     public function screenFrom(): BelongsTo
     {

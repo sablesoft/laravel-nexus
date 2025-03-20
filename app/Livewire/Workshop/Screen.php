@@ -8,11 +8,13 @@ use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use App\Livewire\Workshop\Screen\HandleTransfers;
+use App\Models\Transfer;
 use Illuminate\Database\Eloquent\Builder;
 
 class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
-    use HandleHasMany, HandleBelongsTo, HandleImage;
+    use HandleHasMany, HandleBelongsTo, HandleImage, HandleTransfers;
 
     public function className(): string
     {
@@ -69,7 +71,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
-            'transfers' => $this->hasManyField('transfers', ['view']),
+            'transfersField' => $this->transfersField(),
             'screen' => [
                 'title' => 'Default Scenario',
                 'action' => ['view'],
@@ -82,11 +84,6 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'nullable|json'
             ],
             'template' => [
-                'action' => ['edit', 'view'],
-                'type' => 'textarea',
-                'rules' => 'nullable|string|not_regex:/@php|@include|@component/'
-            ],
-            'control' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string|not_regex:/@php|@include|@component/'
@@ -117,8 +114,38 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
     {
         $data = parent::validate($rules, $messages, $attributes);
 
-        // todo - validate template
+        // todo - validate template and transfers
 
         return $data;
+    }
+
+    public function store(): void
+    {
+        $this->updateTransfers();
+        parent::store();
+    }
+
+    protected function updateTransfers(): void
+    {
+        if ($this->action === 'edit') {
+            unset($this->state['transfersField']);
+            $transfers = Transfer::where('screen_from_id', $this->modelId)->get();
+            foreach ($this->transfersDeleted as $screenToId) {
+                /** @var Transfer $transfer */
+                $transfer = $transfers->where('screen_to_id', $screenToId)->first();
+                $transfer->delete();
+            }
+            foreach ($this->transfersUpdated as $screenToId => $updated) {
+                /** @var Transfer $transfer */
+                $transfer = $transfers->where('screen_to_id', $screenToId)->first();
+                foreach (['code', 'title', 'tooltip', 'active'] as $field) {
+                    $transfer->$field = $updated[$field];
+                }
+                $transfer->save();
+            }
+            foreach ($this->transfersAdded as $data) {
+                Transfer::create($data);
+            }
+        }
     }
 }

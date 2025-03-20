@@ -8,8 +8,6 @@ use Livewire\Attributes\Locked;
 trait HandleForm
 {
     #[Locked]
-    public ?int $modelId = null;
-    #[Locked]
     public ?bool $showForm = null;
     #[Locked]
     public string $formAction = 'store';

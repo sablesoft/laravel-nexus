@@ -37,7 +37,6 @@ class Image extends AbstractCrud
                 'title' => 'File',
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'image',
-                'callback' => fn($model) => $model->path ? Storage::url($model->path) : null,
                 'rules' => ['string', $this->uniqueRule('images', 'path')],
             ],
             'title' => [

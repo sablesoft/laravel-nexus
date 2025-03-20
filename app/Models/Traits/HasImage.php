@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $image_id
  * @property-read null|Image $image
  * @property-read null|string $imagePath
+ * @property-read null|string $imageUrl
  */
 trait HasImage
 {
@@ -26,5 +27,11 @@ trait HasImage
     public function getImagePathAttribute(): ?string
     {
         return $this->image?->path;
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        $path = $this->imagePath;
+        return $path ? \Storage::url($path) : null;
     }
 }

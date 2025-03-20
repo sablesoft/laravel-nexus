@@ -22,7 +22,7 @@ trait HandleImage
     public function imageSelected(int $imageId): void
     {
         $this->state[$this->getImageIdField()] = $imageId;
-        $this->state[$this->getImageField()] = $this->getImageUrl($imageId);
+        $this->state[$this->getImageField()] = $this->getImagePath($imageId);
     }
 
     public function getImageRatio(int $modelId): ?string
@@ -55,13 +55,12 @@ trait HandleImage
             'title' => $title,
             'action' => $action,
             'type' => 'image',
-            'callback' => fn($model) => $model->image ? Storage::url($model->image->path) : null
+            'callback' => fn($model) => $model->image ? $model->image->path : null
         ];
     }
 
-    protected function getImageUrl(int $imageId): string
+    protected function getImagePath(int $imageId): string
     {
-        $image = Image::findOrFail($imageId);
-        return Storage::url($image->path);
+        return Image::findOrFail($imageId)->path;
     }
 }

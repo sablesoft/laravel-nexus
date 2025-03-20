@@ -22,6 +22,8 @@ abstract class AbstractCrud extends Component implements ResourceInterface
 
     public array $state = [];
     #[Locked]
+    public ?int $modelId = null;
+    #[Locked]
     public string $resourceTitle;
     #[Locked]
     public string $action = 'index';
@@ -140,7 +142,12 @@ abstract class AbstractCrud extends Component implements ResourceInterface
                 $this->state[$field] = is_callable($callback) ?
                     $callback($model) : $model->$field;
             } else {
-                $this->state[$field] = $model->$field;
+                if ($model->$field instanceof \UnitEnum) {
+                    $enum = $model->$field;
+                    $this->state[$field] = $enum->value;
+                } else {
+                    $this->state[$field] = $model->$field;
+                }
             }
         }
         $this->action = 'edit';

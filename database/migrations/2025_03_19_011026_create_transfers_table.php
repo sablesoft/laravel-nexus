@@ -13,18 +13,14 @@ return new class extends Migration
     {
         Schema::create('app.transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('application_id')->nullable(false)
-                ->constrained()->cascadeOnDelete();
             $table->foreignId('screen_from_id')->nullable(false)
                 ->constrained('app.screens')->cascadeOnDelete();
             $table->foreignId('screen_to_id')->nullable(false)
                 ->constrained('app.screens')->cascadeOnDelete();
-            $table->string('code')->nullable(false);
+            $table->string('code')->nullable(false)->unique();
             $table->string('title')->nullable();
             $table->string('tooltip')->nullable();
             $table->json('active')->nullable();
-
-            $table->unique(['application_id', 'code']);
 
             $table->timestamps();
         });

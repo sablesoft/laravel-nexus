@@ -36,20 +36,21 @@
                     </div>
                     @break
                 @case('image')
+                    @php $src = $state[$field] ? Storage::url($state[$field]) : null; @endphp
                     @switch($this->getImageRatio($modelId))
                         @case('square')
                         <div class="px-4 py-2 whitespace-normal w-2/3">
-                            <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}"/>
+                            <x-image-viewer src="{{ $src }}" alt="{{ $field }}"/>
                         </div>
                         @break
                         @case('portrait')
                         <div class="px-4 py-2 whitespace-normal w-2/5">
-                            <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}"/>
+                            <x-image-viewer src="{{ $src }}" alt="{{ $field }}"/>
                         </div>
                         @break
                         @default
                         <div class="px-4 py-2 whitespace-normal w-full">
-                            <x-image-viewer src="{{ $state[$field] }}" alt="{{ $field }}"/>
+                            <x-image-viewer src="{{ $src }}" alt="{{ $field }}"/>
                         </div>
                         @break
                    @endswitch

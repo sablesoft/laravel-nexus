@@ -32,7 +32,8 @@
                     @switch($this->type($field))
                         @case('image')
                         <div class="max-w-40">
-                            <x-image-viewer src="{{ $data[$field] }}" alt="{{ $field }}"/>
+                            @php $src = $data[$field] ? Storage::url($data[$field]) : null; @endphp
+                            <x-image-viewer src="{{ $src }}" alt="{{ $field }}"/>
                         </div>
                         @break
                         @default
