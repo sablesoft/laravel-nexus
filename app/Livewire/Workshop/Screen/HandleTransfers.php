@@ -56,14 +56,24 @@ trait HandleTransfers
         return [];
     }
 
-    protected function transfersField(): array
+    protected function transfersEditField(): array
     {
         return [
             'title' => 'Transfers',
-            'action' => ['view', 'edit'],
+            'action' => ['edit'],
             'type' => 'component',
             'component' => 'workshop.screen.transfer',
             'callback' => fn($model) => $this->getHasManyHtml($model, 'transfers')
+        ];
+    }
+
+    protected function transfersViewField(): array
+    {
+        return [
+            'title' => 'Transfers',
+            'action' => 'view',
+            'type' => 'template',
+            'template' => 'components.screen.transfers'
         ];
     }
 }

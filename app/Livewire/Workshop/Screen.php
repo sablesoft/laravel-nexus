@@ -41,6 +41,11 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             $class = $this->getBelongsToFields()[$field];
             return $this->optionsParam($field, $class);
         }
+        if ($action === 'view' && $field === 'transfersView') {
+            /** @var \App\Models\Screen $model */
+            $model = $this->getModel($this->modelId);
+            return ['transfers' => $model->transfers];
+        }
 
         return [];
     }
@@ -71,7 +76,8 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
-            'transfersField' => $this->transfersField(),
+            'transfersEdit' => $this->transfersEditField(),
+            'transfersView' => $this->transfersViewField(),
             'screen' => [
                 'title' => 'Default Scenario',
                 'action' => ['view'],
@@ -128,7 +134,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
     protected function updateTransfers(): void
     {
         if ($this->action === 'edit') {
-            unset($this->state['transfersField']);
+            unset($this->state['transfersEdit']);
             $transfers = Transfer::where('screen_from_id', $this->modelId)->get();
             foreach ($this->transfersDeleted as $screenToId) {
                 /** @var Transfer $transfer */
