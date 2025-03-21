@@ -30,6 +30,11 @@ class Image extends AbstractCrud
         return \App\Models\Image::class;
     }
 
+    protected function routeName(): string
+    {
+        return 'workshop.images';
+    }
+
     protected function fieldsConfig(): array
     {
         return [
@@ -88,7 +93,7 @@ class Image extends AbstractCrud
 
     public function getImageRatio(int $modelId): ?string
     {
-        return $this->getModel($modelId)?->aspect->value;
+        return $this->getResource()?->aspect->value;
     }
 
     public function orderByFields(): array

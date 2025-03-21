@@ -4,10 +4,10 @@
 
 namespace App\Crud;
 
-use App\Crud\Interfaces\ResourceInterface;
 use App\Crud\Traits\HandleForm;
 use App\Crud\Traits\HandleIndex;
 use App\Crud\Traits\HandlePaginate;
+use App\Crud\Traits\HandleURI;
 use App\Models\Services\StoreService;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Model;
@@ -16,9 +16,9 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-abstract class AbstractCrud extends Component implements ResourceInterface
+abstract class AbstractCrud extends Component
 {
-    use HandlePaginate, HandleForm, HandleIndex;
+    use HandlePaginate, HandleForm, HandleIndex, HandleURI;
 
     public array $state = [];
     #[Locked]
@@ -32,25 +32,31 @@ abstract class AbstractCrud extends Component implements ResourceInterface
 
     public ?int $deleteId = null;
 
-    /**
-     * @return bool
-     */
-    public static function accessAllowed(): bool
-    {
-        return true;
-    }
-
     abstract public function className(): string;
 
     abstract protected function fieldsConfig(): array;
 
-    /**
-     * @return void
-     */
-    public function mount(): void
+    public function mount(?string $action = 'index', ?int $id = null): void
     {
         $this->userId = auth()->id();
         $this->resourceTitle = $this->classTitle();
+        if ($id) {
+            $this->modelId = $id;
+            // check is owner:
+            $model = $this->getResource();
+            if ($model->user_id !== $this->userId) {
+                $this->modelId = null;
+                $this->dispatch('flash', message: 'You cannot do it!');
+                $this->changeUri();
+            } else {
+                $action = in_array($action, ['view', 'edit']) ? $action : 'view';
+                $this->$action($id);
+            }
+        } elseif ($action === 'create') {
+            $this->create();
+        } else {
+            $this->changeUri();
+        }
     }
 
     protected function getListeners(): array
@@ -123,6 +129,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
             }
         }
         $this->openForm();
+        $this->changeUri('create');
     }
 
     public function edit(int $id): void
@@ -146,8 +153,8 @@ abstract class AbstractCrud extends Component implements ResourceInterface
             }
         }
         $this->action = 'edit';
-
         $this->openForm();
+        $this->changeUri('edit', $id);
     }
 
     public function store(): void
@@ -159,7 +166,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
             return;
         }
         try {
-            $model = $this->getModel($this->modelId);
+            $model = $this->getResource();
             StoreService::handle($data['state'], $model);
             $this->dispatch('flash', message: $this->classTitle(false) . ($this->modelId ? ' updated' : ' created'));
             $this->close();
@@ -176,6 +183,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
         $this->modelId = null;
         $this->action = 'index';
         $this->resetState();
+        $this->changeUri();
     }
 
     public function view(?int $id = null): void
@@ -191,6 +199,7 @@ abstract class AbstractCrud extends Component implements ResourceInterface
             $this->state[$field] = $this->getValue($model, $field);
         }
         $this->action = 'view';
+        $this->changeUri('view', $id);
     }
 
     public function delete(int $id): void

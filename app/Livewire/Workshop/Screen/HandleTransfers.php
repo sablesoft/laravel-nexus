@@ -49,7 +49,7 @@ trait HandleTransfers
 
     public function componentParams(string $action, ?string $field = null): array
     {
-        if ($action === 'edit' && $field === 'transfersField') {
+        if ($action === 'edit' && $field === 'transfersEdit') {
             return ['screenId' => $this->modelId];
         }
 

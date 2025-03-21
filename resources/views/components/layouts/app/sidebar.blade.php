@@ -127,5 +127,6 @@
 
         <x-notification/>
         <x-flash/>
+        <x-uri/>
     </body>
 </html>

@@ -45,7 +45,7 @@ trait HandleHasMany
 
     protected function syncHasMany(): void
     {
-        $model = $this->getModel($this->modelId);
+        $model = $this->getResource();
         foreach ($this->getHasManyFields() as $relation => $class) {
             $ids = Arr::get($this->state, $relation);
             $r = $model->$relation();
@@ -74,7 +74,7 @@ trait HandleHasMany
             }
         }
         $this->action = 'edit';
-
+        $this->changeUri('edit', $id);
         $this->openForm();
     }
 

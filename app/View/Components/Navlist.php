@@ -29,7 +29,7 @@ class Navlist extends Component
                 $routeName = $prefix . $key;
                 $action = static::prepareAction($item['action'] ?? null);
                 $middleware = $item['middleware'] ?? null;
-                $uri = $item['uri'] ?? str_replace('.', '/', $routeName);
+                $uri = static::prepareUri($item, $routeName);
                 if (!Route::has($routeName) && $action) {
                     Route::get($uri, $action)->name($routeName)->middleware($middleware);
                 }
@@ -38,7 +38,7 @@ class Navlist extends Component
                     $method = $route['method'] ?? 'get';
                     $action = static::prepareAction($route['action'] ?? null);
                     $routeName = $prefix . $k;
-                    $uri = $route['uri'] ?? str_replace('.', '/', $routeName);
+                    $uri = static::prepareUri($item, $routeName);
                     if (!Route::has($routeName) && $action) {
                         Route::$method($uri, $action)->name($routeName)->middleware($middleware);
                     }
@@ -47,8 +47,18 @@ class Navlist extends Component
         }
     }
 
+    public static function baseUri(string $routeName): string
+    {
+        return str_replace('.', '/', $routeName);
+    }
+
     protected static function prepareAction(?string $action): string|Closure|null
     {
         return (!$action || class_exists($action)) ? $action : fn() => view($action);
+    }
+
+    protected static function prepareUri(array $item, string $routeName): string
+    {
+        return $item['uri'] ?? static::baseUri($routeName) . '/{action?}/{id?}';
     }
 }

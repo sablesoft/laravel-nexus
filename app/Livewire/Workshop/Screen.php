@@ -24,6 +24,11 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
         return \App\Models\Screen::class;
     }
 
+    protected function routeName(): string
+    {
+        return 'workshop.screens';
+    }
+
     public function orderByFields(): array
     {
         return [
@@ -62,7 +67,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
         }
         if ($action === 'view' && $field === 'transfersView') {
             /** @var \App\Models\Screen $model */
-            $model = $this->getModel($this->modelId);
+            $model = $this->getResource();
             return ['transfers' => $model->transfers];
         }
 

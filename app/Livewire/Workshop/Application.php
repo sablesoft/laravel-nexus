@@ -18,6 +18,11 @@ class Application extends AbstractCrud implements ShouldHasMany
         return \App\Models\Application::class;
     }
 
+    protected function routeName(): string
+    {
+        return 'workshop.applications';
+    }
+
     public function orderByFields(): array
     {
         return [
@@ -76,7 +81,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                             if (is_null($this->state['image_id'])) {
                                 $fail('You cannot make this application public without an image.');
                             }
-                            if (!$this->getModel($this->modelId)->screen()) {
+                            if (!$this->getResource()->screen()) {
                                 $fail('You cannot make this application public without a base screen.');
                             }
                         }

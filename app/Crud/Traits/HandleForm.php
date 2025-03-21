@@ -44,7 +44,7 @@ trait HandleForm
     /**
      * @return Model
      */
-    public function getModel(): Model
+    public function getResource(): Model
     {
         $class = $this->className();
         return $class::findOrFail($this->modelId);
