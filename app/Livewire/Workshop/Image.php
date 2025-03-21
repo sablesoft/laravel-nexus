@@ -7,10 +7,13 @@ use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleOwner;
 use App\Crud\Traits\HandleUnique;
 use App\Jobs\GenerateImage;
+use App\Livewire\Filters\FilterImage;
+use App\Livewire\Filters\FilterIsPublic;
 use App\Services\OpenAI\Enums\ImageAspect;
 use App\Services\OpenAI\Enums\ImageQuality;
 use App\Services\OpenAI\Enums\ImageStyle;
 use App\Services\OpenAI\Images\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -19,7 +22,7 @@ use Throwable;
 
 class Image extends AbstractCrud
 {
-    use HandleOwner, HandleUnique;
+    use HandleOwner, HandleUnique, FilterIsPublic, FilterImage;
     use WithFileUploads;
 
     #[Validate('required|image|max:10240')]
@@ -103,7 +106,8 @@ class Image extends AbstractCrud
             'aspect' => 'Ratio',
             'quality' => 'Quality',
             'style' => 'Style',
-            'has_glitches' => 'Glitches'
+            'has_glitches' => 'Glitches',
+            'is_public' => 'Is Public'
         ];
     }
 
@@ -169,5 +173,28 @@ class Image extends AbstractCrud
             }
             throw $e;
         }
+    }
+
+    protected function modifyQuery(Builder $query): Builder
+    {
+        $query = $this->applyFilterIsPublic($query);
+        return $this->applyFilterImage($query);
+    }
+
+    protected function paginationProperties(): array
+    {
+        return [
+            'orderBy', 'orderDirection', 'perPage', 'search',
+            ...$this->filterIsPublicProperties(),
+            ...$this->filterImageProperties()
+        ];
+    }
+
+    public function filterTemplates(): array
+    {
+        return [
+            ...$this->filterIsPublicTemplates(),
+            ...$this->filterImageTemplates()
+        ];
     }
 }

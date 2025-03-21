@@ -43,6 +43,7 @@ class Application extends AbstractCrud implements ShouldHasMany
         return match ($field) {
             'screen_id' => $this->optionsParam($field, \App\Models\Screen::class),
             'screenLink' => $this->linkTemplateParams(Screen::routeName(), 'screen', true),
+            'screensList' => $this->linkListTemplateParams(Screen::routeName(), 'screens'),
             default => [],
         };
     }
@@ -57,7 +58,7 @@ class Application extends AbstractCrud implements ShouldHasMany
             'image' => $this->imageViewerField(),
             'image_id' => $this->imageSelectorField(),
             'description' => [
-                'action' => ['index', 'create', 'edit', 'view'],
+                'action' => ['create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
@@ -66,8 +67,8 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
-            'screenLink' => $this->linkField('Base Screen'),
-            'screens' => $this->hasManyField('screens', ['view']),
+            'screenLink' => $this->linkField('Base Screen', ['index', 'view']),
+            'screensList' => $this->linkListField('Screens', ['index', 'view']),
             'is_public' => [
                 'title' => 'Public',
                 'action' => ['index', 'edit', 'view'],

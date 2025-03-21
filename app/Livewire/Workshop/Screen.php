@@ -71,14 +71,12 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             $model = $this->getResource();
             return ['transfers' => $model->transfers];
         }
-        if ($field === 'applicationLink') {
-            return $this->linkTemplateParams(Application::routeName(), 'application');
-        }
-        if ($field === 'scenarioLink') {
-            return $this->linkTemplateParams(Scenario::routeName(), 'scenario', true);
-        }
-
-        return [];
+        return match($field) {
+            'applicationLink' => $this->linkTemplateParams(Application::routeName(), 'application'),
+            'scenarioLink' => $this->linkTemplateParams(Scenario::routeName(), 'scenario', true),
+            'scenariosList' => $this->linkListTemplateParams(Scenario::routeName(), 'scenarios'),
+            default => []
+        };
     }
 
     protected function fieldsConfig(): array
@@ -89,7 +87,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'required|string',
             ],
             'code' => [
-                'action' => ['index', 'create', 'edit', 'view'],
+                'action' => ['create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
             'image' => $this->imageViewerField(),
@@ -101,7 +99,6 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             ],
             'application_id' =>
                 $this->belongsToField('Application', 'application', ['create', 'edit']),
-            'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'is_default' => [
                 'title' => 'Is Default',
                 'action' => ['index', 'edit', 'view', 'create'],
@@ -109,10 +106,11 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
+            'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'transfersEdit' => $this->transfersEditField(),
             'transfersView' => $this->transfersViewField(),
-            'scenarioLink' => $this->linkField('Default Scenario'),
-            'scenarios' => $this->hasManyField('scenarios', ['view']),
+            'scenarioLink' => $this->linkField('Default Scenario', ['index', 'view']),
+            'scenariosList' => $this->linkListField('Scenarios', ['index', 'view']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',

@@ -5,11 +5,12 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleUnique;
+use App\Livewire\Filters\FilterIsPublic;
 use Illuminate\Database\Eloquent\Builder;
 
 class Mask extends AbstractCrud
 {
-    use HandleUnique, HandleImage;
+    use HandleUnique, HandleImage, FilterIsPublic;
 
     /**
      * @return string
@@ -72,6 +73,16 @@ class Mask extends AbstractCrud
 
     protected function modifyQuery(Builder $query): Builder
     {
-        return $query->with('image');
+        return $this->applyFilterIsPublic($query)->with(['image']);
+    }
+
+    protected function paginationProperties(): array
+    {
+        return ['orderBy', 'orderDirection', 'perPage', 'search', ...$this->filterIsPublicProperties()];
+    }
+
+    public function filterTemplates(): array
+    {
+        return $this->filterIsPublicTemplates();
     }
 }
