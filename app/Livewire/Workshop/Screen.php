@@ -8,13 +8,16 @@ use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use App\Livewire\Filters\FilterApplication;
+use App\Livewire\Filters\FilterIsDefault;
 use App\Livewire\Workshop\Screen\HandleTransfers;
 use App\Models\Transfer;
 use Illuminate\Database\Eloquent\Builder;
 
 class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
-    use HandleHasMany, HandleBelongsTo, HandleImage, HandleTransfers;
+    use HandleHasMany, HandleBelongsTo, HandleImage, HandleTransfers,
+        FilterApplication, FilterIsDefault;
 
     public function className(): string
     {
@@ -28,6 +31,22 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             'title' => 'Title',
             'code' => 'Code',
             'is_default' => 'Is Default',
+        ];
+    }
+
+    protected function paginationProperties(): array
+    {
+        return [
+            'orderBy', 'orderDirection', 'perPage', 'search',
+            ...$this->filterApplicationProperties(), ...$this->filterIsDefaultProperties()
+        ];
+    }
+
+    public function filterTemplates(): array
+    {
+        return [
+            ...$this->filterApplicationTemplates(),
+            ...$this->filterIsDefaultTemplates()
         ];
     }
 
@@ -64,11 +83,12 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             'image' => $this->imageViewerField(),
             'image_id' => $this->imageSelectorField(),
             'description' => [
-                'action' => ['index', 'create', 'edit', 'view'],
+                'action' => ['create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'application_id' => $this->belongsToField('Application', 'application'),
+            'application_id' =>
+                $this->belongsToField('Application', 'application', ['create', 'edit', 'view', 'index']),
             'is_default' => [
                 'title' => 'Is Default',
                 'action' => ['index', 'edit', 'view', 'create'],
@@ -113,7 +133,8 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 
     protected function modifyQuery(Builder $query): Builder
     {
-        return $query->with('image');
+        $query = $this->applyFilterApplication($query->with('image'));
+        return $this->applyFilterIsDefault($query);
     }
 
     public function validate($rules = null, $messages = [], $attributes = []): array

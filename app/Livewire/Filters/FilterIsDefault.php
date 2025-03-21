@@ -19,7 +19,7 @@ trait FilterIsDefault
 
     public function filterIsDefaultTemplates(): array
     {
-        return ['crud.filter-is-default'];
+        return ['filter.is-default'];
     }
 
     protected function filterIsDefaultProperties(): array

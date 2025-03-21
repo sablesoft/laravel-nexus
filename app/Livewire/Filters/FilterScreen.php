@@ -29,7 +29,7 @@ trait FilterScreen
 
     public function filterScreenTemplates(): array
     {
-        return ['crud.filter-screen'];
+        return ['filter.screen'];
     }
 
     protected function filterScreenProperties(): array

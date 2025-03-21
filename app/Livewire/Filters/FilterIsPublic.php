@@ -19,7 +19,7 @@ trait FilterIsPublic
 
     public function filterIsPublicTemplates(): array
     {
-        return ['crud.filter-is-public'];
+        return ['filter.is-public'];
     }
 
     protected function filterIsPublicProperties(): array
