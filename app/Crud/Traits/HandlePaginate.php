@@ -19,7 +19,7 @@ trait HandlePaginate
     public string $orderBy = 'id';
     public string $orderDirection = 'desc';
 
-    protected function getPaginationFields(): array
+    protected function paginationProperties(): array
     {
         return ['orderBy', 'orderDirection', 'perPage', 'search'];
     }
@@ -38,7 +38,7 @@ trait HandlePaginate
 
     public function updated(string $property): void
     {
-        if (in_array($property, $this->getPaginationFields())) {
+        if (in_array($property, $this->paginationProperties())) {
             $this->resetCursor();
         }
     }

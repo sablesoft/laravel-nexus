@@ -98,7 +98,7 @@ class Index extends Component
         $this->redirectRoute('chats.play', ['id' => $id], true, true);
     }
 
-    protected function getPaginationFields(): array
+    protected function paginationProperties(): array
     {
         return ['orderBy', 'orderDirection', 'perPage', 'search', 'status', 'owner', 'memberOnly'];
     }

@@ -6,13 +6,12 @@ use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use App\Livewire\Filters\FilterIsPublic;
 use Illuminate\Database\Eloquent\Builder;
 
 class Application extends AbstractCrud implements ShouldHasMany
 {
-    use HandleHasMany, HandleImage;
-
-    public string $filterIsPublic = 'all';
+    use HandleHasMany, HandleImage, FilterIsPublic;
 
     public function className(): string
     {
@@ -26,16 +25,6 @@ class Application extends AbstractCrud implements ShouldHasMany
             'title' => 'Title',
             'is_public' => 'Is Public'
         ];
-    }
-
-    public function filterTemplates(): array
-    {
-        return ['crud.filter-public'];
-    }
-
-    protected function getPaginationFields(): array
-    {
-        return ['orderBy', 'orderDirection', 'perPage', 'search', 'filterIsPublic'];
     }
 
     public function templateParams(string $action, ?string $field = null): array
@@ -100,11 +89,7 @@ class Application extends AbstractCrud implements ShouldHasMany
 
     protected function modifyQuery(Builder $query): Builder
     {
-        if ($this->filterIsPublic !== 'all') {
-            $query->where('is_public', $this->filterIsPublic === 'yes');
-        }
-
-        return $query->with(['image', 'screens']);
+        return $this->applyFilterIsPublic($query)->with(['image', 'screens']);
     }
 
     public function getHasManyFields(): array
@@ -112,5 +97,15 @@ class Application extends AbstractCrud implements ShouldHasMany
         return [
             'screens' => \App\Models\Screen::class
         ];
+    }
+
+    protected function paginationProperties(): array
+    {
+        return ['orderBy', 'orderDirection', 'perPage', 'search', ...$this->filterIsPublicProperties()];
+    }
+
+    public function filterTemplates(): array
+    {
+        return $this->filterIsPublicTemplates();
     }
 }

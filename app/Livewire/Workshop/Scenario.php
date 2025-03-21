@@ -5,11 +5,14 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldBelongsTo;
 use App\Crud\Traits\HandleBelongsTo;
+use App\Livewire\Filters\FilterIsDefault;
+use App\Livewire\Filters\FilterScreen;
 use App\Models\Enums\ScenarioType;
+use Illuminate\Database\Eloquent\Builder;
 
 class Scenario extends AbstractCrud implements ShouldBelongsTo
 {
-    use HandleBelongsTo;
+    use HandleBelongsTo, FilterScreen, FilterIsDefault;
 
     /**
      * @return string
@@ -17,6 +20,19 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
     public function className(): string
     {
         return \App\Models\Scenario::class;
+    }
+
+    protected function paginationProperties(): array
+    {
+        return [
+            'orderBy', 'orderDirection', 'perPage', 'search',
+            ...$this->filterScreenProperties(), ...$this->filterIsDefaultProperties()
+        ];
+    }
+
+    public function filterTemplates(): array
+    {
+        return [...$this->filterIsDefaultTemplates(), ...$this->filterScreenTemplates()];
     }
 
     /**
@@ -36,6 +52,10 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
     protected function fieldsConfig(): array
     {
         return [
+            'title' => [
+                'action' => ['index', 'create', 'edit', 'view'],
+                'rules' => 'required|string',
+            ],
             'code' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
@@ -45,11 +65,6 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'required|string',
                 'type' => 'select',
                 'callback' => fn($model) => $model->type->value
-            ],
-            'title' => [
-                'action' => ['index', 'create', 'edit', 'view'],
-                'rules' => 'required|string',
-
             ],
             'tooltip' => [
                 'action' => ['create', 'edit', 'view'],
@@ -68,7 +83,7 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
-            'screen_id' => $this->belongsToField('Screen', 'screen'),
+            'screen_id' => $this->belongsToField('Screen', 'screen', ['create', 'edit', 'view', 'index']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -95,5 +110,11 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
         return [
             'screen_id' => \App\Models\Screen::class
         ];
+    }
+
+    protected function modifyQuery(Builder $query): Builder
+    {
+        $query = $this->applyFilterScreen($query);
+        return $this->applyFilterIsDefault($query);
     }
 }
