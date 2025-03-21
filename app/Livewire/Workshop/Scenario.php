@@ -5,6 +5,7 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldBelongsTo;
 use App\Crud\Traits\HandleBelongsTo;
+use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsDefault;
 use App\Livewire\Filters\FilterScreen;
 use App\Models\Enums\ScenarioType;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Scenario extends AbstractCrud implements ShouldBelongsTo
 {
-    use HandleBelongsTo, FilterScreen, FilterIsDefault;
+    use HandleBelongsTo, HandleLinks, FilterScreen, FilterIsDefault;
 
     /**
      * @return string
@@ -38,6 +39,20 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
     public function filterTemplates(): array
     {
         return [...$this->filterIsDefaultTemplates(), ...$this->filterScreenTemplates()];
+    }
+
+    public function templateParams(string $action, ?string $field = null): array|callable
+    {
+        if (array_key_exists($field, $this->getBelongsToFields())) {
+            $class = $this->getBelongsToFields()[$field];
+            return $this->optionsParam($field, $class);
+        }
+
+        if ($field === 'screenLink') {
+            return $this->linkTemplateParams(Screen::routeName(), 'screen');
+        }
+
+        return [];
     }
 
     /**
@@ -88,7 +103,8 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
-            'screen_id' => $this->belongsToField('Screen', 'screen', ['create', 'edit', 'view', 'index']),
+            'screen_id' => $this->belongsToField('Screen', 'screen', ['create', 'edit']),
+            'screenLink' => $this->linkField('Screen', ['view', 'index']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',

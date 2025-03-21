@@ -36,6 +36,21 @@
                             <x-image-viewer src="{{ $src }}" alt="{{ $field }}"/>
                         </div>
                         @break
+                        @case('template')
+                            @if($this->config($field, 'callback'))
+                                <div class="px-4 py-2 whitespace-normal text-gray-900 dark:text-gray-300">
+                                    {!! nl2br($state[$field]) !!}
+                                </div>
+                            @else
+                                @php
+                                    $params = $this->templateParams('index', $field);
+                                    if(is_callable($params)) {
+                                        $params = $params($this->getModel($id));
+                                    }
+                                @endphp
+                                @include($this->config($field, 'template'), $params)
+                            @endif
+                            @break
                         @default
                         {!! $data[$field] !!}
                         @break

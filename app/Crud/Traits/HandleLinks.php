@@ -4,13 +4,13 @@ namespace App\Crud\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 
-trait HandleLink
+trait HandleLinks
 {
-    protected function linkField(string $title): array
+    protected function linkField(string $title, array $action = ['view']): array
     {
         return [
             'title' => $title,
-            'action' => 'view',
+            'action' => $action,
             'type' => 'template',
             'template' => 'crud.link',
         ];
@@ -24,11 +24,11 @@ trait HandleLink
             'id' => $this->linkTarget($model, $target, $isMethod)->id,
             'title' => $this->linkTarget($model, $target, $isMethod)->title
         ] : [
-            'title' => 'Not set'
+            'title' => '------'
         ];
     }
 
-    protected function linkTarget(Model $model, string $target, bool $isMethod): Model
+    protected function linkTarget(Model $model, string $target, bool $isMethod): ?Model
     {
         return $isMethod ? $model->$target() : $model->$target;
     }

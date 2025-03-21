@@ -8,6 +8,7 @@ use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterApplication;
 use App\Livewire\Filters\FilterIsDefault;
 use App\Livewire\Workshop\Screen\HandleTransfers;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 {
-    use HandleHasMany, HandleBelongsTo, HandleImage, HandleTransfers,
+    use HandleHasMany, HandleBelongsTo, HandleImage, HandleTransfers, HandleLinks,
         FilterApplication, FilterIsDefault;
 
     public function className(): string
@@ -55,7 +56,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
         ];
     }
 
-    public function templateParams(string $action, ?string $field = null): array
+    public function templateParams(string $action, ?string $field = null): array|callable
     {
         if (array_key_exists($field, $this->getHasManyFields())) {
             $class = $this->getHasManyFields()[$field];
@@ -69,6 +70,12 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             /** @var \App\Models\Screen $model */
             $model = $this->getResource();
             return ['transfers' => $model->transfers];
+        }
+        if ($field === 'applicationLink') {
+            return $this->linkTemplateParams(Application::routeName(), 'application');
+        }
+        if ($field === 'scenarioLink') {
+            return $this->linkTemplateParams(Scenario::routeName(), 'scenario', true);
         }
 
         return [];
@@ -93,7 +100,8 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'rules' => 'nullable|string'
             ],
             'application_id' =>
-                $this->belongsToField('Application', 'application', ['create', 'edit', 'view', 'index']),
+                $this->belongsToField('Application', 'application', ['create', 'edit']),
+            'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'is_default' => [
                 'title' => 'Is Default',
                 'action' => ['index', 'edit', 'view', 'create'],
@@ -103,11 +111,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             ],
             'transfersEdit' => $this->transfersEditField(),
             'transfersView' => $this->transfersViewField(),
-            'screen' => [
-                'title' => 'Default Scenario',
-                'action' => ['view'],
-                'callback' => fn($model) => $model->scenario()?->title
-            ],
+            'scenarioLink' => $this->linkField('Default Scenario'),
             'scenarios' => $this->hasManyField('scenarios', ['view']),
             'constants' => [
                 'action' => ['edit', 'view'],

@@ -6,13 +6,13 @@ use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
-use App\Crud\Traits\HandleLink;
+use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsPublic;
 use Illuminate\Database\Eloquent\Builder;
 
 class Application extends AbstractCrud implements ShouldHasMany
 {
-    use HandleHasMany, HandleImage, FilterIsPublic, HandleLink;
+    use HandleHasMany, HandleImage, FilterIsPublic, HandleLinks;
 
     public function className(): string
     {
