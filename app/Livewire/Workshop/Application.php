@@ -6,19 +6,20 @@ use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
+use App\Crud\Traits\HandleLink;
 use App\Livewire\Filters\FilterIsPublic;
 use Illuminate\Database\Eloquent\Builder;
 
 class Application extends AbstractCrud implements ShouldHasMany
 {
-    use HandleHasMany, HandleImage, FilterIsPublic;
+    use HandleHasMany, HandleImage, FilterIsPublic, HandleLink;
 
     public function className(): string
     {
         return \App\Models\Application::class;
     }
 
-    protected function routeName(): string
+    public static function routeName(): string
     {
         return 'workshop.applications';
     }
@@ -32,7 +33,7 @@ class Application extends AbstractCrud implements ShouldHasMany
         ];
     }
 
-    public function templateParams(string $action, ?string $field = null): array
+    public function templateParams(string $action, ?string $field = null): array|callable
     {
         if (array_key_exists($field, $this->getHasManyFields())) {
             $class = $this->getHasManyFields()[$field];
@@ -41,6 +42,7 @@ class Application extends AbstractCrud implements ShouldHasMany
 
         return match ($field) {
             'screen_id' => $this->optionsParam($field, \App\Models\Screen::class),
+            'screenLink' => $this->linkTemplateParams(Screen::routeName(), 'screen', true),
             default => [],
         };
     }
@@ -64,16 +66,13 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
-            'screen' => [
-                'title' => 'Base Screen',
-                'action' => ['view'],
-                'callback' => fn($model) => $model->screen()?->title
-            ],
+            'screenLink' => $this->linkField('Base Screen'),
             'screens' => $this->hasManyField('screens', ['view']),
             'is_public' => [
                 'title' => 'Public',
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
+                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No',
                 'rules' => [
                     'bool',
                     function ($attribute, $value, $fail) {
@@ -87,7 +86,6 @@ class Application extends AbstractCrud implements ShouldHasMany
                         }
                     },
                 ],
-                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ]
         ];
     }

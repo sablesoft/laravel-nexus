@@ -100,7 +100,13 @@
                                 @break
                             @case('template')
                                 <div wire:key="{{ $field }}-{{ $this->config($field, 'template') }}">
-                                    @include($this->config($field, 'template'), $this->templateParams($action, $field))
+                                    @php
+                                        $params = $this->templateParams($action, $field);
+                                        if(is_callable($params)) {
+                                            $params = $params($this->getResource());
+                                        }
+                                    @endphp
+                                    @include($this->config($field, 'template'), $params)
                                 </div>
                                 @break
                             @case('component')

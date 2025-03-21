@@ -24,7 +24,7 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
         return \App\Models\Screen::class;
     }
 
-    protected function routeName(): string
+    public static function routeName(): string
     {
         return 'workshop.screens';
     }

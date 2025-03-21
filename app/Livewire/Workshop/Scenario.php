@@ -22,7 +22,7 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
         return \App\Models\Scenario::class;
     }
 
-    protected function routeName(): string
+    public static function routeName(): string
     {
         return 'workshop.scenarios';
     }

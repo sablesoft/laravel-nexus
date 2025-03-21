@@ -45,7 +45,7 @@ class Application extends Model implements HasOwnerInterface
 
     public function screen(): ?Screen
     {
-        return $this->screens()->where('is_default', true)->first();
+        return $this->screens->where('is_default', true)->first();
     }
 
     public function chats(): HasMany

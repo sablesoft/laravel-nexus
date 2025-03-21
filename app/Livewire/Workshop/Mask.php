@@ -19,7 +19,7 @@ class Mask extends AbstractCrud
         return \App\Models\Mask::class;
     }
 
-    protected function routeName(): string
+    public static function routeName(): string
     {
         return 'workshop.masks';
     }

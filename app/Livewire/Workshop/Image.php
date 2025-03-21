@@ -30,7 +30,7 @@ class Image extends AbstractCrud
         return \App\Models\Image::class;
     }
 
-    protected function routeName(): string
+    public static function routeName(): string
     {
         return 'workshop.images';
     }

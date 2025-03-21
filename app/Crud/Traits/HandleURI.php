@@ -6,11 +6,11 @@ use App\View\Components\Navlist;
 
 trait HandleURI
 {
-    abstract protected function routeName(): string;
+    abstract public static function routeName(): string;
 
     protected function changeUri(?string $action = null, ?int $id = null): void
     {
-        $uri = '/'. Navlist::baseUri($this->routeName());
+        $uri = '/'. Navlist::baseUri(static::routeName());
         if ($action) {
             $uri .= '/'. $action;
         }

@@ -76,7 +76,7 @@ abstract class AbstractCrud extends Component
         return [];
     }
 
-    public function templateParams(string $action, ?string $field = null): array
+    public function templateParams(string $action, ?string $field = null): array|callable
     {
         return [];
     }
