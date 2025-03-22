@@ -125,6 +125,7 @@
 
         @fluxScripts
 
+        <x-debug :config="config('browser-debug')"/>
         <x-notification/>
         <x-flash/>
         <x-uri/>

@@ -4,7 +4,7 @@
         if (typeof Echo !== 'undefined') {
             Echo.private('users.{{ auth()->id() }}')
                 .notification((notification) => {
-                    console.debug('[Notification][Get]', notification);
+                    Debug('notification', 'get', notification);
                     if (notification.refresh) {
                         Livewire.dispatch('refresh.' + notification.refresh);
                     }
@@ -15,9 +15,9 @@
                         });
                     }
                 });
-            console.debug('[Notification][Init]');
+            Debug('notification', 'init');
         } else {
-            console.error('Echo is not initialized');
+            console.error('[notification] Echo is not initialized');
         }
     });
 </script>

@@ -2,29 +2,29 @@
     'channel' => 'users',
     'events' => [],
 ])
-
 @script
+<!--suppress JSUnresolvedReference -->
 <script>
     let initPresence = function (channel) {
-        console.debug('[Presence][Init]', channel);
+        Debug('echo-presence','init',channel);
         let presenceChannel = Echo.join(channel);
             presenceChannel.here((users) => {
-                console.debug('[Presence][Here]', channel, users);
+                Debug('echo-presence','here',{channel: channel, users: users});
                 $wire.dispatchSelf('usersHere', {members: users});
             }).joining((user) => {
-                console.debug('[Presence][Joining]', channel, user.id);
+                Debug('echo-presence','joining',{channel: channel, userId: user.id});
                 $wire.dispatchSelf('userJoining', {id: user.id});
             }).leaving((user) => {
-                console.debug('[Presence][Leaving]', channel, user.id);
+                Debug('echo-presence','leaving',{channel: channel, userId: user.id});
                 $wire.dispatchSelf('userLeaving', {id: user.id});
             }).error((error) => {
                 console.error(error);
             });
         let events = @json($events);
         Object.entries(events).forEach(([event, handler]) => {
-            console.log('[Presence][Listen]', channel +': '+ event +' => '+  handler);
+            Debug('echo-presence','listen',channel +': '+ event +' => '+  handler);
             presenceChannel.listen(`.${event}`, (e) => {
-                console.log('[Presence][Event]', channel +': '+ event, e);
+                Debug('echo-presence','event',{name: channel +': '+ event, event: e});
                 if (handler && typeof $wire !== 'undefined') {
                     $wire.dispatch(handler, e);
                 }
@@ -32,7 +32,7 @@
         });
     }
     let navigate = function(channel) {
-        console.debug(`[Presence][Navigate] Leave ${channel}`);
+        Debug('echo-presence','navigate',`Leave ${channel}`);
         Echo.leave(channel);
     }
     document.addEventListener("livewire:navigate", function () {

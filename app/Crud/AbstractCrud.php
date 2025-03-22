@@ -192,8 +192,9 @@ abstract class AbstractCrud extends Component
         if (!$id) {
             return;
         }
+        $this->resetState();
+        $this->showForm = false;
         $model = $this->getModel($id);
-        $this->close();
         $this->modelId = $id;
         foreach($this->fields('view') as $field) {
             $this->state[$field] = $this->getValue($model, $field);

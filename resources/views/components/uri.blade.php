@@ -1,9 +1,10 @@
+<!--suppress JSUnresolvedReference -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         Livewire.on('uri', (data) => {
             window.history.pushState({}, '', data.uri);
-            console.debug('[URI][Changed]', data);
+            Debug('uri', 'changed', data);
         });
-        console.debug('[URI][Init]');
+        Debug('uri', 'init');
     });
 </script>
