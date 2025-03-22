@@ -3,10 +3,12 @@
 namespace App\Livewire\Chat;
 
 use App\Livewire\PresenceTrait;
+use App\Models\Application;
 use App\Models\Chat;
 use App\Models\Enums\ChatStatus;
 use App\Models\Member;
 use App\Models\Memory;
+use App\Models\Screen;
 use App\Notifications\ChatPlaying;
 use App\Notifications\ScreenUpdated;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,7 +21,13 @@ class Play extends Component
 {
     use PresenceTrait;
 
+    #[Locked]
     public Chat $chat;
+    #[Locked]
+    public Application $application;
+    #[Locked]
+    public Screen $screen;
+    public ?string $screenImage = null;
     #[Locked]
     public int $memberId;
     public string $message = '';
@@ -40,10 +48,16 @@ class Play extends Component
 
     public function mount(int $id): void
     {
-        $this->chat = Chat::with('application', 'members.mask', 'memories')->findOrFail($id);
+        $this->chat = Chat::with([
+            'application.screens.scenarios',
+            'members.mask',
+            'memories'
+        ])->findOrFail($id);
         if (!$this->canPlay()) {
             $this->redirectRoute('chats.view', ['id' => $id], true, true);
         }
+        $this->application = $this->chat->application;
+        $this->screen = $this->application->initScreen;
         $this->memberId = $this->chat->takenSeats->where('user_id', auth()->id())->first()->id;
         $this->prepareMembers();
     }

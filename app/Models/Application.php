@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read Collection<int, Screen>|Screen[] $screens
  * @property-read Collection<int, Chat>|Chat[] $chats
+ * @property-read null|Screen $initScreen
  */
 class Application extends Model implements HasOwnerInterface
 {
@@ -43,7 +44,7 @@ class Application extends Model implements HasOwnerInterface
         return $this->hasMany(Screen::class);
     }
 
-    public function screen(): ?Screen
+    public function getInitScreenAttribute(): ?Screen
     {
         return $this->screens->where('is_default', true)->first();
     }

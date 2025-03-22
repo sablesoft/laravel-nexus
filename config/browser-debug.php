@@ -5,11 +5,11 @@ return [
     'components' => [
         'echo-presence' => true,
         'echo-public' => true,
-        'flash' => true,
-        'notification' => true,
+        'flash' => false,
+        'notification' => false,
         'searchable' => false,
-        'searchable-multi-select' => true,
-        'searchable-select' => true,
-        'uri' => true,
+        'searchable-multi-select' => false,
+        'searchable-select' => false,
+        'uri' => false,
     ]
 ];

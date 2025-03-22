@@ -81,8 +81,8 @@ class Application extends AbstractCrud implements ShouldHasMany
                             if (is_null($this->state['image_id'])) {
                                 $fail('You cannot make this application public without an image.');
                             }
-                            if (!$this->getResource()->screen()) {
-                                $fail('You cannot make this application public without a base screen.');
+                            if (!$this->getResource()->initScreen) {
+                                $fail('You cannot make this application public without a init screen.');
                             }
                         }
                     },
