@@ -166,10 +166,10 @@ abstract class AbstractCrud extends Component
             return;
         }
         try {
-            $model = $this->getResource();
-            StoreService::handle($data['state'], $model);
+            $model = $this->getModel($this->modelId);
+            $model = StoreService::handle($data['state'], $model);
             $this->dispatch('flash', message: $this->classTitle(false) . ($this->modelId ? ' updated' : ' created'));
-            $this->close();
+            $this->view($model->getKey());
         } catch (\Throwable $e) {
             $this->dispatch('flash', message: config('app.debug') ? $e->getMessage() : 'Failed. Something wrong.');
             Log::error($e->getMessage(), ['exception' => $e]);

@@ -29,7 +29,7 @@ class Navlist extends Component
                 $routeName = $prefix . $key;
                 $action = static::prepareAction($item['action'] ?? null);
                 $middleware = $item['middleware'] ?? null;
-                $uri = static::prepareUri($item, $routeName);
+                $uri = static::prepareUri($item, $routeName, !empty($item['is_crud']));
                 if (!Route::has($routeName) && $action) {
                     Route::get($uri, $action)->name($routeName)->middleware($middleware);
                 }
@@ -38,7 +38,7 @@ class Navlist extends Component
                     $method = $route['method'] ?? 'get';
                     $action = static::prepareAction($route['action'] ?? null);
                     $routeName = $prefix . $k;
-                    $uri = static::prepareUri($item, $routeName);
+                    $uri = static::prepareUri($route, $routeName);
                     if (!Route::has($routeName) && $action) {
                         Route::$method($uri, $action)->name($routeName)->middleware($middleware);
                     }
@@ -57,8 +57,8 @@ class Navlist extends Component
         return (!$action || class_exists($action)) ? $action : fn() => view($action);
     }
 
-    protected static function prepareUri(array $item, string $routeName): string
+    protected static function prepareUri(array $item, string $routeName, bool $isCrud = false): string
     {
-        return $item['uri'] ?? static::baseUri($routeName) . '/{action?}/{id?}';
+        return $item['uri'] ?? (static::baseUri($routeName) . ($isCrud ? '/{action?}/{id?}' : ''));
     }
 }

@@ -35,7 +35,7 @@ return [
                 'tooltip' => 'Time to chat!',
                 'routes' => [
                     'chats.view' => [
-                        'uri' => 'chats/{id}',
+                        'uri' => 'chats/view/{id}',
                         'action' => \App\Livewire\Chat\View::class,
                     ],
                     'chats.edit' => [
@@ -59,6 +59,7 @@ return [
             'images' => [
                 'icon' => 'photo',
                 'title' => 'Images',
+                'is_crud' => true,
                 'action' => \App\Livewire\Workshop\Image::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Manage your images!'
@@ -66,6 +67,7 @@ return [
             'masks' => [
                 'icon' => 'identification',
                 'title' => 'Masks',
+                'is_crud' => true,
                 'action' => \App\Livewire\Workshop\Mask::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Manage your masks!'
@@ -73,6 +75,7 @@ return [
             'applications' => [
                 'icon' => 'server-stack',
                 'title' => 'Applications',
+                'is_crud' => true,
                 'action' => \App\Livewire\Workshop\Application::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Build your apps!'
@@ -80,6 +83,7 @@ return [
             'screens' => [
                 'icon' => 'window',
                 'title' => 'Screens',
+                'is_crud' => true,
                 'action' => \App\Livewire\Workshop\Screen::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Build screens for your apps'
@@ -87,6 +91,7 @@ return [
             'scenarios' => [
                 'icon' => 'puzzle-piece',
                 'title' => 'Scenarios',
+                'is_crud' => true,
                 'action' => \App\Livewire\Workshop\Scenario::class,
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Build scenarios for your screens'
