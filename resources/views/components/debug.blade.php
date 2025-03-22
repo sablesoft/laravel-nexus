@@ -5,11 +5,12 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let config = @json($config);
-        window.Debug = function(component, msg, context = null) {
+        window.Debug = function(component, message, context = null) {
             if (!config.is_enabled) return;
-            Livewire.dispatch('debug', {component: component, message: msg, context: context});
+            Livewire.dispatch('debug', {component, message, context});
         };
         Livewire.on('debug', (data) => {
+            if (!config.is_enabled) return;
             if (config.components?.[data.component]) {
                 console.debug(`[${data.component}][${data.message}]`, data.context);
             }

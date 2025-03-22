@@ -10,7 +10,7 @@ trait HandleBelongsTo
             'title' => $title,
             'action' => $action,
             'type' => 'template',
-            'template' => 'crud.searchable',
+            'template' => 'components.searchable-select',
             'callback' => fn($model) => $model->$relation?->title,
             'rules' => 'nullable|int',
         ];

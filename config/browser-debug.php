@@ -3,9 +3,13 @@
 return [
     'is_enabled' => true,
     'components' => [
-        'uri' => true,
+        'echo-presence' => true,
+        'echo-public' => true,
         'flash' => true,
         'notification' => true,
-        'echo-presence' => true,
+        'searchable' => false,
+        'searchable-multi-select' => true,
+        'searchable-select' => true,
+        'uri' => true,
     ]
 ];

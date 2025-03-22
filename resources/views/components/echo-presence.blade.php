@@ -9,13 +9,13 @@
         Debug('echo-presence','init',channel);
         let presenceChannel = Echo.join(channel);
             presenceChannel.here((users) => {
-                Debug('echo-presence','here',{channel: channel, users: users});
-                $wire.dispatchSelf('usersHere', {members: users});
+                Debug('echo-presence','here',{channel, users});
+                $wire.dispatchSelf('usersHere', {users});
             }).joining((user) => {
-                Debug('echo-presence','joining',{channel: channel, userId: user.id});
+                Debug('echo-presence','joining',{channel, userId: user.id});
                 $wire.dispatchSelf('userJoining', {id: user.id});
             }).leaving((user) => {
-                Debug('echo-presence','leaving',{channel: channel, userId: user.id});
+                Debug('echo-presence','leaving',{channel, userId: user.id});
                 $wire.dispatchSelf('userLeaving', {id: user.id});
             }).error((error) => {
                 console.error(error);

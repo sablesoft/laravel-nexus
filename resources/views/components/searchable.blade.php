@@ -3,10 +3,9 @@
     'title' => 'Search & Select',
     'keepSelected' => false,
     'allowNew' => false,
-    'showSearchableDebug' => false
 ])
 
-<div x-data="searchable('{{ $id }}', '{{ $title }}', @json($keepSelected), @json($allowNew), @json($showSearchableDebug))"
+<div x-data="searchable('{{ $id }}', '{{ $title }}', @json($keepSelected), @json($allowNew))"
     {{ $attributes->merge(['class' => 'relative']) }}>
     <button @click.prevent="toggleDropdown"
             class="cursor-pointer w-full border rounded-lg disabled:shadow-none dark:shadow-none appearance-none text-base sm:text-sm py-2 h-10 leading-[1.375rem] pl-3 pr-3 bg-white dark:bg-white/10 text-zinc-700 placeholder-zinc-400 dark:text-zinc-300 dark:placeholder-zinc-400 shadow-xs border-zinc-200 border-b-zinc-300/80 dark:border-white/10">
@@ -32,14 +31,14 @@
 </div>
 
 @script
+<!--suppress JSUnresolvedReference -->
 <script>
-    Alpine.data('searchable',  (id, title, keepSelected, allowNew, showSearchableDebug) => {
+    Alpine.data('searchable',  (id, title, keepSelected, allowNew) => {
         return {
             id: id,
             defaultTitle: title,
             allowNew: allowNew,
             keepSelected: keepSelected,
-            showSearchableDebug: showSearchableDebug,
 
             title: title,
             options: [],
@@ -123,9 +122,7 @@
             },
 
             searchableDebug(message, data) {
-                if (this.showSearchableDebug) {
-                    console.debug('[Searchable][' + this.id + '] ' + message, data);
-                }
+                Debug('searchable', this.id, {message: message, data: data});
             },
 
             get filteredOptions() {

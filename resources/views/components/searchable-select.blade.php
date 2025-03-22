@@ -7,12 +7,12 @@
 </div>
 
 @script
+<!--suppress JSUnresolvedReference -->
 <script>
     window.searchableSelect = function (field, options) {
         let component = {
             field: field,
             selectOptions: options,
-            showSearchableSelectDebug: false, // todo
 
             init() {
                 this.debug('Init', {
@@ -21,9 +21,7 @@
                 });
             },
             debug(message, data) {
-                if (this.showSearchableSelectDebug) {
-                    console.debug('[Workshop][Searchable] ' + message, data);
-                }
+                Debug('crud-searchable-select', field, {message, data});
             },
 
             selectedField() {

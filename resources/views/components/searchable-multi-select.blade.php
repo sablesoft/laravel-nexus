@@ -23,12 +23,12 @@
     </div>
 </div
 @script
+<!--suppress JSUnresolvedReference -->
 <script>
     window.multiSelect = function (field, options) {
         let component = {
             field: field,
             multiSearchableOptions: options,
-            showMultiSearchableSelectDebug: false, // todo
 
             init() {
                 this.debug('Init', {
@@ -72,9 +72,7 @@
             },
 
             debug(message, data) {
-                if (this.showMultiSearchableSelectDebug) {
-                    console.debug('[Workshop][MultiSearchable] ' + message, data);
-                }
+                Debug('crud-searchable-multi-select', field, {message, data});
             },
 
             selectedField() {
