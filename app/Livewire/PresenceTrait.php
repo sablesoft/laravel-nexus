@@ -18,9 +18,9 @@ trait PresenceTrait
         ];
     }
 
-    public function here(array $members): void
+    public function here(array $users): void
     {
-        $this->userIds = array_column($members, 'id');
+        $this->userIds = array_column($users, 'id');
         $this->handleHere();
     }
 

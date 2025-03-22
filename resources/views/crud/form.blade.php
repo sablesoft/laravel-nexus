@@ -49,7 +49,6 @@
                                 <flux:input wire:model="state.{{ $field }}" min="0" step="0.01" type="number"/>
                                 @break
                             @case('image')
-                                @php $src = $state[$field] ? Storage::url($state[$field]) : null; @endphp
                                 @if ($this->className() === \App\Models\Image::class)
                                 <div x-data="{ uploading: false, progress: 0 }"
                                      x-on:livewire-upload-start="uploading = true"
@@ -70,13 +69,13 @@
                                     </div>
                                     @else
                                     <div class="px-4 py-2 whitespace-normal w-1/3">
-                                        <x-image-viewer src="{{ $src }}" alt="{{ $field }}" uuid="form"/>
+                                        <x-image-viewer path="{{ $state[$field] }}" alt="{{ $field }}" uuid="form"/>
                                     </div>
                                     @endif
                                 </div>
                                 @else
                                     <div class="px-4 py-2 whitespace-normal w-1/3">
-                                        <x-image-viewer src="{{ $src }}" alt="{{ $field }}" uuid="form"/>
+                                        <x-image-viewer path="{{ $state[$field] }}" alt="{{ $field }}" uuid="form"/>
                                     </div>
                                 @endif
                                 @break
