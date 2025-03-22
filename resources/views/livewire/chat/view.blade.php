@@ -66,7 +66,6 @@
             {{-- todo - status name format --}}
             <p>{{ __('Status') }}: {{ ucfirst($chat->status->value) }}</p>
         </div>
-
         <x-chat.members
                 :members="$chat->members"
                 :masks="$masks"
@@ -74,6 +73,9 @@
                 :is-started="$this->isStarted()"
                 :is-owner="$this->isOwner()"
                 :is-joined="$this->isJoined()"/>
+
+        @livewire('mask-selector', ['chat' => $chat])
+
     </div>
     <div class="py-3 flex justify-end space-x-2">
         <flux:button.group>

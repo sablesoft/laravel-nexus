@@ -5,6 +5,7 @@
     <flux:modal name="select-image"
                 x-on:cancel="$wire.resetFilters()"
                 x-on:close="$wire.resetFilters()" class="!max-w-4xl">
+        <flux:heading class="mb-3 text-xl">Select Image</flux:heading>
         <div class="space-y-6">
             <x-crud.control>
                 <x-slot name="filters">

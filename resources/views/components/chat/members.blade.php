@@ -79,30 +79,6 @@
     @else
     <p>No members so far</p>
     @endif
-    <flux:modal name="add-member" class="min-w-[22rem]">
-        <div class="space-y-6">
-            <div>
-                <flux:heading size="lg">{{ __('Mask Select') }}?</flux:heading>
-                <flux:select id="mask" wire:model.live="maskId" placeholder="Mask" class="cursor-pointer">
-                @foreach($masks as $mask)
-                    <flux:select.option value="{{ $mask->id }}">{{ $mask->title  }}</flux:select.option>
-                @endforeach
-                </flux:select>
-            </div>
-            <div class="flex gap-2">
-                <flux:spacer />
-                <flux:modal.close>
-                    <flux:button variant="ghost" class="cursor-pointer">
-                        {{ __('Cancel') }}
-                    </flux:button>
-                </flux:modal.close>
-                <!--suppress JSUnresolvedReference -->
-                <flux:button variant="primary" wire:click="addMember" class="cursor-pointer">
-                    {{ __('Add') }}
-                </flux:button>
-            </div>
-        </div>
-    </flux:modal>
     <flux:modal name="show-mask" x-on:cancel="$wire.mask = null;">
         <div class="space-y-6">
             @if($mask?->imagePath)

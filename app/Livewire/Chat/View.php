@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Notifications\ChatUpdated;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class View extends Component
@@ -20,7 +21,6 @@ class View extends Component
     public Chat $chat;
     public ?Mask $mask = null;
     public Collection $masks;
-    public ?int $maskId = null;
 
     protected function getListeners(): array
     {
@@ -110,40 +110,19 @@ class View extends Component
         if (!$this->canAddMember()) {
             return;
         }
-        $takenMaskIds = [];
-        foreach ($this->chat->members as $member) {
-            $takenMaskIds[] = $member->mask_id;
-        }
-
-        $query = Mask::whereNotIn('id', $takenMaskIds);
-        if ($this->isOwner()) {
-            $query->where(function($q) {
-                $q->where('is_public', true)
-                    ->orWhere('user_id', auth()->id());
-            });
-        } else {
-            $query->where('is_public', true);
-        }
-
-        $this->masks = $query->get();
-        if (!$this->masks->count()) {
-            return;
-        }
-
-        $this->maskId = $this->masks->first()->id;
-        Flux::modal('add-member')->show();
+        $this->dispatch('maskSelector');
     }
 
-    public function addMember(): void
+    #[On('maskSelected')]
+    public function addMember(int $maskId): void
     {
-        Flux::modal('add-member')->close();
         if (!$this->canAddMember()) {
             return;
         }
         $userId = $this->isOwner() ? null : auth()->id();
         Member::create([
             'chat_id' => $this->chat->id,
-            'mask_id' => $this->maskId,
+            'mask_id' => $maskId,
             'user_id' => $userId,
             'is_confirmed' => $this->isOwner()
         ]);
@@ -168,6 +147,7 @@ class View extends Component
         $this->notify($messages);
         $member->delete();
         $this->reloadChat();
+        $this->dispatch('maskRemoved', maskId: $member->mask_id);
         $this->dispatch('flash', message: 'Member deleted from chat!');
     }
 
