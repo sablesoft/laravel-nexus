@@ -21,7 +21,7 @@ use App\Models\Traits\HasOwner;
  *
  * @property-read null|Chat $chat
  * @property-read null|Mask $mask
- * @property-read null|string $mask_name
+ * @property-read null|string $maskName
  * @property-read Collection<int, Memory>|Memory[] $memories
  */
 class Member extends Model

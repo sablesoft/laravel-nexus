@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property null|int $id
  * @property null|int $chat_id
- * @property null|int $mask_id
+ * @property null|int $member_id
  * @property null|int $image_id
  * @property null|string $title
  * @property null|string $content

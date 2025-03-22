@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('screen_to_id')->nullable(false)
                 ->constrained('app.screens')->cascadeOnDelete();
             $table->string('code')->nullable(false)->unique();
-            $table->string('title')->nullable();
+            $table->string('title')->nullable(false);
             $table->string('tooltip')->nullable();
             $table->json('active')->nullable();
 
