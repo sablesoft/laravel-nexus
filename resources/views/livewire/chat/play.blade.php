@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full"
+<div class="flex flex-col h-full max-h-dvh"
      x-data="{ typingUsers: {}, typingTimers: {} }"
      x-init="Echo.join('chats.play.{{ $chat->id }}')
                 .listenForWhisper('typing', (e) => {
@@ -12,15 +12,21 @@
                         delete typingTimers[e.userId];
                     }, 2000);
                 });">
+
+    <header id="chat-header"
+         class="bg-zinc-100 border-b border-zinc-300 dark:bg-zinc-900 dark:border-zinc-700 flex font-black justify-center p-2 text-xl w-full">
+        <h1>{{ $chat->title }}</h1>
+    </header>
+
     <!-- Main content container (chat + right sidebar) -->
-    <div class="flex flex-1 overflow-hidden">
+    <div id="chat-main" class="flex flex-1 overflow-hidden">
         <!-- Chat area -->
-        <div class="flex flex-col flex-1 overflow-hidden">
+        <div id="chat-content" class="flex flex-col flex-1 overflow-hidden h-full">
             <!-- Chat messages container -->
             <div class="flex-1 overflow-y-auto p-4 bg-white dark:bg-zinc-800">
                 <div class="max-w-3xl mx-auto">
                     <!-- Chat messages -->
-                    <div wire:loading.class="opacity-50">
+                    <div wire:loading.class="opacity-50 min-h-0">
                         @foreach($memories as $memory)
                             <div class="mb-4 p-3 rounded-lg shadow-sm
                                 {{ $memory['user_id'] === auth()->id() ? 'bg-blue-100 dark:bg-blue-900 self-end' : 'bg-gray-100 dark:bg-gray-700' }}">
@@ -36,19 +42,18 @@
                 </div>
             </div>
         </div>
-
         <!-- Right sidebar -->
-        <flux:sidebar position="right" sticky stashable
-                      class="w-sm border-l border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 flex flex-col">
+        <flux:sidebar id="chat-sidebar" position="right" sticky stashable
+                      class="p-1! w-xs border-l border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 flex flex-col">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
             @php
                 $sidebarStyle = $screen->imagePath ? "background-image: url('".Storage::url($screen->imagePath)."');".
                                        " background-size: cover; background-position: center;" : '';
             @endphp
             <div class="flex-1 overflow-y-auto space-y-4" style="{{ $sidebarStyle }}">
-                <h1 class="text-center my-2 p-2 text-xl font-bold text-white bg-black/50 shadow-md">
+                <h2 class="text-center my-2 p-2 text-xl font-bold text-white bg-black/50 shadow-md">
                     {{ $screen->title }}
-                </h1>
+                </h2>
                 <!-- Online members -->
                 @if($onlineMembers->count())
                     <h3 class="bg-black/50 pr-2 text-right text-lg font-semibold text-green-400">{{ __('Online') }}</h3>
@@ -93,8 +98,8 @@
         </flux:sidebar>
     </div>
 
-    <div
-        class="p-4 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
+    <footer id="chat-control"
+        class="p-3 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
         {{-- Transfers --}}
         @if(count($transfers))
             <flux:input.group class="!w-auto">
@@ -157,7 +162,7 @@
                         .whisper('typing', { userId: {{ auth()->id() }} });"/>
             </flux:input.group>
         @endif
+    </footer>
 
-    </div>
     <x-echo-presence channel="chats.play.{{ $chat->id }}"/>
 </div>
