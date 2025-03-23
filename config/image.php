@@ -42,5 +42,17 @@ return [
         'decodeAnimation' => true,
         'blendingColor' => 'ffffff',
         'strip' => false,
+    ],
+
+    'default_encoder' => 'webp',
+    'encoders' => [
+        'webp' => [
+            'quality' => 80,
+            'strip' => null
+        ],
+        'png' => [
+            'interlaced' => false,
+            'indexed' => false
+        ]
     ]
 ];
