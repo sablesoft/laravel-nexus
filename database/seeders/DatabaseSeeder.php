@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AppApplicationsTableSeeder::class);
         $this->call(AppScreensTableSeeder::class);
         $this->call(AppScenariosTableSeeder::class);
+        $this->call(AppTransfersTableSeeder::class);
         $this->call(AppMasksTableSeeder::class);
         $this->call(SequencesSeeder::class);
     }

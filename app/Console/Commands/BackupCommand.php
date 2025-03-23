@@ -29,6 +29,7 @@ class BackupCommand extends Command
         'app.applications',
         'app.screens',
         'app.scenarios',
+        'app.transfers'
     ];
 
     protected string $lastTable = 'app.masks';
