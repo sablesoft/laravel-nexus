@@ -8,7 +8,7 @@ use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsDefault;
 use App\Livewire\Filters\FilterScreen;
-use App\Models\Enums\ScenarioType;
+use App\Models\Enums\ControlType;
 use Illuminate\Database\Eloquent\Builder;
 
 class Scenario extends AbstractCrud implements ShouldBelongsTo
@@ -121,7 +121,7 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
     public function selectOptions(string $field): array
     {
         return match ($field) {
-            'type' => ScenarioType::options(),
+            'type' => ControlType::options(),
             default => [],
         };
     }

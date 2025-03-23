@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Enums\ScenarioType;
+use App\Models\Enums\ControlType;
 use Carbon\Carbon;
 use Database\Factories\ScenarioFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +15,7 @@ use App\Models\Interfaces\HasOwnerInterface;
  * @property null|int $id
  * @property null|int $screen_id
  * @property null|string $code
- * @property null|ScenarioType $type
+ * @property null|ControlType $type
  * @property null|string $title
  * @property null|string $tooltip
  * @property null|string $description
@@ -36,7 +36,7 @@ class Scenario extends Model implements HasOwnerInterface
     ];
 
     protected $casts = [
-        'type' => ScenarioType::class,
+        'type' => ControlType::class,
         'is_default' => 'boolean',
         'constants' => 'array',
         'active' => 'array'

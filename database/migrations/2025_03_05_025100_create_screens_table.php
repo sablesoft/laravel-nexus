@@ -31,6 +31,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->unique(['application_id', 'code']);
+            $table->unique(['application_id', 'title']);
         });
     }
 

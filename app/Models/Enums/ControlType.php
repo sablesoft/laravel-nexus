@@ -2,15 +2,14 @@
 
 namespace App\Models\Enums;
 
-enum ScenarioType: string
+enum ControlType: string
 {
     case Action = 'action';
     case Input = 'input';
-    case Hidden = 'hidden';
 
     public static function getDefault(): self
     {
-        return self::Hidden;
+        return self::Action;
     }
 
     public static function values(): array
