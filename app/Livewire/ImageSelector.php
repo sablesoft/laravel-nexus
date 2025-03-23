@@ -3,6 +3,7 @@ namespace App\Livewire;
 
 use App\Crud\Traits\HandlePaginate;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use App\Models\Image;
 
@@ -13,9 +14,25 @@ class ImageSelector extends Component
     public $aspectRatio = 'all';
     public $isPublic = 'all';
     public $hasArtifacts = 'all';
+    #[Locked]
+    public string $field;
+    #[Locked]
+    public array $filter;
+
+    public function mount(string $field, array $filter = []): void
+    {
+        $this->field = $field;
+        $this->filter = $filter;
+    }
 
     public function render(): mixed
     {
+        foreach (['aspectRatio', 'isPublic', 'hasArtifacts'] as $filter) {
+            if (!empty($this->filter[$filter])) {
+                $this->$filter = $this->filter[$filter];
+            }
+        }
+
         return view('livewire.image-selector', [
             'models' => $this->paginator()
         ]);
@@ -67,6 +84,6 @@ class ImageSelector extends Component
 
     public function selectImage(int $id): void
     {
-        $this->dispatch('imageSelected', imageId: $id);
+        $this->dispatch('imageSelected', imageId: $id, field: $this->field);
     }
 }

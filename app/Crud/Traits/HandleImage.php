@@ -4,30 +4,25 @@ namespace App\Crud\Traits;
 
 use App\Models\Image;
 use Livewire\Attributes\On;
-use Storage;
 
 trait HandleImage
 {
-    protected function getImageIdField(): string
-    {
-        return 'image_id';
-    }
-
-    protected function getImageField(): string
-    {
-        return 'image';
-    }
-
     #[On('imageSelected')]
-    public function imageSelected(int $imageId): void
+    public function imageSelected(int $imageId, string $field): void
     {
-        $this->state[$this->getImageIdField()] = $imageId;
-        $this->state[$this->getImageField()] = $this->getImagePath($imageId);
+        $parts = explode('_', $field);
+        $this->state[$field] = $imageId;
+        $this->state[reset($parts)] = $this->getImagePath($imageId);
     }
 
     public function getImageRatio(int $modelId): ?string
     {
         return $this->getResource()?->image?->aspect?->value;
+    }
+
+    public function componentParamsImageSelector(string $field = 'image_id', array $filter = []): array
+    {
+        return ['field' => $field, 'filter' => $filter];
     }
 
     /**
@@ -48,6 +43,7 @@ trait HandleImage
 
     protected function imageViewerField(
         string $title = 'Image',
+        string $relation = 'image',
         array $action = ['create', 'edit', 'index', 'view']
     ): array
     {
@@ -55,7 +51,7 @@ trait HandleImage
             'title' => $title,
             'action' => $action,
             'type' => 'image',
-            'callback' => fn($model) => $model->image ? $model->image->path_md : null
+            'callback' => fn($model) => $model->$relation ? $model->$relation->path_md : null
         ];
     }
 

@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('image_id')->nullable()
-                ->constrained()->nullOnDelete();
+            $table->foreignId('square_image_id')->nullable()
+                ->constrained('app.images')->nullOnDelete();
+            $table->foreignId('portrait_image_id')->nullable()
+                ->constrained('app.images')->nullOnDelete();
             $table->string('name')->nullable(false)->unique();
             $table->text('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);

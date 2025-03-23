@@ -6,6 +6,7 @@ use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleUnique;
 use App\Livewire\Filters\FilterIsPublic;
+use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
 class Mask extends AbstractCrud
@@ -47,8 +48,10 @@ class Mask extends AbstractCrud
                 'action' => ['index', 'edit', 'create', 'view'],
                 'rules' => ['required', 'string', $this->uniqueRule('masks', 'name')],
             ],
-            'image' => $this->imageViewerField(),
-            'image_id' => $this->imageSelectorField(),
+            'image' => $this->imageViewerField('Avatar'),
+            'image_id' => $this->imageSelectorField('Avatar'),
+            'portrait' => $this->imageViewerField('Portrait', 'portrait'),
+            'portrait_id' => $this->imageSelectorField('Portrait'),
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
@@ -69,6 +72,22 @@ class Mask extends AbstractCrud
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ],
         ];
+    }
+
+    public function componentParams(string $action, ?string $field = null): array
+    {
+        if ($field === 'image_id') {
+            return $this->componentParamsImageSelector($field, [
+                'aspectRatio' => ImageAspect::Square->value
+            ]);
+        }
+        if ($field === 'portrait_id') {
+            return $this->componentParamsImageSelector($field, [
+                'aspectRatio' => ImageAspect::Portrait->value
+            ]);
+        }
+
+        return [];
     }
 
     protected function modifyQuery(Builder $query): Builder

@@ -13,6 +13,7 @@ use App\Livewire\Filters\FilterApplication;
 use App\Livewire\Filters\FilterIsDefault;
 use App\Livewire\Workshop\Screen\HandleTransfers;
 use App\Models\Transfer;
+use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
 class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
@@ -77,6 +78,20 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             'scenariosList' => $this->linkListTemplateParams(Scenario::routeName(), 'scenarios'),
             default => []
         };
+    }
+
+    public function componentParams(string $action, ?string $field = null): array
+    {
+        if ($field === 'image_id') {
+            return $this->componentParamsImageSelector($field, [
+                'aspectRatio' => ImageAspect::Portrait->value
+            ]);
+        }
+        if ($action === 'edit' && $field === 'transfersEdit') {
+            return ['screenId' => $this->modelId];
+        }
+
+        return [];
     }
 
     protected function fieldsConfig(): array

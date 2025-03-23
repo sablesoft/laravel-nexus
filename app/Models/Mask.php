@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
+use App\Models\Traits\HasPortrait;
 use Carbon\Carbon;
 use Database\Factories\MaskFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,10 +29,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Mask extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<MaskFactory> */
-    use HasOwner, HasFactory, HasImage;
+    use HasOwner, HasFactory, HasImage, HasPortrait;
 
     protected $fillable = [
-        'user_id', 'name', 'description', 'is_public'
+        'user_id', 'image_id', 'portrait_id', 'name', 'description', 'is_public'
     ];
 
     public function getTitleAttribute(): ?string

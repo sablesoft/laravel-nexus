@@ -1,14 +1,15 @@
 <div>
-    <flux:modal.trigger name="select-image">
+    <flux:modal.trigger name="select-image-{{ $field }}">
         <flux:button class="cursor-pointer">Select Image</flux:button>
     </flux:modal.trigger>
-    <flux:modal name="select-image"
+    <flux:modal name="select-image-{{ $field }}"
                 x-on:cancel="$wire.resetFilters()"
                 x-on:close="$wire.resetFilters()" class="!max-w-4xl">
         <flux:heading class="mb-3 text-xl">Select Image</flux:heading>
         <div class="space-y-6">
             <x-crud.control>
                 <x-slot name="filters">
+                    @if(empty($filter['aspectRatio']))
                     <flux:tooltip content="Aspect Ratio">
                         <flux:select id="aspectRatio" wire:model.live="aspectRatio" placeholder="Ratio"
                                      class="cursor-pointer">
@@ -18,6 +19,8 @@
                             <flux:select.option value="landscape">{{ __('Landscape') }}</flux:select.option>
                         </flux:select>
                     </flux:tooltip>
+                    @endif
+                    @if(empty($filter['isPublic']))
                     <flux:tooltip content="Public">
                         <flux:select id="isPublic" wire:model.live="isPublic" placeholder="Public"
                                      class="cursor-pointer">
@@ -26,14 +29,17 @@
                             <flux:select.option value="0">{{ __('No') }}</flux:select.option>
                         </flux:select>
                     </flux:tooltip>
+                    @endif
+                    @if(empty($filter['hasArtifacts']))
                     <flux:tooltip content="Rendering Artifacts">
-                        <flux:select id="hasArtifact" wire:model.live="hasArtifacts" placeholder="Rendering Artifacts"
+                        <flux:select id="hasArtifacts" wire:model.live="hasArtifacts" placeholder="Rendering Artifacts"
                                      class="cursor-pointer">
                             <flux:select.option value="all">{{ __('All') }}</flux:select.option>
                             <flux:select.option value="1">{{ __('Yes') }}</flux:select.option>
                             <flux:select.option value="0">{{ __('No') }}</flux:select.option>
                         </flux:select>
                     </flux:tooltip>
+                    @endif
                 </x-slot>
             </x-crud.control>
             <div class="my-2">
