@@ -14,12 +14,12 @@ class AppImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.images')->delete();
-        
+
         \DB::table('app.images')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -31,12 +31,11 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-t8mBQoWIFcYfCGBzWPCmWsGe.png',
-                'path_thumbnail' => NULL,
                 'is_public' => false,
                 'created_at' => '2025-03-07 05:14:48',
                 'updated_at' => '2025-03-07 05:14:48',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -48,12 +47,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-jUzXIBmOJODsOV1lxEG1mFAZ.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-08 02:26:26',
                 'updated_at' => '2025-03-08 02:26:26',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -65,12 +64,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-RF1LWsK3uXn0tmxr9Z9xVYhN.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-08 03:46:07',
                 'updated_at' => '2025-03-08 03:46:07',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -82,12 +81,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-jDvB1lAa8HbQZ256rPSXxoGm.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => true,
                 'created_at' => '2025-03-08 03:34:51',
                 'updated_at' => '2025-03-09 02:09:49',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -99,12 +98,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-wFoEGgzbmCGfnawfZHj1VkDu.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => true,
                 'created_at' => '2025-03-07 05:46:49',
                 'updated_at' => '2025-03-09 02:10:12',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -116,12 +115,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-Cc0MqStl3k7tpK8KXxPmn4JK.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-12 04:58:19',
                 'updated_at' => '2025-03-12 04:58:19',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -133,12 +132,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-IOyPYkqZeSYkiI3tlm1fx85T.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-12 04:59:55',
                 'updated_at' => '2025-03-12 04:59:55',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -150,12 +149,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-bXS4C0D2rpWtdG9O6WZRpJz1.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-12 05:02:09',
                 'updated_at' => '2025-03-12 05:02:09',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -167,12 +166,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-SI9gDRwxwg70QerwyqNgsXE1.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:00:33',
                 'updated_at' => '2025-03-16 17:00:33',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -184,12 +183,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-RLs3MFMSaO20EXf8F4YbhYlg.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:02:13',
                 'updated_at' => '2025-03-16 17:02:13',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -201,12 +200,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-PpWnX1z0tpKy9pLF27QvEwBQ.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:04:07',
                 'updated_at' => '2025-03-16 17:04:07',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -218,12 +217,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-JEjAq6c10uPtjjQYNAv1Iqvi.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-16 17:04:40',
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -235,12 +234,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-2A1a2T6qzgy4tKurT93PgS9x.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:05:02',
                 'updated_at' => '2025-03-16 17:05:02',
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -252,12 +251,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-d36K1u4lpXjemdsYdlA2AV5u.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:05:49',
                 'updated_at' => '2025-03-16 17:05:49',
             ),
-            14 => 
+            14 =>
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -269,12 +268,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-9r83OpXCEmKrZTVOJKGOWle2.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:06:46',
                 'updated_at' => '2025-03-16 17:06:46',
             ),
-            15 => 
+            15 =>
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -286,12 +285,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-F3eS2yLINNjK8apl5sgchRWD.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:08:46',
                 'updated_at' => '2025-03-16 17:08:46',
             ),
-            16 => 
+            16 =>
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -303,12 +302,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-IX0k0DVIigBSbMzedmxKfOrV.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 18:51:22',
                 'updated_at' => '2025-03-16 20:01:18',
             ),
-            17 => 
+            17 =>
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -320,12 +319,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-ogTN2wRpCjSiGzSRl5PqBcSt.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 18:57:05',
                 'updated_at' => '2025-03-16 20:01:04',
             ),
-            18 => 
+            18 =>
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -337,12 +336,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-Si1xF19CBF2Hr5LyNKx4gMGg.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 18:51:47',
                 'updated_at' => '2025-03-16 20:01:11',
             ),
-            19 => 
+            19 =>
             array (
                 'id' => 26,
                 'user_id' => 2,
@@ -354,12 +353,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-08aGJkdoL1k0KNUzfdzuuB6L.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:06:11',
                 'updated_at' => '2025-03-16 17:06:11',
             ),
-            20 => 
+            20 =>
             array (
                 'id' => 24,
                 'user_id' => 2,
@@ -371,12 +370,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-y49h0VyOBMTX8rez3g2Z9fvJ.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 17:05:28',
                 'updated_at' => '2025-03-16 17:05:28',
             ),
-            21 => 
+            21 =>
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -388,12 +387,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-YIEDpwg9xGthqNEQRaGpk0TW.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 18:48:57',
                 'updated_at' => '2025-03-16 20:01:25',
             ),
-            22 => 
+            22 =>
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -405,12 +404,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-nRLcqTq8ROESplNwkt6NRNNX.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 19:01:26',
                 'updated_at' => '2025-03-16 20:00:19',
             ),
-            23 => 
+            23 =>
             array (
                 'id' => 38,
                 'user_id' => 1,
@@ -422,12 +421,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-wXvsgxnNHaAaTjQWOtkJbGmE.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 19:00:42',
                 'updated_at' => '2025-03-16 20:00:31',
             ),
-            24 => 
+            24 =>
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -439,12 +438,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-jolg3UHCTV9AW938tKvkDbrX.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 19:00:22',
                 'updated_at' => '2025-03-16 20:00:39',
             ),
-            25 => 
+            25 =>
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -456,12 +455,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-Ho17fDoVWcDCQMqP7XChQo7i.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 18:58:46',
                 'updated_at' => '2025-03-16 20:00:50',
             ),
-            26 => 
+            26 =>
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -473,12 +472,12 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-RO6MDQHQeXuIyG7ek5dLYtYh.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-16 18:57:25',
                 'updated_at' => '2025-03-16 20:00:57',
             ),
-            27 => 
+            27 =>
             array (
                 'id' => 44,
                 'user_id' => 1,
@@ -490,13 +489,13 @@ class AppImagesTableSeeder extends Seeder
                 'quality' => 'standard',
                 'style' => 'vivid',
                 'path' => 'images/img-aOdgaSjM0gmnj5zfLpnc2UOw.png',
-                'path_thumbnail' => NULL,
+
                 'is_public' => false,
                 'created_at' => '2025-03-19 22:29:03',
                 'updated_at' => '2025-03-22 01:16:23',
             ),
         ));
-        
-        
+
+
     }
 }

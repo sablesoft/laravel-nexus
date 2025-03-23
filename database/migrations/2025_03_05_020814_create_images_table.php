@@ -30,7 +30,8 @@ return new class extends Migration
             $table->enum('style', ImageStyle::values())->nullable(false)
                 ->default(ImageStyle::getDefault()->value)->index();
             $table->string('path')->nullable(false)->unique();
-            $table->string('path_thumbnail')->nullable()->unique();
+            $table->string('path_md')->nullable()->unique();
+            $table->string('path_sm')->nullable()->unique();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();
