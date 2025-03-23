@@ -7,6 +7,7 @@ use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleOwner;
 use App\Crud\Traits\HandleUnique;
 use App\Jobs\GenerateImage;
+use App\Jobs\ScaleImage;
 use App\Livewire\Filters\FilterImage;
 use App\Livewire\Filters\FilterIsPublic;
 use App\Services\OpenAI\Enums\ImageAspect;
@@ -119,6 +120,19 @@ class Image extends AbstractCrud
         ];
     }
 
+    public function viewButtons(): array
+    {
+        return [
+            'edit' => [
+                'title' => __('Edit'),
+                'variant' => 'primary',
+            ],
+            'scale' => [
+                'title' => __('Scale'),
+            ]
+        ];
+    }
+
     public function selectOptions(string $field): array
     {
         return match ($field) {
@@ -154,6 +168,12 @@ class Image extends AbstractCrud
         $this->close();
     }
 
+    public function scale(): void
+    {
+        ScaleImage::dispatch($this->getResource());
+        $this->dispatch('flash', message: 'Your scale request is processing. Please wait.');
+    }
+
     /**
      * @return void
      * @throws Throwable
@@ -162,7 +182,7 @@ class Image extends AbstractCrud
     {
         try {
             if ($this->image) {
-                $path = $this->image->store(path: 'public/images');
+                $path = $this->image->store(path: 'public/'. \App\Models\Image::PATH_PREFIX);
                 $this->image = null;
                 $this->state['path'] = $path;
             }
