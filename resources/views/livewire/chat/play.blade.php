@@ -51,12 +51,12 @@
                                        " background-size: cover; background-position: center;" : '';
             @endphp
             <div class="flex-1 overflow-y-auto space-y-4" style="{{ $sidebarStyle }}">
-                <h2 class="text-center my-2 p-2 text-xl font-bold text-white bg-black/50 shadow-md">
+                <h2 class="bg-gray-100/50 dark:bg-black/50 dark:text-white font-bold my-2 p-2 shadow-md text-center text-xl">
                     {{ $screen->title }}
                 </h2>
                 <!-- Online members -->
                 @if($onlineMembers->count())
-                    <h3 class="bg-black/50 pr-2 text-right text-lg font-semibold text-green-400">{{ __('Online') }}</h3>
+                    <h3 class="bg-gray-100/50 dark:bg-black/50 pr-2 text-right text-lg font-semibold text-green-400">{{ __('Online') }}</h3>
                     <ul class="space-y-2">
                         @foreach($onlineMembers as $member)
                             @php $isCurrentUser = $member->user_id === auth()->id(); @endphp
@@ -72,7 +72,7 @@
                                 </template>
                             </span>
                                 <flux:profile
-                                    class="pr-2 bg-black/50 dark:bg-black/50 !dark:hover:bg-black/50 !hover:bg-black/50 rounded-r-none {{ $isCurrentUser ? 'border-2 border-green-400 shadow-lg' : 'cursor-pointer' }}"
+                                    class="pr-2 bg-gray-100/50 dark:bg-black/50 !dark:hover:bg-black/50 !hover:bg-gray-100/50 rounded-r-none {{ $isCurrentUser ? 'border-2 border-green-400 shadow-lg' : 'cursor-pointer' }}"
                                     :chevron="false" :name="$member->maskName"
                                     :avatar="Storage::url($member->mask->imagePathSm)"/>
                             </li>
@@ -82,7 +82,7 @@
 
                 <!-- Offline members -->
                 @if($offlineMembers->count())
-                    <h3 class="bg-black/50 pr-2 text-right text-lg font-semibold text-gray-400 mt-6">{{ __('Offline') }}</h3>
+                    <h3 class="bg-black/50 pr-2 text-right text-lg font-semibold mt-6">{{ __('Offline') }}</h3>
                     <ul class="space-y-2">
                         @foreach($offlineMembers as $member)
                             <li class="flex items-center gap-2 justify-end">

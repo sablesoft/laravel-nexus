@@ -3,17 +3,12 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
-use App\Crud\Interfaces\ShouldBelongsTo;
-use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsDefault;
-use App\Livewire\Filters\FilterScreen;
-use App\Models\Enums\ControlType;
-use Illuminate\Database\Eloquent\Builder;
 
-class Scenario extends AbstractCrud implements ShouldBelongsTo
+class Scenario extends AbstractCrud
 {
-    use HandleBelongsTo, HandleLinks, FilterScreen, FilterIsDefault;
+    use HandleLinks, FilterIsDefault;
 
     /**
      * @return string
@@ -28,33 +23,6 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
         return 'workshop.scenarios';
     }
 
-    protected function paginationProperties(): array
-    {
-        return [
-            'orderBy', 'orderDirection', 'perPage', 'search',
-            ...$this->filterScreenProperties(), ...$this->filterIsDefaultProperties()
-        ];
-    }
-
-    public function filterTemplates(): array
-    {
-        return [...$this->filterIsDefaultTemplates(), ...$this->filterScreenTemplates()];
-    }
-
-    public function templateParams(string $action, ?string $field = null): array|callable
-    {
-        if (array_key_exists($field, $this->getBelongsToFields())) {
-            $class = $this->getBelongsToFields()[$field];
-            return $this->optionsParam($field, $class);
-        }
-
-        if ($field === 'screenLink') {
-            return $this->linkTemplateParams(Screen::routeName(), 'screen');
-        }
-
-        return [];
-    }
-
     /**
      * @return string[]
      */
@@ -64,8 +32,6 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
             'id' => 'ID',
             'title' => 'Title',
             'code' => 'Code',
-            'type' => 'Type',
-            'is_default' => 'Is Default'
         ];
     }
 
@@ -80,31 +46,11 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
-            'type' => [
-                'action' => ['index', 'create', 'edit', 'view'],
-                'rules' => 'required|string',
-                'type' => 'select',
-                'callback' => fn($model) => $model->type->value
-            ],
-            'tooltip' => [
-                'action' => ['create', 'edit', 'view'],
-                'rules' => 'nullable|string',
-
-            ],
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'is_default' => [
-                'title' => 'Is Default',
-                'action' => ['index', 'edit', 'view', 'create'],
-                'type' => 'checkbox',
-                'rules' => 'required|bool',
-                'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
-            ],
-            'screen_id' => $this->belongsToField('Screen', 'screen', ['create', 'edit']),
-            'screenLink' => $this->linkField('Screen', ['view', 'index']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -116,26 +62,5 @@ class Scenario extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'nullable|json'
             ],
         ];
-    }
-
-    public function selectOptions(string $field): array
-    {
-        return match ($field) {
-            'type' => ControlType::options(),
-            default => [],
-        };
-    }
-
-    public function getBelongsToFields(): array
-    {
-        return [
-            'screen_id' => \App\Models\Screen::class
-        ];
-    }
-
-    protected function modifyQuery(Builder $query): Builder
-    {
-        $query = $this->applyFilterScreen($query);
-        return $this->applyFilterIsDefault($query);
     }
 }

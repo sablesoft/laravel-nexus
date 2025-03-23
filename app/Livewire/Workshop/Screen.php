@@ -4,9 +4,8 @@ namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
 use App\Crud\Interfaces\ShouldBelongsTo;
-use App\Crud\Interfaces\ShouldHasMany;
 use App\Crud\Traits\HandleBelongsTo;
-use App\Crud\Traits\HandleHasMany;
+//use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterApplication;
@@ -16,9 +15,10 @@ use App\Models\Transfer;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
-class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
+class Screen extends AbstractCrud implements ShouldBelongsTo
 {
-    use HandleHasMany, HandleBelongsTo, HandleImage, HandleTransfers, HandleLinks,
+    use HandleBelongsTo, HandleImage, HandleTransfers, HandleLinks,
+//        HandleHasMany, todo - controls
         FilterApplication, FilterIsDefault;
 
     public function className(): string
@@ -59,10 +59,10 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
 
     public function templateParams(string $action, ?string $field = null): array|callable
     {
-        if (array_key_exists($field, $this->getHasManyFields())) {
-            $class = $this->getHasManyFields()[$field];
-            return $this->optionsParam($field, $class);
-        }
+//        if (array_key_exists($field, $this->getHasManyFields())) {
+//            $class = $this->getHasManyFields()[$field];
+//            return $this->optionsParam($field, $class);
+//        }
         if (array_key_exists($field, $this->getBelongsToFields())) {
             $class = $this->getBelongsToFields()[$field];
             return $this->optionsParam($field, $class);
@@ -74,8 +74,6 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
         }
         return match($field) {
             'applicationLink' => $this->linkTemplateParams(Application::routeName(), 'application'),
-            'scenarioLink' => $this->linkTemplateParams(Scenario::routeName(), 'scenario', true),
-            'scenariosList' => $this->linkListTemplateParams(Scenario::routeName(), 'scenarios'),
             default => []
         };
     }
@@ -124,8 +122,6 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'transfersEdit' => $this->transfersEditField(),
             'transfersView' => $this->transfersViewField(),
-            'scenarioLink' => $this->linkField('Default Scenario', ['index', 'view']),
-            'scenariosList' => $this->linkListField('Scenarios', ['index', 'view']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -136,13 +132,6 @@ class Screen extends AbstractCrud implements ShouldHasMany, ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string|not_regex:/@php|@include|@component/'
             ],
-        ];
-    }
-
-    public function getHasManyFields(): array
-    {
-        return [
-            'scenarios' => \App\Models\Scenario::class,
         ];
     }
 

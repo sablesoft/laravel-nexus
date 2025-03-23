@@ -5,10 +5,11 @@ namespace App\Livewire\Chat;
 use App\Livewire\PresenceTrait;
 use App\Models\Application;
 use App\Models\Chat;
+use App\Models\Control;
 use App\Models\Enums\ChatStatus;
+use App\Models\Enums\ControlType;
 use App\Models\Member;
 use App\Models\Memory;
-use App\Models\Scenario;
 use App\Models\Screen;
 use App\Models\Transfer;
 use App\Notifications\ChatPlaying;
@@ -57,7 +58,6 @@ class Play extends Component
             'usersHere' => 'here',
             'userJoining' => 'joining',
             'userLeaving' => 'leaving',
-//            'refresh.screen' => '$refresh'
         ];
     }
 
@@ -71,7 +71,7 @@ class Play extends Component
     public function mount(int $id): void
     {
         $this->chat = Chat::with([
-            'application.screens.scenarios',
+            'application.screens.controls.scenario',
             'application.screens.transfers',
             'members.mask',
             'memories.member'
@@ -108,8 +108,8 @@ class Play extends Component
     protected function prepareControl(): void
     {
         $this->transfers = collect($this->getTransfers())->keyBy('id')->toArray();
-        $this->actions = collect($this->getScenarios('action'))->keyBy('id')->toArray();
-        $this->inputs = collect($this->getScenarios('input'))->keyBy('id')->toArray();
+        $this->actions = collect($this->getControls(ControlType::Action->value))->keyBy('id')->toArray();
+        $this->inputs = collect($this->getControls(ControlType::Input->value))->keyBy('id')->toArray();
         $this->activeInput = reset($this->inputs) ?: null;
     }
 
@@ -134,15 +134,19 @@ class Play extends Component
         return $this->application->screens->findOrFail($id);
     }
 
-    protected function getScenarios(string $type): array
+    protected function getControls(string $type): array
     {
-        return $this->screen->scenarios->where('type', $type)
-            ->map(fn(Scenario $scenario) => [
-                'id' => $scenario->id,
-                'title' => $scenario->title,
-                'tooltip' => $scenario->tooltip,
-                'active' => $scenario->active
+        return $this->screen->controls->where('type', $type)
+            ->map(fn(Control $control) => [
+                'id' => $control->id,
+                'title' => $control->title,
+                'tooltip' => $control->tooltip,
             ])->toArray();
+    }
+
+    protected function getControl(int $id): Control
+    {
+        return $this->screen->controls->findOrFail($id);
     }
 
     protected function getMemories(string $type): array
@@ -162,11 +166,6 @@ class Play extends Component
             ])->toArray();
     }
 
-    protected function getScenario(int $id): Scenario
-    {
-        return $this->screen->scenarios->findOrFail($id);
-    }
-
     public function transfer(int $screenId): void
     {
         $screen = $this->getScreen($screenId);
@@ -174,10 +173,12 @@ class Play extends Component
         $this->initScreen($screen);
     }
 
-    public function action(int $scenarioId): void
+    public function action(int $controlId): void
     {
-        $scenario = $this->getScenario($scenarioId);
-        if ($scenario->code === 'return') {
+        $control = $this->getControl($controlId);
+
+        // todo - process control - command or scenario
+        if ($control->command?->value === 'back') {
             array_pop($this->screenHistory);
             if (!$screenId = end($this->screenHistory)) {
                 return; // todo
@@ -186,20 +187,20 @@ class Play extends Component
             return;
         }
         // todo - check screen active condition
-        $content = $this->getMember()->maskName . ' used action ' . $scenario->title;
+        $content = $this->getMember()->maskName . ' used action ' . $control->title;
         $this->createMemory($this->screen->code, $content);
     }
 
     /**
      * @throws \Exception
      */
-    public function changeInput(int $scenarioId): void
+    public function changeInput(int $controlId): void
     {
-        if (!isset($this->inputs[$scenarioId])) {
-            throw new \Exception('Input not found: ' . $scenarioId);
+        if (!isset($this->inputs[$controlId])) {
+            throw new \Exception('Input not found: ' . $controlId);
         }
 
-        $this->activeInput = $this->inputs[$scenarioId];
+        $this->activeInput = $this->inputs[$controlId];
     }
 
     public function render(): mixed
@@ -237,7 +238,7 @@ class Play extends Component
 
     public function sendMessage(): void
     {
-        // todo - check active input
+        // todo - run active input - command or scenario
         // todo - test messages:
         $this->createMemory($this->screen->code, $this->message, $this->memberId);
         $this->message = '';

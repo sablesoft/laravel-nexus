@@ -26,9 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $updated_at
  *
  * @property-read null|Application $application
- * @property-read null|Scenario $scenario
- * @property-read Collection<int, Transfer>|Transfer[] $transfers
- * @property-read Collection<int, Scenario>|Scenario[] $scenarios
+ * @property-read Collection<int, Transfer> $transfers
+ * @property-read Collection<int, Control> $controls
  */
 class Screen extends Model implements HasOwnerInterface
 {
@@ -55,14 +54,9 @@ class Screen extends Model implements HasOwnerInterface
         return $this->hasMany(Transfer::class, 'screen_from_id');
     }
 
-    public function scenarios(): HasMany
+    public function controls(): HasMany
     {
-        return $this->hasMany(Scenario::class);
-    }
-
-    public function scenario(): ?Scenario
-    {
-        return $this->scenarios()->where('is_default', true)->first();
+        return $this->hasMany(Control::class);
     }
 
     public static function boot(): void
