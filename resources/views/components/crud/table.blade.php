@@ -11,7 +11,7 @@
 </style>
 
 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-    <thead class="bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
+    <thead class="sticky top-0 z-10 bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
     <tr>
         <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
             ID

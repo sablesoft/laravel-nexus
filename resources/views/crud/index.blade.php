@@ -49,7 +49,7 @@
         <div wire:key="index-content">
             @if($this->checkedModels())
                 <!-- Table for large screens -->
-                <div x-show="!isMobile" x-cloak class="overflow-hidden w-full md:block rounded-md">
+                <div x-show="!isMobile" x-cloak class="max-h-dvh h-full overflow-y-auto w-full md:block rounded-md">
                     <x-crud.table :models="$this->checkedModels()"
                                   :fields="$this->checkedFields()"
                                   :actions="$this->checkedActions()"/>
