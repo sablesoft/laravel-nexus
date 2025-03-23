@@ -4,21 +4,20 @@
 
 namespace App\Crud;
 
+use App\Crud\Traits\HandleDelete;
 use App\Crud\Traits\HandleForm;
 use App\Crud\Traits\HandleIndex;
 use App\Crud\Traits\HandlePaginate;
 use App\Crud\Traits\HandleURI;
-use App\Models\Services\StoreService;
-use Flux\Flux;
+use App\Crud\Traits\HandleView;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 abstract class AbstractCrud extends Component
 {
-    use HandlePaginate, HandleForm, HandleIndex, HandleURI;
+    use HandlePaginate, HandleForm, HandleIndex, HandleView, HandleDelete, HandleURI;
 
     public array $state = [];
     #[Locked]
@@ -29,8 +28,6 @@ abstract class AbstractCrud extends Component
     public string $action = 'index';
     #[Locked]
     public int $userId;
-
-    public ?int $deleteId = null;
 
     abstract public function className(): string;
 
@@ -57,6 +54,38 @@ abstract class AbstractCrud extends Component
         } else {
             $this->changeUri();
         }
+    }
+
+    public function render(): mixed
+    {
+        $params = [];
+        $this->checkedModels = null;
+        if ($this->showForm) {
+            $view = 'crud.form';
+        } elseif ($this->action === 'index') {
+            $view = 'crud.index';
+            $params = [
+                'models' => $this->paginator()
+            ];
+        } elseif ($this->action === 'view') {
+            $view = 'crud.view';
+        } else {
+            throw new \Exception('Unknown crud view');
+        }
+
+        $title = config('app.name') . ' - ' . $this->classTitle();
+
+        return view($view, $params)->title($title);
+    }
+
+    public function close(): void
+    {
+        $this->formAction = 'store';
+        $this->showForm = false;
+        $this->modelId = null;
+        $this->action = 'index';
+        $this->resetState();
+        $this->changeUri();
     }
 
     protected function getListeners(): array
@@ -94,129 +123,6 @@ abstract class AbstractCrud extends Component
     {
         $options = $this->selectOptions($field);
         return $options[$key];
-    }
-
-    public function render()
-    {
-        $params = [];
-        $this->checkedModels = null;
-        if ($this->showForm) {
-            $view = 'crud.form';
-        } elseif ($this->action === 'index') {
-            $view = 'crud.index';
-            $params = [
-                'models' => $this->paginator()
-            ];
-        } elseif ($this->action === 'view') {
-            $view = 'crud.view';
-        } else {
-            throw new \Exception('Unknown crud view');
-        }
-
-        $title = config('app.name') . ' - ' . $this->classTitle();
-
-        return view($view, $params)->title($title);
-    }
-
-    public function create(): void
-    {
-        $this->action = 'create';
-        $this->resetState();
-        foreach($this->fields('create') as $field) {
-            $init = $this->config($field, 'init');
-            if ($init) {
-                $this->state[$field] = $this->$init();
-            }
-        }
-        $this->openForm();
-        $this->changeUri('create');
-    }
-
-    public function edit(int $id): void
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $model = $this->getModel($id);
-        $this->modelId = $id;
-        $this->resetState();
-        foreach($this->fields('edit') as $field) {
-            if ($this->type($field) === 'image') {
-                $callback = $this->config($field, 'callback');
-                $this->state[$field] = is_callable($callback) ?
-                    $callback($model) : $model->$field;
-            } else {
-                if ($model->$field instanceof \UnitEnum) {
-                    $enum = $model->$field;
-                    $this->state[$field] = $enum->value;
-                } else {
-                    $this->state[$field] = $model->$field;
-                }
-            }
-        }
-        $this->action = 'edit';
-        $this->openForm();
-        $this->changeUri('edit', $id);
-    }
-
-    public function store(): void
-    {
-        $rules = $this->actionConfig($this->action, 'rules');
-        if ($rules) {
-            $data = $this->validate(\Arr::prependKeysWith($rules, 'state.'));
-        }  else {
-            return;
-        }
-        try {
-            $model = $this->getModel($this->modelId);
-            $model = StoreService::handle($data['state'], $model);
-            $this->dispatch('flash', message: $this->classTitle(false) . ($this->modelId ? ' updated' : ' created'));
-            $this->view($model->getKey());
-        } catch (\Throwable $e) {
-            $this->dispatch('flash', message: config('app.debug') ? $e->getMessage() : 'Failed. Something wrong.');
-            Log::error($e->getMessage(), ['exception' => $e]);
-        }
-    }
-
-    public function close(): void
-    {
-        $this->formAction = 'store';
-        $this->showForm = false;
-        $this->modelId = null;
-        $this->action = 'index';
-        $this->resetState();
-        $this->changeUri();
-    }
-
-    public function view(?int $id = null): void
-    {
-        $id = $id ?: $this->modelId;
-        if (!$id) {
-            return;
-        }
-        $this->resetState();
-        $this->showForm = false;
-        $model = $this->getModel($id);
-        $this->modelId = $id;
-        foreach($this->fields('view') as $field) {
-            $this->state[$field] = $this->getValue($model, $field);
-        }
-        $this->action = 'view';
-        $this->changeUri('view', $id);
-    }
-
-    public function delete(int $id): void
-    {
-        $this->deleteId = $id;
-        Flux::modal('delete-confirmation')->show();
-    }
-
-    public function deleteConfirmed(): void
-    {
-        $this->close();
-        $this->resetCursor();
-        $this->getModel($this->deleteId)?->delete();
-        $this->deleteId = null;
-        Flux::modal('delete-confirmation')->close();
-        $this->dispatch('flash', message: $this->classTitle(false) . ' deleted');
     }
 
     public function classTitle(bool $plural = true): string
