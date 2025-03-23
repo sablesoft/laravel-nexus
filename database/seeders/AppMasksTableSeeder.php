@@ -54,17 +54,6 @@ class AppMasksTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 14,
-                'user_id' => 1,
-                'image_id' => 26,
-                'name' => 'Jennifer Gorczany',
-                'description' => 'Eum doloribus quaerat laboriosam ex. Sed non ullam at cupiditate rerum inventore magnam. Est velit at pariatur inventore velit voluptas. Sunt quia deleniti dolor qui.',
-                'is_public' => true,
-                'created_at' => '2025-03-16 16:47:12',
-                'updated_at' => '2025-03-16 17:17:50',
-            ),
-            4 => 
-            array (
                 'id' => 13,
                 'user_id' => 1,
                 'image_id' => 28,
@@ -74,7 +63,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:18:06',
             ),
-            5 => 
+            4 => 
             array (
                 'id' => 12,
                 'user_id' => 1,
@@ -85,7 +74,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:18:25',
             ),
-            6 => 
+            5 => 
             array (
                 'id' => 10,
                 'user_id' => 1,
@@ -96,7 +85,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:18:54',
             ),
-            7 => 
+            6 => 
             array (
                 'id' => 11,
                 'user_id' => 1,
@@ -107,7 +96,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:19:42',
             ),
-            8 => 
+            7 => 
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -118,18 +107,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:19:51',
             ),
-            9 => 
-            array (
-                'id' => 5,
-                'user_id' => 1,
-                'image_id' => NULL,
-                'name' => 'Brenda Eichmann',
-                'description' => 'Molestiae sit iste excepturi consequatur sequi recusandae. Temporibus voluptatibus qui illo laudantium. Explicabo nemo consequatur assumenda labore aut facere sed.',
-                'is_public' => false,
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-16 17:20:40',
-            ),
-            10 => 
+            8 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -140,7 +118,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:20:52',
             ),
-            11 => 
+            9 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -151,7 +129,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:20:57',
             ),
-            12 => 
+            10 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -162,7 +140,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-03-16 16:40:32',
                 'updated_at' => '2025-03-16 17:21:02',
             ),
-            13 => 
+            11 => 
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -172,6 +150,28 @@ class AppMasksTableSeeder extends Seeder
                 'is_public' => true,
                 'created_at' => '2025-03-16 16:47:12',
                 'updated_at' => '2025-03-16 17:21:49',
+            ),
+            12 => 
+            array (
+                'id' => 14,
+                'user_id' => 2,
+                'image_id' => 26,
+                'name' => 'Jennifer Gorczany',
+                'description' => 'Eum doloribus quaerat laboriosam ex. Sed non ullam at cupiditate rerum inventore magnam. Est velit at pariatur inventore velit voluptas. Sunt quia deleniti dolor qui.',
+                'is_public' => true,
+                'created_at' => '2025-03-16 16:47:12',
+                'updated_at' => '2025-03-16 17:17:50',
+            ),
+            13 => 
+            array (
+                'id' => 5,
+                'user_id' => 2,
+                'image_id' => 24,
+                'name' => 'Brenda Eichmann',
+                'description' => 'Molestiae sit iste excepturi consequatur sequi recusandae. Temporibus voluptatibus qui illo laudantium. Explicabo nemo consequatur assumenda labore aut facere sed.',
+                'is_public' => true,
+                'created_at' => '2025-03-16 16:40:32',
+                'updated_at' => '2025-03-22 04:32:34',
             ),
         ));
         

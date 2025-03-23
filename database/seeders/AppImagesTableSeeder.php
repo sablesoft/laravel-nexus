@@ -14,12 +14,12 @@ class AppImagesTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.images')->delete();
-
+        
         \DB::table('app.images')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -36,41 +36,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:14:48',
                 'updated_at' => '2025-03-07 05:14:48',
             ),
-            1 =>
-            array (
-                'id' => 4,
-                'user_id' => 1,
-                'title' => 'Ancient mage ',
-                'prompt' => 'The magician casts a spell. Ancient Mayan setting.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'square',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-9yh2i5Ieogr3w8wOYcZqOoR1.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-08 01:13:36',
-                'updated_at' => '2025-03-08 01:13:36',
-            ),
-            2 =>
-            array (
-                'id' => 5,
-                'user_id' => 1,
-                'title' => 'Warrior',
-                'prompt' => 'A fearsome warrior in an ancient Mayan setting brandishes a weapon',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'square',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-RyjLSrQvxOoc31CVNiD3gNa0.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-08 01:23:17',
-                'updated_at' => '2025-03-08 01:23:17',
-            ),
-            3 =>
+            1 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -87,41 +53,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 02:26:26',
                 'updated_at' => '2025-03-08 02:26:26',
             ),
-            4 =>
-            array (
-                'id' => 8,
-                'user_id' => 1,
-                'title' => 'City',
-                'prompt' => 'Bird\'s eye view of ancient Mayan city',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'square',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-SzjWy9kRS705ieGB9bjmzXUA.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-08 02:30:49',
-                'updated_at' => '2025-03-08 02:30:49',
-            ),
-            5 =>
-            array (
-                'id' => 9,
-                'user_id' => 1,
-                'title' => 'Tezcatlipoca',
-                'prompt' => 'Ancient Mayan deity Tezcatlipoca depicted on a wall',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'square',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-GRHJJldQToPn7ASWMGzCyrNs.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-08 02:36:34',
-                'updated_at' => '2025-03-08 02:36:34',
-            ),
-            6 =>
+            2 => 
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -138,7 +70,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:46:07',
                 'updated_at' => '2025-03-08 03:46:07',
             ),
-            7 =>
+            3 => 
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -155,7 +87,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:34:51',
                 'updated_at' => '2025-03-09 02:09:49',
             ),
-            8 =>
+            4 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -172,7 +104,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:46:49',
                 'updated_at' => '2025-03-09 02:10:12',
             ),
-            9 =>
+            5 => 
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -189,7 +121,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:58:19',
                 'updated_at' => '2025-03-12 04:58:19',
             ),
-            10 =>
+            6 => 
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -206,7 +138,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:59:55',
                 'updated_at' => '2025-03-12 04:59:55',
             ),
-            11 =>
+            7 => 
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -223,7 +155,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 05:02:09',
                 'updated_at' => '2025-03-12 05:02:09',
             ),
-            12 =>
+            8 => 
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -240,7 +172,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:00:33',
                 'updated_at' => '2025-03-16 17:00:33',
             ),
-            13 =>
+            9 => 
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -257,7 +189,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:02:13',
                 'updated_at' => '2025-03-16 17:02:13',
             ),
-            14 =>
+            10 => 
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -274,7 +206,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:07',
                 'updated_at' => '2025-03-16 17:04:07',
             ),
-            15 =>
+            11 => 
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -291,7 +223,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-16 17:04:40',
             ),
-            16 =>
+            12 => 
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -308,24 +240,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:02',
                 'updated_at' => '2025-03-16 17:05:02',
             ),
-            17 =>
-            array (
-                'id' => 24,
-                'user_id' => 1,
-                'title' => 'Mythical Forest Guardian',
-                'prompt' => 'A mystical humanoid creature covered in moss and vines, with antlers made of twisting tree branches. Her glowing green eyes shimmer like emeralds, and fireflies float around her as she stands deep in an enchanted forest.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'square',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-y49h0VyOBMTX8rez3g2Z9fvJ.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-16 17:05:28',
-                'updated_at' => '2025-03-16 17:05:28',
-            ),
-            18 =>
+            13 => 
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -342,24 +257,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:49',
                 'updated_at' => '2025-03-16 17:05:49',
             ),
-            19 =>
-            array (
-                'id' => 26,
-                'user_id' => 1,
-                'title' => 'Norse Battle Goddess',
-                'prompt' => 'A fierce Norse warrior goddess with intricate braids in her fiery red hair, wearing golden armor and a wolf-fur cloak. She holds a glowing runic axe, and a storm rages behind her as she stands on a Viking longship.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'square',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-08aGJkdoL1k0KNUzfdzuuB6L.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-16 17:06:11',
-                'updated_at' => '2025-03-16 17:06:11',
-            ),
-            20 =>
+            14 => 
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -376,7 +274,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:46',
                 'updated_at' => '2025-03-16 17:06:46',
             ),
-            21 =>
+            15 => 
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -393,12 +291,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:08:46',
                 'updated_at' => '2025-03-16 17:08:46',
             ),
-            22 =>
+            16 => 
             array (
                 'id' => 31,
                 'user_id' => 1,
                 'title' => 'Explorer’s Journal Screen',
-            'prompt' => 'An open adventurer’s journal on a rustic wooden desk, surrounded by ink bottles, quills, wax seals, and scattered old maps. The pages contain elegant handwritten notes, sketches of creatures, and cryptic symbols. A warm glow from a candle illuminates the scene, adding a vintage explorer’s touch.',
+            'prompt' => 'An open adventurer’s journal on a rustic wooden desk, surrounded by ink bottles, quills, wax seals, and scattered old maps. The pages contain elegant handwritten notes, sketches of creatures, and cryptic symbols. A warm glow from a candle illuminates the scene, adding a vintage explorer’s touch. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -410,12 +308,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:22',
                 'updated_at' => '2025-03-16 20:01:18',
             ),
-            23 =>
+            17 => 
             array (
                 'id' => 33,
                 'user_id' => 1,
                 'title' => 'Seaside Shore Screen',
-            'prompt' => 'A scenic view of a peaceful sandy beach with gentle waves touching the shore. Scattered seashells, driftwood, and small crabs add detail. The sky is painted in warm hues of a sunset, making the scene feel tranquil and inviting.',
+            'prompt' => 'A scenic view of a peaceful sandy beach with gentle waves touching the shore. Scattered seashells, driftwood, and small crabs add detail. The sky is painted in warm hues of a sunset, making the scene feel tranquil and inviting. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -427,12 +325,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:05',
                 'updated_at' => '2025-03-16 20:01:04',
             ),
-            24 =>
+            18 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
                 'title' => 'Navigation Table Screen',
-            'prompt' => 'A navigator’s wooden desk filled with a large parchment map, a brass compass, measuring tools, a spyglass, and various old navigation charts. The desk is illuminated by soft lantern light, creating a historical and adventurous atmosphere.',
+            'prompt' => 'A navigator’s wooden desk filled with a large parchment map, a brass compass, measuring tools, a spyglass, and various old navigation charts. The desk is illuminated by soft lantern light, creating a historical and adventurous atmosphere. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -444,12 +342,46 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:47',
                 'updated_at' => '2025-03-16 20:01:11',
             ),
-            25 =>
+            19 => 
+            array (
+                'id' => 26,
+                'user_id' => 2,
+                'title' => 'Norse Battle Goddess',
+                'prompt' => 'A fierce Norse warrior goddess with intricate braids in her fiery red hair, wearing golden armor and a wolf-fur cloak. She holds a glowing runic axe, and a storm rages behind her as she stands on a Viking longship.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'square',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-08aGJkdoL1k0KNUzfdzuuB6L.png',
+                'path_thumbnail' => NULL,
+                'is_public' => false,
+                'created_at' => '2025-03-16 17:06:11',
+                'updated_at' => '2025-03-16 17:06:11',
+            ),
+            20 => 
+            array (
+                'id' => 24,
+                'user_id' => 2,
+                'title' => 'Mythical Forest Guardian',
+                'prompt' => 'A mystical humanoid creature covered in moss and vines, with antlers made of twisting tree branches. Her glowing green eyes shimmer like emeralds, and fireflies float around her as she stands deep in an enchanted forest.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'square',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-y49h0VyOBMTX8rez3g2Z9fvJ.png',
+                'path_thumbnail' => NULL,
+                'is_public' => false,
+                'created_at' => '2025-03-16 17:05:28',
+                'updated_at' => '2025-03-16 17:05:28',
+            ),
+            21 => 
             array (
                 'id' => 30,
                 'user_id' => 1,
                 'title' => 'Adventurer’s Inventory Screen',
-            'prompt' => 'A detailed and atmospheric adventurer\'s inventory laid out on a wooden table. Includes a worn leather backpack, rolled-up maps, a compass, a dagger, potions in glass vials, gold coins, and an old lantern. The setting is dimly lit by candlelight, creating a sense of mystery and adventure.',
+            'prompt' => 'A detailed and atmospheric adventurer\'s inventory laid out on a wooden table. Includes a worn leather backpack, rolled-up maps, a compass, a dagger, potions in glass vials, gold coins, and an old lantern. The setting is dimly lit by candlelight, creating a sense of mystery and adventure. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -461,29 +393,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:48:57',
                 'updated_at' => '2025-03-16 20:01:25',
             ),
-            26 =>
-            array (
-                'id' => 40,
-                'user_id' => 1,
-                'title' => 'Alchemy Workshop Screen',
-            'prompt' => 'A mystical alchemist’s workshop with wooden shelves lined with potion bottles, bubbling cauldrons, ancient scrolls, and an open grimoire with arcane symbols. Dim lanterns and green magical light add an eerie yet fascinating atmosphere.',
-                'has_glitches' => true,
-                'attempts' => 1,
-                'aspect' => 'portrait',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-2Khiebbkna4fhdunmPmVdjio.png',
-                'path_thumbnail' => NULL,
-                'is_public' => false,
-                'created_at' => '2025-03-16 19:02:51',
-                'updated_at' => '2025-03-16 19:59:52',
-            ),
-            27 =>
+            22 => 
             array (
                 'id' => 39,
                 'user_id' => 1,
                 'title' => 'Mountain Peak Camp Screen',
-            'prompt' => 'A high-altitude adventurer’s camp set on a snowy mountain peak. A small tent, a firepit, climbing gear, and an ice axe stuck in the ground. Below, a breathtaking view of distant mountain ranges bathed in the first light of dawn.',
+            'prompt' => 'A high-altitude adventurer’s camp set on a snowy mountain peak. A small tent, a firepit, climbing gear, and an ice axe stuck in the ground. Below, a breathtaking view of distant mountain ranges bathed in the first light of dawn. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -495,12 +410,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:01:26',
                 'updated_at' => '2025-03-16 20:00:19',
             ),
-            28 =>
+            23 => 
             array (
                 'id' => 38,
                 'user_id' => 1,
                 'title' => 'Desert Caravan Camp Screen',
-            'prompt' => 'A nomadic caravan resting in the middle of a vast desert. Tents made of colorful fabrics, a campfire burning in the center, and camels resting nearby. The golden sand dunes stretch far into the horizon under a pinkish-orange sunset sky.',
+            'prompt' => 'A nomadic caravan resting in the middle of a vast desert. Tents made of colorful fabrics, a campfire burning in the center, and camels resting nearby. The golden sand dunes stretch far into the horizon under a pinkish-orange sunset sky. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -512,12 +427,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:00:42',
                 'updated_at' => '2025-03-16 20:00:31',
             ),
-            29 =>
+            24 => 
             array (
                 'id' => 37,
                 'user_id' => 1,
                 'title' => 'Ancient Library Screen',
-            'prompt' => 'A grand and mysterious library filled with towering bookshelves, ancient tomes, and glowing magical artifacts. Dust particles float in the dim golden light coming from chandeliers. An old wooden ladder leans against a shelf, inviting discovery.',
+            'prompt' => 'A grand and mysterious library filled with towering bookshelves, ancient tomes, and glowing magical artifacts. Dust particles float in the dim golden light coming from chandeliers. An old wooden ladder leans against a shelf, inviting discovery. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -529,12 +444,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:00:22',
                 'updated_at' => '2025-03-16 20:00:39',
             ),
-            30 =>
+            25 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
                 'title' => 'Tavern Interior Screen',
-            'prompt' => 'A cozy medieval tavern interior with wooden beams, a roaring fireplace, and rustic wooden tables. Shelves stacked with dusty bottles of ale, barrels in the corner, and dim candlelight add to the warm and lively ambiance.',
+            'prompt' => 'A cozy medieval tavern interior with wooden beams, a roaring fireplace, and rustic wooden tables. Shelves stacked with dusty bottles of ale, barrels in the corner, and dim candlelight add to the warm and lively ambiance. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -546,12 +461,12 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:58:46',
                 'updated_at' => '2025-03-16 20:00:50',
             ),
-            31 =>
+            26 => 
             array (
                 'id' => 34,
                 'user_id' => 1,
                 'title' => 'Jungle Trail Screen',
-            'prompt' => 'A dense jungle pathway covered in mist, surrounded by towering ancient trees, thick vines, and exotic flowers. Sunlight filters through the dense canopy, casting a golden glow over the moss-covered stones and leaves. The path looks like it leads to something mysterious ahead.',
+            'prompt' => 'A dense jungle pathway covered in mist, surrounded by towering ancient trees, thick vines, and exotic flowers. Sunlight filters through the dense canopy, casting a golden glow over the moss-covered stones and leaves. The path looks like it leads to something mysterious ahead. Aspect ratio: portrait (tall image, 1024x1792)',
                 'has_glitches' => false,
                 'attempts' => 1,
                 'aspect' => 'portrait',
@@ -563,8 +478,25 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:25',
                 'updated_at' => '2025-03-16 20:00:57',
             ),
+            27 => 
+            array (
+                'id' => 44,
+                'user_id' => 1,
+                'title' => 'Point of View',
+                'prompt' => 'A group of four fantasy adventurers stands at the edge of a cliff, gazing into the distance at a vast, fertile valley with a majestic castle on the horizon. One of them is holding a spyglass, carefully observing the distant lands. The party consists of classic RPG characters, including a warrior, a bard, a mage, and a druid, representing typical fantasy races such as humans, elves, and dwarves. The scene is set in a rich fantasy world, with dramatic lighting and breathtaking scenery.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'landscape',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-aOdgaSjM0gmnj5zfLpnc2UOw.png',
+                'path_thumbnail' => NULL,
+                'is_public' => false,
+                'created_at' => '2025-03-19 22:29:03',
+                'updated_at' => '2025-03-22 01:16:23',
+            ),
         ));
-
-
+        
+        
     }
 }
