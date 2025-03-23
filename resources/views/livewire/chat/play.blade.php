@@ -47,7 +47,7 @@
                       class="p-1! w-xs border-l border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 flex flex-col">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
             @php
-                $sidebarStyle = $screen->imagePath ? "background-image: url('".Storage::url($screen->imagePath)."');".
+                $sidebarStyle = $screen->imagePathMd ? "background-image: url('".Storage::url($screen->imagePathMd)."');".
                                        " background-size: cover; background-position: center;" : '';
             @endphp
             <div class="flex-1 overflow-y-auto space-y-4" style="{{ $sidebarStyle }}">
@@ -74,7 +74,7 @@
                                 <flux:profile
                                     class="pr-2 bg-black/50 dark:bg-black/50 !dark:hover:bg-black/50 !hover:bg-black/50 rounded-r-none {{ $isCurrentUser ? 'border-2 border-green-400 shadow-lg' : 'cursor-pointer' }}"
                                     :chevron="false" :name="$member->maskName"
-                                    :avatar="Storage::url($member->mask->imagePath)"/>
+                                    :avatar="Storage::url($member->mask->imagePathSm)"/>
                             </li>
                         @endforeach
                     </ul>
@@ -89,7 +89,7 @@
                                 <flux:profile
                                     class="bg-black/50 dark:bg-black/50 !dark:hover:bg-black/50 !hover:bg-black/50 pr-2 rounded-r-none"
                                     :chevron="false" :name="$member->maskName"
-                                    :avatar="Storage::url($member->mask->imagePath)"/>
+                                    :avatar="Storage::url($member->mask->imagePathSm)"/>
                             </li>
                         @endforeach
                     </ul>

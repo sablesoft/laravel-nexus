@@ -55,7 +55,7 @@ trait HandleImage
             'title' => $title,
             'action' => $action,
             'type' => 'image',
-            'callback' => fn($model) => $model->image ? $model->image->path : null
+            'callback' => fn($model) => $model->image ? $model->image->path_md : null
         ];
     }
 

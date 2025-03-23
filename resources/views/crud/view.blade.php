@@ -11,9 +11,9 @@
             <flux:button wire:click="close()" class="cursor-pointer">
                 {{ __('Close') }}
             </flux:button>
-            @foreach($this->viewButtons() as $action => $button)
-            @if($this->canRun($action, $modelId))
-            <flux:button :variant="$button['variant'] ?? 'outline'" wire:click="{{ $action }}({{ $modelId }})"
+            @foreach($this->viewButtons() as $buttonAction => $button)
+            @if($this->canRun($buttonAction, $modelId))
+            <flux:button :variant="$button['variant'] ?? 'outline'" wire:click="{{ $buttonAction }}({{ $modelId }})"
                          class="cursor-pointer">
                 {{ $button['title'] }}
             </flux:button>
@@ -90,9 +90,9 @@
         <flux:button wire:click="close()" class="cursor-pointer">
             {{ __('Close') }}
         </flux:button>
-        @foreach($this->viewButtons() as $action => $button)
-            @if($this->canRun($action, $modelId))
-            <flux:button :variant="$button['variant'] ?? 'outline'" wire:click="{{ $action }}({{ $modelId }})"
+        @foreach($this->viewButtons() as $buttonAction => $button)
+            @if($this->canRun($buttonAction, $modelId))
+            <flux:button :variant="$button['variant'] ?? 'outline'" wire:click="{{ $buttonAction }}({{ $modelId }})"
                          class="cursor-pointer">
                 {{ $button['title'] }}
             </flux:button>
