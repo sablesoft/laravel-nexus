@@ -16,6 +16,7 @@ use App\Services\OpenAI\Enums\ImageStyle;
 use App\Services\OpenAI\Images\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -38,15 +39,32 @@ class Image extends AbstractCrud
     {
         return 'workshop.images';
     }
+    #[On('refresh.images')]
+    public function refresh(): void
+    {
+        if ($this->action === 'view') {
+            $this->view($this->modelId);
+        }
+    }
 
     protected function fieldsConfig(): array
     {
         return [
             'path' => [
                 'title' => 'File',
-                'action' => ['index', 'create', 'edit', 'view'],
+                'action' => ['create', 'edit'],
                 'type' => 'image',
                 'rules' => ['string', $this->uniqueRule('images', 'path')],
+            ],
+            'path_md' => [
+                'title' => 'File',
+                'action' => ['view'],
+                'type' => 'image',
+            ],
+            'path_sm' => [
+                'title' => 'File',
+                'action' => ['index'],
+                'type' => 'image',
             ],
             'title' => [
                 'action' => ['create', 'edit', 'view', 'generate'],

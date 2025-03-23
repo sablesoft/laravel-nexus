@@ -82,6 +82,7 @@ class GenerateImage implements ShouldQueue
             'quality' => $this->request->getParam('quality'),
             'style' => $this->request->getParam('style')
         ]);
+        ScaleImage::dispatch($image);
         $result->add('image', $image);
     }
 

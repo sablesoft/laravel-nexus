@@ -42,17 +42,17 @@
                     @switch($this->getImageRatio($modelId))
                         @case('square')
                         <div class="px-4 py-2 whitespace-normal w-2/3">
-                            <x-image-viewer path="{{ $state[$field] }}" alt="{{ $field }}"/>
+                            <x-image-viewer :path="$state[$field]" alt="{{ $field }}"/>
                         </div>
                         @break
                         @case('portrait')
                         <div class="px-4 py-2 whitespace-normal w-2/5">
-                            <x-image-viewer path="{{ $state[$field] }}" alt="{{ $field }}"/>
+                            <x-image-viewer :path="$state[$field]" alt="{{ $field }}"/>
                         </div>
                         @break
                         @default
                         <div class="px-4 py-2 whitespace-normal w-full">
-                            <x-image-viewer path="{{ $state[$field] }}" alt="{{ $field }}"/>
+                            <x-image-viewer :path="$state[$field]" alt="{{ $field }}"/>
                         </div>
                         @break
                    @endswitch
