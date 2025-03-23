@@ -26,7 +26,7 @@ class FileService
     public static function check(HasFilesInterface $model): void
     {
         foreach ($model->getPaths() as $path) {
-            if (!Storage::has($path)) {
+            if ($path && !Storage::has($path)) {
                 throw new \Exception('File not found in path: ' . $path);
             }
         }

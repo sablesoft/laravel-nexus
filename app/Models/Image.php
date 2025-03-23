@@ -17,6 +17,8 @@ use App\Models\Interfaces\HasOwnerInterface;
  * @property string|null $title
  * @property string|null $prompt
  * @property string|null $path
+ * @property string|null $path_md
+ * @property string|null $path_sm
  * @property bool|null $is_public
  * @property bool|null $has_glitches
  * @property ImageAspect|null $aspect
@@ -30,8 +32,10 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
 {
     use HasOwner;
 
+    const PATH_PREFIX = 'images';
+
     protected $fillable = [
-        'title', 'prompt', 'path', 'user_id', 'is_public',
+        'title', 'prompt', 'path', 'path_md', 'path_sm', 'user_id', 'is_public',
         'has_glitches', 'aspect', 'quality', 'style', 'attempts'
     ];
 
@@ -63,7 +67,9 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
     public function getPaths(): array
     {
         return [
-            $this->path
+            $this->path,
+            $this->path_md,
+            $this->path_sm,
         ];
     }
 }

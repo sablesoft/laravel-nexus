@@ -90,6 +90,7 @@ class GenerateNotification extends Notification implements ShouldQueue
         return [
             'refresh' => $this->result['refresh'] ?? null,
             'flash' => $this->message,
+            'debug' => $this->result['debug'] ?? null,
             'success' => $success,
         ];
     }

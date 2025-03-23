@@ -53,6 +53,17 @@ class GenerateImage implements ShouldQueue
         } catch (Throwable $e) {
             $this->user->notify(new GenerateNotification([
                 'success' => false,
+                'debug' => [
+                    'component' => 'GenerateImage',
+                    'message' => 'Error',
+                    'context' => [
+                        'message' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'request' => $this->request->toArray(),
+                        'trace' => $e->getTraceAsString()
+                    ]
+                ]
             ]));
             DB::rollBack();
             throw $e;

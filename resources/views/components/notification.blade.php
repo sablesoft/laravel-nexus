@@ -14,6 +14,10 @@
                             link: notification.link
                         });
                     }
+                    if (notification.debug) {
+                        const {component, message, context = null} = notification.debug;
+                        Debug(component, message, context);
+                    }
                 });
             Debug('notification', 'init');
         } else {
