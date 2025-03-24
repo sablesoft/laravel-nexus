@@ -97,7 +97,14 @@
 
                         {{-- Column 2: Logic --}}
                         <span class="text-sm text-zinc-600 dark:text-zinc-300">
-                            {{ $logicTitle }}
+                            @if($isScenario)
+                            <a class="underline" wire:click.stop wire:navigate
+                               href="{{ route('workshop.scenarios', ['action' => 'view', 'id' => $step['nested_id']]) }}">
+                                {{ $logicTitle }}
+                            </a>
+                            @else
+                                {{ $logicTitle }}
+                            @endif
                         </span>
 
                         {{-- Column 3: Expand toggle --}}

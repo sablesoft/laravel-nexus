@@ -122,8 +122,15 @@
                     {{ $control['tooltip'] }}
                 </span>
                     <span class="text-sm text-zinc-500 dark:text-zinc-400">
-                    {{ $logic }}
-                </span>
+                        @if(!empty($control['scenario_id']))
+                        <a class="underline" wire:click.stop wire:navigate
+                           href="{{ route('workshop.scenarios', ['action' => 'view', 'id' => $control['scenario_id']]) }}">
+                            {{ $logic }}
+                        </a>
+                        @else
+                        {{ $logic }}
+                        @endif
+                    </span>
 
                     {{-- Expand toggle + actions --}}
                     <div class="flex justify-end gap-2">

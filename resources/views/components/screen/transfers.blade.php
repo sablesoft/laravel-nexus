@@ -25,9 +25,11 @@
                     <div class="w-10 h-10 rounded overflow-hidden">
                         <x-image-viewer :path="$imagePath"/>
                     </div>
-                    <span class="font-medium text-zinc-800 dark:text-zinc-100">
+                    <a href="{{ route('workshop.screens', ['action' => 'view', 'id' => $transfer->screen_to_id ]) }}"
+                       wire:click.stop wire:navigate
+                       class="cursor-pointer underline font-medium text-zinc-800 dark:text-zinc-100">
                         {{ $transfer->screenTo?->title ?? '—' }}
-                    </span>
+                    </a>
                 </div>
 
                 {{-- Title --}}
