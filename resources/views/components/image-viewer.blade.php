@@ -9,7 +9,7 @@
         <span class="text-gray-500">No Image</span>
     @else
         <img src="{{ Storage::url($path) }}" alt="{{ $alt }}" class="object-contain">
-        <div x-on:click="$flux.modal('image-viewer-{{ $uuid }}').show()"
+        <div x-on:click.stop="$flux.modal('image-viewer-{{ $uuid }}').show()"
              class="cursor-pointer absolute inset-0 flex items-center justify-center bg-black opacity-0 hover:opacity-70 transition-opacity">
             <flux:button class="cursor-pointer" icon="eye"/>
         </div>

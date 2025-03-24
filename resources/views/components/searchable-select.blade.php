@@ -3,7 +3,7 @@
                   @searchable-init="searchableInit"
                   @searchable-selected="searchableSelected"
                   @searchable-cleared="searchableCleared"/>
-    <input type="hidden" x-model="model" value="{{ $state[$field] }}">
+{{--    <input type="hidden" x-model="model" value="{{ $state[$field] }}">--}}
 </div>
 
 @script
@@ -21,7 +21,7 @@
                 });
             },
             debug(message, data) {
-                Debug('crud-searchable-select', field, {message, data});
+                Debug('searchable-select', field, {message, data});
             },
 
             selectedField() {
