@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
 class Screen extends AbstractCrud implements ShouldBelongsTo
 {
     use HandleBelongsTo, HandleImage, HandleTransfers, HandleLinks,
-//        HandleHasMany, todo - controls
         FilterApplication, FilterIsDefault;
 
     public function className(): string
@@ -59,10 +58,6 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
 
     public function templateParams(string $action, ?string $field = null): array|callable
     {
-//        if (array_key_exists($field, $this->getHasManyFields())) {
-//            $class = $this->getHasManyFields()[$field];
-//            return $this->optionsParam($field, $class);
-//        }
         if (array_key_exists($field, $this->getBelongsToFields())) {
             $class = $this->getBelongsToFields()[$field];
             return $this->optionsParam($field, $class);
@@ -81,11 +76,16 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
     public function componentParams(string $action, ?string $field = null): array
     {
         if ($field === 'image_id') {
-            return $this->componentParamsImageSelector($field, [
+            /** @var \App\Models\Screen $model */
+            $model = $this->getResource();
+            return $this->componentParamsImageSelector($field, $model->image_id, [
                 'aspectRatio' => ImageAspect::Portrait->value
             ]);
         }
         if ($action === 'edit' && $field === 'transfersEdit') {
+            return ['screenId' => $this->modelId];
+        }
+        if ($action === 'view' && $field === 'controlsCrud') {
             return ['screenId' => $this->modelId];
         }
 
@@ -122,6 +122,12 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'transfersEdit' => $this->transfersEditField(),
             'transfersView' => $this->transfersViewField(),
+            'controlsCrud' => [
+                'title' => 'Controls',
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.screen.controls',
+            ],
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',

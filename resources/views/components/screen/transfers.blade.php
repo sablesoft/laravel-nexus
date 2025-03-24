@@ -1,36 +1,65 @@
-<div class="space-y-4">
+<div class="space-y-2">
     @php /** @var \App\Models\Transfer $transfer */ @endphp
+
+    @if($transfers->count())
+        {{-- Table header --}}
+        <div class="grid grid-cols-4 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
+            <span>Screen</span>
+            <span>Title</span>
+            <span>Tooltip</span>
+            <span class="text-right">Details</span>
+        </div>
+    @endif
+
     @foreach($transfers as $transfer)
-        <div x-data="{ open: false }">
-            <div class="flex items-center justify-between p-2 cursor-pointer border bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 shadow-lg rounded-lg"
-                 @click="open = !open">
-                <div class="flex items-center space-x-2">
-                    @php $imagePath = $transfer->screenTo?->imagePath @endphp
-                    <div class="w-20 h-20 rounded-lg overflow-hidden mr-5">
+        @php $imagePath = $transfer->screenTo?->imagePathMd; @endphp
+
+        <div x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
+            {{-- Row --}}
+            <div
+                class="grid grid-cols-4 gap-4 items-center px-4 py-3 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                @click="open = !open"
+            >
+                {{-- Screen (image + title) --}}
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded overflow-hidden">
                         <x-image-viewer :path="$imagePath"/>
                     </div>
-                    <flux:heading size="lg" class="font-semibold">
-                        {{ $transfer->screenTo?->title }}
-                    </flux:heading>
+                    <span class="font-medium text-zinc-800 dark:text-zinc-100">
+                        {{ $transfer->screenTo?->title ?? '—' }}
+                    </span>
                 </div>
-                <span x-text="open ? '▲' : '▼'"></span>
+
+                {{-- Title --}}
+                <span class="text-sm text-zinc-600 dark:text-zinc-300">
+                    {{ $transfer->title ?: '—' }}
+                </span>
+
+                {{-- Tooltip --}}
+                <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                    {{ $transfer->tooltip ?: '—' }}
+                </span>
+
+                {{-- Arrow --}}
+                <span class="text-right text-sm text-zinc-400 dark:text-zinc-500" x-text="open ? '▲' : '▼'"></span>
             </div>
 
-            <div x-show="open" class="mt-2 p-2 border bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 shadow-lg rounded-lg">
-                <div class="mb-2">
-                    <label class="block text-sm font-medium">Title</label>
+            {{-- Expandable section --}}
+            <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
+                <div class="mb-3">
+                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Title</label>
                     <p>{{ $transfer->title ?: '—' }}</p>
                 </div>
 
-                <div class="mb-2">
-                    <label class="block text-sm font-medium">Tooltip</label>
-                    <p>{{ $transfer->tooltip ?? '—' }}</p>
+                <div class="mb-3">
+                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Tooltip</label>
+                    <p>{{ $transfer->tooltip ?: '—' }}</p>
                 </div>
 
-                <div class="mb-2">
-                    <label class="block text-sm font-medium">Active (JSON)</label>
-                    <pre class="p-2 rounded text-sm overflow-auto">
-                        {{ $transfer->active ?? '—' }}
+                <div class="mb-3">
+                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Active (JSON)</label>
+                    <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
+{{ $transfer->active ?? '—' }}
                     </pre>
                 </div>
             </div>

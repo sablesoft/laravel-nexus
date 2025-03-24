@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class Transfer extends Component
+class Transfers extends Component
 {
     use HandlePaginate;
 
@@ -35,14 +35,14 @@ class Transfer extends Component
                     json_encode($transfer->active, JSON_PRETTY_PRINT) :
                     null,
                 'screenTitle' => $transfer->screenTo->title,
-                'imageUrl' => $transfer->screenTo->imageUrl,
+                'imageUrlSm' => $transfer->screenTo->imageUrlSm,
             ];
         }
     }
 
     public function render(): mixed
     {
-        return view('livewire.workshop.screen.transfer', [
+        return view('livewire.workshop.screen.transfers', [
             'models' => $this->paginator()
         ]);
     }
@@ -69,14 +69,6 @@ class Transfer extends Component
         return $query;
     }
 
-    public function resetFilters(): void
-    {
-        $this->search = '';
-        $this->perPage = 10;
-        $this->orderBy = 'id';
-        $this->orderDirection = 'desc';
-    }
-
     public function selectScreen(int $id): void
     {
         $screen = Screen::with('image')->findOrFail($id);
@@ -88,7 +80,7 @@ class Transfer extends Component
             'tooltip' => null,
             'active' => null,
             'screenTitle' => $screen->title,
-            'imageUrl' => $screen->imageUrl,
+            'imageUrlSm' => $screen->imageUrlSm,
         ];
         $this->dispatch('transferAdded', transfer: $this->transfers[$id]);
     }

@@ -62,7 +62,7 @@ trait HandleTransfers
             'title' => 'Transfers',
             'action' => ['edit'],
             'type' => 'component',
-            'component' => 'workshop.screen.transfer',
+            'component' => 'workshop.screen.transfers',
             'callback' => fn($model) => $this->getHasManyHtml($model, 'transfers')
         ];
     }
@@ -71,7 +71,7 @@ trait HandleTransfers
     {
         return [
             'title' => 'Transfers',
-            'action' => 'view',
+            'action' => ['view'],
             'type' => 'template',
             'template' => 'components.screen.transfers'
         ];
