@@ -90,65 +90,75 @@
     </flux:modal>
 
     {{-- Controls List --}}
+    {{-- Controls List --}}
     <div class="space-y-2">
         @if($controls)
-            <div class="grid grid-cols-4 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
+            <div class="grid grid-cols-5 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
                 <span>Type</span>
                 <span>Title</span>
                 <span>Tooltip</span>
+                <span>Logic</span>
                 <span class="text-right">Actions</span>
             </div>
         @endif
 
         @foreach($controls as $id => $control)
-            <div x-data="{ open: false }" class="transition-all duration-300">
+            @php
+                $logic = $control['scenarioTitle']
+                    ? 'Scenario: ' . $control['scenarioTitle']
+                    : ($control['commandTitle'] ? 'Command: ' . $control['commandTitle'] : '—');
+            @endphp
+
+            <div x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
                 {{-- Row --}}
-                <div
-                    class="grid grid-cols-4 gap-4 items-center bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-3 shadow cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-700"
-                    @click="open = !open">
-                    <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">{{ ucfirst($control['type']) }}</span>
-                    <span class="text-sm text-zinc-600 dark:text-zinc-300">{{ $control['title'] }}</span>
-                    <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ $control['tooltip'] }}</span>
-                    <span class="text-right text-sm text-zinc-400 dark:text-zinc-500" x-text="open ? '▲' : '▼'"></span>
+                <div class="grid grid-cols-5 gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
+                <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                    {{ ucfirst($control['type']) }}
+                </span>
+                    <span class="text-sm text-zinc-600 dark:text-zinc-300">
+                    {{ $control['title'] }}
+                </span>
+                    <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                    {{ $control['tooltip'] }}
+                </span>
+                    <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                    {{ $logic }}
+                </span>
+
+                    {{-- Expand toggle + actions --}}
+                    <div class="flex justify-end gap-2">
+                        <button class="cursor-pointer p-2 text-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
+                                @click="open = !open">
+                            <span x-text="open ? '▲' : '▼'"></span>
+                        </button>
+                        <flux:button wire:click.stop="edit({{ $id }})" variant="primary" class="cursor-pointer">
+                            {{ __('Edit') }}
+                        </flux:button>
+                        <flux:button wire:click.stop="delete({{ $id }})" variant="danger" class="cursor-pointer">
+                            {{ __('Delete') }}
+                        </flux:button>
+                    </div>
                 </div>
 
                 {{-- Expandable section --}}
-                <div x-show="open" x-transition class="bg-zinc-50 dark:bg-zinc-900 border border-t-0 border-zinc-200 dark:border-zinc-700 rounded-b-md px-6 py-4 text-sm text-zinc-700 dark:text-zinc-300">
-                    @if($control['scenarioTitle'])
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Scenario</label>
-                            <p>{{ $control['scenarioTitle'] }}</p>
-                        </div>
-                    @endif
-
-                    @if($control['commandTitle'])
-                        <div class="mb-3">
-                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Command</label>
-                            <p>{{ $control['commandTitle'] }}</p>
-                        </div>
-                    @endif
-
+                <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                     <div class="mb-3">
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Active (JSON)</label>
-                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">{{ $control['active'] ?: '-- empty --' }}</pre>
+                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
+                            {{ $control['active'] ?: '-- empty --' }}
+                        </pre>
                     </div>
 
                     <div class="mb-4">
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Constants (JSON)</label>
-                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">{{ $control['constants'] ?: '-- empty --' }}</pre>
-                    </div>
-
-                    <div class="flex justify-end gap-1 mt-2">
-                        <flux:button class="cursor-pointer" variant="danger" wire:click="delete({{ $id }})">
-                            {{  __('Delete') }}
-                        </flux:button>
-                        <flux:button class="cursor-pointer" variant="primary" wire:click="edit({{ $id }})">
-                            {{  __('Edit') }}
-                        </flux:button>
+                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
+                            {{ $control['constants'] ?: '-- empty --' }}
+                        </pre>
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
+
 
 </div>

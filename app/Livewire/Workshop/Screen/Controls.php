@@ -130,9 +130,11 @@ class Controls extends Component
         ];
 
         return array_merge($rules, $this->switcher ? [
-            'scenario_id'   => ['required', 'number']
+            'scenario_id'   => ['required', 'int'],
+            'command'       => ['nullable', 'string'],
         ] : [
-            'command'       => ['required', 'string', Rule::enum(Command::class)]
+            'command'       => ['required', 'string', Rule::enum(Command::class)],
+            'scenario_id'     => ['nullable', 'int']
         ]);
     }
 }
