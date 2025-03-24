@@ -31,6 +31,14 @@ trait HandlePaginate
         $this->paginators['page'] = 1;
     }
 
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->perPage = 10;
+        $this->orderBy = 'id';
+        $this->orderDirection = 'desc';
+    }
+
     public function filterTemplates(): array
     {
         return [];

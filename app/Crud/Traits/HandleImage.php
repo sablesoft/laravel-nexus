@@ -20,9 +20,13 @@ trait HandleImage
         return $this->getResource()?->image?->aspect?->value;
     }
 
-    public function componentParamsImageSelector(string $field = 'image_id', array $filter = []): array
+    public function componentParamsImageSelector(string $field = 'image_id', ?int $imageId = null, array $filter = []): array
     {
-        return ['field' => $field, 'filter' => $filter];
+        return [
+            'field' => $field,
+            'imageId' => $imageId,
+            'filter' => $filter
+        ];
     }
 
     /**
@@ -44,7 +48,7 @@ trait HandleImage
     protected function imageViewerField(
         string $title = 'Image',
         string $relation = 'image',
-        array $action = ['create', 'edit', 'index', 'view']
+        array $action = ['index', 'view']
     ): array
     {
         return [
@@ -57,6 +61,6 @@ trait HandleImage
 
     protected function getImagePath(int $imageId): string
     {
-        return Image::findOrFail($imageId)->path;
+        return Image::findOrFail($imageId)->path_md;
     }
 }

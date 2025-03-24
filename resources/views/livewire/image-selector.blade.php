@@ -1,4 +1,5 @@
 <div>
+    <x-image-viewer path="{{ $imagePath }}"/>
     <flux:modal.trigger name="select-image-{{ $field }}">
         <flux:button class="cursor-pointer">Select Image</flux:button>
     </flux:modal.trigger>

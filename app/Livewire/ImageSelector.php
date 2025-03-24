@@ -18,11 +18,16 @@ class ImageSelector extends Component
     public string $field;
     #[Locked]
     public array $filter;
+    #[Locked]
+    public ?string $imagePath = null;
 
-    public function mount(string $field, array $filter = []): void
+    public function mount(string $field, ?int $imageId = null, array $filter = []): void
     {
         $this->field = $field;
         $this->filter = $filter;
+        if ($imageId) {
+            $this->preparePath($imageId);
+        }
     }
 
     public function render(): mixed
@@ -84,6 +89,14 @@ class ImageSelector extends Component
 
     public function selectImage(int $id): void
     {
+        $this->preparePath($id);
         $this->dispatch('imageSelected', imageId: $id, field: $this->field);
+    }
+
+    protected function preparePath(int $id): void
+    {
+        /** @var Image $image */
+        $image = Image::findOrFail($id);
+        $this->imagePath = $image->path_md;
     }
 }
