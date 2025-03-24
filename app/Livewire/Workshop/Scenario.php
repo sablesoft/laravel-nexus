@@ -51,6 +51,12 @@ class Scenario extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
+            'stepsCrud' => [
+                'title' => 'Steps',
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.scenario.steps',
+            ],
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -62,5 +68,14 @@ class Scenario extends AbstractCrud
                 'rules' => 'nullable|json'
             ],
         ];
+    }
+
+    public function componentParams(string $action, ?string $field = null): array
+    {
+        if ($action === 'view' && $field === 'stepsCrud') {
+            return ['scenarioId' => $this->modelId];
+        }
+
+        return [];
     }
 }

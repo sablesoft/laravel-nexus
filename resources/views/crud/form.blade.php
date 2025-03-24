@@ -38,17 +38,13 @@
                     $hasError = $errors->has('state.' . $field);
                 @endphp
 
-                <div
-                    x-data="{ open: {{ $hasError ? 'true' : 'false' }} }"
-                    class="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow"
-                >
+                <div x-data="{ open: false }"
+                    class="bg-zinc-100 dark:bg-zinc-900 border rounded-md shadow {{ $hasError ? 'border-red-500' : 'border-zinc-200 dark:border-zinc-700' }}">
+
                     {{-- Header --}}
-                    <div
-                        @click="open = !open"
-                        class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md"
-                    >
-                        <h3 :class="{ 'text-red-600 dark:text-red-400': {{ $hasError ? 'true' : 'false' }} }"
-                            class="text-base font-bold text-zinc-800 dark:text-zinc-100">
+                    <div @click="open = !open"
+                        class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                        <h3 class="text-base font-bold {{ $hasError ? 'text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-100' }}">
                             {{ $title }}
                         </h3>
                         <span class="text-sm text-zinc-500 dark:text-zinc-400" x-text="open ? '▲' : '▼'"></span>
@@ -157,4 +153,3 @@
         </div>
     </form>
 </div>
-

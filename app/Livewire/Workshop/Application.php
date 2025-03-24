@@ -52,7 +52,9 @@ class Application extends AbstractCrud implements ShouldHasMany
     public function componentParams(string $action, ?string $field = null): array
     {
         if ($field === 'image_id') {
-            return $this->componentParamsImageSelector($field, [
+            /** @var \App\Models\Application $model */
+            $model = $this->getResource();
+            return $this->componentParamsImageSelector($field, $model->image_id, [
                 'aspectRatio' => ImageAspect::Landscape->value
             ]);
         }

@@ -11,4 +11,13 @@ enum Command: string
     {
         return array_map(fn($case) => $case->value, self::cases());
     }
+
+    public static function options(): array
+    {
+        return array_reduce(self::cases(), function ($result, $case) {
+            $value = $case->value;
+            $result[$value] = ucfirst($value);
+            return $result;
+        }, []);
+    }
 }

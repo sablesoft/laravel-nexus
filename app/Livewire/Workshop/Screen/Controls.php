@@ -71,6 +71,7 @@ class Controls extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = $control[$field];
         }
+        $this->switcher = !empty($control['scenario_id']);
         Flux::modal('form-control')->show();
     }
 
