@@ -26,21 +26,22 @@
     </header>
 
     {{-- Fields --}}
-    <div class="space-y-4">
+    <div class="space-y-2">
         @foreach($this->checkedFields() as $field => $title)
             @if($this->type($field) !== 'hidden')
-                <div x-data="{ open: false }" class="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow">
+                <div x-data="{ open: {{ in_array($this->type($field), ['component', 'template', 'image']) ? 'false' : 'true' }} }"
+                     class="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow">
                     {{-- Field header --}}
                     <div @click="open = !open"
-                         class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
-                        <h3 class="text-lg font-black text-gray-700 dark:text-gray-300">
+                         class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-3 py-2 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                        <h3 class="text-base font-black text-gray-700 dark:text-gray-300">
                             {{ $title }}
                         </h3>
                         <span class="text-sm text-gray-500 dark:text-gray-400" x-text="open ? '▲' : '▼'"></span>
                     </div>
 
                     {{-- Field content --}}
-                    <div x-show="open" x-transition class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                    <div x-show="open" x-transition class="px-3 py-2 text-sm text-gray-800 dark:text-gray-200">
                         @switch($this->type($field))
                             @case('checkbox')
                                 {{ $state[$field] }}

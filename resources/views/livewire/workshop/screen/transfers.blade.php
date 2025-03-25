@@ -1,7 +1,9 @@
 <div>
-    <flux:modal.trigger name="select-screen">
-        <flux:button class="cursor-pointer">Select Screen</flux:button>
-    </flux:modal.trigger>
+    <div class="flex justify-end">
+        <flux:modal.trigger name="select-screen">
+            <flux:button size="sm" variant="primary" icon="plus-circle" class="cursor-pointer"/>
+        </flux:modal.trigger>
+    </div>
     <flux:modal name="select-screen"
                 x-on:cancel="$wire.resetFilters()"
                 x-on:close="$wire.resetFilters()" class="!max-w-4xl">
@@ -33,6 +35,44 @@
             </div>
         </div>
     </flux:modal>
+    <flux:modal name="form-transfer"
+                x-on:cancel="$wire.resetForm()"
+                x-on:close="$wire.resetForm()" class="!max-w-4xl min-w-xl">
+        <div class="space-y-4">
+            <flux:heading>{{ $this->transferId ? __('Edit Transfer To') : __('Create Transfer To') }}</flux:heading>
+            <div class="flex items-center gap-3">
+                <img :src="'{{ $state['imageUrlSm'] ?? '' }}'" alt="Screen Image"
+                     class="size-12 rounded object-cover border border-zinc-300 dark:border-zinc-600">
+                <span class="font-semibold text-zinc-800 dark:text-zinc-100">{{ $state['screenTitle'] ?? ''}}</span>
+            </div>
+            <flux:field class="mb-3">
+                <flux:label>Title</flux:label>
+                <flux:input type="text" wire:model="state.title"/>
+                <flux:error name="state.title"/>
+            </flux:field>
+            <flux:field class="mb-3">
+                <flux:label>Tooltip</flux:label>
+                <flux:textarea wire:model="state.tooltip" rows="auto"></flux:textarea>
+                <flux:error name="state.tooltip"/>
+            </flux:field>
+            <flux:field class="mb-3">
+                <flux:label>Active (JSON)</flux:label>
+                <flux:textarea wire:model="state.active" rows="auto"></flux:textarea>
+                <flux:error name="state.active"/>
+            </flux:field>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Close') }}
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button wire:click="submit" variant="primary" class="cursor-pointer">
+                    {{ __('Submit') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
 
     <div class="mt-6 space-y-2">
         @if($transfers)
@@ -46,44 +86,37 @@
         @endif
 
         @foreach($transfers as $id => $transfer)
-            @php $screenToId = $transfer['screen_to_id']; @endphp
             <div x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
                 {{-- Row --}}
                 <div
-                    class="grid grid-cols-4 gap-4 items-center px-4 py-3 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-700"
-                    @click="open = !open"
-                >
-                    <div class="flex items-center gap-2">
+                    class="grid grid-cols-4 gap-3 items-center px-3 py-2 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                    @click="open = !open">
+                    <div class="flex items-center gap-3">
                         <img :src="'{{ $transfer['imageUrlSm'] ?? '' }}'" alt="Screen Image"
-                             class="w-15 h-15 rounded object-cover border border-zinc-300 dark:border-zinc-600">
+                             class="size-12 rounded object-cover border border-zinc-300 dark:border-zinc-600">
                         <span class="font-semibold text-zinc-800 dark:text-zinc-100">{{ $transfer['screenTitle'] }}</span>
                     </div>
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">{{ $transfer['title'] ?? '—' }}</span>
                     <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ $transfer['tooltip'] ?? '—' }}</span>
-                    <span class="text-right text-sm text-zinc-400 dark:text-zinc-500" x-text="open ? '▲' : '▼'"></span>
+                    <div class="flex justify-end gap-2">
+                        <flux:button x-show="open" size="sm" icon="chevron-up" variant="ghost"
+                                     @click.stop="open = !open" class="cursor-pointer"/>
+                        <flux:button x-show="!open" size="sm" icon="chevron-down" variant="ghost"
+                                     @click.stop="open = !open" class="cursor-pointer"/>
+                        <flux:button size="sm" icon="pencil-square" wire:click.stop="edit({{ $id }})"
+                                     variant="primary" class="cursor-pointer"/>
+                        <flux:button size="sm" icon="trash" wire:click.stop="delete({{ $id }})"
+                                     variant="danger" class="cursor-pointer"/>
+                    </div>
                 </div>
 
                 {{-- Expandable form --}}
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                     <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Title</label>
-                        <flux:input type="text" wire:model.change="transfers.{{ $screenToId }}.title"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Tooltip</label>
-                        <flux:input type="text" wire:model.change="transfers.{{ $screenToId }}.tooltip"/>
-                    </div>
-
-                    <div class="mb-4">
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Active (JSON)</label>
-                        <flux:textarea wire:model.change="transfers.{{ $screenToId }}.active"></flux:textarea>
-                    </div>
-
-                    <div class="flex justify-end">
-                        <flux:button class="cursor-pointer" variant="danger" wire:click="removeScreen({{ $screenToId }})">
-                            Delete
-                        </flux:button>
+                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
+                            {{ $transfer->active ?? '—' }}
+                        </pre>
                     </div>
                 </div>
             </div>

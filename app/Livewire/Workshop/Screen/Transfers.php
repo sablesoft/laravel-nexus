@@ -2,11 +2,19 @@
 namespace App\Livewire\Workshop\Screen;
 
 use App\Crud\Traits\HandlePaginate;
+use App\Models\Enums\Command;
+use App\Models\Enums\ControlType;
 use App\Models\Screen;
+use App\Models\Services\StoreService;
+use App\Models\Transfer;
+use Arr;
+use Flux\Flux;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Throwable;
 
 class Transfers extends Component
 {
@@ -16,27 +24,19 @@ class Transfers extends Component
     public int $screenId;
     #[Locked]
     public int $applicationId;
+    #[Locked]
+    public ?int $transferId = null;
     public array $transfers = [];
+    public array $state = [];
 
     public function mount(int $screenId): void
     {
         $this->screenId = $screenId;
         $this->applicationId = Screen::findOrFail($screenId)->application_id;
-        /** @var Collection<int, \App\Models\Transfer> $transfers */
-        $transfers = \App\Models\Transfer::where('screen_from_id', $screenId)->with('screenTo')->get();
+        /** @var Collection<int, Transfer> $transfers */
+        $transfers = Transfer::where('screen_from_id', $screenId)->with('screenTo')->get();
         foreach ($transfers as $transfer) {
-            $this->transfers[$transfer->screen_to_id] = [
-                'screen_from_id' => $this->screenId,
-                'screen_to_id' => $transfer->screen_to_id,
-                'code' => $transfer->code,
-                'title' => $transfer->title,
-                'tooltip' => $transfer->tooltip,
-                'active' => $transfer->active ?
-                    json_encode($transfer->active, JSON_PRETTY_PRINT) :
-                    null,
-                'screenTitle' => $transfer->screenTo->title,
-                'imageUrlSm' => $transfer->screenTo->imageUrlSm,
-            ];
+            $this->transfers[$transfer->id] = $this->prepareTransfer($transfer);
         }
     }
 
@@ -60,45 +60,108 @@ class Transfers extends Component
         ];
     }
 
-    protected function modifyQuery(Builder $query): Builder
-    {
-        $query->where('application_id', $this->applicationId);
-        $excludeIds = array_merge([$this->screenId], array_keys($this->transfers));
-        $query->whereNotIn('id', $excludeIds);
-
-        return $query;
-    }
-
     public function selectScreen(int $id): void
     {
         $screen = Screen::with('image')->findOrFail($id);
-        $this->transfers[$id] = [
-            'screen_from_id' => $this->screenId,
+        $this->state = [
             'screen_to_id' => $id,
             'code' => $this->screenId . '|' . $id,
-            'title' => $screen->title, // by default
+            'title' => $screen->title,
             'tooltip' => null,
             'active' => null,
             'screenTitle' => $screen->title,
             'imageUrlSm' => $screen->imageUrlSm,
         ];
-        $this->dispatch('transferAdded', transfer: $this->transfers[$id]);
+        Flux::modal('form-transfer')->show();
     }
 
-    public function removeScreen(int $id): void
+    public function edit(int $id): void
     {
-        $this->dispatch('transferRemoved', screenToId: $id);
+        $this->transferId = $id;
+        $transfer = $this->transfers[$id];
+        foreach (array_keys($this->rules()) as $field) {
+            $this->state[$field] = $transfer[$field];
+        }
+        foreach (['screenTitle', 'imageUrlSm'] as $field) {
+            $this->state[$field] = $transfer[$field];
+        }
+        Flux::modal('form-transfer')->show();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function submit(): void
+    {
+        $data = $this->validate(Arr::prependKeysWith($this->rules(), 'state.'));
+        $transfer = $this->getModel();
+        /** @var Transfer $transfer */
+        $transfer = StoreService::handle($data['state'], $transfer);
+        $this->transfers[$transfer->id] = $this->prepareTransfer($transfer);
+        Flux::modal('form-transfer')->close();
+        $this->dispatch('flash', message: 'Transfer' . ($this->transferId ? ' updated' : ' created'));
+        $this->resetForm();
+    }
+
+    public function delete(int $id): void
+    {
+        $this->transferId = $id;
+        $transfer = $this->getModel();
+        $transfer->delete();
         unset($this->transfers[$id]);
+        $this->dispatch('flash', message: 'Transfer deleted');
+        $this->resetForm();
     }
 
-    public function updated(string $property): void
+    public function resetForm(): void
     {
-        if (in_array($property, ['orderBy', 'orderDirection', 'perPage', 'search'] )) {
-            $this->resetCursor();
+        $this->transferId = null;
+        foreach (array_keys($this->rules()) as $field) {
+            $this->state[$field] = null;
         }
-        $property = explode('.', $property);
-        if (reset($property) === 'transfers') {
-            $this->dispatch('transferUpdated', transfer: $this->transfers[$property[1]]);
-        }
+    }
+
+    protected function prepareTransfer(Transfer $transfer): array
+    {
+        return [
+            'screen_from_id' => $this->screenId,
+            'screen_to_id' => $transfer->screen_to_id,
+            'code' => $transfer->code,
+            'title' => $transfer->title,
+            'tooltip' => $transfer->tooltip,
+            'active' => $transfer->active ?
+                json_encode($transfer->active, JSON_PRETTY_PRINT) :
+                null,
+            'screenTitle' => $transfer->screenTo->title,
+            'imageUrlSm' => $transfer->screenTo->imageUrlSm,
+        ];
+    }
+
+    protected function getModel(): Transfer
+    {
+        return $this->transferId ?
+            Transfer::with('screenTo')->findOrFail($this->transferId) :
+            new Transfer(['screen_from_id' => $this->screenId]);
+    }
+
+    protected function modifyQuery(Builder $query): Builder
+    {
+        $query->where('application_id', $this->applicationId);
+        $excludeIds = array_merge([$this->screenId], collect($this->transfers)->pluck('screen_to_id')->toArray());
+        $query->whereNotIn('id', $excludeIds);
+
+        return $query;
+    }
+
+
+    protected function rules(): array
+    {
+        return [
+            'screen_to_id'      => ['required', 'int'],
+            'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
+            'title'             => ['string', 'required'],
+            'tooltip'           => ['nullable', 'string'],
+            'active'            => ['nullable', 'json'],
+        ];
     }
 }

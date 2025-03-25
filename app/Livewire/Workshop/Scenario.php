@@ -56,13 +56,6 @@ class Scenario extends AbstractCrud
                 'action' => ['index'],
                 'callback' => fn(\App\Models\Scenario $scenario) => $scenario->steps()->count()
             ],
-            'stepsCrud' => [
-                'title' => 'Steps',
-                'action' => ['view'],
-                'type' => 'component',
-                'component' => 'workshop.scenario.steps',
-            ],
-            'inStepsList' => $this->linkListField('In Steps Of', ['index', 'view']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -73,6 +66,13 @@ class Scenario extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
+            'stepsCrud' => [
+                'title' => 'Steps',
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.scenario.steps',
+            ],
+            'inStepsList' => $this->linkListField('In Steps Of', ['index', 'view']),
         ];
     }
 

@@ -32,18 +32,18 @@
         </div>
 
         {{-- Fields --}}
-        <div class="space-y-4 mb-6">
+        <div class="space-y-2 mb-6">
             @foreach($this->checkedFields() as $field => $title)
                 @php
                     $hasError = $errors->has('state.' . $field);
                 @endphp
 
-                <div x-data="{ open: false }"
+                <div x-data="{ open: {{ in_array($this->type($field), ['component', 'template', 'image']) ? 'false' : 'true' }} }"
                     class="bg-zinc-100 dark:bg-zinc-900 border rounded-md shadow {{ $hasError ? 'border-red-500' : 'border-zinc-200 dark:border-zinc-700' }}">
 
                     {{-- Header --}}
                     <div @click="open = !open"
-                        class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                        class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-3 py-2 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
                         <h3 class="text-base font-bold {{ $hasError ? 'text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-100' }}">
                             {{ $title }}
                         </h3>
@@ -51,7 +51,7 @@
                     </div>
 
                     {{-- Field --}}
-                    <div x-show="open" x-transition class="px-6 py-4">
+                    <div x-show="open" x-transition class="px-3 py-2">
                         <flux:field class="mb-2">
                             @switch($this->type($field))
                                 @case('input')
