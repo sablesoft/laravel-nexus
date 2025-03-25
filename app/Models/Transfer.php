@@ -27,12 +27,12 @@ class Transfer extends Model
 
     protected $fillable = [
         'screen_from_id', 'screen_to_id', 'code', 'title', 'tooltip',
-        'active', 'setup',
+        'before', 'after',
     ];
 
     protected $casts = [
-        'active' => 'array',
-        'setup' => 'array',
+        'before' => 'array',
+        'after' => 'array',
     ];
 
     public function screenFrom(): BelongsTo

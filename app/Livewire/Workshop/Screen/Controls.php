@@ -114,8 +114,8 @@ class Controls extends Component
             'type' => $control->type->value,
             'title' => $control->title,
             'tooltip' => $control->tooltip,
-            'setup' => $control->setup,
-            'active' => $control->active,
+            'before' => $control->before,
+            'after' => $control->after,
         ];
     }
 
@@ -125,8 +125,8 @@ class Controls extends Component
             'type'          => ['required', 'string', Rule::enum(ControlType::class)],
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
-            'active'        => ['nullable', 'json'],
-            'setup'         => ['nullable', 'json']
+            'before'        => ['nullable', 'json'],
+            'after'         => ['nullable', 'json']
         ];
 
         return array_merge($rules, $this->switcher ? [

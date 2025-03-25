@@ -3,8 +3,8 @@
 namespace App\Models\Traits;
 
 /**
- * @property null|array $setup
- * @property null|array $active
+ * @property null|array $before
+ * @property null|array $after
  */
 trait HasSetup
 {

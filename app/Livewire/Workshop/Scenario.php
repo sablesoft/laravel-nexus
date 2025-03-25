@@ -56,13 +56,13 @@ class Scenario extends AbstractCrud
                 'action' => ['index'],
                 'callback' => fn(\App\Models\Scenario $scenario) => $scenario->steps()->count()
             ],
-            'active' => [
-                'action' => ['edit', 'view'],
+            'before' => [
+                'action' => ['edit', 'view', 'create'],
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
-            'setup' => [
-                'action' => ['edit', 'view'],
+            'after' => [
+                'action' => ['edit', 'view', 'create'],
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],

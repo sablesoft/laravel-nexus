@@ -37,13 +37,13 @@ class Screen extends Model implements HasOwnerInterface
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
-        'is_default', 'active', 'setup', 'template',
+        'is_default', 'before', 'after', 'template',
     ];
 
     protected $casts = [
         'is_default' => 'boolean',
-        'active' => 'array',
-        'setup' => 'array',
+        'before' => 'array',
+        'after' => 'array',
     ];
 
     public function application(): BelongsTo

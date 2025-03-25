@@ -145,12 +145,12 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'active' => [
+            'before' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
-            'setup' => [
+            'after' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|json'

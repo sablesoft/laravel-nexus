@@ -125,7 +125,8 @@ class Play extends Component
             'id' => $transfer->screen_to_id,
             'title' => $transfer->title,
             'tooltip' => $transfer->tooltip,
-            'active' => $transfer->active
+            'before' => $transfer->before,
+            'after' => $transfer->after,
         ])->toArray();
     }
 

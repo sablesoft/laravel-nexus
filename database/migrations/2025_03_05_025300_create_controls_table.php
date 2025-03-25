@@ -23,8 +23,8 @@ return new class extends Migration
                 ->default(ControlType::getDefault()->value)->index();
             $table->string('title')->nullable(false);
             $table->string('tooltip')->nullable();
-            $table->json('active')->nullable();
-            $table->json('setup')->nullable();
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
 
             $table->unique(['screen_id', 'scenario_id', 'command']);
 

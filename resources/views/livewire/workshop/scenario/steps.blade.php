@@ -11,7 +11,6 @@
                 x-on:close="$wire.resetForm()" class="!max-w-4xl min-w-xl">
         <div class="space-y-4">
             <flux:heading>{{ $this->stepId ? __('Edit Step') : __('Create Step') }}</flux:heading>
-
             <flux:field>
                 <flux:label class="cursor-pointer">Logic</flux:label>
                 <div class="flex gap-2">
@@ -44,14 +43,14 @@
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Active (JSON)</flux:label>
-                <flux:textarea wire:model="state.active" rows="auto"></flux:textarea>
-                <flux:error name="state.active"/>
+                <flux:label>Before (JSON)</flux:label>
+                <flux:textarea wire:model="state.before" rows="auto"></flux:textarea>
+                <flux:error name="state.before"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Setup (JSON)</flux:label>
-                <flux:textarea wire:model="state.setup" rows="auto"></flux:textarea>
-                <flux:error name="state.setup"/>
+                <flux:label>After (JSON)</flux:label>
+                <flux:textarea wire:model="state.after" rows="auto"></flux:textarea>
+                <flux:error name="state.after"/>
             </flux:field>
 
             <div class="flex gap-2">
@@ -127,15 +126,15 @@
             {{-- Expandable section --}}
             <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                 <div class="mb-3">
-                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Active (JSON)</label>
+                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Before (JSON)</label>
                     <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                        {{ $step['active'] ?? __('(not set)') }}
+                        {{ $step['before'] ?? __('(not set)') }}
                     </pre>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Setup (JSON)</label>
+                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">After (JSON)</label>
                     <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                        {{ $step['setup'] ??  __('(not set)') }}
+                        {{ $step['after'] ??  __('(not set)') }}
                     </pre>
                 </div>
             </div>

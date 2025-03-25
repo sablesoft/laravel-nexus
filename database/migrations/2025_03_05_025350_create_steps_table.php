@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('nested_id')->nullable()
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->string('command')->nullable(); // todo enum - system commands
-            $table->json('active')->nullable();
-            $table->json('setup')->nullable();
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
 
             $table->unique(['scenario_id', 'number']);
 

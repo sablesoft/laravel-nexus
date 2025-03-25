@@ -29,12 +29,12 @@ class Scenario extends Model implements HasOwnerInterface
     use HasOwner, HasFactory, HasSetup;
 
     protected $fillable = [
-        'user_id', 'code', 'title', 'description', 'active', 'setup',
+        'user_id', 'code', 'title', 'description', 'before', 'after',
     ];
 
     protected $casts = [
-        'active' => 'array',
-        'setup' => 'array',
+        'before' => 'array',
+        'after' => 'array',
     ];
 
     public function steps(): HasMany

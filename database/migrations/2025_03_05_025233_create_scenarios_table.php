@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('code')->nullable(false)->index();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
-            $table->json('active')->nullable();
-            $table->json('setup')->nullable();
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

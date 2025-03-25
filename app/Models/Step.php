@@ -26,13 +26,13 @@ class Step extends Model
 
     protected $fillable = [
         'scenario_id', 'nested_id', 'command',
-        'number', 'active', 'setup'
+        'number', 'before', 'after'
     ];
 
     protected $casts = [
         'command' => Command::class,
-        'active' => 'array',
-        'setup' => 'array'
+        'before' => 'array',
+        'after' => 'array'
     ];
 
     public function scenario(): BelongsTo

@@ -28,14 +28,14 @@ class Control extends Model
 
     protected $fillable = [
         'screen_id', 'scenario_id', 'command', 'type',
-        'title', 'tooltip', 'active', 'setup',
+        'title', 'tooltip', 'before', 'after',
     ];
 
     protected $casts = [
         'command' => Command::class,
         'type' => ControlType::class,
-        'active' => 'array',
-        'setup' => 'array',
+        'before' => 'array',
+        'after' => 'array',
     ];
 
     public function scenario(): BelongsTo
