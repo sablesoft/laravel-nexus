@@ -76,11 +76,6 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'constants' => [
-                'action' => ['edit', 'view'],
-                'type' => 'textarea',
-                'rules' => 'nullable|json'
-            ],
             'screenLink' => $this->linkField('Init Screen', ['index', 'view']),
             'screensList' => $this->linkListField('Screens', ['index', 'view']),
             'is_public' => [
@@ -101,7 +96,12 @@ class Application extends AbstractCrud implements ShouldHasMany
                         }
                     },
                 ],
-            ]
+            ],
+            'constants' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|json'
+            ],
         ];
     }
 

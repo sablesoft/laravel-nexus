@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read null|Application $application
  * @property-read Collection<int, Transfer> $transfers
+ * @property-read Collection<int, Transfer> $transfersFrom
  * @property-read Collection<int, Control> $controls
  */
 class Screen extends Model implements HasOwnerInterface
@@ -52,6 +53,11 @@ class Screen extends Model implements HasOwnerInterface
     public function transfers(): HasMany
     {
         return $this->hasMany(Transfer::class, 'screen_from_id');
+    }
+
+    public function transfersFrom(): HasMany
+    {
+        return $this->hasMany(Transfer::class, 'screen_to_id');
     }
 
     public function controls(): HasMany

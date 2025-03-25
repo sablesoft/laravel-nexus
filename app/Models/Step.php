@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|Scenario $scenario
  * @property-read null|Scenario $nestedScenario
  */
 class Step extends Model
@@ -32,6 +33,11 @@ class Step extends Model
         'active' => 'array',
         'constants' => 'array'
     ];
+
+    public function scenario(): BelongsTo
+    {
+        return $this->belongsTo(Scenario::class, 'scenario_id');
+    }
 
     public function nestedScenario(): BelongsTo
     {

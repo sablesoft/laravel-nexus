@@ -14,6 +14,7 @@ use App\Livewire\Workshop\Screen\HandleTransfers;
 use App\Models\Transfer;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Screen extends AbstractCrud implements ShouldBelongsTo
 {
@@ -69,6 +70,30 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
         }
         return match($field) {
             'applicationLink' => $this->linkTemplateParams(Application::routeName(), 'application'),
+            'transfersToList' => function(\App\Models\Screen $screen) {
+                $route = Screen::routeName();
+                $transfers = $screen->transfers;
+                if (!count($transfers)) {
+                    return [];
+                }
+                $list = [];
+                foreach ($transfers as $transfer) {
+                    $list[$transfer->screen_to_id] = $transfer->title;
+                }
+                return compact('list', 'route');
+            },
+            'transfersFromList' => function(\App\Models\Screen $screen) {
+                $route = Screen::routeName();
+                $transfers = $screen->transfersFrom;
+                if (!count($transfers)) {
+                    return [];
+                }
+                $list = [];
+                foreach ($transfers as $transfer) {
+                    $list[$transfer->screen_from_id] = $transfer->screenFrom->title;
+                }
+                return compact('list', 'route');
+            },
             default => []
         };
     }
@@ -120,6 +145,8 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
+            'transfersToList' => $this->linkListField('Transfers To', ['index']),
+            'transfersFromList' => $this->linkListField('Transfers From', ['index', 'view']),
             'transfersEdit' => $this->transfersEditField(),
             'transfersView' => $this->transfersViewField(),
             'controlsCrud' => [

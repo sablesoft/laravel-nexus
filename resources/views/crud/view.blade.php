@@ -32,7 +32,7 @@
                 <div x-data="{ open: false }" class="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow">
                     {{-- Field header --}}
                     <div @click="open = !open"
-                         class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                         class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
                         <h3 class="text-lg font-black text-gray-700 dark:text-gray-300">
                             {{ $title }}
                         </h3>

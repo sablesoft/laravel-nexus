@@ -4,12 +4,14 @@
     'action' => null,
     'id' => null
 ])
+
 @if(!empty($route))
-    <span class="border-2 rounded-full p-1">
-        <a class="cursor-pointer inline-block whitespace-nowrap" wire:navigate href="{{ route($route, ['action' => $action, 'id' => $id]) }}">
-            {{ $title ?: '----' }}
-        </a>
-    </span>
+    <flux:button variant="filled">
+    <a class="cursor-pointer inline-block whitespace-nowrap" wire:navigate
+       href="{{ route($route, ['action' => $action, 'id' => $id]) }}">
+        {{ $title ?: '----' }}
+    </a>
+    </flux:button>
 @else
-    <span class="border-2 rounded-full p-1 whitespace-nowrap">{{ $title ?: '----' }}</span>
+    {{ $title ?: '(not set)' }}
 @endif

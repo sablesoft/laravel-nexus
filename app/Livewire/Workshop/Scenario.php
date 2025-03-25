@@ -51,12 +51,18 @@ class Scenario extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
+            'stepsCount' => [
+                'title' => 'Steps Count',
+                'action' => ['index'],
+                'callback' => fn(\App\Models\Scenario $scenario) => $scenario->steps()->count()
+            ],
             'stepsCrud' => [
                 'title' => 'Steps',
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.scenario.steps',
             ],
+            'inStepsList' => $this->linkListField('In Steps Of', ['index', 'view']),
             'constants' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
@@ -68,6 +74,24 @@ class Scenario extends AbstractCrud
                 'rules' => 'nullable|json'
             ],
         ];
+    }
+
+    public function templateParams(string $action, ?string $field = null): array|callable
+    {
+        return match($field) {
+            'inStepsList' => function(\App\Models\Scenario $scenario) {
+                $route = Scenario::routeName();
+                $inSteps = $scenario->inSteps;
+                if (!count($inSteps)) {
+                    return [];
+                }
+                $list = [];
+                foreach ($inSteps as $inStep) {
+                    $list[$inStep->scenario_id] = $inStep->scenario->title;
+                }
+                return compact('list', 'route');
+            },
+        };
     }
 
     public function componentParams(string $action, ?string $field = null): array

@@ -3,7 +3,7 @@
     {{-- Modal Form --}}
     <div class="flex justify-end mb-2">
         <flux:modal.trigger name="form-step">
-            <flux:button variant="primary" class="cursor-pointer">Add Step</flux:button>
+            <flux:button icon="plus-circle" variant="primary" class="cursor-pointer"/>
         </flux:modal.trigger>
     </div>
     <flux:modal name="form-step"
@@ -107,26 +107,21 @@
                             @endif
                         </span>
 
-                        {{-- Column 3: Expand toggle --}}
-                        <button class="cursor-pointer text-right text-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
-                                @click="open = !open">
-                            <span x-text="open ? '▲' : '▼'"></span>
-                        </button>
 
-                        {{-- Column 4: Controls --}}
+                        {{-- Column 3: Controls --}}
                         <div class="flex justify-end gap-2">
-                            <flux:button wire:click.stop="moveUp({{ $id }})" variant="ghost" class="cursor-pointer">
-                                ↑
-                            </flux:button>
-                            <flux:button wire:click.stop="moveDown({{ $id }})" variant="ghost" class="cursor-pointer">
-                                ↓
-                            </flux:button>
-                            <flux:button wire:click.stop="edit({{ $id }})" variant="primary" class="cursor-pointer">
-                                Edit
-                            </flux:button>
-                            <flux:button wire:click.stop="delete({{ $id }})" variant="danger" class="cursor-pointer">
-                                Delete
-                            </flux:button>
+                            <flux:button x-show="open" size="sm" icon="chevron-up"
+                                         @click="open = !open" class="cursor-pointer"/>
+                            <flux:button x-show="!open" size="sm" icon="chevron-down"
+                                         @click="open = !open" class="cursor-pointer"/>
+                            <flux:button size="sm" icon="arrow-up" wire:click.stop="moveUp({{ $id }})"
+                                         variant="ghost" class="cursor-pointer"/>
+                            <flux:button size="sm" icon="arrow-down" wire:click.stop="moveDown({{ $id }})"
+                                         variant="ghost" class="cursor-pointer"/>
+                            <flux:button size="sm" icon="pencil-square" wire:click.stop="edit({{ $id }})"
+                                         variant="primary" class="cursor-pointer"/>
+                            <flux:button size="sm" icon="trash" wire:click.stop="delete({{ $id }})"
+                                         variant="danger" class="cursor-pointer"/>
                         </div>
                     </div>
 

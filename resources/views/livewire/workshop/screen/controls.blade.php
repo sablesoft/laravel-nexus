@@ -3,7 +3,7 @@
     {{-- Modal Form --}}
     <div class="flex justify-end mb-2">
         <flux:modal.trigger name="form-control">
-            <flux:button variant="primary" class="cursor-pointer">Add Control</flux:button>
+            <flux:button icon="plus-circle" variant="primary" class="cursor-pointer"/>
         </flux:modal.trigger>
     </div>
     <flux:modal name="form-control"
@@ -134,16 +134,14 @@
 
                     {{-- Expand toggle + actions --}}
                     <div class="flex justify-end gap-2">
-                        <button class="cursor-pointer p-2 text-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
-                                @click="open = !open">
-                            <span x-text="open ? '▲' : '▼'"></span>
-                        </button>
-                        <flux:button wire:click.stop="edit({{ $id }})" variant="primary" class="cursor-pointer">
-                            {{ __('Edit') }}
-                        </flux:button>
-                        <flux:button wire:click.stop="delete({{ $id }})" variant="danger" class="cursor-pointer">
-                            {{ __('Delete') }}
-                        </flux:button>
+                        <flux:button x-show="open" size="sm" icon="chevron-up"
+                                     @click="open = !open" class="cursor-pointer"/>
+                        <flux:button x-show="!open" size="sm" icon="chevron-down"
+                                     @click="open = !open" class="cursor-pointer"/>
+                        <flux:button size="sm" icon="pencil-square" wire:click.stop="edit({{ $id }})"
+                                     variant="primary" class="cursor-pointer"/>
+                        <flux:button size="sm" icon="trash" wire:click.stop="delete({{ $id }})"
+                                     variant="danger" class="cursor-pointer"/>
                     </div>
                 </div>
 

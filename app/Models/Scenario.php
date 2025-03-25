@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $updated_at
  *
  * @property-read Collection<int, Step> $steps
+ * @property-read Collection<int, Step> $inSteps
  */
 class Scenario extends Model implements HasOwnerInterface
 {
@@ -34,6 +35,11 @@ class Scenario extends Model implements HasOwnerInterface
     {
         return $this->hasMany(Step::class)
             ->orderBy('number');
+    }
+
+    public function inSteps(): HasMany
+    {
+        return $this->hasMany(Step::class, 'nested_id');
     }
 
     public static function boot(): void

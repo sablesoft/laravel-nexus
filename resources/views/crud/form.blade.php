@@ -43,7 +43,7 @@
 
                     {{-- Header --}}
                     <div @click="open = !open"
-                        class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                        class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-4 py-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
                         <h3 class="text-base font-bold {{ $hasError ? 'text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-100' }}">
                             {{ $title }}
                         </h3>
