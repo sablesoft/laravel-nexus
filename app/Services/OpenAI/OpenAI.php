@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\OpenAI;
 
-use Throwable;
-use OpenAI\Client;
 use App\Models\User;
-use App\Services\OpenAI\Images\Request as ImagesRequest;
-use App\Services\OpenAI\Images\CreateAction as ImageCreate;
 use App\Services\OpenAI\Chat\Action as ChatAction;
 use App\Services\OpenAI\Chat\Request as ChatRequest;
 use App\Services\OpenAI\Chat\Result as ChatResult;
+use App\Services\OpenAI\Images\CreateAction as ImageCreate;
+use App\Services\OpenAI\Images\Request as ImagesRequest;
 use App\Services\OpenAI\Images\Result as ImagesResult;
+use OpenAI\Client;
+use Throwable;
 
 class OpenAI
 {

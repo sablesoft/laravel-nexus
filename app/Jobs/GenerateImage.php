@@ -2,20 +2,20 @@
 
 namespace App\Jobs;
 
-use Throwable;
-use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\User;
 use App\Models\Image;
-use App\Services\OpenAI;
+use App\Models\User;
+use App\Notifications\OpenAI\GenerateNotification;
 use App\Services\OpenAI\Images\Request;
 use App\Services\OpenAI\Images\Result;
-use App\Notifications\OpenAI\GenerateNotification;
+use App\Services\OpenAI\OpenAI;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class GenerateImage implements ShouldQueue
 {
