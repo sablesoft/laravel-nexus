@@ -68,6 +68,7 @@ class Transfers extends Component
             'code' => $this->screenId . '|' . $id,
             'title' => $screen->title,
             'tooltip' => null,
+            'setup' => null,
             'active' => null,
             'screenTitle' => $screen->title,
             'imageUrlSm' => $screen->imageUrlSm,
@@ -129,6 +130,9 @@ class Transfers extends Component
             'code' => $transfer->code,
             'title' => $transfer->title,
             'tooltip' => $transfer->tooltip,
+            'setup' => $transfer->setup ?
+                json_encode($transfer->setup, JSON_PRETTY_PRINT) :
+                null,
             'active' => $transfer->active ?
                 json_encode($transfer->active, JSON_PRETTY_PRINT) :
                 null,
@@ -161,6 +165,7 @@ class Transfers extends Component
             'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
+            'setup'            => ['nullable', 'json'],
             'active'            => ['nullable', 'json'],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Database\Factories\ScreenFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|string $title
  * @property null|string $description
  * @property null|bool $is_default
- * @property null|bool $constants
  * @property null|string $template
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -33,16 +33,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Screen extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage;
+    use HasOwner, HasFactory, HasImage, HasSetup;
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
-        'is_default', 'constants', 'template',
+        'is_default', 'active', 'setup', 'template',
     ];
 
     protected $casts = [
         'is_default' => 'boolean',
-        'constants' => 'array'
+        'active' => 'array',
+        'setup' => 'array',
     ];
 
     public function application(): BelongsTo

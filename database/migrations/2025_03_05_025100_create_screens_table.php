@@ -24,7 +24,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('is_default')->nullable(false)
                 ->default(false)->index();
-            $table->json('constants')->nullable();
+            $table->json('active')->nullable();
+            $table->json('setup')->nullable();
             $table->text('template')->nullable();
 
             $table->timestamp('created_at')->useCurrent();

@@ -70,9 +70,9 @@
                 <flux:error name="state.active"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Constants (JSON)</flux:label>
-                <flux:textarea wire:model="state.constants" rows="auto"></flux:textarea>
-                <flux:error name="state.constants"/>
+                <flux:label>Setup (JSON)</flux:label>
+                <flux:textarea wire:model="state.setup" rows="auto"></flux:textarea>
+                <flux:error name="state.setup"/>
             </flux:field>
 
             <div class="flex gap-2">
@@ -89,7 +89,6 @@
         </div>
     </flux:modal>
 
-    {{-- Controls List --}}
     {{-- Controls List --}}
     <div class="space-y-2">
         @if($controls)
@@ -150,14 +149,14 @@
                     <div class="mb-3">
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Active (JSON)</label>
                         <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                            {{ $control['active'] ?: '-- empty --' }}
+                            {{ $control['active'] ?: __('(not set)') }}
                         </pre>
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Constants (JSON)</label>
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Setup (JSON)</label>
                         <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                            {{ $control['constants'] ?: '-- empty --' }}
+                            {{ $control['setup'] ?: __('(not set)') }}
                         </pre>
                     </div>
                 </div>

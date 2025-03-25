@@ -26,15 +26,15 @@ class BackupCommand extends Command
     protected array $tables = [
         'public.users',
         'app.images',
+        'app.masks',
         'app.applications',
         'app.screens',
-        'app.scenarios',
         'app.transfers',
+        'app.scenarios',
         'app.controls',
-        'app.steps'
     ];
 
-    protected string $lastTable = 'app.masks';
+    protected string $lastTable = 'app.steps';
 
     /**
      * Execute the console command.

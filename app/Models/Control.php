@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\Command;
 use App\Models\Enums\ControlType;
+use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,8 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|ControlType $type
  * @property null|string $title
  * @property null|string $tooltip
- * @property null|array $active
- * @property null|array $constants
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -25,16 +24,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Control extends Model
 {
+    use HasSetup;
+
     protected $fillable = [
         'screen_id', 'scenario_id', 'command', 'type',
-        'title', 'tooltip', 'active', 'constants'
+        'title', 'tooltip', 'active', 'setup',
     ];
 
     protected $casts = [
         'command' => Command::class,
         'type' => ControlType::class,
         'active' => 'array',
-        'constants' => 'array'
+        'setup' => 'array',
     ];
 
     public function scenario(): BelongsTo

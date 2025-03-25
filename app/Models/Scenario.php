@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Database\Factories\ScenarioFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,10 +26,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Scenario extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ScenarioFactory> */
-    use HasOwner, HasFactory;
+    use HasOwner, HasFactory, HasSetup;
 
     protected $fillable = [
-        'user_id', 'code', 'title', 'description'
+        'user_id', 'code', 'title', 'description', 'active', 'setup',
+    ];
+
+    protected $casts = [
+        'active' => 'array',
+        'setup' => 'array',
     ];
 
     public function steps(): HasMany

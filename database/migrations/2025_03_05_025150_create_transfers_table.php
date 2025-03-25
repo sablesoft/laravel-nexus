@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app.scenarios', function (Blueprint $table) {
+        Schema::create('app.transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable(false)
-                ->constrained()->cascadeOnDelete();
-            $table->string('code')->nullable(false)->index();
+            $table->foreignId('screen_from_id')->nullable(false)
+                ->constrained('app.screens')->cascadeOnDelete();
+            $table->foreignId('screen_to_id')->nullable(false)
+                ->constrained('app.screens')->cascadeOnDelete();
+            $table->string('code')->nullable(false)->unique();
             $table->string('title')->nullable(false);
-            $table->text('description')->nullable();
+            $table->string('tooltip')->nullable();
             $table->json('active')->nullable();
             $table->json('setup')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-
-            $table->unique(['user_id', 'title']);
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app.scenarios');
+        Schema::dropIfExists('app.transfers');
     }
 };

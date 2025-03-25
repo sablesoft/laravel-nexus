@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|string $code
  * @property null|string $title
  * @property null|string $tooltip
- * @property null|array $active
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -23,14 +23,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Transfer extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSetup;
 
     protected $fillable = [
-        'screen_from_id', 'screen_to_id', 'code', 'title', 'tooltip', 'active'
+        'screen_from_id', 'screen_to_id', 'code', 'title', 'tooltip',
+        'active', 'setup',
     ];
 
     protected $casts = [
         'active' => 'array',
+        'setup' => 'array',
     ];
 
     public function screenFrom(): BelongsTo

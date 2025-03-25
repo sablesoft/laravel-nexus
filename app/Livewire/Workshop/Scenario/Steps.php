@@ -160,7 +160,7 @@ class Steps extends Component
             'command' => $step->command?->value,
             'commandTitle' => $step->command ? ucfirst($step->command->value) : null,
             'active' => $step->active,
-            'constants' => $step->constants,
+            'setup' => $step->setup,
         ];
     }
 
@@ -199,7 +199,7 @@ class Steps extends Component
     {
         $rules = [
             'active'        => ['nullable', 'json'],
-            'constants'     => ['nullable', 'json'],
+            'setup'     => ['nullable', 'json'],
             'number' => [
                 'required',
                 'integer',

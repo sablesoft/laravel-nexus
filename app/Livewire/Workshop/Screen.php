@@ -140,15 +140,20 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'required|bool',
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
-            'constants' => [
+            'template' => [
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|string'
+            ],
+            'active' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|json'
             ],
-            'template' => [
+            'setup' => [
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
-                'rules' => 'nullable|string|not_regex:/@php|@include|@component/'
+                'rules' => 'nullable|json'
             ],
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'transfersToList' => $this->linkListField('Transfers To', ['index']),

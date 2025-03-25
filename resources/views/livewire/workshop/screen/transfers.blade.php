@@ -60,6 +60,11 @@
                 <flux:textarea wire:model="state.active" rows="auto"></flux:textarea>
                 <flux:error name="state.active"/>
             </flux:field>
+            <flux:field class="mb-3">
+                <flux:label>Setup (JSON)</flux:label>
+                <flux:textarea wire:model="state.setup" rows="auto"></flux:textarea>
+                <flux:error name="state.setup"/>
+            </flux:field>
             <div class="flex gap-2">
                 <flux:spacer />
                 <flux:modal.close>
@@ -115,7 +120,13 @@
                     <div class="mb-3">
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Active (JSON)</label>
                         <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                            {{ $transfer->active ?? '—' }}
+                            {{ $transfer['active'] ?? __('(not set)') }}
+                        </pre>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Setup (JSON)</label>
+                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
+                            {{ $transfer['setup'] ?? __('(not set)') }}
                         </pre>
                     </div>
                 </div>

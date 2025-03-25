@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\Command;
+use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $nested_id
  * @property null|Command $command
  * @property null|int $number
- * @property null|array $active
- * @property null|array $constants
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -23,15 +22,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Step extends Model
 {
+    use HasSetup;
+
     protected $fillable = [
         'scenario_id', 'nested_id', 'command',
-        'number', 'active', 'constants'
+        'number', 'active', 'setup'
     ];
 
     protected $casts = [
         'command' => Command::class,
         'active' => 'array',
-        'constants' => 'array'
+        'setup' => 'array'
     ];
 
     public function scenario(): BelongsTo

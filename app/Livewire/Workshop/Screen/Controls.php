@@ -114,8 +114,8 @@ class Controls extends Component
             'type' => $control->type->value,
             'title' => $control->title,
             'tooltip' => $control->tooltip,
+            'setup' => $control->setup,
             'active' => $control->active,
-            'constants' => $control->constants,
         ];
     }
 
@@ -126,7 +126,7 @@ class Controls extends Component
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
             'active'        => ['nullable', 'json'],
-            'constants'     => ['nullable', 'json']
+            'setup'         => ['nullable', 'json']
         ];
 
         return array_merge($rules, $this->switcher ? [
