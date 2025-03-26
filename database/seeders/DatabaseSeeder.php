@@ -13,11 +13,13 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PublicUsersTableSeeder::class);
         $this->call(AppImagesTableSeeder::class);
+        $this->call(AppMasksTableSeeder::class);
         $this->call(AppApplicationsTableSeeder::class);
         $this->call(AppScreensTableSeeder::class);
-        $this->call(AppScenariosTableSeeder::class);
         $this->call(AppTransfersTableSeeder::class);
-        $this->call(AppMasksTableSeeder::class);
+        $this->call(AppScenariosTableSeeder::class);
+        $this->call(AppControlsTableSeeder::class);
+        $this->call(AppStepsTableSeeder::class);
         $this->call(SequencesSeeder::class);
     }
 }

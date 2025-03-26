@@ -14,113 +14,61 @@ class AppScenariosTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.scenarios')->delete();
-
+        
         \DB::table('app.scenarios')->insert(array (
-            0 =>
+            0 => 
             array (
-                'id' => 6,
+                'id' => 1,
                 'user_id' => 1,
-                'code' => 'saepe',
-                'title' => 'Ut Error',
-                'description' => 'Consequatur harum reprehenderit explicabo libero assumenda. Omnis harum ut et saepe rerum fugit. Dolorum velit impedit possimus molestias minima rerum quis.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-16 16:40:32',
+                'code' => 'chat-build-user-message',
+                'title' => 'Chat - Build User Message',
+            'description' => 'Converts the user\'s raw input (ask) into a chat message with the \'user\' role for the OpenAI chat completion.',
+            'before' => '{"user_message":{"role":"user","content": "{{ ask }}"},"messages": "{{ append(messages, user_message) }}"}',
+                'after' => NULL,
+                'created_at' => '2025-03-25 17:55:49',
+                'updated_at' => '2025-03-25 21:12:20',
             ),
-            1 =>
-            array (
-                'id' => 27,
-                'user_id' => 1,
-                'code' => 'act',
-                'title' => 'Act',
-                'description' => 'Magnam et consequuntur dolorum eaque. Officiis voluptatem ipsa illum architecto voluptas quia sit.',
-                'created_at' => '2025-03-16 16:47:12',
-                'updated_at' => '2025-03-21 22:51:27',
-            ),
-            2 =>
-            array (
-                'id' => 13,
-                'user_id' => 1,
-                'code' => 'camp',
-                'title' => 'Camp',
-                'description' => 'Ratione expedita perspiciatis earum qui nesciunt consequatur. Deleniti quia soluta consequatur sit ratione qui.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-21 22:56:06',
-            ),
-            3 =>
-            array (
-                'id' => 7,
-                'user_id' => 1,
-                'code' => 'set-off',
-                'title' => 'Set Off',
-                'description' => 'Ex voluptas voluptas culpa neque nihil qui illum. Dignissimos aspernatur aut accusantium iste omnis aut dolor. Animi et ipsum impedit et officiis adipisci. Qui commodi est neque optio distinctio.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-21 23:00:23',
-            ),
-            4 =>
-            array (
-                'id' => 19,
-                'user_id' => 1,
-                'code' => 'chat',
-                'title' => 'Chat',
-                'description' => 'Incidunt sed nulla qui. Veniam mollitia sed quidem maxime. Consequatur modi sint sit eos nihil autem hic eveniet. Dolorum et quasi iusto temporibus sit cumque.',
-                'created_at' => '2025-03-16 16:47:12',
-                'updated_at' => '2025-03-21 23:01:56',
-            ),
-            5 =>
-            array (
-                'id' => 18,
-                'user_id' => 1,
-                'code' => 'rest',
-                'title' => 'Rest',
-                'description' => 'Quasi omnis deleniti aut id enim. Voluptatem soluta repellat culpa velit et eveniet quae. Et odit dolores iusto similique ipsum sint eum ut. Ullam sit praesentium aut asperiores ipsum aut qui itaque.',
-                'created_at' => '2025-03-16 16:47:12',
-                'updated_at' => '2025-03-21 23:02:58',
-            ),
-            6 =>
-            array (
-                'id' => 11,
-                'user_id' => 1,
-                'code' => 'return',
-                'title' => 'Return',
-                'description' => 'Quis eum quia excepturi et. Eveniet dolorum magnam eos consequatur dignissimos. Quia soluta iure nobis totam sint ullam.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-21 23:07:17',
-            ),
-            7 =>
+            1 => 
             array (
                 'id' => 4,
                 'user_id' => 1,
-                'code' => 'note',
-                'title' => 'Note',
-                'description' => 'Similique itaque temporibus sit quas est et voluptas minus. Id est placeat officiis. Incidunt pariatur architecto totam ipsa velit soluta.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-21 23:19:07',
+                'code' => 'chat-prompt-preparation',
+                'title' => 'Chat - Prompt Preparation',
+                'description' => 'Assembles a ready-to-use array of chat messages for the OpenAI Chat Completion API by composing system and user messages from modular scenarios.',
+                'before' => '{"messages" : []}',
+                'after' => NULL,
+                'created_at' => '2025-03-25 21:03:29',
+                'updated_at' => '2025-03-25 21:04:46',
             ),
-            8 =>
+            2 => 
             array (
-                'id' => 5,
+                'id' => 2,
                 'user_id' => 1,
-                'code' => 'search',
-                'title' => 'Search',
-                'description' => 'Quae porro ut id. Est magni temporibus et est amet possimus exercitationem. Aut deserunt commodi mollitia commodi.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-21 23:20:04',
+                'code' => 'chat-build-system-message',
+                'title' => 'Chat - Build System Message',
+                'description' => 'Generates a system message for the OpenAI chat completion based on predefined instructional parts for the assistant role. Required "system_parts" array.',
+            'before' => '{"data":{"system_message": {"role": "system","content":"{{ join(system_parts, \' \') }}"},"messages":"{{ append(messages, system_message) }}"}}',
+                'after' => NULL,
+                'created_at' => '2025-03-25 17:58:41',
+                'updated_at' => '2025-03-25 22:46:53',
             ),
-            9 =>
+            3 => 
             array (
-                'id' => 8,
+                'id' => 3,
                 'user_id' => 1,
-                'code' => 'journey-event',
-                'title' => 'Road Event',
-                'description' => 'Amet ad blanditiis maxime voluptatem. Optio sit a rerum sed possimus aspernatur commodi impedit. Dolor et ipsam molestiae illum iusto.',
-                'created_at' => '2025-03-16 16:40:32',
-                'updated_at' => '2025-03-21 23:41:18',
+                'code' => 'chat-system-parts',
+                'title' => 'Chat - System Parts',
+                'description' => 'Provides basic system prompt components instructing the assistant to act as a professional DALL·E 2 prompt engineer.',
+                'before' => '{"data":{"system_parts": ["You act as a professional prompt engineer for DALL-E 2.","Your task is to detect the language of the user\'s request, then understand its meaning and generate a detailed prompt in English.","Return the result using the generate-prompt function. Use the second parameter \'comment\' to describe your reasoning in the original user language."]}}',
+                'after' => '{"rules": {"system_parts": "required|array"}}',
+                'created_at' => '2025-03-25 20:59:52',
+                'updated_at' => '2025-03-25 22:45:52',
             ),
         ));
-
-
+        
+        
     }
 }

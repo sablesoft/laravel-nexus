@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class AppMasksTableSeeder extends Seeder
+class AppControlsTableSeeder extends Seeder
 {
 
     /**
@@ -16,7 +16,7 @@ class AppMasksTableSeeder extends Seeder
     {
         
 
-        \DB::table('app.masks')->delete();
+        \DB::table('app.controls')->delete();
         
         
         
