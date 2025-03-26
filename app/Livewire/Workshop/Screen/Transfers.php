@@ -66,6 +66,7 @@ class Transfers extends Component
             'code' => $this->screenId . '|' . $id,
             'title' => $screen->title,
             'tooltip' => null,
+            'description' => null,
             'beforeString' => null,
             'afterString' => null,
             'screenTitle' => $screen->title,
@@ -128,6 +129,7 @@ class Transfers extends Component
             'code' => $transfer->code,
             'title' => $transfer->title,
             'tooltip' => $transfer->tooltip,
+            'description' => $transfer->description,
             'beforeString' => $transfer->beforeString,
             'afterString' => $transfer->afterString,
             'screenTitle' => $transfer->screenTo->title,
@@ -158,6 +160,7 @@ class Transfers extends Component
             'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
+            'description'       => ['nullable', 'string'],
             'beforeString'      => ['nullable', 'json'],
             'afterString'       => ['nullable', 'json'],
         ];

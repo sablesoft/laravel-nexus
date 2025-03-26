@@ -114,6 +114,7 @@ class Controls extends Component
             'type' => $control->type->value,
             'title' => $control->title,
             'tooltip' => $control->tooltip,
+            'description' => $control->description,
             'beforeString' => $control->beforeString,
             'afterString' => $control->afterString,
         ];
@@ -125,6 +126,7 @@ class Controls extends Component
             'type'          => ['required', 'string', Rule::enum(ControlType::class)],
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
+            'description'   => ['nullable', 'string'],
             'beforeString'  => ['nullable', 'json'],
             'afterString'   => ['nullable', 'json']
         ];

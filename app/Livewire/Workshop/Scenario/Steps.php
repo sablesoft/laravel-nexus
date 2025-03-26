@@ -159,6 +159,7 @@ class Steps extends Component
             'nestedTitle' => $step->nestedScenario?->title,
             'command' => $step->command?->value,
             'commandTitle' => $step->command ? ucfirst($step->command->value) : null,
+            'description' => $step->description,
             'beforeString' => $step->beforeString,
             'afterString' => $step->afterString,
         ];
@@ -199,6 +200,7 @@ class Steps extends Component
     {
         $rules = [
             'number'        => ['required', 'integer'],
+            'description'   => ['nullable', 'string'],
             'beforeString'  => ['nullable', 'json'],
             'afterString'   => ['nullable', 'json'],
         ];
