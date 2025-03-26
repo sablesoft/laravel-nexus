@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|string $title
  * @property null|string $description
  * @property null|bool $is_public
- * @property null|array $constants
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -28,15 +28,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Application extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasFactory, HasImage;
+    use HasOwner, HasFactory, HasImage, HasSetup;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public', 'constants'
+        'user_id', 'title', 'description', 'is_public', 'before', 'after'
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
-        'constants' => 'array'
+        'before' => 'array',
+        'after' => 'after'
     ];
 
     public function screens(): HasMany

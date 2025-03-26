@@ -19,8 +19,9 @@ return new class extends Migration
                 ->constrained()->nullOnDelete();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
-            $table->json('constants')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

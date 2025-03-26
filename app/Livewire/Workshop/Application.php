@@ -53,7 +53,7 @@ class Application extends AbstractCrud implements ShouldHasMany
     {
         if ($field === 'image_id') {
             /** @var \App\Models\Application $model */
-            $model = $this->getResource();
+            $model = $this->getModel($this->modelId);
             return $this->componentParamsImageSelector($field, $model->image_id, [
                 'aspectRatio' => ImageAspect::Landscape->value
             ]);
@@ -95,9 +95,16 @@ class Application extends AbstractCrud implements ShouldHasMany
                     },
                 ],
             ],
-            'constants' => [
+            'beforeString' => [
+                'title' => 'Before',
                 'action' => ['edit', 'view'],
-                'type' => 'textarea',
+                'type' => 'json',
+                'rules' => 'nullable|json'
+            ],
+            'afterString' => [
+                'title' => 'After',
+                'action' => ['edit', 'view'],
+                'type' => 'json',
                 'rules' => 'nullable|json'
             ],
             'screenLink' => $this->linkField('Init Screen', ['index', 'view']),
