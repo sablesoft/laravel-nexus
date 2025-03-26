@@ -43,6 +43,10 @@ trait HasSetup
      */
     protected function setSetupStringAttribute(string $field, ?string $value): void
     {
+        if (is_null($value)) {
+            $this->$field = $value;
+            return;
+        }
         $decoded = json_decode($value, true);
         if (json_last_error() === JSON_ERROR_NONE) {
             $this->$field = $decoded;

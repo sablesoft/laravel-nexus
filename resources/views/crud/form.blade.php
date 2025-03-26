@@ -83,7 +83,7 @@
                                     @break
 
                                 @case('json')
-                                    <x-json-editor wire:model.defer="state.{{ $field }}" class="w-full" />
+                                    <x-json-editor wire:key="json-editor-{{ $field }}" wire:model.defer="state.{{ $field }}" class="w-full" />
                                     @break
 
                                 @case('image')
