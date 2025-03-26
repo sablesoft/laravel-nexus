@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('code')->nullable(false)->unique();
             $table->string('title')->nullable(false);
             $table->string('tooltip')->nullable();
+            $table->string('description')->nullable();
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 

@@ -23,6 +23,7 @@ return new class extends Migration
                 ->default(ControlType::getDefault()->value)->index();
             $table->string('title')->nullable(false);
             $table->string('tooltip')->nullable();
+            $table->string('description')->nullable();
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 

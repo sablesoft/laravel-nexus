@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|ControlType $type
  * @property null|string $title
  * @property null|string $tooltip
+ * @property null|string $description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -28,7 +29,7 @@ class Control extends Model
 
     protected $fillable = [
         'screen_id', 'scenario_id', 'command', 'type',
-        'title', 'tooltip', 'before', 'after',
+        'title', 'tooltip', 'description', 'before', 'after',
     ];
 
     protected $casts = [

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|string $code
  * @property null|string $title
  * @property null|string $tooltip
+ * @property null|string $description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -27,7 +28,7 @@ class Transfer extends Model
 
     protected $fillable = [
         'screen_from_id', 'screen_to_id', 'code', 'title', 'tooltip',
-        'before', 'after',
+        'description', 'before', 'after',
     ];
 
     protected $casts = [

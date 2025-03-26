@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $nested_id
  * @property null|Command $command
  * @property null|int $number
+ * @property null|string $description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -26,7 +27,7 @@ class Step extends Model
 
     protected $fillable = [
         'scenario_id', 'nested_id', 'command',
-        'number', 'before', 'after'
+        'number', 'description', 'before', 'after'
     ];
 
     protected $casts = [
