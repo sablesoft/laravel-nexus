@@ -159,7 +159,7 @@ class Steps extends Component
             'nestedTitle' => $step->nestedScenario?->title,
             'command' => $step->command?->value,
             'commandTitle' => $step->command ? ucfirst($step->command->value) : null,
-            'description' => $step->description,
+            'description' => $step->description ?: $step->nestedScenario?->description,
             'beforeString' => $step->beforeString,
             'afterString' => $step->afterString,
         ];
