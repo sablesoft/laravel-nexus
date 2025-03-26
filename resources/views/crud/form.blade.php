@@ -82,6 +82,10 @@
                                     <flux:textarea wire:model="state.{{ $field }}" rows="auto"/>
                                     @break
 
+                                @case('json')
+                                    <x-json-editor wire:model.defer="state.{{ $field }}" class="w-full" />
+                                    @break
+
                                 @case('image')
                                     {{-- Пример из image модели --}}
                                     @if ($this->className() === \App\Models\Image::class)
