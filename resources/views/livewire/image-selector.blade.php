@@ -50,7 +50,7 @@
                 <div class="grid grid-cols-5 gap-4">
                     @foreach($models as $model)
                         <div class="relative group cursor-pointer"
-                             wire:click="selectImage({{ $model->id }}); $flux.modal('select-image').close()">
+                             wire:click="selectImage({{ $model->id }}); $flux.modal('select-image-{{ $field }}').close()">
                             <img src="{{ Storage::url($model->path) }}" alt="{{ $model->title }}"
                                  class="w-full h-full object-cover rounded-lg">
                             <div

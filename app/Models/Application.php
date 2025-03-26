@@ -37,7 +37,7 @@ class Application extends Model implements HasOwnerInterface
     protected $casts = [
         'is_public' => 'boolean',
         'before' => 'array',
-        'after' => 'after'
+        'after' => 'array'
     ];
 
     public function screens(): HasMany

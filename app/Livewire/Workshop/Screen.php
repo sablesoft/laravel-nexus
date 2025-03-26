@@ -98,7 +98,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
     {
         if ($field === 'image_id') {
             /** @var \App\Models\Screen $model */
-            $model = $this->getResource();
+            $model = $this->getModel($this->modelId);
             return $this->componentParamsImageSelector($field, $model->image_id, [
                 'aspectRatio' => ImageAspect::Portrait->value
             ]);
@@ -137,7 +137,8 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'title' => 'Is Default',
                 'action' => ['index', 'edit', 'view', 'create'],
                 'type' => 'checkbox',
-                'rules' => 'required|bool',
+                'rules' => 'nullable|bool',
+                'init' => false,
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
             'template' => [

@@ -19,9 +19,9 @@ trait HandleForm
         $this->action = 'create';
         $this->resetState();
         foreach($this->fields('create') as $field) {
-            $init = $this->config($field, 'init');
-            if ($init) {
-                $this->state[$field] = $this->$init();
+            $init = $this->config($field, 'init', -1);
+            if ($init !== -1) {
+                $this->state[$field] = $init;
             }
         }
         $this->openForm();
@@ -85,7 +85,7 @@ trait HandleForm
         return [];
     }
 
-    public function config(string $field, string $param, ?string $default = null): mixed
+    public function config(string $field, string $param, mixed $default = null): mixed
     {
         $config = $this->fieldsConfig()[$field];
         return $config[$param] ?? $default;
