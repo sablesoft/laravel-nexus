@@ -14,10 +14,11 @@ class AppApplicationsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.applications')->delete();
-
-
+        
+        
+        
     }
 }
