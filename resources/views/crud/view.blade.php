@@ -91,6 +91,10 @@
                                 </div>
                                 @break
 
+                            @case('json')
+                                <x-prism-view :string="$state[$field]" lang="json"/>
+                                @break
+
                             @default
                                 {!! nl2br($state[$field]) !!}
                                 @break

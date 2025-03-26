@@ -159,8 +159,8 @@ class Steps extends Component
             'nestedTitle' => $step->nestedScenario?->title,
             'command' => $step->command?->value,
             'commandTitle' => $step->command ? ucfirst($step->command->value) : null,
-            'before' => $step->before,
-            'after' => $step->after,
+            'beforeString' => $step->beforeString,
+            'afterString' => $step->afterString,
         ];
     }
 
@@ -198,9 +198,9 @@ class Steps extends Component
     protected function rules(): array
     {
         $rules = [
-            'number'    => ['required', 'integer'],
-            'before'    => ['nullable', 'json'],
-            'after'     => ['nullable', 'json'],
+            'number'        => ['required', 'integer'],
+            'beforeString'  => ['nullable', 'json'],
+            'afterString'   => ['nullable', 'json'],
         ];
 
         return array_merge($rules, $this->switcher ? [

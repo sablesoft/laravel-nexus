@@ -2,8 +2,6 @@
 namespace App\Livewire\Workshop\Screen;
 
 use App\Crud\Traits\HandlePaginate;
-use App\Models\Enums\Command;
-use App\Models\Enums\ControlType;
 use App\Models\Screen;
 use App\Models\Services\StoreService;
 use App\Models\Transfer;
@@ -68,8 +66,8 @@ class Transfers extends Component
             'code' => $this->screenId . '|' . $id,
             'title' => $screen->title,
             'tooltip' => null,
-            'before' => null,
-            'after' => null,
+            'beforeString' => null,
+            'afterString' => null,
             'screenTitle' => $screen->title,
             'imageUrlSm' => $screen->imageUrlSm,
         ];
@@ -130,12 +128,8 @@ class Transfers extends Component
             'code' => $transfer->code,
             'title' => $transfer->title,
             'tooltip' => $transfer->tooltip,
-            'before' => $transfer->before ?
-                json_encode($transfer->before, JSON_PRETTY_PRINT) :
-                null,
-            'after' => $transfer->after ?
-                json_encode($transfer->after, JSON_PRETTY_PRINT) :
-                null,
+            'beforeString' => $transfer->beforeString,
+            'afterString' => $transfer->afterString,
             'screenTitle' => $transfer->screenTo->title,
             'imageUrlSm' => $transfer->screenTo->imageUrlSm,
         ];
@@ -157,7 +151,6 @@ class Transfers extends Component
         return $query;
     }
 
-
     protected function rules(): array
     {
         return [
@@ -165,8 +158,8 @@ class Transfers extends Component
             'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
-            'before'            => ['nullable', 'json'],
-            'after'             => ['nullable', 'json'],
+            'beforeString'      => ['nullable', 'json'],
+            'afterString'       => ['nullable', 'json'],
         ];
     }
 }

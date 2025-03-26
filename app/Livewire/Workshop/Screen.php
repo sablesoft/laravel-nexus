@@ -145,14 +145,16 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
-            'before' => [
+            'beforeString' => [
+                'title' => 'Before',
                 'action' => ['edit', 'view'],
-                'type' => 'textarea',
+                'type' => 'json',
                 'rules' => 'nullable|json'
             ],
-            'after' => [
+            'afterString' => [
+                'title' => 'After',
                 'action' => ['edit', 'view'],
-                'type' => 'textarea',
+                'type' => 'json',
                 'rules' => 'nullable|json'
             ],
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
