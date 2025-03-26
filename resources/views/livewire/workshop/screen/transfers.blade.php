@@ -57,13 +57,13 @@
             </flux:field>
             <flux:field class="mb-3">
                 <flux:label>Before (JSON)</flux:label>
-                <flux:textarea wire:model="state.before" rows="auto"></flux:textarea>
-                <flux:error name="state.before"/>
+                <flux:textarea wire:model="state.beforeString" rows="auto"></flux:textarea>
+                <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
                 <flux:label>After (JSON)</flux:label>
-                <flux:textarea wire:model="state.after" rows="auto"></flux:textarea>
-                <flux:error name="state.after"/>
+                <flux:textarea wire:model="state.afterString" rows="auto"></flux:textarea>
+                <flux:error name="state.afterString"/>
             </flux:field>
             <div class="flex gap-2">
                 <flux:spacer />
@@ -117,18 +117,7 @@
 
                 {{-- Expandable form --}}
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Before (JSON)</label>
-                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                            {{ $transfer['before'] ?? __('(not set)') }}
-                        </pre>
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">After (JSON)</label>
-                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto">
-                            {{ $transfer['after'] ?? __('(not set)') }}
-                        </pre>
-                    </div>
+                    <x-setup-view :before-string="$transfer['beforeString']" :after-string="$transfer['afterString']"/>
                 </div>
             </div>
         @endforeach
