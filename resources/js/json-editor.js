@@ -3,27 +3,25 @@ import {EditorState} from "@codemirror/state"
 import {json} from "@codemirror/lang-json"
 import {oneDark} from "@codemirror/theme-one-dark"
 
-window.jsonEditorComponent = (textareaEl, containerEl) => ({
+window.jsonEditorComponent = () => ({
     view: null,
 
     init() {
-        if (this.view) return;
-        // console.debug('[json-editor][init]', textareaEl, containerEl);
-
         this.$nextTick(() => {
-            if (this.view) return;
+            const textarea = this.$refs.textarea;
+            const container = this.$refs.editorContainer;
 
-            const initial = textareaEl.value || '';
-            containerEl.innerHTML = '';
-            // console.debug('[json-editor][nextTick]', initial);
+            container.innerHTML = '';
+            const initial = textarea.value || '';
 
             const updateListener = EditorView.updateListener.of(update => {
                 if (update.docChanged) {
-                    textareaEl.value = this.view.state.doc.toString();
-                    textareaEl.dispatchEvent(new Event('input', { bubbles: true }));
+                    const value = this.view.state.doc.toString();
+                    textarea.value = value;
+                    textarea.dispatchEvent(new Event('input', { bubbles: true }));
 
                     try {
-                        JSON.parse(textareaEl.value);
+                        JSON.parse(value);
                         this.view.dom.classList.remove('border-red-500');
                     } catch {
                         this.view.dom.classList.add('border-red-500');
@@ -41,13 +39,13 @@ window.jsonEditorComponent = (textareaEl, containerEl) => ({
                         updateListener,
                     ]
                 }),
-                parent: containerEl
+                parent: container
             });
 
-            const form = textareaEl.closest('form');
+            const form = textarea.closest('form')
             if (form) {
                 form.addEventListener('submit', () => {
-                    textareaEl.value = this.view.state.doc.toString();
+                    textarea.value = this.view.state.doc.toString();
                 });
             }
         });
