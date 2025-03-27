@@ -3,14 +3,17 @@
 namespace App\Logic\Dsl;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\Node\ArrayNode;
 use Symfony\Component\ExpressionLanguage\Node\BinaryNode;
 use Symfony\Component\ExpressionLanguage\Node\ConstantNode;
+use Symfony\Component\ExpressionLanguage\Node\FunctionNode;
 use Symfony\Component\ExpressionLanguage\Node\GetAttrNode;
 use Symfony\Component\ExpressionLanguage\Node\NameNode;
-use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
-use Symfony\Component\ExpressionLanguage\Node\FunctionNode;
 use Symfony\Component\ExpressionLanguage\Node\Node;
+use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
 
 class ExpressionQueryParser
 {
@@ -22,13 +25,15 @@ class ExpressionQueryParser
         $this->el = $el ?? new ExpressionLanguage();
         $this->fieldPrefix = config('dsl.field_prefix', ':');
 
-        $this->el->register('in', fn($a, $b) => '', fn($args, $list, $value) => in_array($value, $list));
-        $this->el->register('not_in', fn($a, $b) => '', fn($args, $list, $value) => !in_array($value, $list));
         $this->el->register('like', fn($a, $b) => '', fn($args, $field, $pattern) => true);
         $this->el->register('ilike', fn($a, $b) => '', fn($args, $field, $pattern) => true);
         $this->el->register('between', fn($a, $b, $c) => '', fn($args, $field, $min, $max) => true);
         $this->el->register('is_null', fn($a) => '', fn($args, $field) => true);
         $this->el->register('is_not_null', fn($a) => '', fn($args, $field) => true);
+        $this->el->register('has', fn($a, $b) => '', fn($args, $field, $key) => true);
+        $this->el->register('has_any', fn($a, $b) => '', fn($args, $field, $keys) => true);
+        $this->el->register('has_all', fn($a, $b) => '', fn($args, $field, $keys) => true);
+
     }
 
     public function apply(Builder $query, string $expression): Builder
@@ -69,13 +74,14 @@ class ExpressionQueryParser
         $args = $node->nodes['arguments']->nodes;
 
         match ($name) {
-            'in' => $this->handleWhereIn($query, $args, false),
-            'not_in' => $this->handleWhereIn($query, $args, true),
             'like' => $this->handleLike($query, $args, false),
             'ilike' => $this->handleLike($query, $args, true),
             'between' => $this->handleBetween($query, $args),
             'is_null' => $this->handleNull($query, $args, true),
             'is_not_null' => $this->handleNull($query, $args, false),
+            'has' => $this->handleHas($query, $args),
+            'has_any' => $this->handleHasAny($query, $args),
+            'has_all' => $this->handleHasAll($query, $args),
             default => throw new \RuntimeException("Unsupported function: $name")
         };
     }
@@ -118,6 +124,33 @@ class ExpressionQueryParser
         $isNull ? $query->whereNull($field) : $query->whereNotNull($field);
     }
 
+    protected function handleHas(Builder $query, array $args): void
+    {
+        [$fieldNode, $keyNode] = $args;
+        $field = $this->resolveNodeToField($fieldNode);
+        $key = $this->resolveNodeToValue($keyNode);
+
+        $query->whereRaw("{$field} ? ?", [$key]);
+    }
+
+    protected function handleHasAny(Builder $query, array $args): void
+    {
+        [$fieldNode, $keysNode] = $args;
+        $field = $this->resolveNodeToField($fieldNode);
+        $keys = $this->resolveNodeToValue($keysNode);
+
+        $query->whereRaw("{$field} ?| array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
+    }
+
+    protected function handleHasAll(Builder $query, array $args): void
+    {
+        [$fieldNode, $keysNode] = $args;
+        $field = $this->resolveNodeToField($fieldNode);
+        $keys = $this->resolveNodeToValue($keysNode);
+
+        $query->whereRaw("{$field} ?& array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
+    }
+
     protected function handleBinary(Builder $query, BinaryNode $node): void
     {
         $operator = $node->attributes['operator'];
@@ -148,11 +181,14 @@ class ExpressionQueryParser
             '<' => $query->where($left, '<', $right),
             '>=' => $query->where($left, '>=', $right),
             '<=' => $query->where($left, '<=', $right),
+            'in' => $query->whereIn($left, $right),
+            'not in' => $query->whereNotIn($left, $right),
+            '@>' => $query->whereRaw("{$left} @> ?", [json_encode($right)]),
             default => throw new \RuntimeException("Unsupported binary operator: $operator")
         };
     }
 
-    protected function resolveNodeToField(Node $node): string
+    protected function resolveNodeToField(Node $node): string|Expression
     {
         if ($node instanceof NameNode) {
             return $node->attributes['name'];
@@ -162,25 +198,48 @@ class ExpressionQueryParser
             $value = $node->attributes['value'];
 
             if (is_string($value) && str_starts_with($value, $this->fieldPrefix)) {
-                return substr($value, strlen($this->fieldPrefix));
+                $fieldPath = substr($value, strlen($this->fieldPrefix));
+
+                if (str_contains($fieldPath, '.')) {
+                    $parts = explode('.', $fieldPath);
+                    $jsonField = array_shift($parts);
+                    $path = '{' . implode(',', $parts) . '}';
+
+                    return DB::raw("{$jsonField}#>>'{$path}'");
+                }
+
+                return $fieldPath;
             }
 
-            throw new \RuntimeException("Expected field string with prefix '{$this->fieldPrefix}', got constant: " . var_export($value, true));
+            throw new \RuntimeException("Expected field with prefix '{$this->fieldPrefix}', got constant: ".var_export($value, true));
         }
 
         if ($node instanceof GetAttrNode) {
             $base = $this->resolveNodeToField($node->nodes['node']);
             $attr = $this->resolveNodeToField($node->nodes['attribute']);
-            return "{$base}.{$attr}";
+
+            if ($base instanceof Expression || $attr instanceof Expression) {
+                throw new \RuntimeException("Nested GetAttrNode not supported yet for Expression.");
+            }
+
+            return DB::raw("{$base}#>>'{{$attr}}'");
         }
 
-        throw new \RuntimeException("Unsupported node type for field resolution: " . get_class($node));
+        throw new \RuntimeException("Unsupported node type: " . get_class($node));
     }
 
     protected function resolveNodeToValue(Node $node): mixed
     {
         if ($node instanceof ConstantNode) {
             return $node->attributes['value'];
+        }
+
+        if ($node instanceof ArrayNode) {
+            $values = [];
+            foreach (array_chunk($node->nodes, 2) as [$_, $valNode]) {
+                $values[] = $this->resolveNodeToValue($valNode);
+            }
+            return $values;
         }
 
         if ($node instanceof NameNode) {
