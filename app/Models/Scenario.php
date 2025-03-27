@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Logic\Contracts\ScenarioContract;
+use App\Logic\Contracts\LogicContract;
+use App\Logic\Process;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasSetup;
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Step> $steps
  * @property-read Collection<int, Step> $inSteps
  */
-class Scenario extends Model implements HasOwnerInterface, ScenarioContract
+class Scenario extends Model implements HasOwnerInterface, LogicContract
 {
     /** @use HasFactory<ScenarioFactory> */
     use HasOwner, HasFactory, HasSetup;
@@ -58,5 +59,15 @@ class Scenario extends Model implements HasOwnerInterface, ScenarioContract
     public function getNodes(): \Illuminate\Support\Collection
     {
         return collect($this->steps);
+    }
+
+    public function shouldQueue(Process $process): bool
+    {
+        return !$process->inQueue;
+    }
+
+    public function execute(Process $process): void
+    {
+        // intentionally left blank
     }
 }

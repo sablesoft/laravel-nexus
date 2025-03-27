@@ -2,51 +2,53 @@
 
 namespace App\Logic\Runners;
 
-use App\Logic\Contracts\CommandContract;
-use App\Logic\Contracts\LogicRunnerContract;
+use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
-use App\Logic\Contracts\ScenarioContract;
+use App\Logic\Facades\NodeRunner;
+use App\Logic\Facades\SetupRunner;
+use App\Logic\LogicJob;
 use App\Logic\Process;
 
 class LogicRunner
 {
     public function run(NodeContract $node, Process $process): void
     {
-        if ($runner = $this->nodeRunner($node)) {
-            $runner->run($process);
-        }
+        $this->runLogic($node->getLogic(), $process);
     }
 
-    public function runCommand(CommandContract $command, Process $process): void
+    public function runLogic(LogicContract $logic, Process $process): void
     {
-        $this->commandRunner($command)->run($process);
-    }
-
-    public function runScenario(ScenarioContract $scenario, Process $process): void
-    {
-        $this->scenarioRunner($scenario)->run($process);
-    }
-
-    protected function nodeRunner(NodeContract $node): ?LogicRunnerContract
-    {
-        if ($command = $node->getCommand()) {
-            return $this->commandRunner($command);
+        if ($this->addedToQueue($logic, $process)) {
+            return;
         }
 
-        if ($scenario = $node->getScenario()) {
-            return $this->scenarioRunner($scenario);
+        $process->startTimer($logic->getCode() .'::before', $id);
+        SetupRunner::run($logic->getBefore(), $process);
+        $process->stopTimer($id);
+
+        $process->startTimer($logic->getCode() .'::execute', $id);
+        $logic->execute($process);
+        $process->stopTimer($id);
+
+        $process->startTimer($logic->getCode() .'::nodes', $id);
+        foreach ($logic->getNodes() as $node) {
+            NodeRunner::run($node, $process);
+        }
+        $process->stopTimer($id);
+
+        $process->startTimer($logic->getCode() .'::after', $id);
+        SetupRunner::run($logic->getAfter(), $process);
+        $process->stopTimer($id);
+    }
+
+    protected function addedToQueue(LogicContract $logic, Process $process): bool
+    {
+        if (!$logic->shouldQueue($process)) {
+            return false;
         }
 
-        return null;
-    }
+        LogicJob::dispatch($logic, $process);
 
-    protected function commandRunner(CommandContract $command): LogicRunnerContract
-    {
-        return new CommandRunner($command);
-    }
-
-    protected function scenarioRunner(ScenarioContract $scenario): LogicRunnerContract
-    {
-        return new ScenarioRunner($scenario);
+        return true;
     }
 }

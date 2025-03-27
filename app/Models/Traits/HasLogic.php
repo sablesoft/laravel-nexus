@@ -2,18 +2,13 @@
 
 namespace App\Models\Traits;
 
-use App\Logic\Contracts\CommandContract;
-use App\Logic\Contracts\ScenarioContract;
+use App\Logic\Contracts\LogicContract;
 
 trait HasLogic
 {
-    public function getCommand(): ?CommandContract
+    public function getLogic(): ?LogicContract
     {
-        return null; // todo
-    }
-
-    public function getScenario(): ?ScenarioContract
-    {
+        // todo - check if has command also:
         return $this->scenario;
     }
 }

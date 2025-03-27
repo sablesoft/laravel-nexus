@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Facades;
+namespace App\Logic\Facades;
 
 use App\Logic\Process;
 use Illuminate\Support\Facades\Facade;

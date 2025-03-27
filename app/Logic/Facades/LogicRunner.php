@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Facades;
+namespace App\Logic\Facades;
 
-use App\Logic\Contracts\CommandContract;
+use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
-use App\Logic\Contracts\ScenarioContract;
 use App\Logic\Process;
 use Illuminate\Support\Facades\Facade;
 
@@ -14,11 +13,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static void run(NodeContract $node, Process $process)
  * @see \App\Logic\Runners\LogicRunner::run()
  *
- * @method static void runCommand(CommandContract $command, Process $process)
- * @see \App\Logic\Runners\LogicRunner::runCommand()
- *
- * @method static void runScenario(ScenarioContract $scenario, Process $process)
- * @see \App\Logic\Runners\LogicRunner::runScenario()
+ * @method static void runLogic(LogicContract $logic, Process $process)
+ * @see \App\Logic\Runners\LogicRunner::runLogic()
  */
 class LogicRunner extends Facade
 {

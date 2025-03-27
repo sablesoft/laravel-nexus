@@ -2,9 +2,9 @@
 
 namespace App\Logic\Runners;
 
-use App\Facades\LogicRunner;
-use App\Facades\SetupRunner;
 use App\Logic\Contracts\NodeContract;
+use App\Logic\Facades\LogicRunner;
+use App\Logic\Facades\SetupRunner;
 use App\Logic\Process;
 
 class NodeRunner

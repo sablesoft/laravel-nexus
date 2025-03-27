@@ -6,6 +6,8 @@ class Process
 {
     use Timing;
 
+    public bool $inQueue = false;
+
     public function toExpressionContext(): array
     {
         return []; // todo
