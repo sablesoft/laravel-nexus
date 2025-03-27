@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\ScenarioContract;
+use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Database\Factories\ScenarioFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\HasOwner;
-use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Step> $steps
  * @property-read Collection<int, Step> $inSteps
  */
-class Scenario extends Model implements HasOwnerInterface
+class Scenario extends Model implements HasOwnerInterface, ScenarioContract
 {
     /** @use HasFactory<ScenarioFactory> */
     use HasOwner, HasFactory, HasSetup;
@@ -52,5 +53,10 @@ class Scenario extends Model implements HasOwnerInterface
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
+    }
+
+    public function getNodes(): \Illuminate\Support\Collection
+    {
+        return collect($this->steps);
     }
 }

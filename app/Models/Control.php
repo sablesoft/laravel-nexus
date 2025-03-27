@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\NodeContract;
 use App\Models\Enums\Command;
 use App\Models\Enums\ControlType;
+use App\Models\Traits\HasLogic;
 use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -23,9 +25,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property-read null|Scenario $scenario
  */
-class Control extends Model
+class Control extends Model implements NodeContract
 {
-    use HasSetup;
+    use HasSetup, HasLogic;
 
     protected $fillable = [
         'screen_id', 'scenario_id', 'command', 'type',

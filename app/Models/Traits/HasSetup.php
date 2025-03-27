@@ -12,6 +12,16 @@ use JsonException;
  */
 trait HasSetup
 {
+    public function getBefore(): ?array
+    {
+        return $this->before;
+    }
+
+    public function getAfter(): ?array
+    {
+        return $this->after;
+    }
+
     public function getBeforeStringAttribute(): ?string
     {
         return $this->getSetupString('before');
