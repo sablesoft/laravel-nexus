@@ -3,10 +3,11 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
-class ScenarioService extends Facade
+
+class SetupRunner extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'scenario-service';
+        return 'setup-runner';
     }
 }
