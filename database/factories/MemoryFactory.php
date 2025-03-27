@@ -21,7 +21,7 @@ class MemoryFactory extends AppFactory
         return [
             'chat_id' => Chat::factory(),
             'title' => $this->getFakeName(2, 5),
-            'content' => fake()->text(),
+            'content' => fake()->paragraph(),
             'type' => fake()->word(),
         ];
     }

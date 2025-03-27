@@ -23,6 +23,7 @@ class ChatFactory extends AppFactory
             'user_id' => User::factory(),
             'application_id' => Application::factory(),
             'title' => $this->getFakeName(3,4),
+            'seats' => $this->faker->randomNumber(),
         ];
     }
 }

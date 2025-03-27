@@ -2,8 +2,6 @@
 
 namespace App\Logic\Dsl;
 
-namespace App\Logic\Dsl;
-
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\Node\BinaryNode;
@@ -55,10 +53,10 @@ class ExpressionQueryParser
 
     protected function handleUnary(Builder $query, UnaryNode $node): void
     {
-        $operator = $node->getAttribute('operator');
+        $operator = $node->attributes['operator'];
         if ($operator === 'not') {
             $query->whereNot(function ($q) use ($node) {
-                $this->walk($q, $node->getNode());
+                $this->walk($q, $node->nodes['node']);
             });
         } else {
             throw new \RuntimeException("Unsupported unary operator: $operator");
@@ -67,8 +65,8 @@ class ExpressionQueryParser
 
     protected function handleFunction(Builder $query, FunctionNode $node): void
     {
-        $name = $node->getAttribute('name');
-        $args = $node->getNodes()['arguments']->nodes;
+        $name = $node->attributes['name'];
+        $args = $node->nodes['arguments']->nodes;
 
         match ($name) {
             'in' => $this->handleWhereIn($query, $args, false),
@@ -122,26 +120,26 @@ class ExpressionQueryParser
 
     protected function handleBinary(Builder $query, BinaryNode $node): void
     {
-        $operator = $node->getAttribute('operator');
+        $operator = $node->attributes['operator'];
 
         if ($operator === 'and') {
             $query->where(function ($q) use ($node) {
-                $this->walk($q, $node->getLeftNode());
-                $this->walk($q, $node->getRightNode());
+                $this->walk($q, $node->nodes['left']);
+                $this->walk($q, $node->nodes['right']);
             });
             return;
         }
 
         if ($operator === 'or') {
             $query->orWhere(function ($q) use ($node) {
-                $this->walk($q, $node->getLeftNode());
-                $this->walk($q, $node->getRightNode());
+                $this->walk($q, $node->nodes['left']);
+                $this->walk($q, $node->nodes['right']);
             });
             return;
         }
 
-        $left = $this->resolveNodeToField($node->getLeftNode());
-        $right = $this->resolveNodeToValue($node->getRightNode());
+        $left = $this->resolveNodeToField($node->nodes['left']);
+        $right = $this->resolveNodeToValue($node->nodes['right']);
 
         match ($operator) {
             '==' => $query->where($left, '=', $right),
@@ -156,12 +154,10 @@ class ExpressionQueryParser
 
     protected function resolveNodeToField(Node $node): string
     {
-        // Прямое обращение к переменной — допустим NameNode
         if ($node instanceof NameNode) {
             return $node->attributes['name'];
         }
 
-        // Константа со специальным префиксом — это поле
         if ($node instanceof ConstantNode) {
             $value = $node->attributes['value'];
 
@@ -169,33 +165,31 @@ class ExpressionQueryParser
                 return substr($value, strlen($this->fieldPrefix));
             }
 
-            throw new \RuntimeException("Expected string field with prefix '{$this->fieldPrefix}', got constant: ".var_export($value, true));
+            throw new \RuntimeException("Expected field string with prefix '{$this->fieldPrefix}', got constant: " . var_export($value, true));
         }
 
-        // Обращение вида object.property или json.field
         if ($node instanceof GetAttrNode) {
             $base = $this->resolveNodeToField($node->nodes['node']);
             $attr = $this->resolveNodeToField($node->nodes['attribute']);
-            return "{$base}.{$attr}"; // точечная нотация
+            return "{$base}.{$attr}";
         }
 
-        throw new \RuntimeException("Unsupported node type: " . get_class($node));
+        throw new \RuntimeException("Unsupported node type for field resolution: " . get_class($node));
     }
-
 
     protected function resolveNodeToValue(Node $node): mixed
     {
         if ($node instanceof ConstantNode) {
-            return $node->getAttribute('value');
+            return $node->attributes['value'];
         }
 
         if ($node instanceof NameNode) {
-            return $node->getAttribute('name');
+            return $node->attributes['name'];
         }
 
         if ($node instanceof GetAttrNode) {
-            $base = $this->resolveNodeToValue($node->getNode('node'));
-            $attr = $this->resolveNodeToValue($node->getNode('attribute'));
+            $base = $this->resolveNodeToValue($node->nodes['node']);
+            $attr = $this->resolveNodeToValue($node->nodes['attribute']);
             return "{$base}.{$attr}";
         }
 
@@ -203,17 +197,17 @@ class ExpressionQueryParser
             return $this->resolveFunctionToValue($node);
         }
 
-        throw new \RuntimeException('Unsupported value node type: ' . get_class($node));
+        throw new \RuntimeException("Unsupported value node: " . get_class($node));
     }
 
     protected function resolveFunctionToValue(FunctionNode $node): mixed
     {
-        $name = $node->getAttribute('name');
-        $args = array_map([$this, 'resolveNodeToValue'], $node->getNodes()['arguments']->nodes);
+        $name = $node->attributes['name'];
+        $args = array_map([$this, 'resolveNodeToValue'], $node->nodes['arguments']->nodes);
 
         return match ($name) {
             'array' => $args,
-            default => throw new \RuntimeException("Unsupported value function: $name")
+            default => throw new \RuntimeException("Unsupported function value: $name")
         };
     }
 }
