@@ -16,10 +16,18 @@ class ScenarioRunner implements LogicRunnerContract
 
     public function run(Process $process): void
     {
+        $process->startTimer($this->scenario->getCode() .'::before', $id);
         SetupRunner::run($this->scenario->getBefore(), $process);
+        $process->stopTimer($id);
+
+        $process->startTimer($this->scenario->getCode() .'::nodes', $id);
         foreach ($this->scenario->getNodes() as $node) {
              NodeRunner::run($node, $process);
         }
+        $process->stopTimer($id);
+
+        $process->startTimer($this->scenario->getCode() .'::after', $id);
         SetupRunner::run($this->scenario->getAfter(), $process);
+        $process->stopTimer($id);
     }
 }

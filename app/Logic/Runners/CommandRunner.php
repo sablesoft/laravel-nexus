@@ -15,8 +15,16 @@ class CommandRunner implements LogicRunnerContract
 
     public function run(Process $process): void
     {
+        $process->startTimer($this->command->getCode() .'::before', $id);
         SetupRunner::run($this->command->getBefore(), $process);
+        $process->stopTimer($id);
+
+        $process->startTimer($this->command->getCode() .'::execute', $id);
         $this->command->execute($process);
+        $process->stopTimer($id);
+
+        $process->startTimer($this->command->getCode() .'::after', $id);
         SetupRunner::run($this->command->getAfter(), $process);
+        $process->stopTimer($id);
     }
 }

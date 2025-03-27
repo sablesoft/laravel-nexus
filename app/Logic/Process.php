@@ -4,6 +4,7 @@ namespace App\Logic;
 
 class Process
 {
+    use Timing;
 
     public function toExpressionContext(): array
     {

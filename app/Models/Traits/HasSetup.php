@@ -22,6 +22,15 @@ trait HasSetup
         return $this->after;
     }
 
+    public function getCode(): string
+    {
+        $class = self::class;
+        $parts = explode('\\', $class);
+        $code = $this->code ? '.'. $this->code : '';
+
+        return strtolower(end($parts)) . $code;
+    }
+
     public function getBeforeStringAttribute(): ?string
     {
         return $this->getSetupString('before');

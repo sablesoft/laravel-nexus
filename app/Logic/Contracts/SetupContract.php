@@ -6,4 +6,5 @@ interface SetupContract
 {
     public function getBefore(): ?array;
     public function getAfter(): ?array;
+    public function getCode(): string;
 }
