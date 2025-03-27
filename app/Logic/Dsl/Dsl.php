@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Logic;
+namespace App\Logic\Dsl;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 

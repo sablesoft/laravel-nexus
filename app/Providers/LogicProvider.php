@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Logic\Dsl;
+use App\Logic\Dsl\Dsl;
 use App\Logic\Runners\LogicRunner;
 use App\Logic\Runners\NodeRunner;
 use App\Logic\Runners\SetupRunner;

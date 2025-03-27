@@ -63,7 +63,7 @@ class Scenario extends Model implements HasOwnerInterface, LogicContract
 
     public function shouldQueue(Process $process): bool
     {
-        return !$process->inQueue;
+        return $process->shouldQueue();
     }
 
     public function execute(Process $process): void

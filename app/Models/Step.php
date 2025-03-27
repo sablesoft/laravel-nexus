@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
 use App\Models\Enums\Command;
 use App\Models\Traits\HasLogic;
@@ -46,5 +47,19 @@ class Step extends Model implements NodeContract
     public function nestedScenario(): BelongsTo
     {
         return $this->belongsTo(Scenario::class, 'nested_id');
+    }
+
+    public function getCode(): string
+    {
+        $prefix = $this->scenario?->getCode();
+        $prefix = $prefix ? "$prefix." : '';
+
+        return $prefix . 'step.'. $this->number;
+    }
+
+    public function getLogic(): ?LogicContract
+    {
+        // todo - check if has command also:
+        return $this->nestedScenario;
     }
 }

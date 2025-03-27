@@ -22,6 +22,8 @@ class LogicRunner
             return;
         }
 
+        $process->startLog($logic);
+
         $process->startTimer($logic->getCode() .'::before', $id);
         SetupRunner::run($logic->getBefore(), $process);
         $process->stopTimer($id);
@@ -39,6 +41,8 @@ class LogicRunner
         $process->startTimer($logic->getCode() .'::after', $id);
         SetupRunner::run($logic->getAfter(), $process);
         $process->stopTimer($id);
+
+        $process->finishLog();
     }
 
     protected function addedToQueue(LogicContract $logic, Process $process): bool

@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Logic;
-
-use Laravel\Telescope\Telescope;
+namespace App\Logic\Traits;
 
 trait Timing
 {
@@ -12,10 +10,10 @@ trait Timing
 
     /**
      * @param string $code
-     * @param string $identifier
+     * @param null|string $identifier
      * @return float
      */
-    public function startTimer(string $code, string &$identifier): float
+    public function startTimer(string $code, ?string &$identifier): float
     {
         $this->number++;
         $identifier = $this->number . ') '. $code;
@@ -39,22 +37,20 @@ trait Timing
     }
 
     /**
-     * @param bool $withTotal
+     * @param bool $writeLogs
      * @return array
      */
-    public function getExecutionTimes(bool $withTotal = false): array
+    public function getExecutionTimes(bool $writeLogs = false): array
     {
         $times = $this->executionTimes;
-        if ($withTotal) {
-            $total = 0;
-            foreach ($times as $time) {
-                $total += $time;
-            }
-            $times['total'] = $total;
+        $total = 0;
+        foreach ($times as $time) {
+            $total += $time;
         }
+        $times['total'] = $total;
 
-        if (app()->environment('local') && class_exists(Telescope::class)) {
-            $this->logExecutionTimesToTelescope($times);
+        if (app()->environment('local') && $writeLogs) {
+            $this->logExecutionTimes($times);
         }
 
         return $times;
@@ -69,7 +65,7 @@ trait Timing
         return $this->executionTimes[$identifier] ?? null;
     }
 
-    protected function logExecutionTimesToTelescope(array $times): void
+    protected function logExecutionTimes(array $times): void
     {
         foreach ($times as $label => $time) {
             \Log::info('[Timing] ' . $label . ': ' . round($time * 1000, 2) . ' ms');

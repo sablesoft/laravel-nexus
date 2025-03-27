@@ -2,11 +2,13 @@
 
 namespace App\Logic\Runners;
 
-use App\Logic\Dsl;
+use App\Logic\Dsl\Dsl;
 use App\Logic\Process;
 
 class SetupRunner
 {
+    const STRING_PATTERN = '||';
+
     public function __construct(
         protected Dsl $dsl,
     ) {}
@@ -62,12 +64,17 @@ class SetupRunner
 
     protected function rules(array $rules, Process $process): void
     {
-        validator($process->all(), $rules)->validate();
+        try {
+            validator($process->all(), $rules)->validate();
+        } catch (\Throwable $e) {
+            dd($process, $e);
+        }
     }
 
     protected function data(array $data, Process $process): void
     {
         $pending = $data;
+
         while (!empty($pending)) {
             $progress = false;
             $context = $process->toExpressionContext();
@@ -75,9 +82,11 @@ class SetupRunner
                 try {
                     $value = $this->evaluate($expr, $context);
                     $process->set($key, $value);
+                    $context[$key] = $value;
                     unset($pending[$key]);
                     $progress = true;
-                } catch (\Throwable) {
+                } catch (\Throwable $e) {
+                    dd($process, $pending, $e);
                     continue;
                 }
             }
@@ -104,8 +113,13 @@ class SetupRunner
         }
 
         if (is_string($expr)) {
-            if (str_contains($expr, '{{')) {
-                return $this->interpolate($expr, $context);
+            if (str_starts_with($expr, self::STRING_PATTERN)) {
+                $value = ltrim(substr($expr, 2));
+                if (str_contains($value, '{{')) {
+                    return $this->interpolate($value, $context);
+                }
+
+                return $value;
             }
 
             return $this->dsl->evaluate($expr, $context);

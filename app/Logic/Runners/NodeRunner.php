@@ -11,6 +11,8 @@ class NodeRunner
 {
     public function run(NodeContract $node, Process $process): void
     {
+        $process->startLog($node);
+
         $process->startTimer($node->getCode() .'::before', $id);
         SetupRunner::run($node->getBefore(), $process);
         $process->stopTimer($id);
@@ -22,5 +24,7 @@ class NodeRunner
         $process->startTimer($node->getCode() .'::after', $id);
         SetupRunner::run($node->getAfter(), $process);
         $process->stopTimer($id);
+
+        $process->finishLog();
     }
 }
