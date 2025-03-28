@@ -21,6 +21,9 @@ class ExpressionQueryParser
     protected ExpressionLanguage $el;
     protected string $fieldPrefix;
 
+    protected array $context = [];
+
+
     public function __construct(?ExpressionLanguage $el = null)
     {
         $this->el = $el ?? new ExpressionLanguage();
@@ -37,9 +40,10 @@ class ExpressionQueryParser
 
     }
 
-    public function apply(Builder $query, string $expression): Builder
+    public function apply(Builder $query, string $expression, array $context = []): Builder
     {
-        $ast = $this->el->parse($expression, []);
+        $this->context = $context;
+        $ast = $this->el->parse($expression, array_keys($this->context));
         $callback = $this->walk($ast->getNodes());
 
         $query->where($callback);
@@ -219,7 +223,23 @@ class ExpressionQueryParser
     protected function resolveNodeToField(Node $node): string|Expression
     {
         if ($node instanceof NameNode) {
-            return $node->attributes['name'];
+            $name = $node->attributes['name'];
+
+            if (!array_key_exists($name, $this->context)) {
+                throw new \RuntimeException("Unknown variable: {$name}");
+            }
+
+            $value = $this->context[$name];
+
+            if (!is_string($value)) {
+                throw new \RuntimeException("Field variable '{$name}' must be a string");
+            }
+
+            if (!str_starts_with($value, $this->fieldPrefix)) {
+                $value = $this->fieldPrefix . $value;
+            }
+
+            return $this->resolveNodeToField(new ConstantNode($value));
         }
 
         if ($node instanceof ConstantNode) {
@@ -271,7 +291,12 @@ class ExpressionQueryParser
         }
 
         if ($node instanceof NameNode) {
-            return $node->attributes['name'];
+            $name = $node->attributes['name'];
+            if (array_key_exists($name, $this->context)) {
+                return $this->context[$name];
+            }
+
+            throw new \RuntimeException("Unknown variable: {$name}");
         }
 
         if ($node instanceof GetAttrNode) {
@@ -332,5 +357,4 @@ class ExpressionQueryParser
 
         return $field;
     }
-
 }
