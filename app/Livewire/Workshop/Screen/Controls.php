@@ -135,13 +135,14 @@ class Controls extends Component
 
     protected function rules(): array
     {
+        $dlsEditor = config('dsl.editor');
         $rules = [
             'type'          => ['required', 'string', Rule::enum(ControlType::class)],
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
             'description'   => ['nullable', 'string'],
-            'beforeString'  => ['nullable', 'json'],
-            'afterString'   => ['nullable', 'json']
+            'beforeString'  => ['nullable', $dlsEditor],
+            'afterString'   => ['nullable', $dlsEditor]
         ];
         $required = $this->addLogic ? 'required' : 'nullable';
 

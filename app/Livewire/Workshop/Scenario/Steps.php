@@ -211,11 +211,12 @@ class Steps extends Component
 
     protected function rules(): array
     {
+        $dlsEditor = config('dsl.editor');
         $rules = [
             'number'        => ['required', 'integer'],
             'description'   => ['nullable', 'string'],
-            'beforeString'  => ['nullable', 'json'],
-            'afterString'   => ['nullable', 'json'],
+            'beforeString'  => ['nullable', $dlsEditor],
+            'afterString'   => ['nullable', $dlsEditor],
         ];
 
         $required = $this->addLogic ? 'required' : 'nullable';

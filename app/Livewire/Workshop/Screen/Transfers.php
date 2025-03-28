@@ -155,14 +155,15 @@ class Transfers extends Component
 
     protected function rules(): array
     {
+        $dlsEditor = config('dsl.editor');
         return [
             'screen_to_id'      => ['required', 'int'],
             'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
             'description'       => ['nullable', 'string'],
-            'beforeString'      => ['nullable', 'json'],
-            'afterString'       => ['nullable', 'json'],
+            'beforeString'      => ['nullable', $dlsEditor],
+            'afterString'       => ['nullable', $dlsEditor],
         ];
     }
 }
