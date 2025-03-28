@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use JsonException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * @property null|array $before
@@ -63,19 +64,37 @@ trait HasSetup
     protected function setSetupStringAttribute(string $field, ?string $value): void
     {
         if (is_null($value)) {
-            $this->$field = $value;
+            $this->$field = null;
             return;
         }
-        $decoded = json_decode($value, true);
-        if (json_last_error() === JSON_ERROR_NONE) {
+
+        $editor = config('dsl.editor', 'json');
+
+        try {
+            if ($editor === 'yaml') {
+                $decoded = Yaml::parse($value);
+            } else {
+                $decoded = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+            }
+
             $this->$field = $decoded;
-        } else {
-            throw new JsonException('Invalid json decoding for field '. $field . ': ' . $value);
+        } catch (\Throwable $e) {
+            throw new JsonException("Invalid $editor decoding for field $field: " . $e->getMessage(), previous: $e);
         }
     }
 
     protected function getSetupString(string $field): ?string
     {
-        return $this->$field ? json_encode($this->$field, JSON_PRETTY_PRINT) : null;
+        $value = $this->$field;
+
+        if (!$value) {
+            return null;
+        }
+
+        $editor = config('dsl.editor', 'json');
+
+        return $editor === 'yaml'
+            ? Yaml::dump($value, 10, 2)
+            : json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }

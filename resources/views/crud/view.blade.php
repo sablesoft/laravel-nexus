@@ -96,8 +96,12 @@
                                 </div>
                                 @break
 
-                            @case('json')
-                                <x-prism-view :string="$state[$field]" lang="json"/>
+                            @case('codemirror')
+                                <x-code-mirror wire:key="codemirror-viewer-{{ $field }}"
+                                               :lang="config('dsl.editor', 'yaml')"
+                                               :readonly="true"
+                                               :content="$state[$field]"
+                                               class="w-full" />
                                 @break
 
                             @default

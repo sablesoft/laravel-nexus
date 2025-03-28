@@ -83,8 +83,10 @@
                                     <flux:textarea wire:model="state.{{ $field }}" rows="auto"/>
                                     @break
 
-                                @case('json')
-                                    <x-json-editor wire:key="json-editor-{{ $field }}" wire:model.defer="state.{{ $field }}" class="w-full" />
+                                @case('codemirror')
+                                    <x-code-mirror wire:key="codemirror-editor-{{ $field }}"
+                                                   :lang="config('dsl.editor', 'yaml')"
+                                                   wire:model.defer="state.{{ $field }}" class="w-full" />
                                     @break
 
                                 @case('image')

@@ -5,5 +5,4 @@
  */
 
 import './echo';
-import './prism-view';
-import './json-editor';
+import './code-mirror';
