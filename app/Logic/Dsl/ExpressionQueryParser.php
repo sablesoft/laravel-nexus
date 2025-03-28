@@ -165,9 +165,12 @@ class ExpressionQueryParser
         }
 
         if ($operator === 'or') {
-            $query->orWhere(function ($q) use ($node) {
-                $this->walk($q, $node->nodes['left']);
-                $this->walk($q, $node->nodes['right']);
+            $query->where(function ($q) use ($node) {
+                $q->where(function ($q1) use ($node) {
+                    $this->walk($q1, $node->nodes['left']);
+                })->orWhere(function ($q2) use ($node) {
+                    $this->walk($q2, $node->nodes['right']);
+                });
             });
             return;
         }

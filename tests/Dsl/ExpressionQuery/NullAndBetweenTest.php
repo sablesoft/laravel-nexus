@@ -21,13 +21,6 @@ beforeEach(function () {
     ]);
 });
 
-function expectQueryCount(Builder $query, int $count): void {
-    if ($query->count() !== $count) {
-        dump($query->toSql(), $query->getBindings());
-    }
-    expect($query->count())->toBe($count);
-};
-
 it('filters using "between" operator on json path', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, 'between(":meta.level", 5, 10)');

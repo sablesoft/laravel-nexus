@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Database\Eloquent\Builder;
+
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature', 'Dsl');
@@ -25,6 +27,12 @@ pest()->extend(Tests\TestCase::class)
 | to assert different things. Of course, you may extend the Expectation API at any time.
 |
 */
+function expectQueryCount(Builder $query, int $count): void {
+    if ($query->count() !== $count) {
+        dump($query->toSql(), $query->getBindings());
+    }
+    expect($query->count())->toBe($count);
+};
 
 //expect()->extend('toBeOne', function () {
 //    return $this->toBe(1);
