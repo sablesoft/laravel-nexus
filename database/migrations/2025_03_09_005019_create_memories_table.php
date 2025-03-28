@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('type', 20)->nullable(false)->index();
             $table->jsonb('meta')->nullable();
 
+            $table->index('meta', 'app_memories_meta_index', 'gin');
+
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
