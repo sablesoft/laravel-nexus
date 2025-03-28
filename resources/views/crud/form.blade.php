@@ -32,18 +32,19 @@
         </div>
 
         {{-- Fields --}}
-        <div class="space-y-2 mb-6">
+        <div class="rounded-md shadow border border-zinc-200 dark:border-zinc-700 overflow-hidden mb-6">
             @foreach($this->checkedFields() as $field => $title)
                 @php
                     $hasError = $errors->has('state.' . $field);
+                    $collapsed = $this->config($field, 'collapsed', false);
                 @endphp
 
-                <div x-data="{ open: {{ in_array($this->type($field), ['component', 'template', 'image']) ? 'false' : 'true' }} }"
-                    class="bg-zinc-100 dark:bg-zinc-900 border rounded-md shadow {{ $hasError ? 'border-red-500' : 'border-zinc-200 dark:border-zinc-700' }}">
+                <div x-data="{ open: {{ $collapsed ? 'false' : 'true' }} }"
+                     class="border-b border-zinc-200 dark:border-zinc-700 last:border-b-0">
 
-                    {{-- Header --}}
+                    {{-- Field header --}}
                     <div @click="open = !open"
-                        class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-3 py-2 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                         class="flex items-center justify-between px-3 py-2 cursor-pointer bg-zinc-50 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                         <h3 class="text-base font-bold {{ $hasError ? 'text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-100' }}">
                             {{ $title }}
                         </h3>
