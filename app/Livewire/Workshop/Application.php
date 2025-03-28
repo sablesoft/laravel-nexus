@@ -64,6 +64,7 @@ class Application extends AbstractCrud implements ShouldHasMany
 
     protected function fieldsConfig(): array
     {
+        $dslEditor = config('dsl.editor', 'json');
         return [
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
@@ -98,14 +99,16 @@ class Application extends AbstractCrud implements ShouldHasMany
             'beforeString' => [
                 'title' => 'Before',
                 'action' => ['edit', 'view'],
-                'type' => 'json',
-                'rules' => 'nullable|json'
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
+                'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'After',
                 'action' => ['edit', 'view'],
-                'type' => 'json',
-                'rules' => 'nullable|json'
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
+                'collapsed' => true
             ],
             'screenLink' => $this->linkField('Init Screen', ['index', 'view']),
             'screensList' => $this->linkListField('Screens', ['index', 'view']),

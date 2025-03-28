@@ -25,35 +25,6 @@
                 <flux:error name="state.type"/>
             </flux:field>
 
-            <flux:field>
-                <flux:label class="cursor-pointer">Logic</flux:label>
-                <div class="flex gap-2">
-                    <ui-label class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ $switcher ? '' : 'font-black' }}">
-                        Command
-                    </ui-label>
-                    <flux:switch class="cursor-pointer" wire:model.live="switcher"/>
-                    <ui-label class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ !$switcher ? '' : 'font-black' }}">
-                        Scenario
-                    </ui-label>
-                </div>
-            </flux:field>
-            <flux:field class="mb-3">
-                @if($switcher)
-                    <x-searchable-select field="scenario_id" :options="$scenarios"/>
-                    <flux:error name="state.scenario_id"/>
-                @else
-                    <flux:select wire:model="state.command" class="cursor-pointer">
-                        <flux:select.option selected>Not selected</flux:select.option>
-                        @foreach (\App\Models\Enums\Command::options() as $value => $title)
-                            <flux:select.option value="{{ $value }}">
-                                {{ $title }}
-                            </flux:select.option>
-                        @endforeach
-                    </flux:select>
-                    <flux:error name="state.command"/>
-                @endif
-            </flux:field>
-
             <flux:field class="mb-3">
                 <flux:label>Title</flux:label>
                 <flux:input type="text" wire:model="state.title"/>
@@ -69,19 +40,61 @@
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
+
             <flux:field class="mb-3">
-                <flux:label>Before (JSON)</flux:label>
-                <flux:textarea wire:model="state.beforeString" rows="auto"></flux:textarea>
+                <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="codemirror-editor-beforeString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>After (JSON)</flux:label>
-                <flux:textarea wire:model="state.afterString" rows="auto"></flux:textarea>
+                <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="codemirror-editor-afterString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.afterString" class="w-full" />
                 <flux:error name="state.afterString"/>
             </flux:field>
 
+            <flux:field>
+                <div class="flex gap-2">
+                    <flux:switch label="Add Logic" class="cursor-pointer" wire:model.live="addLogic"/>
+                </div>
+            </flux:field>
+            @if($addLogic)
+                <flux:field>
+                    <div class="flex gap-2">
+                        <ui-label
+                            class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ $scenarioLogic ? '' : 'font-black' }}">
+                            Command
+                        </ui-label>
+                        <flux:switch class="cursor-pointer" wire:model.live="scenarioLogic"/>
+                        <ui-label
+                            class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ !$scenarioLogic ? '' : 'font-black' }}">
+                            Scenario
+                        </ui-label>
+                    </div>
+                </flux:field>
+                <flux:field class="mb-3">
+                    @if($scenarioLogic)
+                        <x-searchable-select field="scenario_id" :options="$scenarios"/>
+                        <flux:error name="state.scenario_id"/>
+                    @else
+                        <flux:select wire:model="state.command" class="cursor-pointer">
+                            <flux:select.option selected>Not selected</flux:select.option>
+                            @foreach (\App\Models\Enums\Command::options() as $value => $title)
+                                <flux:select.option value="{{ $value }}">
+                                    {{ $title }}
+                                </flux:select.option>
+                            @endforeach
+                        </flux:select>
+                        <flux:error name="state.command"/>
+                    @endif
+                </flux:field>
+            @endif
+
             <div class="flex gap-2">
-                <flux:spacer />
+                <flux:spacer/>
                 <flux:modal.close>
                     <flux:button variant="ghost" class="cursor-pointer">
                         {{ __('Close') }}
@@ -97,7 +110,8 @@
     {{-- Controls List --}}
     <div class="space-y-2">
         @if($controls)
-            <div class="grid grid-cols-5 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
+            <div
+                class="grid grid-cols-5 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
                 <span>Type</span>
                 <span>Title</span>
                 <span>Tooltip</span>
@@ -108,12 +122,16 @@
 
         @foreach($controls as $id => $control)
             @php
-                $logic = $control['scenarioTitle']
-                    ? 'Scenario: ' . $control['scenarioTitle']
-                    : ($control['commandTitle'] ? 'Command: ' . $control['commandTitle'] : '—');
+                $isScenario = !empty($control['scenario_id']);
+                $isCommand = !empty($control['command']);
+                $logicTitle = ($isCommand || $isScenario) ? null : 'None';
+                $logicTitle = $logicTitle ?? ($control['scenarioTitle']
+            ? 'Scenario: ' . $control['scenarioTitle']
+            : ($control['commandTitle'] ? 'Command: ' . $control['commandTitle'] : '—'));
             @endphp
 
-            <div x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
+            <div x-data="{ open: false }"
+                 class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
                 {{-- Row --}}
                 <div class="grid grid-cols-5 gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
                 <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
@@ -127,12 +145,12 @@
                 </span>
                     <span class="text-sm text-zinc-500 dark:text-zinc-400">
                         @if(!empty($control['scenario_id']))
-                        <a class="underline" wire:click.stop wire:navigate
-                           href="{{ route('workshop.scenarios', ['action' => 'view', 'id' => $control['scenario_id']]) }}">
-                            {{ $logic }}
+                            <a class="underline" wire:click.stop wire:navigate
+                               href="{{ route('workshop.scenarios', ['action' => 'view', 'id' => $control['scenario_id']]) }}">
+                            {{ $logicTitle }}
                         </a>
                         @else
-                        {{ $logic }}
+                            {{ $logicTitle }}
                         @endif
                     </span>
 

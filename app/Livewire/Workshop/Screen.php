@@ -115,6 +115,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
 
     protected function fieldsConfig(): array
     {
+        $dslEditor = config('dsl.editor', 'json');
         return [
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
@@ -151,7 +152,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                         if ($error = \App\Models\Screen::validateDslQuery($value)) {
                             $fail("Invalid DSL expression: " . $error->getMessage());
                         }
-        },
+                    },
                 ]
             ],
             'template' => [
@@ -162,14 +163,16 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             'beforeString' => [
                 'title' => 'Before',
                 'action' => ['edit', 'view'],
-                'type' => 'json',
-                'rules' => 'nullable|json'
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
+                'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'After',
                 'action' => ['edit', 'view'],
-                'type' => 'json',
-                'rules' => 'nullable|json'
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
+                'collapsed' => true
             ],
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'transfersToList' => $this->linkListField('Transfers To', ['index']),

@@ -37,6 +37,7 @@ class Scenario extends AbstractCrud
 
     protected function fieldsConfig(): array
     {
+        $dslEditor = config('dsl.editor', 'json');
         return [
             'title' => [
                 'action' => ['index', 'create', 'edit', 'view'],
@@ -59,15 +60,15 @@ class Scenario extends AbstractCrud
             'beforeString' => [
                 'title' => 'Before',
                 'action' => ['edit', 'view'],
-                'type' => 'json',
-                'rules' => 'nullable|json',
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'After',
                 'action' => ['edit', 'view'],
-                'type' => 'json',
-                'rules' => 'nullable|json',
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
             'stepsCrud' => [

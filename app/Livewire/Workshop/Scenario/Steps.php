@@ -71,6 +71,8 @@ class Steps extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
+        $this->addLogic = false;
+        $this->scenarioLogic = false;
     }
 
     public function edit(int $id): void

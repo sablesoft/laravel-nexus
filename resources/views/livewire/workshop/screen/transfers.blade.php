@@ -61,13 +61,17 @@
                 <flux:error name="state.description"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Before (JSON)</flux:label>
-                <flux:textarea wire:model="state.beforeString" rows="auto"></flux:textarea>
+                <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="codemirror-editor-beforeString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>After (JSON)</flux:label>
-                <flux:textarea wire:model="state.afterString" rows="auto"></flux:textarea>
+                <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="codemirror-editor-afterString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.afterString" class="w-full" />
                 <flux:error name="state.afterString"/>
             </flux:field>
             <div class="flex gap-2">

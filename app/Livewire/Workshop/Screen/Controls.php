@@ -25,7 +25,8 @@ class Controls extends Component
     #[Locked]
     public ?int $controlId = null;
     public array $state;
-    public bool $switcher = false;
+    public bool $scenarioLogic = false;
+    public bool $addLogic = false;
 
     public function mount(int $screenId): void
     {
@@ -45,12 +46,21 @@ class Controls extends Component
         return view('livewire.workshop.screen.controls');
     }
 
-    public function updatedSwitcher(): void
+    public function updatedScenarioLogic(): void
     {
-        if ($this->switcher) {
+        if ($this->scenarioLogic) {
             $this->state['command'] = null;
         } else {
             $this->state['scenario_id'] = null;
+        }
+    }
+
+    public function updatedAddLogic(): void
+    {
+        if (!$this->addLogic) {
+            $this->state['command'] = null;
+            $this->state['scenario_id'] = null;
+            $this->scenarioLogic = false;
         }
     }
 
@@ -61,6 +71,8 @@ class Controls extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
+        $this->addLogic = false;
+        $this->scenarioLogic = false;
     }
 
     public function edit(int $id): void
@@ -71,7 +83,8 @@ class Controls extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = $control[$field];
         }
-        $this->switcher = !empty($control['scenario_id']);
+        $this->addLogic = !empty($control['scenario_id']) || !empty($control['command']);
+        $this->scenarioLogic = !empty($control['scenario_id']);
         Flux::modal('form-control')->show();
     }
 
@@ -130,13 +143,14 @@ class Controls extends Component
             'beforeString'  => ['nullable', 'json'],
             'afterString'   => ['nullable', 'json']
         ];
+        $required = $this->addLogic ? 'required' : 'nullable';
 
-        return array_merge($rules, $this->switcher ? [
-            'scenario_id'   => ['required', 'int'],
+        return array_merge($rules, $this->scenarioLogic ? [
+            'scenario_id'   => [$required, 'int'],
             'command'       => ['nullable', 'string'],
         ] : [
-            'command'       => ['required', 'string', Rule::enum(Command::class)],
-            'scenario_id'     => ['nullable', 'int']
+            'command'       => [$required, 'string', Rule::enum(Command::class)],
+            'scenario_id'   => ['nullable', 'int']
         ]);
     }
 }
