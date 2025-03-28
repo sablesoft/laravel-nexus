@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('is_default')->nullable(false)
                 ->default(false)->index();
+            $table->string('query')->nullable();
             $table->text('template')->nullable();
             $table->json('before')->nullable();
             $table->json('after')->nullable();

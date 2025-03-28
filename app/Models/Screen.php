@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|string $title
  * @property null|string $description
  * @property null|bool $is_default
+ * @property null|string $query
  * @property null|string $template
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -37,7 +38,7 @@ class Screen extends Model implements HasOwnerInterface
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
-        'is_default', 'before', 'after', 'template',
+        'is_default', 'query', 'before', 'after', 'template',
     ];
 
     protected $casts = [

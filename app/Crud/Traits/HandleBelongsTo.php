@@ -4,7 +4,7 @@ namespace App\Crud\Traits;
 
 trait HandleBelongsTo
 {
-    protected function belongsToField(string $title, string $relation, array $action = ['create', 'edit', 'view']): array
+    protected function belongsToField(string $title, string $relation, array $action = ['create', 'edit', 'view'], array|string $rules = 'nullable|int'): array
     {
         return [
             'title' => $title,
@@ -12,7 +12,7 @@ trait HandleBelongsTo
             'type' => 'template',
             'template' => 'components.searchable-select',
             'callback' => fn($model) => $model->$relation?->title,
-            'rules' => 'nullable|int',
+            'rules' => $rules,
         ];
     }
 

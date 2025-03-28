@@ -132,7 +132,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'nullable|string'
             ],
             'application_id' =>
-                $this->belongsToField('Application', 'application', ['create', 'edit']),
+                $this->belongsToField('Application', 'application', ['create', 'edit'], 'required|int'),
             'is_default' => [
                 'title' => 'Is Default',
                 'action' => ['index', 'edit', 'view', 'create'],
@@ -141,8 +141,13 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'init' => false,
                 'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
             ],
+            'query' => [
+                'action' => ['create','edit','view'],
+                'type' => 'textarea',
+                'rules' => 'nullable|string'
+            ],
             'template' => [
-                'action' => ['edit', 'view'],
+                'action' => ['create','edit','view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
