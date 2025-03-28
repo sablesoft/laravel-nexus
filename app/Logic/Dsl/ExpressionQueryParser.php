@@ -112,6 +112,7 @@ class ExpressionQueryParser
     {
         [$fieldNode, $minNode, $maxNode] = $args;
         $field = $this->resolveNodeToField($fieldNode);
+        $field = $this->castToNumericIfJsonPath($field);
         $min = $this->resolveNodeToValue($minNode);
         $max = $this->resolveNodeToValue($maxNode);
 
@@ -171,8 +172,23 @@ class ExpressionQueryParser
             return;
         }
 
+        if ($operator === 'in' && $node->nodes['right'] instanceof BinaryNode &&
+            $node->nodes['right']->attributes['operator'] === '..') {
+            $leftField = $this->castToNumericIfJsonPath($this->resolveNodeToField($node->nodes['left']));
+            $min = $this->resolveNodeToValue($node->nodes['right']->nodes['left']);
+            $max = $this->resolveNodeToValue($node->nodes['right']->nodes['right']);
+
+            $query->whereBetween($leftField, [$min, $max]);
+            return;
+        }
+
         $left = $this->resolveNodeToField($node->nodes['left']);
         $right = $this->resolveNodeToValue($node->nodes['right']);
+
+        $left = match ($operator) {
+            '>', '<', '>=', '<=', 'between' => $this->castToNumericIfJsonPath($left),
+            default => $left,
+        };
 
         match ($operator) {
             '==' => $query->where($left, '=', $right),
@@ -268,5 +284,14 @@ class ExpressionQueryParser
             'array' => $args,
             default => throw new \RuntimeException("Unsupported function value: $name")
         };
+    }
+
+    protected function castToNumericIfJsonPath(string|Expression $field): string|Expression
+    {
+        $raw = $field->getValue(DB::connection()->getQueryGrammar());
+        if ($field instanceof Expression && str_contains($raw, '#>>')) {
+            return DB::raw("($raw)::numeric");
+        }
+        return $field;
     }
 }
