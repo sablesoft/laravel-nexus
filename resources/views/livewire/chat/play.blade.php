@@ -105,13 +105,15 @@
             <flux:input.group class="!w-auto">
                 @foreach($transfers as $transfer)
                     @if($transfer['tooltip'])
-                        <flux:tooltip :content="$transfer['tooltip']">
-                            @endif
-                            <flux:button wire:click="transfer({{ $transfer['id'] }})" class="cursor-pointer">
-                                {{ $transfer['title'] }}
-                            </flux:button>
-                            @if($transfer['tooltip'])
-                        </flux:tooltip>
+                    <flux:tooltip :content="$transfer['tooltip']">
+                        <flux:button wire:click="transfer({{ $transfer['id'] }})" class="cursor-pointer">
+                            {{ $transfer['title'] }}
+                        </flux:button>
+                    </flux:tooltip>
+                    @else
+                    <flux:button wire:click="transfer({{ $transfer['id'] }})" class="cursor-pointer">
+                        {{ $transfer['title'] }}
+                    </flux:button>
                     @endif
                 @endforeach
             </flux:input.group>
@@ -122,14 +124,17 @@
             <flux:input.group class="!w-auto">
                 @foreach($actions as $action)
                     @if($action['tooltip'])
-                        <flux:tooltip :content="$action['tooltip']">
-                            @endif
-                            <flux:button variant="filled" wire:click="action({{ $action['id'] }})"
-                                         class="cursor-pointer">
-                                {{ $action['title'] }}
-                            </flux:button>
-                            @if($action['tooltip'])
-                        </flux:tooltip>
+                    <flux:tooltip :content="$action['tooltip']">
+                        <flux:button variant="filled" wire:click="action({{ $action['id'] }})"
+                                     class="cursor-pointer">
+                            {{ $action['title'] }}
+                        </flux:button>
+                    </flux:tooltip>
+                    @else
+                    <flux:button variant="filled" wire:click="action({{ $action['id'] }})"
+                                 class="cursor-pointer">
+                        {{ $action['title'] }}
+                    </flux:button>
                     @endif
                 @endforeach
             </flux:input.group>
