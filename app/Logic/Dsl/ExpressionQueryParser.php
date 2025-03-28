@@ -124,8 +124,10 @@ class ExpressionQueryParser
         [$fieldNode, $keyNode] = $args;
         $field = $this->resolveNodeToField($fieldNode);
         $key = $this->resolveNodeToValue($keyNode);
+        $field = $this->forceJsonb($field);
 
-        $query->whereRaw("$field ? ?", [$key]);
+        $escapedKey = str_replace("'", "''", $key);
+        $query->whereRaw("$field ?? '$escapedKey'");
     }
 
     protected function handleHasAny(Builder $query, array $args): void
@@ -133,8 +135,9 @@ class ExpressionQueryParser
         [$fieldNode, $keysNode] = $args;
         $field = $this->resolveNodeToField($fieldNode);
         $keys = $this->resolveNodeToValue($keysNode);
+        $field = $this->forceJsonb($field);
 
-        $query->whereRaw("$field ?| array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
+        $query->whereRaw("$field ??| array[" . implode(',', array_map(fn($k) => "'".str_replace("'", "''", $k)."'", $keys)) . "]");
     }
 
     protected function handleHasAll(Builder $query, array $args): void
@@ -142,8 +145,9 @@ class ExpressionQueryParser
         [$fieldNode, $keysNode] = $args;
         $field = $this->resolveNodeToField($fieldNode);
         $keys = $this->resolveNodeToValue($keysNode);
+        $field = $this->forceJsonb($field);
 
-        $query->whereRaw("$field ?& array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
+        $query->whereRaw("$field ??& array[" . implode(',', array_map(fn($k) => "'".str_replace("'", "''", $k)."'", $keys)) . "]");
     }
 
     protected function handleBinary(BinaryNode $node): callable
@@ -183,13 +187,22 @@ class ExpressionQueryParser
         $left = $this->resolveNodeToField($node->nodes['left']);
         $right = $this->resolveNodeToValue($node->nodes['right']);
 
+        if ($operator === 'contains') {
+            return function (Builder $query) use ($left, $right) {
+                $left = $this->forceJsonb($left);
+                $query->whereRaw("$left @> ?", [json_encode($right)]);
+            };
+        }
+
         if (in_array($operator, ['>', '<', '>=', '<=', 'between'])) {
             $left = $this->castToNumericIfJsonPath($left);
         }
 
         return function (Builder $query) use ($operator, $left, $right) {
             match ($operator) {
-                '==' => $query->where($left, '=', $right),
+                '==' => is_array($right) || is_object($right)
+                    ? $query->whereRaw("{$this->forceJsonb($left)} = ?", [json_encode($right)])
+                    : $query->where($left, '=', $right),
                 '!=' => $query->where($left, '!=', $right),
                 '>' => $query->where($left, '>', $right),
                 '<' => $query->where($left, '<', $right),
@@ -309,4 +322,15 @@ class ExpressionQueryParser
             'bindings' => $bindings,
         ]);
     }
+
+    protected function forceJsonb(string|Expression $field): string
+    {
+        if ($field instanceof Expression) {
+            $sql = $field->getValue(DB::connection()->getQueryGrammar());
+            return str_replace('#>>', '#>', $sql);
+        }
+
+        return $field;
+    }
+
 }
