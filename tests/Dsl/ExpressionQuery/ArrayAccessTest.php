@@ -41,7 +41,7 @@ beforeEach(function () {
 });
 
 
-it('filters with @> against array of tags', function () {
+it('filters with @>(contains) against array of tags', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":meta.tags" contains ["fire"]');
     expectQueryCount($query, 3);

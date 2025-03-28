@@ -264,8 +264,8 @@ class ExpressionQueryParser
 
         if ($node instanceof ArrayNode) {
             $values = [];
-            foreach (array_chunk($node->nodes, 2) as [$_, $valNode]) {
-                $values[] = $this->resolveNodeToValue($valNode);
+            foreach (array_chunk($node->nodes, 2) as [$keyNode, $valNode]) {
+                $values[$keyNode->attributes['value']] = $this->resolveNodeToValue($valNode);
             }
             return $values;
         }
