@@ -29,15 +29,7 @@ class ExpressionQueryParser
         $this->el = $el ?? new ExpressionLanguage();
         $this->fieldPrefix = config('dsl.field_prefix', ':');
 
-        $this->el->register('like', fn($a, $b) => '', fn($args, $field, $pattern) => true);
-        $this->el->register('ilike', fn($a, $b) => '', fn($args, $field, $pattern) => true);
-        $this->el->register('between', fn($a, $b, $c) => '', fn($args, $field, $min, $max) => true);
-        $this->el->register('is_null', fn($a) => '', fn($args, $field) => true);
-        $this->el->register('is_not_null', fn($a) => '', fn($args, $field) => true);
-        $this->el->register('has', fn($a, $b) => '', fn($args, $field, $key) => true);
-        $this->el->register('has_any', fn($a, $b) => '', fn($args, $field, $keys) => true);
-        $this->el->register('has_all', fn($a, $b) => '', fn($args, $field, $keys) => true);
-
+        ExpressionQueryRegistry::register($this->el);
     }
 
     public function apply(Builder $query, string $expression, array $context = []): Builder

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Logic\Dsl\ExpressionQueryRegistry;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
@@ -79,7 +80,9 @@ class Screen extends Model implements HasOwnerInterface
     public static function validateDslQuery(string $value): ?\Throwable
     {
         try {
-            (new ExpressionLanguage())->parse($value, self::allowedDslVariables());
+            $el = new ExpressionLanguage();
+            ExpressionQueryRegistry::register($el);
+            $el->parse($value, self::allowedDslVariables());
         } catch (SyntaxError|\RuntimeException $e) {
             return $e;
         }
@@ -102,7 +105,7 @@ class Screen extends Model implements HasOwnerInterface
 
         static::updating(function (self $screen) {
             if ($screen->isDirty('query') && empty(trim($screen->query))) {
-                $screen->query = '":type" = screen.code';
+                $screen->query = config('dsl.screen_query', self::DEFAULT_DSL_QUERY);
             }
             if ($error = Screen::validateDslQuery($screen->query)) {
                 throw new \InvalidArgumentException("Invalid DSL query: " . $error->getMessage());
