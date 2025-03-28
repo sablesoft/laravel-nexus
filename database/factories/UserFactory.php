@@ -43,13 +43,4 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
-
-    public function create($attributes = [], ?Model $parent = null)
-    {
-        if (!empty($attributes['password'])) {
-            $attributes['password'] = Hash::make($attributes['password']);
-        }
-
-        return parent::create($attributes, $parent);
-    }
 }
