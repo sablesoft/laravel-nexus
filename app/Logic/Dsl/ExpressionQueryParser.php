@@ -1,10 +1,11 @@
-<?php
+<?php /** @noinspection PhpInternalEntityUsedInspection */
 
 namespace App\Logic\Dsl;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\DB;
+use RuntimeException;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\Node\ArrayNode;
 use Symfony\Component\ExpressionLanguage\Node\BinaryNode;
@@ -39,60 +40,51 @@ class ExpressionQueryParser
     public function apply(Builder $query, string $expression): Builder
     {
         $ast = $this->el->parse($expression, []);
-        $this->walk($query, $ast->getNodes());
+        $callback = $this->walk($ast->getNodes());
+
+        $query->where($callback);
+
         return $query;
     }
 
-    protected function walk(Builder $query, Node $node): void
+    protected function walk(Node $node): callable
     {
-        if ($node instanceof BinaryNode) {
-            $this->handleBinary($query, $node);
-        } elseif ($node instanceof UnaryNode) {
-            $this->handleUnary($query, $node);
-        } elseif ($node instanceof FunctionNode) {
-            $this->handleFunction($query, $node);
-        } else {
-            throw new \RuntimeException('Unsupported expression node: ' . get_class($node));
-        }
+        return match (true) {
+            $node instanceof BinaryNode => $this->handleBinary($node),
+            $node instanceof UnaryNode => $this->handleUnary($node),
+            $node instanceof FunctionNode => $this->handleFunction($node),
+            default => throw new RuntimeException('Unsupported expression node: ' . get_class($node)),
+        };
     }
 
-    protected function handleUnary(Builder $query, UnaryNode $node): void
+    protected function handleUnary(UnaryNode $node): callable
     {
         $operator = $node->attributes['operator'];
+        $operand = $this->walk($node->nodes['node']);
+
         if ($operator === 'not') {
-            $query->whereNot(function ($q) use ($node) {
-                $this->walk($q, $node->nodes['node']);
-            });
-        } else {
-            throw new \RuntimeException("Unsupported unary operator: $operator");
+            return fn(Builder $query) => $query->whereNot(fn($q) => $operand($q));
         }
+
+        throw new RuntimeException("Unsupported unary operator: $operator");
     }
 
-    protected function handleFunction(Builder $query, FunctionNode $node): void
+    protected function handleFunction(FunctionNode $node): callable
     {
         $name = $node->attributes['name'];
         $args = $node->nodes['arguments']->nodes;
 
-        match ($name) {
-            'like' => $this->handleLike($query, $args, false),
-            'ilike' => $this->handleLike($query, $args, true),
-            'between' => $this->handleBetween($query, $args),
-            'is_null' => $this->handleNull($query, $args, true),
-            'is_not_null' => $this->handleNull($query, $args, false),
-            'has' => $this->handleHas($query, $args),
-            'has_any' => $this->handleHasAny($query, $args),
-            'has_all' => $this->handleHasAll($query, $args),
-            default => throw new \RuntimeException("Unsupported function: $name")
+        return match ($name) {
+            'like' => fn($q) => $this->handleLike($q, $args, false),
+            'ilike' => fn($q) => $this->handleLike($q, $args, true),
+            'between' => fn($q) => $this->handleBetween($q, $args),
+            'is_null' => fn($q) => $this->handleNull($q, $args, true),
+            'is_not_null' => fn($q) => $this->handleNull($q, $args, false),
+            'has' => fn($q) => $this->handleHas($q, $args),
+            'has_any' => fn($q) => $this->handleHasAny($q, $args),
+            'has_all' => fn($q) => $this->handleHasAll($q, $args),
+            default => throw new RuntimeException("Unsupported function: $name"),
         };
-    }
-
-    protected function handleWhereIn(Builder $query, array $args, bool $not): void
-    {
-        [$fieldNode, $listNode] = $args;
-        $field = $this->resolveNodeToField($fieldNode);
-        $list = $this->resolveNodeToValue($listNode);
-
-        $not ? $query->whereNotIn($field, $list) : $query->whereIn($field, $list);
     }
 
     protected function handleLike(Builder $query, array $args, bool $caseInsensitive): void
@@ -102,7 +94,7 @@ class ExpressionQueryParser
         $pattern = $this->resolveNodeToValue($patternNode);
 
         if ($caseInsensitive) {
-            $query->whereRaw("LOWER({$field}) LIKE LOWER(?)", [$pattern]);
+            $query->whereRaw("LOWER($field) LIKE LOWER(?)", [$pattern]);
         } else {
             $query->where($field, 'like', $pattern);
         }
@@ -131,7 +123,7 @@ class ExpressionQueryParser
         $field = $this->resolveNodeToField($fieldNode);
         $key = $this->resolveNodeToValue($keyNode);
 
-        $query->whereRaw("{$field} ? ?", [$key]);
+        $query->whereRaw("$field ? ?", [$key]);
     }
 
     protected function handleHasAny(Builder $query, array $args): void
@@ -140,7 +132,7 @@ class ExpressionQueryParser
         $field = $this->resolveNodeToField($fieldNode);
         $keys = $this->resolveNodeToValue($keysNode);
 
-        $query->whereRaw("{$field} ?| array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
+        $query->whereRaw("$field ?| array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
     }
 
     protected function handleHasAll(Builder $query, array $args): void
@@ -149,61 +141,63 @@ class ExpressionQueryParser
         $field = $this->resolveNodeToField($fieldNode);
         $keys = $this->resolveNodeToValue($keysNode);
 
-        $query->whereRaw("{$field} ?& array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
+        $query->whereRaw("$field ?& array[" . implode(',', array_fill(0, count($keys), '?')) . "]", $keys);
     }
 
-    protected function handleBinary(Builder $query, BinaryNode $node): void
+    protected function handleBinary(BinaryNode $node): callable
     {
         $operator = $node->attributes['operator'];
 
-        if ($operator === 'and') {
-            $query->where(function ($q) use ($node) {
-                $this->walk($q, $node->nodes['left']);
-                $this->walk($q, $node->nodes['right']);
-            });
-            return;
-        }
+        if (in_array($operator, ['and', 'or'])) {
+            $left = $this->walk($node->nodes['left']);
+            $right = $this->walk($node->nodes['right']);
 
-        if ($operator === 'or') {
-            $query->where(function ($q) use ($node) {
-                $q->where(function ($q1) use ($node) {
-                    $this->walk($q1, $node->nodes['left']);
-                })->orWhere(function ($q2) use ($node) {
-                    $this->walk($q2, $node->nodes['right']);
+            return function (Builder $query) use ($operator, $left, $right) {
+                $query->where(function ($q) use ($operator, $left, $right) {
+                    $left($q);
+                    if ($operator === 'or') {
+                        $q->orWhere(function ($q2) use ($right) {
+                            $right($q2);
+                        });
+                    } else {
+                        $right($q);
+                    }
                 });
-            });
-            return;
+            };
         }
 
-        if ($operator === 'in' && $node->nodes['right'] instanceof BinaryNode &&
-            $node->nodes['right']->attributes['operator'] === '..') {
+        if (
+            $operator === 'in' &&
+            $node->nodes['right'] instanceof BinaryNode &&
+            $node->nodes['right']->attributes['operator'] === '..'
+        ) {
             $leftField = $this->castToNumericIfJsonPath($this->resolveNodeToField($node->nodes['left']));
             $min = $this->resolveNodeToValue($node->nodes['right']->nodes['left']);
             $max = $this->resolveNodeToValue($node->nodes['right']->nodes['right']);
 
-            $query->whereBetween($leftField, [$min, $max]);
-            return;
+            return fn(Builder $query) => $query->whereBetween($leftField, [$min, $max]);
         }
 
         $left = $this->resolveNodeToField($node->nodes['left']);
         $right = $this->resolveNodeToValue($node->nodes['right']);
 
-        $left = match ($operator) {
-            '>', '<', '>=', '<=', 'between' => $this->castToNumericIfJsonPath($left),
-            default => $left,
-        };
+        if (in_array($operator, ['>', '<', '>=', '<=', 'between'])) {
+            $left = $this->castToNumericIfJsonPath($left);
+        }
 
-        match ($operator) {
-            '==' => $query->where($left, '=', $right),
-            '!=' => $query->where($left, '!=', $right),
-            '>' => $query->where($left, '>', $right),
-            '<' => $query->where($left, '<', $right),
-            '>=' => $query->where($left, '>=', $right),
-            '<=' => $query->where($left, '<=', $right),
-            'in' => $query->whereIn($left, $right),
-            'not in' => $query->whereNotIn($left, $right),
-            '@>' => $query->whereRaw("{$left} @> ?", [json_encode($right)]),
-            default => throw new \RuntimeException("Unsupported binary operator: $operator")
+        return function (Builder $query) use ($operator, $left, $right) {
+            match ($operator) {
+                '==' => $query->where($left, '=', $right),
+                '!=' => $query->where($left, '!=', $right),
+                '>' => $query->where($left, '>', $right),
+                '<' => $query->where($left, '<', $right),
+                '>=' => $query->where($left, '>=', $right),
+                '<=' => $query->where($left, '<=', $right),
+                'in' => $query->whereIn($left, $right),
+                'not in' => $query->whereNotIn($left, $right),
+                '@>' => $query->whereRaw("$left @> ?", [json_encode($right)]),
+                default => throw new RuntimeException("Unsupported binary operator: $operator")
+            };
         };
     }
 
@@ -224,13 +218,13 @@ class ExpressionQueryParser
                     $jsonField = array_shift($parts);
                     $path = '{' . implode(',', $parts) . '}';
 
-                    return DB::raw("{$jsonField}#>>'{$path}'");
+                    return DB::raw("$jsonField#>>'$path'");
                 }
 
                 return $fieldPath;
             }
 
-            throw new \RuntimeException("Expected field with prefix '{$this->fieldPrefix}', got constant: ".var_export($value, true));
+            throw new RuntimeException("Expected field with prefix '$this->fieldPrefix', got constant: ".var_export($value, true));
         }
 
         if ($node instanceof GetAttrNode) {
@@ -238,13 +232,13 @@ class ExpressionQueryParser
             $attr = $this->resolveNodeToField($node->nodes['attribute']);
 
             if ($base instanceof Expression || $attr instanceof Expression) {
-                throw new \RuntimeException("Nested GetAttrNode not supported yet for Expression.");
+                throw new RuntimeException("Nested GetAttrNode not supported yet for Expression.");
             }
 
-            return DB::raw("{$base}#>>'{{$attr}}'");
+            return DB::raw("$base#>>'{{$attr}}'");
         }
 
-        throw new \RuntimeException("Unsupported node type: " . get_class($node));
+        throw new RuntimeException("Unsupported node type: " . get_class($node));
     }
 
     protected function resolveNodeToValue(Node $node): mixed
@@ -268,24 +262,24 @@ class ExpressionQueryParser
         if ($node instanceof GetAttrNode) {
             $base = $this->resolveNodeToValue($node->nodes['node']);
             $attr = $this->resolveNodeToValue($node->nodes['attribute']);
-            return "{$base}.{$attr}";
+            return "$base.$attr";
         }
 
         if ($node instanceof FunctionNode) {
             return $this->resolveFunctionToValue($node);
         }
 
-        throw new \RuntimeException("Unsupported value node: " . get_class($node));
+        throw new RuntimeException("Unsupported value node: " . get_class($node));
     }
 
-    protected function resolveFunctionToValue(FunctionNode $node): mixed
+    protected function resolveFunctionToValue(FunctionNode $node): array
     {
         $name = $node->attributes['name'];
         $args = array_map([$this, 'resolveNodeToValue'], $node->nodes['arguments']->nodes);
 
         return match ($name) {
             'array' => $args,
-            default => throw new \RuntimeException("Unsupported function value: $name")
+            default => throw new RuntimeException("Unsupported function value: $name")
         };
     }
 
