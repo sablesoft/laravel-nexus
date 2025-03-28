@@ -25,7 +25,8 @@ class Steps extends Component
     #[Locked]
     public ?int $stepId = null;
     public array $state;
-    public bool $switcher = false;
+    public bool $scenarioLogic = false;
+    public bool $addLogic = false;
 
     public function mount(int $scenarioId): void
     {
@@ -45,12 +46,21 @@ class Steps extends Component
         return view('livewire.workshop.scenario.steps');
     }
 
-    public function updatedSwitcher(): void
+    public function updatedScenarioLogic(): void
     {
-        if ($this->switcher) {
+        if ($this->scenarioLogic) {
             $this->state['command'] = null;
         } else {
             $this->state['nested_id'] = null;
+        }
+    }
+
+    public function updatedAddLogic(): void
+    {
+        if (!$this->addLogic) {
+            $this->state['command'] = null;
+            $this->state['nested_id'] = null;
+            $this->scenarioLogic = false;
         }
     }
 
@@ -71,7 +81,8 @@ class Steps extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = $step[$field];
         }
-        $this->switcher = !empty($step['nested_id']);
+        $this->addLogic = !empty($step['nested_id']) || !empty($step['command']);
+        $this->scenarioLogic = !empty($step['nested_id']);
         Flux::modal('form-step')->show();
     }
 
@@ -205,11 +216,13 @@ class Steps extends Component
             'afterString'   => ['nullable', 'json'],
         ];
 
-        return array_merge($rules, $this->switcher ? [
-            'nested_id'   => ['required', 'int'],
-            'command' => ['nullable', 'string']
+        $required = $this->addLogic ? 'required' : 'nullable';
+
+        return array_merge($rules, $this->scenarioLogic ? [
+            'nested_id' => [$required, 'int'],
+            'command'   => ['nullable', 'string']
         ] : [
-            'command'       => ['required', 'string', Rule::enum(Command::class)],
+            'command'   => [$required, 'string', Rule::enum(Command::class)],
             'nested_id' => ['nullable', 'int']
         ]);
     }

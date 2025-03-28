@@ -11,50 +11,59 @@
                 x-on:close="$wire.resetForm()" class="!max-w-4xl min-w-xl">
         <div class="space-y-4">
             <flux:heading>{{ $this->stepId ? __('Edit Step') : __('Create Step') }}</flux:heading>
-            <flux:field>
-                <flux:label class="cursor-pointer">Logic</flux:label>
-                <div class="flex gap-2">
-                    <ui-label
-                        class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ $switcher ? '' : 'font-black' }}">
-                        Command
-                    </ui-label>
-                    <flux:switch class="cursor-pointer" wire:model.live="switcher"/>
-                    <ui-label
-                        class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ !$switcher ? '' : 'font-black' }}">
-                        Scenario
-                    </ui-label>
-                </div>
-            </flux:field>
-            <flux:field class="mb-3">
-                @if($switcher)
-                    <x-searchable-select field="nested_id" :options="$scenarios"/>
-                    <flux:error name="state.nested_id"/>
-                @else
-                    <flux:select wire:model="state.command" class="cursor-pointer">
-                        <flux:select.option selected>Not selected</flux:select.option>
-                        @foreach (\App\Models\Enums\Command::options() as $value => $title)
-                            <flux:select.option value="{{ $value }}">
-                                {{ $title }}
-                            </flux:select.option>
-                        @endforeach
-                    </flux:select>
-                    <flux:error name="state.command"/>
-                @endif
-            </flux:field>
-
             <flux:field class="mb-3">
                 <flux:label>Description</flux:label>
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
+            <flux:field>
+                <div class="flex gap-2">
+                    <flux:switch label="Add Logic" class="cursor-pointer" wire:model.live="addLogic"/>
+                </div>
+            </flux:field>
+            @if($addLogic)
+                <flux:field>
+                    <div class="flex gap-2">
+                        <ui-label
+                            class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ $scenarioLogic ? '' : 'font-black' }}">
+                            Command
+                        </ui-label>
+                        <flux:switch class="cursor-pointer" wire:model.live="scenarioLogic"/>
+                        <ui-label
+                            class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ !$scenarioLogic ? '' : 'font-black' }}">
+                            Scenario
+                        </ui-label>
+                    </div>
+                </flux:field>
+                <flux:field class="mb-3">
+                    @if($scenarioLogic)
+                        <x-searchable-select field="nested_id" :options="$scenarios"/>
+                        <flux:error name="state.nested_id"/>
+                    @else
+                        <flux:select wire:model="state.command" class="cursor-pointer">
+                            <flux:select.option selected>Not selected</flux:select.option>
+                            @foreach (\App\Models\Enums\Command::options() as $value => $title)
+                                <flux:select.option value="{{ $value }}">
+                                    {{ $title }}
+                                </flux:select.option>
+                            @endforeach
+                        </flux:select>
+                        <flux:error name="state.command"/>
+                    @endif
+                </flux:field>
+            @endif
             <flux:field class="mb-3">
-                <flux:label>Before (JSON)</flux:label>
-                <flux:textarea wire:model="state.beforeString" rows="auto"></flux:textarea>
+                <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="codemirror-editor-beforeString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>After (JSON)</flux:label>
-                <flux:textarea wire:model="state.afterString" rows="auto"></flux:textarea>
+                <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="codemirror-editor-afterString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.afterString" class="w-full" />
                 <flux:error name="state.afterString"/>
             </flux:field>
 
@@ -86,9 +95,11 @@
         @foreach($steps as $id => $step)
         @php
             $isScenario = !empty($step['nested_id']);
-            $logicTitle = $isScenario
+            $isCommand = !empty($step['command']);
+            $logicTitle = ($isCommand || $isScenario) ? null : 'None';
+            $logicTitle = $logicTitle ?? ($isScenario
                 ? 'Scenario: ' . ($step['nestedTitle'] ?? '—')
-                : 'Command: ' . ($step['commandTitle'] ?? '—');
+                : 'Command: ' . ($step['commandTitle'] ?? '—'));
         @endphp
 
         <div x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
