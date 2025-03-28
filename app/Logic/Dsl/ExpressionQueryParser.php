@@ -44,6 +44,8 @@ class ExpressionQueryParser
 
         $query->where($callback);
 
+        $this->debug($expression, $query);
+
         return $query;
     }
 
@@ -290,5 +292,21 @@ class ExpressionQueryParser
             return DB::raw("($raw)::numeric");
         }
         return $field;
+    }
+
+    protected function debug(string $dsl, Builder $query): void
+    {
+        if (!config('app.debug')) {
+            return;
+        }
+
+        $sql = $query->toSql();
+        $bindings = $query->getBindings();
+
+        logger()->debug('[DSL] Parsed expression', [
+            'dsl' => $dsl,
+            'sql' => $sql,
+            'bindings' => $bindings,
+        ]);
     }
 }
