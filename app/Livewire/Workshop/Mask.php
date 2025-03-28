@@ -77,12 +77,12 @@ class Mask extends AbstractCrud
     public function componentParams(string $action, ?string $field = null): array
     {
         if ($field === 'image_id') {
-            return $this->componentParamsImageSelector($field, [
+            return $this->componentParamsImageSelector($field, null, [
                 'aspectRatio' => ImageAspect::Square->value
             ]);
         }
         if ($field === 'portrait_id') {
-            return $this->componentParamsImageSelector($field, [
+            return $this->componentParamsImageSelector($field, null, [
                 'aspectRatio' => ImageAspect::Portrait->value
             ]);
         }

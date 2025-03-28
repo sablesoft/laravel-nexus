@@ -74,7 +74,11 @@ class Screen extends Model implements HasOwnerInterface
 
     public static function allowedDslVariables(): array
     {
-        return ['screen', 'chat', 'member', 'user', 'input', 'filter', 'currentUserId',];
+        // todo
+        return [
+            'screen', 'chat', 'application', 'member', 'mask',
+            'members', 'onlineMembers', 'offlineMembers'
+        ];
     }
 
     public static function validateDslQuery(string $value): ?\Throwable

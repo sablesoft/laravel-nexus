@@ -3,6 +3,7 @@
 namespace App\Livewire\Chat;
 
 use App\Livewire\PresenceTrait;
+use App\Logic\Dsl\ExpressionQueryParser;
 use App\Models\Application;
 use App\Models\Chat;
 use App\Models\Control;
@@ -116,7 +117,7 @@ class Play extends Component
     protected function prepareMemories(): void
     {
         $this->memories =
-            collect($this->getMemories($this->screen->code))->keyBy('id')->toArray();
+            collect($this->getMemories())->keyBy('id')->toArray();
     }
 
     protected function getTransfers(): array
@@ -150,9 +151,18 @@ class Play extends Component
         return $this->screen->controls->findOrFail($id);
     }
 
-    protected function getMemories(string $type): array
+    protected function getMemories(): array
     {
-        return $this->chat->memories->where('type', $type)
+        // todo:
+        $queryParser = new ExpressionQueryParser();
+        $query = $queryParser->apply(Memory::query(), $this->screen->query, [
+            'screen' => $this->screen->getAttributes(),
+            'member' => $this->getMember()->getAttributes(),
+            'chat' => $this->chat->getAttributes(),
+            'application' => $this->application->getAttributes()
+        ]);
+
+        return $query->where('chat_id', $this->chat->id)->get()
             ->map(fn(Memory $memory) => [
                 'id' => $memory->id,
                 'member_id' => $memory->member_id,

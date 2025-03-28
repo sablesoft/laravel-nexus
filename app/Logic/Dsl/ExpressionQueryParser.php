@@ -151,12 +151,12 @@ class ExpressionQueryParser
         $operator = $node->attributes['operator'];
 
         if (in_array($operator, ['and', 'or'])) {
-            $left = $this->walk($node->nodes['left']);
+            $field = $this->walk($node->nodes['left']);
             $right = $this->walk($node->nodes['right']);
 
-            return function (Builder $query) use ($operator, $left, $right) {
-                $query->where(function ($q) use ($operator, $left, $right) {
-                    $left($q);
+            return function (Builder $query) use ($operator, $field, $right) {
+                $query->where(function ($q) use ($operator, $field, $right) {
+                    $field($q);
                     if ($operator === 'or') {
                         $q->orWhere(function ($q2) use ($right) {
                             $right($q2);
@@ -180,33 +180,33 @@ class ExpressionQueryParser
             return fn(Builder $query) => $query->whereBetween($leftField, [$min, $max]);
         }
 
-        $left = $this->resolveNodeToField($node->nodes['left']);
+        $field = $this->resolveNodeToField($node->nodes['left']);
         $right = $this->resolveNodeToValue($node->nodes['right']);
 
         if ($operator === 'contains') {
-            return function (Builder $query) use ($left, $right) {
-                $left = $this->forceJsonb($left);
-                $query->whereRaw("$left @> ?", [json_encode($right)]);
+            return function (Builder $query) use ($field, $right) {
+                $field = $this->forceJsonb($field);
+                $query->whereRaw("$field @> ?", [json_encode($right)]);
             };
         }
 
         if (in_array($operator, ['>', '<', '>=', '<=', 'between'])) {
-            $left = $this->castToNumericIfJsonPath($left);
+            $field = $this->castToNumericIfJsonPath($field);
         }
 
-        return function (Builder $query) use ($operator, $left, $right) {
+        return function (Builder $query) use ($operator, $field, $right) {
             match ($operator) {
                 '==' => is_array($right) || is_object($right)
-                    ? $query->whereRaw("{$this->forceJsonb($left)} = ?", [json_encode($right)])
-                    : $query->where($left, '=', $right),
-                '!=' => $query->where($left, '!=', $right),
-                '>' => $query->where($left, '>', $right),
-                '<' => $query->where($left, '<', $right),
-                '>=' => $query->where($left, '>=', $right),
-                '<=' => $query->where($left, '<=', $right),
-                'in' => $query->whereIn($left, $right),
-                'not in' => $query->whereNotIn($left, $right),
-                '@>' => $query->whereRaw("$left @> ?", [json_encode($right)]),
+                    ? $query->whereRaw("{$this->forceJsonb($field)} = ?", [json_encode($right)])
+                    : $query->where($field, '=', $right),
+                '!=' => $query->where($field, '!=', $right),
+                '>' => $query->where($field, '>', $right),
+                '<' => $query->where($field, '<', $right),
+                '>=' => $query->where($field, '>=', $right),
+                '<=' => $query->where($field, '<=', $right),
+                'in' => $query->whereIn($field, $right),
+                'not in' => $query->whereNotIn($field, $right),
+                '@>' => $query->whereRaw("$field @> ?", [json_encode($right)]),
                 default => throw new RuntimeException("Unsupported binary operator: $operator")
             };
         };
@@ -294,6 +294,20 @@ class ExpressionQueryParser
         if ($node instanceof GetAttrNode) {
             $base = $this->resolveNodeToValue($node->nodes['node']);
             $attr = $this->resolveNodeToValue($node->nodes['attribute']);
+            if (is_array($base)) {
+                if (!array_key_exists($attr, $base)) {
+                    throw new \RuntimeException("Missing key '$attr' in array");
+                }
+                return $base[$attr];
+            }
+
+            if (is_object($base)) {
+                if (!property_exists($base, $attr)) {
+                    throw new \RuntimeException("Missing property '$attr' in object");
+                }
+                return $base->$attr;
+            }
+
             return "$base.$attr";
         }
 
