@@ -144,7 +144,15 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             'query' => [
                 'action' => ['create','edit','view'],
                 'type' => 'textarea',
-                'rules' => 'nullable|string'
+                'rules' => [
+                    'nullable',
+                    'string',
+                    function (string $attribute, mixed $value, \Closure $fail) {
+                        if ($error = \App\Models\Screen::validateDslQuery($value)) {
+                            $fail("Invalid DSL expression: " . $error->getMessage());
+                        }
+        },
+                ]
             ],
             'template' => [
                 'action' => ['create','edit','view'],

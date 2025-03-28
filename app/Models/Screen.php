@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Traits\HasImage;
+use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Database\Factories\ScreenFactory;
@@ -9,10 +12,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\Traits\HasImage;
-use App\Models\Traits\HasOwner;
-use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
  * @property null|int $id
@@ -35,6 +37,8 @@ class Screen extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ScreenFactory> */
     use HasOwner, HasFactory, HasImage, HasSetup;
+
+    const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
@@ -67,9 +71,42 @@ class Screen extends Model implements HasOwnerInterface
         return $this->hasMany(Control::class);
     }
 
+    public static function allowedDslVariables(): array
+    {
+        return ['screen', 'chat', 'member', 'user', 'input', 'filter', 'currentUserId',];
+    }
+
+    public static function validateDslQuery(string $value): ?\Throwable
+    {
+        try {
+            (new ExpressionLanguage())->parse($value, self::allowedDslVariables());
+        } catch (SyntaxError|\RuntimeException $e) {
+            return $e;
+        }
+
+        return null;
+    }
+
     public static function boot(): void
     {
         parent::boot();
-        static::creating([self::class, 'assignCurrentUser']);
+        static::creating(function (self $screen) {
+            self::assignCurrentUser($screen);
+            if (empty($screen->query)) {
+                $screen->query = config('dsl.screen_query', self::DEFAULT_DSL_QUERY);
+            }
+            if ($error = Screen::validateDslQuery($screen->query)) {
+                throw new \InvalidArgumentException("Invalid DSL query: " . $error->getMessage());
+            }
+        });
+
+        static::updating(function (self $screen) {
+            if ($screen->isDirty('query') && empty(trim($screen->query))) {
+                $screen->query = '":type" = screen.code';
+            }
+            if ($error = Screen::validateDslQuery($screen->query)) {
+                throw new \InvalidArgumentException("Invalid DSL query: " . $error->getMessage());
+            }
+        });
     }
 }

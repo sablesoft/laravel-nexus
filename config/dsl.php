@@ -18,4 +18,5 @@ return [
     |
     */
     'field_prefix' => ':',
+    'screen_query' => '":type" == screen.code'
 ];
