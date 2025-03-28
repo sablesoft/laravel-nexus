@@ -12,6 +12,7 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
         this.$nextTick(() => {
             const textarea = this.$refs.textarea;
             const container = this.$refs.editorContainer;
+            const key = this.$el.dataset.codemirrorKey;
 
             container.innerHTML = '';
             const initial = textarea.value ?? '';
@@ -62,6 +63,26 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
                         textarea.value = this.view.state.doc.toString();
                     });
                 }
+
+                window.addEventListener('codemirror:update', (e) => {
+                    // console.debug('[CodeMirror] codemirror:update', {key, eventKey: e.detail.key});
+                    if (e.detail?.key !== key) return;
+
+                    const newValue = e.detail.value ?? '';
+                    const currentValue = this.view.state.doc.toString();
+
+                    // console.debug('[CodeMirror] values', {key, newValue, currentValue});
+
+                    if (newValue !== currentValue) {
+                        // console.debug(`[CodeMirror] updating!`);
+                        this.view.dispatch({
+                            changes: { from: 0, to: this.view.state.doc.length, insert: newValue }
+                        });
+
+                        textarea.value = newValue;
+                        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                });
             }
         });
     }

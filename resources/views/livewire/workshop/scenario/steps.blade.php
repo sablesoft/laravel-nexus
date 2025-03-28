@@ -52,16 +52,18 @@
                     @endif
                 </flux:field>
             @endif
+
+            {{-- Before & After --}}
             <flux:field class="mb-3">
                 <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="codemirror-editor-beforeString"
+                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
                 <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="codemirror-editor-afterString"
+                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.afterString" class="w-full" />
                 <flux:error name="state.afterString"/>

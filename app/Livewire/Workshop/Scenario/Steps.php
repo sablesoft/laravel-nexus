@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire\Workshop\Scenario;
 
+use App\Livewire\Workshop\HasCodeMirror;
 use App\Models\Control;
 use App\Models\Enums\Command;
 use App\Models\Scenario;
@@ -14,6 +15,8 @@ use Livewire\Component;
 
 class Steps extends Component
 {
+    use HasCodeMirror;
+
     #[Locked]
     public int $scenarioId;
     #[Locked]
@@ -64,6 +67,11 @@ class Steps extends Component
         }
     }
 
+    protected function codeMirrorFields(): array
+    {
+        return ['beforeString', 'afterString'];
+    }
+
     public function resetForm(): void
     {
         $this->action = 'create';
@@ -73,6 +81,7 @@ class Steps extends Component
         }
         $this->addLogic = false;
         $this->scenarioLogic = false;
+        $this->dispatchCodeMirror();
     }
 
     public function edit(int $id): void
@@ -85,6 +94,7 @@ class Steps extends Component
         }
         $this->addLogic = !empty($step['nested_id']) || !empty($step['command']);
         $this->scenarioLogic = !empty($step['nested_id']);
+        $this->dispatchCodeMirror();
         Flux::modal('form-step')->show();
     }
 

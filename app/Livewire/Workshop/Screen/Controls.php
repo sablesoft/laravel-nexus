@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire\Workshop\Screen;
 
+use App\Livewire\Workshop\HasCodeMirror;
 use App\Models\Control;
 use App\Models\Enums\Command;
 use App\Models\Enums\ControlType;
@@ -14,6 +15,8 @@ use Livewire\Component;
 
 class Controls extends Component
 {
+    use HasCodeMirror;
+
     #[Locked]
     public int $screenId;
     #[Locked]
@@ -64,6 +67,11 @@ class Controls extends Component
         }
     }
 
+    protected function codeMirrorFields(): array
+    {
+        return ['beforeString', 'afterString'];
+    }
+
     public function resetForm(): void
     {
         $this->action = 'create';
@@ -73,6 +81,7 @@ class Controls extends Component
         }
         $this->addLogic = false;
         $this->scenarioLogic = false;
+        $this->dispatchCodeMirror();
     }
 
     public function edit(int $id): void
@@ -85,6 +94,7 @@ class Controls extends Component
         }
         $this->addLogic = !empty($control['scenario_id']) || !empty($control['command']);
         $this->scenarioLogic = !empty($control['scenario_id']);
+        $this->dispatchCodeMirror();
         Flux::modal('form-control')->show();
     }
 

@@ -2,6 +2,7 @@
 namespace App\Livewire\Workshop\Screen;
 
 use App\Crud\Traits\HandlePaginate;
+use App\Livewire\Workshop\HasCodeMirror;
 use App\Models\Screen;
 use App\Models\Services\StoreService;
 use App\Models\Transfer;
@@ -16,7 +17,7 @@ use Throwable;
 
 class Transfers extends Component
 {
-    use HandlePaginate;
+    use HandlePaginate, HasCodeMirror;
 
     #[Locked]
     public int $screenId;
@@ -48,6 +49,11 @@ class Transfers extends Component
     public function className(): string
     {
         return Screen::class;
+    }
+
+    protected function codeMirrorFields(): array
+    {
+        return ['beforeString', 'afterString'];
     }
 
     public function orderByFields(): array
@@ -85,6 +91,7 @@ class Transfers extends Component
         foreach (['screenTitle', 'imageUrlSm'] as $field) {
             $this->state[$field] = $transfer[$field];
         }
+        $this->dispatchCodeMirror();
         Flux::modal('form-transfer')->show();
     }
 
@@ -119,6 +126,7 @@ class Transfers extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
+        $this->dispatchCodeMirror();
     }
 
     protected function prepareTransfer(Transfer $transfer): array

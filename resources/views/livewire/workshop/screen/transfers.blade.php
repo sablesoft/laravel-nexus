@@ -62,14 +62,14 @@
             </flux:field>
             <flux:field class="mb-3">
                 <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="codemirror-editor-beforeString"
+                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
                 <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="codemirror-editor-afterString"
+                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.afterString" class="w-full" />
                 <flux:error name="state.afterString"/>
@@ -108,7 +108,10 @@
                     <div class="flex items-center gap-3">
                         <img :src="'{{ $transfer['imageUrlSm'] ?? '' }}'" alt="Screen Image"
                              class="size-12 rounded object-cover border border-zinc-300 dark:border-zinc-600">
-                        <span class="font-semibold text-zinc-800 dark:text-zinc-100">{{ $transfer['screenTitle'] }}</span>
+                        <a class="underline font-semibold text-zinc-800 dark:text-zinc-100" wire:click.stop wire:navigate
+                           href="{{ route('workshop.screens', ['action' => 'view', 'id' => $transfer['screen_to_id']]) }}">
+                            {{ $transfer['screenTitle'] }}
+                        </a>
                     </div>
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">{{ $transfer['title'] ?? '—' }}</span>
                     <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ $transfer['tooltip'] ?? '—' }}</span>
