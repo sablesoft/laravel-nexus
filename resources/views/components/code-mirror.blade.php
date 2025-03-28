@@ -3,8 +3,7 @@
     'lang' => 'json',
     'content' => null,
 ])
-<div wire:ignore x-data="codeMirrorComponent('{{ $lang }}', {{ $readonly ? 'true' : 'false' }})"
-     x-init="init({{ $readonly ? '@json($content)' : 'null' }})" class="relative">
+<div wire:ignore x-data="codeMirrorComponent('{{ $lang }}', {{ $readonly ? 'true' : 'false' }})" class="relative">
 
     <div x-ref="editorContainer"></div>
 

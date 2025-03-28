@@ -5,16 +5,16 @@ import {yaml} from "@codemirror/lang-yaml"
 import {oneDark} from "@codemirror/theme-one-dark"
 import * as jsYaml from "js-yaml"
 
-window.codeMirrorComponent = (lang = 'json', readonly = false) => ({
+window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
     view: null,
 
-    init(initialContent = null) {
+    init() {
         this.$nextTick(() => {
             const textarea = this.$refs.textarea;
             const container = this.$refs.editorContainer;
 
             container.innerHTML = '';
-            const initial = initialContent ?? textarea.value ?? '';
+            const initial = textarea.value ?? '';
 
             const extensions = [
                 basicSetup,
