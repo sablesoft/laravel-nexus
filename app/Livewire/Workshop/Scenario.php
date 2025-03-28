@@ -60,19 +60,23 @@ class Scenario extends AbstractCrud
                 'title' => 'Before',
                 'action' => ['edit', 'view'],
                 'type' => 'json',
-                'rules' => 'nullable|json'
+                'rules' => 'nullable|json',
+                'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'After',
                 'action' => ['edit', 'view'],
                 'type' => 'json',
-                'rules' => 'nullable|json'
+                'rules' => 'nullable|json',
+                'collapsed' => true
             ],
             'stepsCrud' => [
                 'title' => 'Steps',
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.scenario.steps',
+                'showEmpty' => true,
+                'collapsed' => true
             ],
             'inStepsList' => $this->linkListField('In Steps Of', ['index', 'view']),
         ];

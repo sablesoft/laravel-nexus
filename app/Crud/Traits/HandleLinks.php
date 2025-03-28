@@ -13,6 +13,7 @@ trait HandleLinks
             'action' => $action,
             'type' => 'template',
             'template' => 'crud.link',
+            'showEmpty' => true
         ];
     }
 
@@ -23,6 +24,7 @@ trait HandleLinks
             'action' => $action,
             'type' => 'template',
             'template' => 'crud.link-list',
+            'showEmpty' => true
         ];
     }
 

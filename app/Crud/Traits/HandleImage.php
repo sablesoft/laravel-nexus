@@ -55,6 +55,7 @@ trait HandleImage
             'title' => $title,
             'action' => $action,
             'type' => 'image',
+            'collapsed' => true,
             'callback' => fn($model) => $model->$relation ? $model->$relation->path_md : null
         ];
     }

@@ -26,14 +26,19 @@
     </header>
 
     {{-- Fields --}}
-    <div class="space-y-2">
-        @foreach($this->checkedFields() as $field => $title)
-            @if($this->type($field) !== 'hidden')
-                <div x-data="{ open: {{ in_array($this->type($field), ['component', 'template', 'image']) ? 'false' : 'true' }} }"
-                     class="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow">
+    <div class="rounded-md shadow border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+        @foreach($this->checkedFields() as $index => $title)
+            @php
+                $field = is_string($index) ? $index : $title;
+                $collapsed = $this->config($field, 'collapsed', false);
+                $showField = !empty($state[$field]) || $this->config($field, 'showEmpty', false);
+            @endphp
+            @if($this->type($field) !== 'hidden' && $showField)
+                <div x-data="{ open: {{ $collapsed ? 'false' : 'true' }} }"
+                     class="border-b border-zinc-200 dark:border-zinc-700 last:border-b-0">
                     {{-- Field header --}}
                     <div @click="open = !open"
-                         class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 px-3 py-2 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-t-md">
+                         class="flex items-center justify-between px-3 py-2 cursor-pointer bg-zinc-50 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                         <h3 class="text-base font-black text-gray-700 dark:text-gray-300">
                             {{ $title }}
                         </h3>
@@ -50,12 +55,12 @@
                             @case('image')
                                 @switch($this->getImageRatio($modelId))
                                     @case('square')
-                                        <div class="w-2/3">
+                                        <div class="w-1/3">
                                             <x-image-viewer :path="$state[$field]" alt="{{ $field }}"/>
                                         </div>
                                         @break
                                     @case('portrait')
-                                        <div class="w-2/5">
+                                        <div class="w-1/4">
                                             <x-image-viewer :path="$state[$field]" alt="{{ $field }}"/>
                                         </div>
                                         @break

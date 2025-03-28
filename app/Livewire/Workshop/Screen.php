@@ -179,12 +179,16 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.screen.transfers',
+                'showEmpty' => true,
+                'collapsed' => true,
             ],
             'controlsCrud' => [
                 'title' => 'Controls',
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.screen.controls',
+                'showEmpty' => true,
+                'collapsed' => true,
             ],
         ];
     }
