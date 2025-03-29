@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|Screen $screen
  * @property-read null|Scenario $scenario
  */
 class Control extends Model implements NodeContract
@@ -40,6 +41,11 @@ class Control extends Model implements NodeContract
         'before' => 'array',
         'after' => 'array',
     ];
+
+    public function screen(): BelongsTo
+    {
+        return $this->belongsTo(Screen::class);
+    }
 
     public function scenario(): BelongsTo
     {

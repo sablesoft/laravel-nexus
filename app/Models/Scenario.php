@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read Collection<int, Step> $steps
  * @property-read Collection<int, Step> $inSteps
+ * @property-read Collection<int, Control> $inControls
  */
 class Scenario extends Model implements HasOwnerInterface, LogicContract
 {
@@ -48,6 +49,11 @@ class Scenario extends Model implements HasOwnerInterface, LogicContract
     public function inSteps(): HasMany
     {
         return $this->hasMany(Step::class, 'nested_id');
+    }
+
+    public function inControls(): HasMany
+    {
+        return $this->hasMany(Control::class, 'scenario_id');
     }
 
     public static function boot(): void

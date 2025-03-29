@@ -80,6 +80,7 @@ class Scenario extends AbstractCrud
                 'collapsed' => true
             ],
             'inStepsList' => $this->linkListField('In Steps Of', ['index', 'view']),
+            'inControlsList' => $this->linkListField('In Controls Of', ['index', 'view']),
         ];
     }
 
@@ -95,6 +96,18 @@ class Scenario extends AbstractCrud
                 $list = [];
                 foreach ($inSteps as $inStep) {
                     $list[$inStep->scenario_id] = $inStep->scenario->title;
+                }
+                return compact('list', 'route');
+            },
+            'inControlsList' => function(\App\Models\Scenario $scenario) {
+                $route = Screen::routeName();
+                $inControls = $scenario->inControls;
+                if (!count($inControls)) {
+                    return [];
+                }
+                $list = [];
+                foreach ($inControls as $inControl) {
+                    $list[$inControl->screen_id] = $inControl->screen->title .' - '. $inControl->title;
                 }
                 return compact('list', 'route');
             },

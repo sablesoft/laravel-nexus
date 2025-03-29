@@ -137,7 +137,9 @@ class Controls extends Component
             'type' => $control->type->value,
             'title' => $control->title,
             'tooltip' => $control->tooltip,
-            'description' => $control->description,
+            'description' => !empty($control->description) ?
+                $control->description :
+                $control->scenario?->description,
             'beforeString' => $control->beforeString,
             'afterString' => $control->afterString,
         ];
