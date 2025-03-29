@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\LogicContract;
+use App\Logic\Contracts\NodeContract;
 use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read null|Screen $screenFrom
  * @property-read null|Screen $screenTo
  */
-class Transfer extends Model
+class Transfer extends Model implements NodeContract
 {
     use HasFactory, HasSetup;
 
@@ -44,5 +46,10 @@ class Transfer extends Model
     public function screenTo(): BelongsTo
     {
         return $this->belongsTo(Screen::class, 'screen_to_id');
+    }
+
+    public function getLogic(): ?LogicContract
+    {
+        return null;
     }
 }

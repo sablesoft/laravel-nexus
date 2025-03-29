@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\HasDslAdapterContract;
+use App\Models\Traits\HasDslAdapter;
 use Carbon\Carbon;
 use Database\Factories\ChatFactory;
 use Illuminate\Broadcasting\Channel;
@@ -30,10 +32,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Member>|Member[] $freeSeats
  * @property-read Collection<int, Member>|Member[] $takenSeats
  */
-class Chat extends Model implements HasOwnerInterface
+class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract
 {
     /** @use HasFactory<ChatFactory> */
-    use HasOwner, HasFactory, BroadcastsEvents;
+    use HasOwner, HasFactory, BroadcastsEvents, HasDslAdapter;
 
     protected $fillable = [
         'user_id', 'application_id', 'title', 'status'

@@ -302,9 +302,6 @@ class ExpressionQueryParser
             }
 
             if (is_object($base)) {
-                if (!property_exists($base, $attr)) {
-                    throw new \RuntimeException("Missing property '$attr' in object");
-                }
                 return $base->$attr;
             }
 
@@ -347,7 +344,7 @@ class ExpressionQueryParser
         $sql = $query->toSql();
         $bindings = $query->getBindings();
 
-        logger()->debug('[DSL] Parsed expression', [
+        logger()->debug('[DSL][Query] Parsed expression', [
             'dsl' => $dsl,
             'sql' => $sql,
             'bindings' => $bindings,

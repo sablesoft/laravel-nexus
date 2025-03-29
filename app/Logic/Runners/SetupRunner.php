@@ -44,7 +44,7 @@ class SetupRunner
 
     protected function active(array $config, Process $process): bool
     {
-        $context = $process->toExpressionContext();
+        $context = $process->toContext();
         if (!isset($config['condition']) || is_array($config['condition'])) {
             // todo - check structure more strict
             $result = true;
@@ -77,7 +77,7 @@ class SetupRunner
 
         while (!empty($pending)) {
             $progress = false;
-            $context = $process->toExpressionContext();
+            $context = $process->toContext();
             foreach ($pending as $key => $expr) {
                 try {
                     $value = $this->evaluate($expr, $context);
@@ -86,7 +86,11 @@ class SetupRunner
                     unset($pending[$key]);
                     $progress = true;
                 } catch (\Throwable $e) {
-                    dd($process, $pending, $e);
+                    logger()->warning('[Logic][SetupRunner] Evaluate error', [
+                        'error' => $e,
+                        'process' => $process->toArray(),
+                        'pending' => $pending
+                    ]);
                     continue;
                 }
             }

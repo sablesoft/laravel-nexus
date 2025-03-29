@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\HasDslAdapterContract;
+use App\Models\Traits\HasDslAdapter;
 use Carbon\Carbon;
 use Database\Factories\MaskFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -24,10 +26,10 @@ use App\Models\Traits\HasOwner;
  * @property-read null|string $maskName
  * @property-read Collection<int, Memory>|Memory[] $memories
  */
-class Member extends Model
+class Member extends Model implements HasDslAdapterContract
 {
     /** @use HasFactory<MaskFactory> */
-    use HasOwner, HasFactory;
+    use HasOwner, HasFactory, HasDslAdapter;
 
     protected $fillable = [
         'chat_id', 'mask_id', 'user_id', 'is_confirmed'

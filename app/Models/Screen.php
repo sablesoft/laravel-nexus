@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\ExpressionQueryRegistry;
 use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasSetup;
@@ -34,10 +36,10 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
  * @property-read Collection<int, Transfer> $transfersFrom
  * @property-read Collection<int, Control> $controls
  */
-class Screen extends Model implements HasOwnerInterface
+class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasSetup;
+    use HasOwner, HasFactory, HasImage, HasSetup, HasDslAdapter;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
