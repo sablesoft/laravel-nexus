@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Facade for NodeRunner service.
  *
- * @method static void run(NodeContract $node, Process $process)
+ * @method static Process run(NodeContract $node, Process $process)
  * @see \App\Logic\Runners\NodeRunner::run()
  */
 class NodeRunner extends Facade

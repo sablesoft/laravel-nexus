@@ -9,7 +9,7 @@ use App\Logic\Process;
 
 class NodeRunner
 {
-    public function run(NodeContract $node, Process $process): void
+    public function run(NodeContract $node, Process $process): Process
     {
         $process->startLog($node);
 
@@ -26,5 +26,7 @@ class NodeRunner
         $process->stopTimer($id);
 
         $process->finishLog();
+
+        return $process;
     }
 }

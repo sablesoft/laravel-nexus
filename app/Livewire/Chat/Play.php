@@ -170,10 +170,20 @@ class Play extends Component
     public function input(): void
     {
         $control = $this->getControl($this->activeInput['id']);
-        NodeRunner::run($control, $this->getProcess([
+        $process = NodeRunner::run($control, $this->getProcess([
             'ask' => $this->ask
         ]));
         $this->ask = '';
+
+        // todo - use $process->screen->refresh() flag:
+        if ($process->get('$refresh', false)) {
+            $this->refresh();
+        }
+
+        // todo - use $process->screen->freeze() data:
+//        if ($freeze = $process->screen->freeze()) {}
+
+        // todo - use $process->member->flash() data
     }
 
     public function action(int $controlId): void

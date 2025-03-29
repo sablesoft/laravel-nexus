@@ -11,15 +11,15 @@ use App\Logic\Process;
 
 class LogicRunner
 {
-    public function run(NodeContract $node, Process $process): void
+    public function run(NodeContract $node, Process $process): Process
     {
-        $this->runLogic($node->getLogic(), $process);
+        return $this->runLogic($node->getLogic(), $process);
     }
 
-    public function runLogic(?LogicContract $logic, Process $process): void
+    public function runLogic(?LogicContract $logic, Process $process): Process
     {
         if (!$logic || $this->addedToQueue($logic, $process)) {
-            return;
+            return $process;
         }
 
         $process->startLog($logic);
@@ -43,6 +43,8 @@ class LogicRunner
         $process->stopTimer($id);
 
         $process->finishLog();
+
+        return $process;
     }
 
     protected function addedToQueue(LogicContract $logic, Process $process): bool

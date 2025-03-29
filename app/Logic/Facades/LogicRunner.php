@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Facade for LogicRunner service.
  *
- * @method static void run(NodeContract $node, Process $process)
+ * @method static Process run(NodeContract $node, Process $process)
  * @see \App\Logic\Runners\LogicRunner::run()
  *
- * @method static void runLogic(LogicContract $logic, Process $process)
+ * @method static Process runLogic(LogicContract $logic, Process $process)
  * @see \App\Logic\Runners\LogicRunner::runLogic()
  */
 class LogicRunner extends Facade
