@@ -3,16 +3,18 @@
 namespace App\Logic\Dsl\Adapters;
 
 use App\Logic\Contracts\DslAdapterContract;
+use App\Logic\Process;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use UnitEnum;
 
-readonly class ModelDslAdapter implements DslAdapterContract
+class ModelDslAdapter implements DslAdapterContract
 {
     public function __construct(
-        protected Model $model
+        protected Process $process,
+        protected ?Model $model = null
     ) {}
 
     public function __get(string $name): mixed

@@ -2,16 +2,14 @@
 
 namespace App\Logic\Runners;
 
-use App\Logic\Dsl\Dsl;
+use App\Logic\Facades\Dsl;
 use App\Logic\Process;
+use RuntimeException;
+use Throwable;
 
 class SetupRunner
 {
     const STRING_PATTERN = '||';
-
-    public function __construct(
-        protected Dsl $dsl,
-    ) {}
 
     public function run(?array $config, Process $process): bool
     {
@@ -66,7 +64,7 @@ class SetupRunner
     {
         try {
             validator($process->all(), $rules)->validate();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             dd($process, $e);
         }
     }
@@ -85,7 +83,7 @@ class SetupRunner
                     $context[$key] = $value;
                     unset($pending[$key]);
                     $progress = true;
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     logger()->warning('[Logic][SetupRunner] Evaluate error', [
                         'error' => $e,
                         'process' => $process->toArray(),
@@ -99,7 +97,7 @@ class SetupRunner
             }
         }
         if (!empty($pending)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Unable to resolve some values in `data`: ' . implode(', ', array_keys($pending))
             );
         }
@@ -126,7 +124,7 @@ class SetupRunner
                 return $value;
             }
 
-            return $this->dsl->evaluate($expr, $context);
+            return Dsl::evaluate($expr, $context);
         }
 
         return $expr;
@@ -135,7 +133,7 @@ class SetupRunner
     protected function interpolate(string $template, array $context): string
     {
         return preg_replace_callback('/{{\s*(.*?)\s*}}/', function ($matches) use ($context) {
-            return $this->dsl->evaluate($matches[1], $context);
+            return Dsl::evaluate($matches[1], $context);
         }, $template);
     }
 

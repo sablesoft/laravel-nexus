@@ -159,9 +159,9 @@
                         @endforeach
                     </flux:menu>
                 </flux:dropdown>
-                <flux:input wire:model.defer="message"
+                <flux:input wire:model.defer="ask"
                             placeholder="{{ $activeInput['tooltip'] ?: '' }}" class="flex-1"
-                            wire:keydown.enter="sendMessage"
+                            wire:keydown.enter="input"
                             x-on:input.debounce.500ms="
                     Echo.join('chats.play.{{ $chat->id }}')
                         .whisper('typing', { userId: {{ auth()->id() }} });"/>

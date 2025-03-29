@@ -3,7 +3,9 @@
 namespace App\Livewire\Chat;
 
 use App\Livewire\PresenceTrait;
-use App\Logic\Dsl\ExpressionQueryParser;
+use App\Logic\Facades\Dsl;
+use App\Logic\Facades\NodeRunner;
+use App\Logic\Process;
 use App\Models\Application;
 use App\Models\Chat;
 use App\Models\Control;
@@ -47,7 +49,7 @@ class Play extends Component
     #[Locked]
     public array $memories;
 
-    public string $message = '';
+    public string $ask = '';
     #[Locked]
     public Collection $onlineMembers;
     #[Locked]
@@ -116,24 +118,17 @@ class Play extends Component
 
     protected function prepareMemories(): void
     {
-        $this->memories =
-            collect($this->getMemories())->keyBy('id')->toArray();
+        $this->memories = collect($this->getMemories())->keyBy('id')->toArray();
     }
 
     protected function getTransfers(): array
     {
         return $this->screen->transfers->map(fn(Transfer $transfer) => [
-            'id' => $transfer->screen_to_id,
+            'id' => $transfer->id,
+            'screen_to_id' => $transfer->screen_to_id,
             'title' => $transfer->title,
             'tooltip' => $transfer->tooltip,
-            'before' => $transfer->before,
-            'after' => $transfer->after,
         ])->toArray();
-    }
-
-    protected function getScreen(int $id): Screen
-    {
-        return $this->application->screens->findOrFail($id);
     }
 
     protected function getControls(string $type): array
@@ -146,23 +141,10 @@ class Play extends Component
             ])->toArray();
     }
 
-    protected function getControl(int $id): Control
-    {
-        return $this->screen->controls->findOrFail($id);
-    }
-
     protected function getMemories(): array
     {
-        // todo:
-        $queryParser = new ExpressionQueryParser();
-        $query = $queryParser->apply(Memory::query(), $this->screen->query, [
-            'screen' => $this->screen->getAttributes(),
-            'member' => $this->getMember()->getAttributes(),
-            'chat' => $this->chat->getAttributes(),
-            'application' => $this->application->getAttributes()
-        ]);
-
-        return $query->where('chat_id', $this->chat->id)->get()
+        $query = Dsl::apply(Memory::query(), $this->screen->query, $this->getProcess()->toContext());
+        return $query->with('member')->where('chat_id', $this->chat->id)->get()
             ->map(fn(Memory $memory) => [
                 'id' => $memory->id,
                 'member_id' => $memory->member_id,
@@ -179,27 +161,25 @@ class Play extends Component
 
     public function transfer(int $screenId): void
     {
-        $screen = $this->getScreen($screenId);
-        // todo - check screen active condition
-        $this->initScreen($screen);
+        $transfer = $this->getTransfer($screenId);
+        NodeRunner::run($transfer, $this->getProcess());
+        // todo - check screen is active condition
+        $this->initScreen($transfer->screenTo);
+    }
+
+    public function input(): void
+    {
+        $control = $this->getControl($this->activeInput['id']);
+        NodeRunner::run($control, $this->getProcess([
+            'ask' => $this->ask
+        ]));
+        $this->ask = '';
     }
 
     public function action(int $controlId): void
     {
         $control = $this->getControl($controlId);
-
-        // todo - process control - command or scenario
-        if ($control->command?->value === 'back') {
-            array_pop($this->screenHistory);
-            if (!$screenId = end($this->screenHistory)) {
-                return; // todo
-            }
-            $this->initScreen($this->getScreen($screenId), false);
-            return;
-        }
-        // todo - check screen active condition
-        $content = $this->getMember()->maskName . ' used action ' . $control->title;
-        $this->createMemory($this->screen->code, $content);
+        NodeRunner::run($control, $this->getProcess());
     }
 
     /**
@@ -247,14 +227,6 @@ class Play extends Component
         $this->redirectRoute('chats.view', ['id' => $this->chat->id], true, true);
     }
 
-    public function sendMessage(): void
-    {
-        // todo - run active input - command or scenario
-        // todo - test messages:
-        $this->createMemory($this->screen->code, $this->message, $this->memberId);
-        $this->message = '';
-    }
-
     protected function createMemory(string $type, string $content, ?int $memberId = null): void
     {
         Memory::create([
@@ -280,9 +252,30 @@ class Play extends Component
                 ->where('is_confirmed', true)->count();
     }
 
+    protected function getTransfer(int $id): Transfer
+    {
+        return $this->screen->transfers->findOrFail($id);
+    }
+
+    protected function getControl(int $id): Control
+    {
+        return $this->screen->controls->findOrFail($id);
+    }
+
     protected function getMember(?int $memberId = null): Member
     {
         $memberId = $memberId ?: $this->memberId;
         return $this->chat->takenSeats->where('id', $memberId)->firstOrFail();
+    }
+
+    protected function getProcess(array $data = []): Process
+    {
+        return new Process(array_merge([
+            'chat' => $this->chat,
+            'screen' => $this->screen,
+            'member' => $this->getMember(),
+            'application' => $this->application,
+            'memory' => new Memory(),
+        ], $data));
     }
 }

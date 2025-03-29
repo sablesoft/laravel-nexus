@@ -2,11 +2,12 @@
 
 namespace App\Logic\Dsl\Adapters;
 
+use App\Logic\Contracts\DslAdapterContract;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use RuntimeException;
 
-readonly class CarbonDslAdapter
+readonly class CarbonDslAdapter implements DslAdapterContract
 {
     public function __construct(
         protected CarbonInterface $carbon

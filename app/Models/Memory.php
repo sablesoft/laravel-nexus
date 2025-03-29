@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\DslAdapterContract;
+use App\Logic\Contracts\HasDslAdapterContract;
+use App\Logic\Dsl\Adapters\MemoryDslAdapter;
+use App\Logic\Process;
 use Carbon\Carbon;
 use Database\Factories\MemoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read null|Member $member
  * @property-read null|Image $image
  */
-class Memory extends Model
+class Memory extends Model implements HasDslAdapterContract
 {
     /** @use HasFactory<MemoryFactory> */
     use HasFactory;
@@ -51,4 +55,9 @@ class Memory extends Model
     protected $casts = [
         'meta' => 'array'
     ];
+
+    public function getDslAdapter(Process $process): DslAdapterContract
+    {
+        return new MemoryDslAdapter($process, $this);
+    }
 }

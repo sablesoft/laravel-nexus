@@ -3,15 +3,24 @@
 namespace App\Logic\Dsl;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Illuminate\Database\Eloquent\Builder;
 
 class Dsl
 {
     protected ExpressionLanguage $el;
 
+    protected ExpressionQueryParser $queryParser;
+
     public function __construct()
     {
         $this->el = $this->makeExpressionLanguage();
         $this->registerBuiltins();
+        $this->queryParser = new ExpressionQueryParser();
+    }
+
+    public function apply(Builder $query, string $expression, array $context = []): Builder
+    {
+        return $this->queryParser->apply($query, $expression, $context);
     }
 
     public function evaluate(string $expression, array $context = []): mixed

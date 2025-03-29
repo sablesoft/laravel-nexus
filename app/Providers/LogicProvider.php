@@ -15,6 +15,9 @@ class LogicProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton('dsl', function ($app) {
+            return new Dsl();
+        });
         $this->app->singleton('logic-runner', function ($app) {
             return new LogicRunner();
         });
@@ -22,7 +25,7 @@ class LogicProvider extends ServiceProvider
             return new NodeRunner();
         });
         $this->app->singleton('setup-runner', function ($app) {
-            return new SetupRunner($app->make(Dsl::class));
+            return new SetupRunner();
         });
     }
 

@@ -23,10 +23,9 @@ class ExpressionQueryParser
 
     protected array $context = [];
 
-
-    public function __construct(?ExpressionLanguage $el = null)
+    public function __construct()
     {
-        $this->el = $el ?? new ExpressionLanguage();
+        $this->el = new ExpressionLanguage();
         $this->fieldPrefix = config('dsl.field_prefix', ':');
 
         ExpressionQueryRegistry::register($this->el);

@@ -38,21 +38,21 @@ class Process
 
     public function __construct(array $initial = [])
     {
-        foreach ($this->main as $slot => $modelClass) {
-            $model = $initial[$slot] ?? new $modelClass();
+        foreach ($this->main as $main => $modelClass) {
+            $model = $initial[$main] ?? new $modelClass();
             if (!($model instanceof $modelClass)) {
-                throw new InvalidArgumentException("Invalid model for slot [$slot], expected instance of [$modelClass].");
+                throw new InvalidArgumentException("Invalid model for slot [$main], expected instance of [$modelClass].");
             }
-            $this->{$slot} = ($model instanceof HasDslAdapterContract) ?
-                $model->getDslAdapter() :
-                 new ModelDslAdapter($model);
+            $this->{$main} = ($model instanceof HasDslAdapterContract) ?
+                $model->getDslAdapter($this) :
+                 new ModelDslAdapter($this, $model);
 
-            unset($initial[$slot]);
+            unset($initial[$main]);
         }
 
         foreach ($initial as $key => $value) {
             if ($value instanceof HasDslAdapterContract) {
-                $this->adapters[$key] = $value->getDslAdapter();
+                $this->adapters[$key] = $value->getDslAdapter($this);
                 unset($initial[$key]);
             }
         }
@@ -98,14 +98,14 @@ class Process
     public function toContext(): array
     {
         $context = [];
-        foreach (array_keys($this->main) as $main) {
-            $context[$main] = $this->{$main};
-        }
         foreach ($this->adapters as $key => $adapter) {
             $context[$key] = $adapter;
         }
+        foreach (array_keys($this->main) as $main) {
+            $context[$main] = $this->{$main};
+        }
 
-        return array_merge($context, $this->data);
+        return array_merge($this->data, $context);
     }
 
     public function toArray(): array
