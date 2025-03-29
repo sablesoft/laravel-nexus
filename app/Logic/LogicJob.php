@@ -17,14 +17,14 @@ class LogicJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected array $payload;
+    protected array $pack;
     protected string $logicDescriptor;
 
     public int $timeout = 300;
 
     public function __construct(LogicContract $logic, Process $process)
     {
-        $this->payload = $process->pack();
+        $this->pack = $process->pack();
         $this->logicDescriptor = $this->packLogic($logic);
     }
 
@@ -33,7 +33,11 @@ class LogicJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $process = Process::unpack($this->payload);
+        logger()->debug('[LogicJob][Start]', [
+            'pack' => $this->pack,
+            'logic' => $this->logicDescriptor
+        ]);
+        $process = Process::unpack($this->pack);
         $logic = $this->unpackLogic($this->logicDescriptor);
 
         try {
@@ -43,11 +47,11 @@ class LogicJob implements ShouldQueue
             DB::commit();
         } catch (Throwable $e) {
             DB::rollBack();
-            $this->notifyError($e);
+            $this->notifyError($e, $process);
             throw $e;
         }
 
-        $this->notifySuccess();
+        $this->notifySuccess($process);
     }
 
     protected function packLogic(LogicContract $logic): string
@@ -74,13 +78,23 @@ class LogicJob implements ShouldQueue
         return app($descriptor);
     }
 
-    protected function notifySuccess(): void
+    protected function notifySuccess(Process $process): void
     {
-        // todo - notify by process
+        logger()->debug('[LogicJob][Finish]', [
+            'pack' => $this->pack,
+            'process' => $process->pack(),
+            'logic' => $this->logicDescriptor
+        ]);
+        // todo - notify by chat, member
     }
 
-    protected function notifyError(Throwable $e): void
+    protected function notifyError(Throwable $e, Process $process): void
     {
-        // todo
+        logger()->error('[LogicJob][Error]' . $e->getMessage(), [
+            'pack' => $this->pack,
+            'process' => $process->pack(),
+            'logic' => $this->logicDescriptor
+        ]);
+        // todo - notify by chat, member
     }
 }

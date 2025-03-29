@@ -7,7 +7,6 @@ use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
 use App\Logic\Traits\SetupStack;
 use App\Logic\Traits\Timing;
-use App\Models\Application;
 use App\Models\Chat;
 use App\Models\Member;
 use App\Models\Memory;
@@ -27,14 +26,12 @@ class Process
     public readonly DslAdapterContract $memory;
     public readonly DslAdapterContract $screen;
     public readonly DslAdapterContract $member;
-    public readonly DslAdapterContract $application;
 
     protected array $adapters = [
         'chat'          => Chat::class,
         'screen'        => Screen::class,
         'memory'        => Memory::class,
         'member'        => Member::class,
-        'application'   => Application::class,
     ];
 
     public function __construct(array $initial = [])
@@ -79,7 +76,7 @@ class Process
         return Arr::has($this->data, $key);
     }
 
-    public function all(): array
+    public function data(): array
     {
         return $this->data;
     }
@@ -108,7 +105,6 @@ class Process
                 'screen'      => $this->screen->id(),
                 'memory'      => $this->memory->id(),
                 'member'      => $this->member->id(),
-                'application' => $this->application->id(),
             ],
             'inQueue'    => $this->inQueue,
             'skipQueue'  => $this->skipQueue,
@@ -123,7 +119,6 @@ class Process
             'screen'      => Screen::findOrNew($payload['adapters']['screen'] ?? null),
             'memory'      => Memory::findOrNew($payload['adapters']['memory'] ?? null),
             'member'      => Member::findOrNew($payload['adapters']['member'] ?? null),
-            'application' => Application::findOrNew($payload['adapters']['application'] ?? null),
         ];
 
         $instance = new static(array_merge($adapters, $payload['data'] ?? []));

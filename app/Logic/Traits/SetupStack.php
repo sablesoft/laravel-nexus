@@ -16,7 +16,8 @@ trait SetupStack
         if (in_array($code, $this->setupStack)) {
             throw new \RuntimeException("Recursive setup detected: $code, stack: ". implode(', ', $this->setupStack));
         }
-
+        logger()->debug('[Logic][Setup][Start] '. $setup::class .':'.
+            $setup->getCode() .'| Level: '. count($this->setupStack));
         $this->logs[] = [
             'code' => $setup->getCode(),
             'status' => 'started',
@@ -29,8 +30,10 @@ trait SetupStack
         }
     }
 
-    public function finishLog(): void
+    public function finishLog(SetupContract $setup): void
     {
+        logger()->debug('[Logic][Setup][Finish] '. $setup::class .':'.
+            $setup->getCode() .'| Level: '. count($this->setupStack));
         $this->logs[] = [
             'code' => array_pop($this->setupStack),
             'status' => 'finished',

@@ -42,7 +42,7 @@ class LogicRunner
         SetupRunner::run($logic->getAfter(), $process);
         $process->stopTimer($id);
 
-        $process->finishLog();
+        $process->finishLog($logic);
 
         return $process;
     }

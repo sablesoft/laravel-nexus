@@ -63,7 +63,7 @@ class SetupRunner
     protected function rules(array $rules, Process $process): void
     {
         try {
-            validator($process->all(), $rules)->validate();
+            validator($process->data(), $rules)->validate();
         } catch (Throwable $e) {
             dd($process, $e);
         }

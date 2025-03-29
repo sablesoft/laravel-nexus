@@ -284,8 +284,6 @@ class Play extends Component
             'chat' => $this->chat,
             'screen' => $this->screen,
             'member' => $this->getMember(),
-            'application' => $this->application,
-            'memory' => new Memory(),
         ], $data));
     }
 }

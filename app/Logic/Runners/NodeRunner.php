@@ -25,7 +25,7 @@ class NodeRunner
         SetupRunner::run($node->getAfter(), $process);
         $process->stopTimer($id);
 
-        $process->finishLog();
+        $process->finishLog($node);
 
         return $process;
     }
