@@ -65,6 +65,22 @@ trait Timing
         return $this->executionTimes[$identifier] ?? null;
     }
 
+    public function packTiming(): array
+    {
+        return [
+            'number' => $this->number,
+            'timestamps' => $this->timestamps,
+            'executionTimes' => $this->executionTimes
+        ];
+    }
+
+    public function unpackTiming(array $timing): void
+    {
+        $this->number = $timing['number'] ?? 0;
+        $this->timestamps = $timing['timestamps'] ?? [];
+        $this->executionTimes = $timing['executionTimes'] ?? [];
+    }
+
     protected function logExecutionTimes(array $times): void
     {
         foreach ($times as $label => $time) {

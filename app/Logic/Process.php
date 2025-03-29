@@ -10,6 +10,7 @@ use App\Logic\Traits\Timing;
 use App\Models\Application;
 use App\Models\Chat;
 use App\Models\Member;
+use App\Models\Memory;
 use App\Models\Screen;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
@@ -19,42 +20,35 @@ class Process
     use Timing, SetupStack;
 
     protected array $data = [];
-    protected array $adapters = [];
-
     public bool $inQueue = false;
     public bool $skipQueue = false;
 
     public readonly DslAdapterContract $chat;
+    public readonly DslAdapterContract $memory;
     public readonly DslAdapterContract $screen;
     public readonly DslAdapterContract $member;
     public readonly DslAdapterContract $application;
 
-    protected array $main = [
+    protected array $adapters = [
         'chat'          => Chat::class,
         'screen'        => Screen::class,
+        'memory'        => Memory::class,
         'member'        => Member::class,
         'application'   => Application::class,
     ];
 
     public function __construct(array $initial = [])
     {
-        foreach ($this->main as $main => $modelClass) {
-            $model = $initial[$main] ?? new $modelClass();
+        foreach ($this->adapters as $key => $modelClass) {
+            $model = $initial[$key] ?? new $modelClass();
             if (!($model instanceof $modelClass)) {
-                throw new InvalidArgumentException("Invalid model for slot [$main], expected instance of [$modelClass].");
+                throw new InvalidArgumentException("Invalid model [$key], expected instance of [$modelClass].");
             }
-            $this->{$main} = ($model instanceof HasDslAdapterContract) ?
+            $this->{$key} = ($model instanceof HasDslAdapterContract) ?
                 $model->getDslAdapter($this) :
                  new ModelDslAdapter($this, $model);
 
-            unset($initial[$main]);
-        }
-
-        foreach ($initial as $key => $value) {
-            if ($value instanceof HasDslAdapterContract) {
-                $this->adapters[$key] = $value->getDslAdapter($this);
-                unset($initial[$key]);
-            }
+            unset($initial[$key]);
         }
 
         $this->data = $initial;
@@ -98,35 +92,46 @@ class Process
     public function toContext(): array
     {
         $context = [];
-        foreach ($this->adapters as $key => $adapter) {
-            $context[$key] = $adapter;
-        }
-        foreach (array_keys($this->main) as $main) {
-            $context[$main] = $this->{$main};
+        foreach (array_keys($this->adapters) as $key) {
+            $context[$key] = $this->{$key};
         }
 
         return array_merge($this->data, $context);
     }
 
-    public function toArray(): array
+    public function pack(): array
     {
         return [
             'data' => $this->data,
-            'inQueue' => $this->inQueue,
-            'skipQueue' => $this->skipQueue,
-            'setupStack' => $this->setupStack,
-            'logs' => $this->logs,
-            'times' => $this->getExecutionTimes(),
+            'adapters' => [
+                'chat'        => $this->chat->id(),
+                'screen'      => $this->screen->id(),
+                'memory'      => $this->memory->id(),
+                'member'      => $this->member->id(),
+                'application' => $this->application->id(),
+            ],
+            'inQueue'    => $this->inQueue,
+            'skipQueue'  => $this->skipQueue,
+            'timing'     => $this->packTiming(),
         ];
     }
 
-    public static function fromArray(array $payload): static
+    public static function unpack(array $payload): Process
     {
-        $self = new static($payload['data'] ?? []);
-        $self->inQueue = $payload['inQueue'] ?? false;
-        $self->setupStack = $payload['setupStack'] ?? [];
-        $self->logs = $payload['logs'] ?? [];
+        $adapters = [
+            'chat'        => Chat::findOrNew($payload['adapters']['chat']?? null),
+            'screen'      => Screen::findOrNew($payload['adapters']['screen'] ?? null),
+            'memory'      => Memory::findOrNew($payload['adapters']['memory'] ?? null),
+            'member'      => Member::findOrNew($payload['adapters']['member'] ?? null),
+            'application' => Application::findOrNew($payload['adapters']['application'] ?? null),
+        ];
 
-        return $self;
+        $instance = new static(array_merge($adapters, $payload['data'] ?? []));
+
+        $instance->inQueue   = $payload['inQueue'] ?? false;
+        $instance->skipQueue = $payload['skipQueue'] ?? false;
+        $instance->unpackTiming($payload['timing'] ?? []);
+
+        return $instance;
     }
 }

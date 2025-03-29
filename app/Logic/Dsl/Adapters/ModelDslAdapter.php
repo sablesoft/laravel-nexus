@@ -82,4 +82,9 @@ class ModelDslAdapter implements DslAdapterContract
         $className = class_basename($this->model);
         logger()->{$level}("[DSL][$className] " . $message, $context);
     }
+
+    public function id(): ?int
+    {
+        return $this->model->getKey();
+    }
 }

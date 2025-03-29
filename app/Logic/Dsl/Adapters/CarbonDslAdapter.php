@@ -63,5 +63,9 @@ readonly class CarbonDslAdapter implements DslAdapterContract
     {
         return $this->carbon;
     }
-}
 
+    public function id(): ?int
+    {
+        return null;
+    }
+}
