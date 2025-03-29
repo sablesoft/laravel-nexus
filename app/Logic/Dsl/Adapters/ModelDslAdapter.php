@@ -10,6 +10,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use UnitEnum;
 
+/**
+ * @property-read null|int $id
+ */
 class ModelDslAdapter implements DslAdapterContract
 {
     public function __construct(

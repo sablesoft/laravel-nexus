@@ -16,9 +16,9 @@ class LogicRunner
         $this->runLogic($node->getLogic(), $process);
     }
 
-    public function runLogic(LogicContract $logic, Process $process): void
+    public function runLogic(?LogicContract $logic, Process $process): void
     {
-        if ($this->addedToQueue($logic, $process)) {
+        if (!$logic || $this->addedToQueue($logic, $process)) {
             return;
         }
 

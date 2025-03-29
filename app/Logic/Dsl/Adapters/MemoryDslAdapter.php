@@ -2,8 +2,10 @@
 
 namespace App\Logic\Dsl\Adapters;
 
+use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 use App\Models\Memory;
+use Illuminate\Support\Arr;
 
 class MemoryDslAdapter extends ModelDslAdapter
 {
@@ -12,11 +14,23 @@ class MemoryDslAdapter extends ModelDslAdapter
         parent::__construct($process, $model ?? new Memory());
     }
 
-    public function loadByExpr(string $expression): static
+    public function loadByExpr(string $expression): bool
     {
+        $query = Dsl::apply(Memory::query(), $expression, $this->process->toContext());
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        $query->where('chat_id', $this->process->chat->id);
+        // todo - hande collection:
+        $this->model = $query->first();
+        return !!$this->model;
+    }
 
-//        $this->model = $model;
-        return $this;
+    public function meta(string $path, mixed $default = null): mixed
+    {
+        $meta = $this->model?->getAttributeValue('meta') ?? [];
+
+        return is_array($meta)
+            ? Arr::get($meta, $path, $default)
+            : $default;
     }
 
     public function save(): bool
@@ -24,10 +38,14 @@ class MemoryDslAdapter extends ModelDslAdapter
         return $this->model?->save();
     }
 
-    public function create(string $type, array $data): mixed
+    public function create(string $type, array $data): true
     {
         $data['type'] = $type;
-        return Memory::create($data);
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        $data['chat_id'] = $this->process->chat->id;
+        $this->model = Memory::create($data);
+
+        return true;
     }
 
     public function get(string $key): mixed
@@ -35,19 +53,14 @@ class MemoryDslAdapter extends ModelDslAdapter
         return $this->model?->getAttributeValue($key);
     }
 
-    public function set(string $key, mixed $value): static
+    public function set(string $key, mixed $value): true
     {
         $this->model?->setAttribute($key, $value);
-        return $this;
+        return true;
     }
 
-    public function exists(string $key, $scope = null): bool
+    public function delete(): ?bool
     {
-        return Memory::for($scope)->has($key);
-    }
-
-    public function delete(string $key, $scope = null): void
-    {
-        Memory::for($scope)->delete($key);
+        return $this->model?->delete();
     }
 }
