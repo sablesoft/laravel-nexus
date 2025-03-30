@@ -23,25 +23,14 @@ class LogicRunner
         }
 
         $process->startSetup($logic);
-
-        $process->startBlock($logic->getCode() .'::before', $id);
-        SetupRunner::run($logic->getBefore(), $process);
-        $process->stopBlock($id);
-
-        $process->startBlock($logic->getCode() .'::execute', $id);
-        $logic->execute($process);
-        $process->stopBlock($id);
-
-        $process->startBlock($logic->getCode() .'::nodes', $id);
-        foreach ($logic->getNodes() as $node) {
-            NodeRunner::run($node, $process);
-        }
-        $process->stopBlock($id);
-
-        $process->startBlock($logic->getCode() .'::after', $id);
-        SetupRunner::run($logic->getAfter(), $process);
-        $process->stopBlock($id);
-
+        $process->handle('before', $logic, fn() => SetupRunner::run($logic->getBefore(), $process));
+        $process->handle('execute', $logic, fn() => $logic->execute($process));
+        $process->handle('nodes', $logic, function () use ($logic, $process) {
+            foreach ($logic->getNodes() as $node) {
+                NodeRunner::run($node, $process);
+            }
+        });
+        $process->handle('after', $logic, fn() => SetupRunner::run($logic->getAfter(), $process));
         $process->finishSetup($logic);
 
         return $process;

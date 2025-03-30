@@ -12,19 +12,9 @@ class NodeRunner
     public function run(NodeContract $node, Process $process): Process
     {
         $process->startSetup($node);
-
-        $process->startBlock($node->getCode() .'::before', $id);
-        SetupRunner::run($node->getBefore(), $process);
-        $process->stopBlock($id);
-
-        $process->startBlock($node->getCode() .'::run', $id);
-        LogicRunner::run($node, $process);
-        $process->stopBlock($id);
-
-        $process->startBlock($node->getCode() .'::after', $id);
-        SetupRunner::run($node->getAfter(), $process);
-        $process->stopBlock($id);
-
+        $process->handle('before', $node, fn() => SetupRunner::run($node->getBefore(), $process));
+        $process->handle('logic', $node, fn() => LogicRunner::run($node, $process));
+        $process->handle('after', $node, fn() => SetupRunner::run($node->getAfter(), $process));
         $process->finishSetup($node);
 
         return $process;

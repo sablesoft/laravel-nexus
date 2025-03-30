@@ -4,6 +4,7 @@ namespace App\Logic;
 
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Logic\Contracts\SetupContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
 use App\Logic\Traits\SetupStack;
 use App\Logic\Traits\Timing;
@@ -130,15 +131,22 @@ class Process
         return $instance;
     }
 
-    public function startBlock(string $code, ?string &$identifier): void
+    public function handle(string $block, SetupContract $setup, callable $callback): mixed
     {
-        $this->startTimer($code, $identifier);
-        $this->startLog($identifier);
-    }
+        $code = $setup->getCode() . '::' . $block;
+        $data = match ($block) {
+            'before' => $setup->getBefore(),
+            'after' => $setup->getAfter(),
+            default => null
+        };
 
-    public function stopBlock(string $identifier): void
-    {
-        $this->stopTimer($identifier);
-        $this->stopLog($identifier);
+        $this->startTimer($code, $identifier);
+        $this->startLog($identifier, $data);
+        try {
+            return $callback();
+        } finally {
+            $this->stopTimer($identifier);
+            $this->stopLog($identifier, $data);
+        }
     }
 }

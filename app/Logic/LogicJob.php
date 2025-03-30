@@ -68,11 +68,11 @@ class LogicJob implements ShouldQueue
         if (str_contains($descriptor, ':')) {
             /** @var Model|LogicContract $class */
             [$class, $id] = explode(':', $descriptor, 2);
-            if ($class instanceof LogicContract) {
+            if (class_exists($class) && is_subclass_of($class, LogicContract::class)) {
                 return $class::findOrFail($id);
-            } else {
-                throw new \InvalidArgumentException('Invalid logic descriptor: ' . $descriptor);
             }
+
+            throw new \InvalidArgumentException('Invalid logic descriptor: ' . $descriptor);
         }
 
         return app($descriptor);
