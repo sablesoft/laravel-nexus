@@ -21,18 +21,6 @@ class AppScenariosTableSeeder extends Seeder
         \DB::table('app.scenarios')->insert(array (
             0 => 
             array (
-                'id' => 4,
-                'user_id' => 1,
-                'code' => 'chat-prompt-preparation',
-                'title' => 'Chat - Prompt Preparation',
-                'description' => 'Assembles a ready-to-use array of chat messages for the OpenAI Chat Completion API by composing system and user messages from modular scenarios.',
-                'before' => '{"rules":{"ask":"required|string"},"data":{"messages":[]}}',
-                'after' => '{"rules":{"messages":"required|array|size:2","messages.0.role":"required|in:system","messages.0.content":"required|string","messages.1.role":"required|in:user","messages.1.content":"required|string"}}',
-                'created_at' => '2025-03-25 21:03:29',
-                'updated_at' => '2025-03-26 04:10:41',
-            ),
-            1 => 
-            array (
                 'id' => 3,
                 'user_id' => 1,
                 'code' => 'chat-system-parts',
@@ -43,7 +31,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-25 20:59:52',
                 'updated_at' => '2025-03-26 04:13:42',
             ),
-            2 => 
+            1 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -55,7 +43,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-25 17:58:41',
                 'updated_at' => '2025-03-26 04:19:35',
             ),
-            3 => 
+            2 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -66,6 +54,30 @@ class AppScenariosTableSeeder extends Seeder
                 'after' => '{"rules":{"messages":"required|array|min:1"},"cleanup":["user_message"]}',
                 'created_at' => '2025-03-25 17:55:49',
                 'updated_at' => '2025-03-26 04:24:47',
+            ),
+            3 => 
+            array (
+                'id' => 4,
+                'user_id' => 1,
+                'code' => 'chat-prompt-preparation',
+                'title' => 'Chat - Prompt Preparation',
+                'description' => 'Assembles a ready-to-use array of chat messages for the OpenAI Chat Completion API by composing system and user messages from modular scenarios.',
+                'before' => '{"rules":{"ask":"required|string"},"data":{"messages":[]}}',
+                'after' => '{"rules":{"messages":"required|array|size:2","messages.0.role":"required|in:system","messages.0.content":"required|string","messages.1.role":"required|in:user","messages.1.content":"required|string"}}',
+                'created_at' => '2025-03-25 21:03:29',
+                'updated_at' => '2025-03-28 17:43:37',
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'user_id' => 1,
+                'code' => 'ask-memory',
+                'title' => 'Ask Memory',
+                'description' => 'Just add member ask to screen memories',
+            'before' => '{"rules":{"ask":"required|string"},"data":{"message":{"member_id":"member.id","content":"ask"},"$refresh":"memory.create(screen.code, message)"}}',
+                'after' => '{"rules":{"$refresh":"required|bool"},"cleanup":["message"]}',
+                'created_at' => '2025-03-28 05:51:03',
+                'updated_at' => '2025-03-29 06:06:02',
             ),
         ));
         

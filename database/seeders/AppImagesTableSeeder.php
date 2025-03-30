@@ -523,6 +523,24 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-23 04:33:47',
             ),
+            28 => 
+            array (
+                'id' => 45,
+                'user_id' => 1,
+                'title' => 'Survivor',
+                'prompt' => 'A rugged survivor in a post-apocalyptic wasteland, wearing a tattered hood and gas mask. Their armor is made from scavenged metal plates, and they clutch a makeshift energy rifle. Dust and smoke fill the air, with ruined skyscrapers in the background.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-9D76ll4tr05m0Ke7ufRYZnsX.png',
+                'path_md' => 'images_md/img-9D76ll4tr05m0Ke7ufRYZnsX.webp',
+                'path_sm' => 'images_sm/img-9D76ll4tr05m0Ke7ufRYZnsX.webp',
+                'is_public' => false,
+                'created_at' => '2025-03-28 05:30:25',
+                'updated_at' => '2025-03-28 05:30:27',
+            ),
         ));
         
         
