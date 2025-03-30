@@ -129,4 +129,16 @@ class Process
 
         return $instance;
     }
+
+    public function startBlock(string $code, ?string &$identifier): void
+    {
+        $this->startTimer($code, $identifier);
+        $this->startLog($identifier);
+    }
+
+    public function stopBlock(string $identifier): void
+    {
+        $this->stopTimer($identifier);
+        $this->stopLog($identifier);
+    }
 }

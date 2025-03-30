@@ -22,27 +22,27 @@ class LogicRunner
             return $process;
         }
 
-        $process->startLog($logic);
+        $process->startSetup($logic);
 
-        $process->startTimer($logic->getCode() .'::before', $id);
+        $process->startBlock($logic->getCode() .'::before', $id);
         SetupRunner::run($logic->getBefore(), $process);
-        $process->stopTimer($id);
+        $process->stopBlock($id);
 
-        $process->startTimer($logic->getCode() .'::execute', $id);
+        $process->startBlock($logic->getCode() .'::execute', $id);
         $logic->execute($process);
-        $process->stopTimer($id);
+        $process->stopBlock($id);
 
-        $process->startTimer($logic->getCode() .'::nodes', $id);
+        $process->startBlock($logic->getCode() .'::nodes', $id);
         foreach ($logic->getNodes() as $node) {
             NodeRunner::run($node, $process);
         }
-        $process->stopTimer($id);
+        $process->stopBlock($id);
 
-        $process->startTimer($logic->getCode() .'::after', $id);
+        $process->startBlock($logic->getCode() .'::after', $id);
         SetupRunner::run($logic->getAfter(), $process);
-        $process->stopTimer($id);
+        $process->stopBlock($id);
 
-        $process->finishLog($logic);
+        $process->finishSetup($logic);
 
         return $process;
     }

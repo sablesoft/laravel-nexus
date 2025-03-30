@@ -22,7 +22,7 @@ class ModelDslAdapter implements DslAdapterContract
 
     public function __get(string $name): mixed
     {
-        $this->log("Accessing property", ['name' => $name]);
+//        $this->log("Accessing property", ['name' => $name]);
 
         // Check if the adapter has its own accessor
         $accessor = 'get' . Str::studly($name) . 'Attribute';
@@ -32,7 +32,7 @@ class ModelDslAdapter implements DslAdapterContract
         }
 
         if ($this->model->hasAttribute($name)) {
-            $this->log("Model attribute value resolved", ['name' => $name]);
+//            $this->log("Model attribute value resolved", ['name' => $name]);
             return $this->filterValue($this->model->getAttributeValue($name));
         }
 
@@ -42,7 +42,7 @@ class ModelDslAdapter implements DslAdapterContract
 
     protected function filterValue(mixed $value): mixed
     {
-        $this->log("Filtering value", ['value' => get_debug_type($value)]);
+//        $this->log("Filtering value", ['value' => get_debug_type($value)]);
 
         if (is_scalar($value) || is_null($value)) {
             return $value;

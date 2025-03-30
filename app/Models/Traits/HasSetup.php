@@ -25,11 +25,8 @@ trait HasSetup
 
     public function getCode(): string
     {
-        $class = self::class;
-        $parts = explode('\\', $class);
-        $code = $this->code ? '.'. $this->code : '';
-
-        return strtolower(end($parts)) . $code;
+        $code = $this->code ? ' ['. $this->code .']' : '';
+        return class_basename(self::class) . $code .'#'. $this->getKey();
     }
 
     public function getBeforeStringAttribute(): ?string

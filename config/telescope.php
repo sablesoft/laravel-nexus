@@ -113,9 +113,27 @@ return [
     ],
 
     'ignore_paths' => [
-        'livewire*',
+        // Livewire "heartbeat" — пинги от клиента, чтобы соединение не рвалось
+        'livewire/heartbeat',
+
+        // Livewire "poll" — фоновое обновление компонентов
+        'livewire/message-poll',
+
+        // Livewire "prefetch" — предзагрузка при наведении мыши (UX-оптимизация)
+        'livewire/prefetch',
+
+        // Livewire upload — не всегда нужен в Telescope, зависит от use-case
+        // Отключи, если не интересует диагностика загрузки файлов
+         'livewire/upload-file',
+
+        // Laravel Nova API, если используешь
         'nova-api*',
+
+        // Laravel Pulse (инструмент мониторинга)
         'pulse*',
+
+        // Livewire testing routes (опционально, если используешь Livewire Dusk или тестовые компоненты)
+         'livewire/dusk*',
     ],
 
     'ignore_commands' => [

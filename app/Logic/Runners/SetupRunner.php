@@ -86,7 +86,7 @@ class SetupRunner
                 } catch (Throwable $e) {
                     logger()->warning('[Logic][SetupRunner] Evaluate error', [
                         'error' => $e,
-                        'process' => $process->toArray(),
+                        'process' => $process->pack(),
                         'pending' => $pending
                     ]);
                     continue;

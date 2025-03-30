@@ -49,10 +49,6 @@ trait Timing
         }
         $times['total'] = $total;
 
-        if (app()->environment('local') && $writeLogs) {
-            $this->logExecutionTimes($times);
-        }
-
         return $times;
     }
 
@@ -79,12 +75,5 @@ trait Timing
         $this->number = $timing['number'] ?? 0;
         $this->timestamps = $timing['timestamps'] ?? [];
         $this->executionTimes = $timing['executionTimes'] ?? [];
-    }
-
-    protected function logExecutionTimes(array $times): void
-    {
-        foreach ($times as $label => $time) {
-            \Log::info('[Timing] ' . $label . ': ' . round($time * 1000, 2) . ' ms');
-        }
     }
 }
