@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * ---
  * Environment:
- * - Used in EffectsRunner to evaluate values, conditions, and logic
+ * - Used in EffectRunner to evaluate values, conditions, and logic
  * - Applied to filtering Memory records (and others) via Dsl::apply in Livewire\Chat\Play
  * - Can be used in any before/after DSL instructions or other structured configurations
  * - Exposed via the App\Logic\Facades\Dsl facade

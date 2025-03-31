@@ -7,14 +7,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Editor Format for Setup Fields
+    | Default Editor Format for Effects Fields
     |--------------------------------------------------------------------------
     |
     | This option controls the default format used to represent structured
     | configuration fields like "before" and "after" when editing them
     | via the UI. You may choose between "json" and "yaml" formats.
     |
-    | This affects how the setup data is displayed to the user and how it
+    | This affects how the effects data is displayed to the user and how it
     | should be parsed when submitted back to the server.
     |
     | Supported: "json", "yaml"
@@ -35,7 +35,28 @@ return [
     | Example: ":type" => field "type"
     |
     */
-    'field_prefix' => ':',
+    'field_prefix' => env('DSL_FIELD_PREFIX', ':'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | String Literal Prefix for Expression Evaluation
+    |--------------------------------------------------------------------------
+    |
+    | This prefix is used to distinguish plain string literals from DSL expressions.
+    | When a string starts with this prefix, it will be treated as a raw string
+    | and not evaluated as an expression. This is useful when the string contains
+    | characters that would otherwise be interpreted as part of the DSL syntax,
+    | such as variable names or math operators.
+    |
+    | For example:
+    |   ">>Hello, {{name}}"   => Interpreted as a string with template interpolation
+    |   ">>user.score"        => Interpreted as a plain string, not as a variable
+    |   "user.score"          => Interpreted as a DSL expression and evaluated
+    |
+    | Supported values: any short, YAML-safe prefix (e.g. ">>", "::", "^")
+    |
+    */
+    'string_prefix' => env('DSL_STRING_PREFIX', \App\Logic\Dsl\ValueResolver::DEFAULT_STRING_PREFIX),
 
     'screen_query' => '":type" == screen.code'
 ];

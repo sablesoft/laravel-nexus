@@ -4,12 +4,13 @@ import {json} from "@codemirror/lang-json"
 import {yaml} from "@codemirror/lang-yaml"
 import {oneDark} from "@codemirror/theme-one-dark"
 import * as jsYaml from "js-yaml"
+import {autocompletion} from "@codemirror/autocomplete"
 
 window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
     view: null,
 
     init() {
-        this.$nextTick(() => {
+        this.$nextTick(async () => {
             const textarea = this.$refs.textarea;
             const container = this.$refs.editorContainer;
             const key = this.$el.dataset.codemirrorKey;
@@ -27,6 +28,37 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
                 extensions.push(yaml());
             } else {
                 extensions.push(json());
+            }
+
+            // DSL autocompletion
+            if (!readonly && lang === 'yaml') {
+                const schema = await fetch('/api/dsl/schema')
+                    .then(res => res.json())
+                    .then(json => json.effects)
+                    .catch(() => ({}));
+
+                const effectAutocomplete = (context) => {
+                    const word = context.matchBefore(/\w*/);
+                    if (!word || word.from === word.to) return null;
+
+                    const options = Object.entries(schema).map(([key, def]) => ({
+                        label: key,
+                        type: "keyword",
+                        info: def.description || '',
+                        apply: key + ': ',
+                    }));
+
+                    return {
+                        from: word.from,
+                        options,
+                    };
+                };
+
+                extensions.push(
+                    autocompletion({
+                        override: [effectAutocomplete],
+                    })
+                );
             }
 
             if (!readonly) {
@@ -65,16 +97,12 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
                 }
 
                 window.addEventListener('codemirror:update', (e) => {
-                    // console.debug('[CodeMirror] codemirror:update', {key, eventKey: e.detail.key});
                     if (e.detail?.key !== key) return;
 
                     const newValue = e.detail.value ?? '';
                     const currentValue = this.view.state.doc.toString();
 
-                    // console.debug('[CodeMirror] values', {key, newValue, currentValue});
-
                     if (newValue !== currentValue) {
-                        // console.debug(`[CodeMirror] updating!`);
                         this.view.dispatch({
                             changes: { from: 0, to: this.view.state.doc.length, insert: newValue }
                         });

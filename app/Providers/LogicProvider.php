@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Logic\Dsl\Dsl;
+use App\Logic\EffectDefinitionRegistry;
+use App\Logic\EffectRegistry;
+use App\Logic\Runners\EffectRunner;
 use App\Logic\Runners\LogicRunner;
 use App\Logic\Runners\NodeRunner;
-use App\Logic\Runners\EffectsRunner;
 use Illuminate\Support\ServiceProvider;
 
 class LogicProvider extends ServiceProvider
@@ -24,8 +26,8 @@ class LogicProvider extends ServiceProvider
         $this->app->singleton('node-runner', function ($app) {
             return new NodeRunner();
         });
-        $this->app->singleton('effects-runner', function ($app) {
-            return new EffectsRunner();
+        $this->app->singleton('effect-runner', function ($app) {
+            return new EffectRunner();
         });
     }
 
@@ -34,6 +36,7 @@ class LogicProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        EffectRegistry::boot();
+        EffectDefinitionRegistry::boot();
     }
 }

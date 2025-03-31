@@ -5,7 +5,7 @@ namespace App\Logic\Runners;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
 use App\Logic\Facades\NodeRunner;
-use App\Logic\Facades\EffectsRunner;
+use App\Logic\Facades\EffectRunner;
 use App\Logic\LogicJob;
 use App\Logic\Process;
 
@@ -39,9 +39,9 @@ class LogicRunner
     /**
      * Main method for running logic.
      * Checks if the logic should be queued; if not, executes:
-     * - before effects via EffectsRunner
+     * - before effects via EffectRunner
      * - each node using NodeRunner
-     * - after effects via EffectsRunner
+     * - after effects via EffectRunner
      */
     public function runLogic(?LogicContract $logic, Process $process): Process
     {
@@ -50,14 +50,14 @@ class LogicRunner
         }
 
         $process->startEffects($logic);
-        $process->handle('before', $logic, fn() => EffectsRunner::run($logic->getBefore(), $process));
+        $process->handle('before', $logic, fn() => EffectRunner::run($logic->getBefore(), $process));
         if($logic->getNodes()) {
             $process->handle('nodes', $logic, function () use ($logic, $process) {
                 foreach ($logic->getNodes() as $node) {
                     NodeRunner::run($node, $process);
                 }
             });
-            $process->handle('after', $logic, fn() => EffectsRunner::run($logic->getAfter(), $process));
+            $process->handle('after', $logic, fn() => EffectRunner::run($logic->getAfter(), $process));
         }
         $process->finishEffects($logic);
 

@@ -28,7 +28,7 @@ use InvalidArgumentException;
  * - LogicJob — serializes and restores Process for background logic execution
  * - LogicRunner — manages full execution lifecycle using Process as the persistent logic context
  * - NodeRunner — executes individual logic nodes using Process
- * - EffectsRunner — applies before/after config blocks using context from Process
+ * - EffectRunner — applies before/after config blocks using context from Process
  * - Livewire component Chat\Play — creates Process instances for user interactions (action, input, transfer)
  */
 class Process
