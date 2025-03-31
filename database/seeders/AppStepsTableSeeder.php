@@ -14,12 +14,12 @@ class AppStepsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.steps')->delete();
-
+        
         \DB::table('app.steps')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 3,
                 'parent_id' => 4,
@@ -31,7 +31,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-03-25 21:11:07',
                 'updated_at' => '2025-03-25 21:11:07',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 1,
                 'parent_id' => 4,
@@ -43,7 +43,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-03-25 21:04:09',
                 'updated_at' => '2025-03-28 23:44:15',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 2,
                 'parent_id' => 4,
@@ -56,7 +56,7 @@ class AppStepsTableSeeder extends Seeder
                 'updated_at' => '2025-03-28 23:44:35',
             ),
         ));
-
-
+        
+        
     }
 }
