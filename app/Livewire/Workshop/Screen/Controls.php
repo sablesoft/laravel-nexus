@@ -2,6 +2,7 @@
 namespace App\Livewire\Workshop\Screen;
 
 use App\Livewire\Workshop\HasCodeMirror;
+use App\Logic\Effect\EffectRule;
 use App\Models\Control;
 use App\Models\Enums\ControlType;
 use App\Models\Scenario;
@@ -131,14 +132,14 @@ class Controls extends Component
 
     protected function rules(): array
     {
-        $dlsEditor = config('dsl.editor');
+        $dslEditor = config('dsl.editor');
         return [
             'type'          => ['required', 'string', Rule::enum(ControlType::class)],
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
             'description'   => ['nullable', 'string'],
-            'beforeString'  => ['nullable', $dlsEditor],
-            'afterString'   => ['nullable', $dlsEditor],
+            'beforeString'  => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+            'afterString'   => ['nullable', $dslEditor, new EffectRule($dslEditor)],
             'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsDefault;
+use App\Logic\Effect\EffectRule;
 
 class Scenario extends AbstractCrud
 {
@@ -61,14 +62,14 @@ class Scenario extends AbstractCrud
                 'title' => 'Effects',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => "nullable|$dslEditor",
+                'rules' => ['nullable', $dslEditor, new EffectRule($dslEditor)],
                 'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'Effects After',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => "nullable|$dslEditor",
+                'rules' => ['nullable', $dslEditor, new EffectRule($dslEditor)],
                 'collapsed' => true
             ],
             'stepsCrud' => [

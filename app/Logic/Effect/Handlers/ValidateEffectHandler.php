@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Logic\Effects;
+namespace App\Logic\Effect\Handlers;
 
-use App\Logic\Contracts\EffectContract;
+use App\Logic\Contracts\EffectHandlerContract;
 use App\logic\Process;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class ValidateEffect implements EffectContract
+class ValidateEffectHandler implements EffectHandlerContract
 {
     /**
      * @param array<string, mixed> $rules

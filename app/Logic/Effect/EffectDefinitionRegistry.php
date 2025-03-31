@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Logic;
+namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Effects\Definitions\SetEffectDefinition;
-use App\Logic\Effects\Definitions\UnsetEffectDefinition;
-use App\Logic\Effects\Definitions\ValidateEffectDefinition;
+use App\Logic\Effect\Definitions\SetEffectDefinition;
+use App\Logic\Effect\Definitions\UnsetEffectDefinition;
+use App\Logic\Effect\Definitions\ValidateEffectDefinition;
 use InvalidArgumentException;
 
 class EffectDefinitionRegistry

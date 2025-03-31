@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Logic\Effects;
+namespace App\Logic\Effect\Handlers;
 
-use App\Logic\Contracts\EffectContract;
+use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Process;
 
-class UnsetEffect implements EffectContract
+class UnsetEffectHandler implements EffectHandlerContract
 {
     /**
      * @param array<int, string> $keys

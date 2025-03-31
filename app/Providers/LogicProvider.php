@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Logic\Dsl\Dsl;
-use App\Logic\EffectDefinitionRegistry;
-use App\Logic\EffectRegistry;
+use App\Logic\Effect\EffectDefinitionRegistry;
+use App\Logic\Effect\EffectHandlerRegistry;
 use App\Logic\Runners\EffectRunner;
 use App\Logic\Runners\LogicRunner;
 use App\Logic\Runners\NodeRunner;
@@ -36,7 +36,7 @@ class LogicProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        EffectRegistry::boot();
+        EffectHandlerRegistry::boot();
         EffectDefinitionRegistry::boot();
     }
 }

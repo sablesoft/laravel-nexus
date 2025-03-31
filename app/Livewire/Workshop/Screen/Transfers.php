@@ -3,6 +3,7 @@ namespace App\Livewire\Workshop\Screen;
 
 use App\Crud\Traits\HandlePaginate;
 use App\Livewire\Workshop\HasCodeMirror;
+use App\Logic\Effect\EffectRule;
 use App\Models\Screen;
 use App\Models\Services\StoreService;
 use App\Models\Transfer;
@@ -163,15 +164,15 @@ class Transfers extends Component
 
     protected function rules(): array
     {
-        $dlsEditor = config('dsl.editor');
+        $dslEditor = config('dsl.editor');
         return [
             'screen_to_id'      => ['required', 'int'],
             'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
             'description'       => ['nullable', 'string'],
-            'beforeString'      => ['nullable', $dlsEditor],
-            'afterString'       => ['nullable', $dlsEditor],
+            'beforeString'      => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+            'afterString'       => ['nullable', $dslEditor, new EffectRule($dslEditor)],
         ];
     }
 }

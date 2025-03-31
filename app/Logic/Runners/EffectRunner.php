@@ -2,7 +2,7 @@
 
 namespace App\Logic\Runners;
 
-use App\Logic\EffectRegistry;
+use App\Logic\Effect\EffectHandlerRegistry;
 use App\Logic\Process;
 
 class EffectRunner
@@ -14,7 +14,7 @@ class EffectRunner
         }
 
         foreach ($effects as $raw) {
-            $effect = EffectRegistry::resolve($raw);
+            $effect = EffectHandlerRegistry::resolve($raw);
             $effect->execute($process);
         }
     }

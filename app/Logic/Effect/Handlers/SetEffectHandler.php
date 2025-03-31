@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Logic\Effects;
+namespace App\Logic\Effect\Handlers;
 
-use App\Logic\Contracts\EffectContract;
+use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Process;
 
-class SetEffect implements EffectContract
+class SetEffectHandler implements EffectHandlerContract
 {
     public function __construct(protected array $vars) {}
 

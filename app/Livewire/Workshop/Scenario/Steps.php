@@ -2,6 +2,7 @@
 namespace App\Livewire\Workshop\Scenario;
 
 use App\Livewire\Workshop\HasCodeMirror;
+use App\Logic\Effect\EffectRule;
 use App\Models\Control;
 use App\Models\Scenario;
 use App\Models\Services\StoreService;
@@ -203,12 +204,12 @@ class Steps extends Component
 
     protected function rules(): array
     {
-        $dlsEditor = config('dsl.editor');
+        $dslEditor = config('dsl.editor');
         return [
             'number'        => ['required', 'integer'],
             'description'   => ['nullable', 'string'],
-            'beforeString'  => ['nullable', $dlsEditor],
-            'afterString'   => ['nullable', $dlsEditor],
+            'beforeString'  => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+            'afterString'   => ['nullable', $dslEditor, new EffectRule($dslEditor)],
             'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],
         ];
     }

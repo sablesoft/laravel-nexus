@@ -4,7 +4,7 @@ namespace App\Logic\Contracts;
 
 use App\Logic\Process;
 
-interface EffectContract
+interface EffectHandlerContract
 {
     /**
      * Execute this effect within the given process context.

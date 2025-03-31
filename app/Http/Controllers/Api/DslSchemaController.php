@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Logic\EffectDefinitionRegistry;
+use App\Logic\Effect\EffectDefinitionRegistry;
 use Illuminate\Http\JsonResponse;
 
 class DslSchemaController

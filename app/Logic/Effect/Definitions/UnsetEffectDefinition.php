@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Logic\Effects\Definitions;
+namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 
