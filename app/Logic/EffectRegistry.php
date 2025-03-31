@@ -31,7 +31,7 @@ class EffectRegistry
 
         $class = self::$map[$key];
 
-        return new $class(...(is_array($data) ? $data : [$data]));
+        return new $class(is_array($data) ? $data : [$data]);
     }
 
     public static function boot(): void
