@@ -20,21 +20,39 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
+ * The Screen model represents a visual screen within a user-defined application (Application),
+ * where the screen's messages, controls (Control), and transfers (Transfer) are placed.
+ * Each screen includes a mandatory DSL `query` used to filter displayed messages (Memory),
+ * along with optional `before` and `after` DSL instructions, a message `template` for rendering,
+ * and an `is_default` flag indicating whether the screen is the default one.
+ *
+ * Implements HasDslAdapterContract, which allows the screen to be wrapped in a DSL adapter inside a Process.
+ * This enables DSL expressions to access screen properties directly, like `screen.code` or `screen.title`.
+ *
+ * Environment:
+ * - Used by the Chat\Play Livewire component as the currently active screen
+ * - Applies Dsl::apply on the Memory model via the `query` field to filter messages
+ * - TODO: The `template` field will define how messages are rendered and additional UI elements
+ * - Contains Control elements that act as NodeContract nodes (executed via NodeRunner)
+ * - Linked to Transfer entities that define possible screen-to-screen transitions
+ * - Used in the Workshop UI for building and managing user applications
+ * - Used internally in Process as the DSL adapter `screen` (wrapped via ModelDslAdapter or a custom adapter)
+ *
  * @property null|int $id
- * @property null|int $application_id
- * @property null|string $code
- * @property null|string $title
- * @property null|string $description
- * @property null|bool $is_default
- * @property null|string $query
- * @property null|string $template
+ * @property null|int $application_id     - ID of the parent application
+ * @property null|string $code            - Unique code of the screen
+ * @property null|string $title           - Display name of the screen
+ * @property null|string $description     - Optional description
+ * @property null|bool $is_default        - Whether this is the default screen
+ * @property null|string $query           - DSL expression for filtering messages (Memory) on this screen
+ * @property null|string $template        - Message rendering template
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read null|Application $application
- * @property-read Collection<int, Transfer> $transfers
- * @property-read Collection<int, Transfer> $transfersFrom
- * @property-read Collection<int, Control> $controls
+ * @property-read null|Application $application            - The parent application this screen belongs to
+ * @property-read Collection<int, Transfer> $transfers     - Outgoing screen transitions (screen_from_id)
+ * @property-read Collection<int, Transfer> $transfersFrom - Incoming screen transitions (screen_to_id)
+ * @property-read Collection<int, Control> $controls       - Controls placed on this screen
  */
 class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
 {

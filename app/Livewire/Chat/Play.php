@@ -23,35 +23,72 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+/**
+ * The Livewire component Chat\Play is the main client interface for user participation in a chat
+ * launched from a user-defined application (Application). Visually, it represents a screen
+ * with a message area, a multifunctional right sidebar, and a footer with interactive controls (transfers, actions, input).
+ *
+ * The component is built with Livewire and tightly integrated with real-time presence features via Laravel Reverb (Echo.presence),
+ * as well as the platform's logic execution engine: Process, NodeRunner, DSL, memories, scenarios, and steps.
+ *
+ * ---
+ * Environment:
+ * - Uses Process as the primary execution context container
+ * - Invokes NodeRunner to execute Transfers and Controls (actions, inputs)
+ * - Applies Dsl::apply() to the Memory model, based on the current screen’s query (screen.query)
+ * - Displays online/offline participants using the PresenceTrait
+ */
 #[Layout('components.layouts.play')]
 class Play extends Component
 {
     use PresenceTrait;
 
+    /** The current chat instance */
     #[Locked]
     public Chat $chat;
+
     #[Locked]
     public int $memberId;
+
     #[Locked]
     public Application $application;
+
+    /** The currently active screen (defines transfers, controls, inputs) */
     #[Locked]
     public Screen $screen;
+
+    /** Stack of screen IDs visited by the user (used for navigation) */
     #[Locked]
     public array $screenHistory = [];
+
+    /** Array of Transfer buttons rendered in the footer */
     #[Locked]
     public array $transfers;
+
+    /** Array of Action buttons rendered in the footer */
     #[Locked]
     public array $actions;
+
+    /** Array of Input controls rendered in the footer */
     #[Locked]
     public array $inputs;
+
+    /** The currently active input control (used in input mode) */
     #[Locked]
     public ?array $activeInput;
+
+    /** List of memory entries filtered by the screen's DSL query */
     #[Locked]
     public array $memories;
 
+    /** The user input entered through the active input field */
     public string $ask = '';
+
+    /** List of online members (calculated via PresenceTrait) */
     #[Locked]
     public Collection $onlineMembers;
+
+    /** List of offline members (calculated via PresenceTrait) */
     #[Locked]
     public Collection $offlineMembers;
 
@@ -159,14 +196,31 @@ class Play extends Component
             ])->toArray();
     }
 
+    /**
+     * Handles the transition to another screen.
+     *
+     * Triggered when the user clicks a Transfer button in the footer.
+     * Executes NodeRunner for the Transfer node. As a NodeContract, it may contain DSL-based
+     * before/after blocks and nested logic. Currently, the screen transition happens unconditionally,
+     * but this will be refined soon.
+     */
     public function transfer(int $screenId): void
     {
         $transfer = $this->getTransfer($screenId);
         NodeRunner::run($transfer, $this->getProcess());
-        // todo - check screen is active condition
+        // todo - remove after completing effects feature:
         $this->initScreen($transfer->screenTo);
     }
 
+    /**
+     * Handles user input submitted via the active input control.
+     *
+     * Passes the $ask value into the Process (under the 'ask' key), and runs NodeRunner
+     * for the active input control. Clears $ask after execution.
+     * Currently checks the `$refresh` flag in the Process and triggers refresh(), but this is
+     * a temporary testing mechanism — in the future, all UI changes will be driven directly from the
+     * process side and the component will only listen and react accordingly.
+     */
     public function input(): void
     {
         $control = $this->getControl($this->activeInput['id']);
@@ -175,17 +229,18 @@ class Play extends Component
         ]));
         $this->ask = '';
 
-        // todo - use $process->screen->refresh() flag:
+        // todo - remove after completing effects feature:
         if ($process->get('$refresh', false)) {
             $this->refresh();
         }
-
-        // todo - use $process->screen->freeze() data:
-//        if ($freeze = $process->screen->freeze()) {}
-
-        // todo - use $process->member->flash() data
     }
 
+    /**
+     * Handles a click on an Action button on the current screen.
+     *
+     * Loads the corresponding control (a NodeContract) and runs it through NodeRunner.
+     * The Process is created without user input but always includes the main logical entities.
+     */
     public function action(int $controlId): void
     {
         $control = $this->getControl($controlId);

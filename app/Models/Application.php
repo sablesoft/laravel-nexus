@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Logic\Contracts\HasDslAdapterContract;
-use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasSetup;
 use Carbon\Carbon;
 use Database\Factories\ApplicationFactory;
@@ -16,21 +14,32 @@ use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * The Application model represents a user-defined application (or scenario engine)
+ * which contains a structured set of screens (Screen) and can be used to launch interactive chats.
+ * Each application is created by a user and can include screens, transitions, logic,
+ * and before/after DSL instructions at the application level.
+ *
+ * Environment:
+ * - Used in Workshop UI for building and editing user applications
+ * - Serves as the root context for all screens, controls, and transitions
+ * - Used in Chat creation and Play component to determine which application is running
+ *
+ * ---
  * @property null|int $id
- * @property null|string $title
- * @property null|string $description
- * @property null|bool $is_public
+ * @property null|string $title         - Application title, visible in UI
+ * @property null|string $description   - Description or notes about the application
+ * @property null|bool $is_public       - Visibility flag (public or private) TODO - change to status
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read Collection<int, Screen>|Screen[] $screens
- * @property-read Collection<int, Chat>|Chat[] $chats
- * @property-read null|Screen $initScreen
+ * @property-read Collection<int, Screen>|Screen[] $screens     - All screens that belong to the application
+ * @property-read Collection<int, Chat>|Chat[] $chats           - All chats created from this application
+ * @property-read null|Screen $initScreen                       - Default starting screen of the application
  */
-class Application extends Model implements HasOwnerInterface, HasDslAdapterContract
+class Application extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasFactory, HasImage, HasSetup, HasDslAdapter;
+    use HasOwner, HasFactory, HasImage, HasSetup;
 
     protected $fillable = [
         'user_id', 'title', 'description', 'is_public', 'before', 'after'

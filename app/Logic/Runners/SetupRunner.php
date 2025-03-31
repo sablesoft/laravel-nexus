@@ -136,5 +136,4 @@ class SetupRunner
             return Dsl::evaluate($matches[1], $context);
         }, $template);
     }
-
 }

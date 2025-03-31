@@ -11,18 +11,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * The Transfer model represents a logical transition (node) between two screens in a user application.
+ * It is an interactive element that is usually rendered as a button in the chat footer
+ * and allows the user to move from one screen (screen_from) to another (screen_to).
+ *
+ * Implements the NodeContract, meaning it can be executed via NodeRunner,
+ * and supports before/after DSL blocks for custom logic execution before or after the transition.
+ * However, unlike other node types, it does not contain embedded logic.
+ *
+ * Environment:
+ * - Executed via NodeRunner when a transfer button is clicked
+ * - Used in the Chat\Play component to render transitions in the footer
+ * - May contain before/after DSL blocks to control navigation conditions or effects
+ *
  * @property null|int $id
- * @property null|int $screen_from_id
- * @property null|int $screen_to_id
- * @property null|string $code
- * @property null|string $title
- * @property null|string $tooltip
- * @property null|string $description
+ * @property null|int $screen_from_id   - ID of the screen from which this transfer originates
+ * @property null|int $screen_to_id     - ID of the destination screen
+ * @property null|string $code          - Unique code of the transfer
+ * @property null|string $title         - Displayed title of the transfer (usually shown on the button)
+ * @property null|string $tooltip       - Tooltip shown on hover
+ * @property null|string $description   - Optional internal/editorial description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read null|Screen $screenFrom
- * @property-read null|Screen $screenTo
+ * @property-read null|Screen $screenFrom  - Source screen of the transfer
+ * @property-read null|Screen $screenTo    - Target screen of the transfer
  */
 class Transfer extends Model implements NodeContract
 {

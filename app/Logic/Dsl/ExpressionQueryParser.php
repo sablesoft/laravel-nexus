@@ -16,21 +16,40 @@ use Symfony\Component\ExpressionLanguage\Node\NameNode;
 use Symfony\Component\ExpressionLanguage\Node\Node;
 use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
 
+/**
+ * ExpressionQueryParser is a DSL-to-SQL query interpreter for Laravel's query builder (Builder).
+ * It is based on Symfony ExpressionLanguage. It parses the expression into an AST,
+ * walks the tree, and transforms it into a closure that applies SQL conditions to the query.
+ *
+ * Key features:
+ * - Supports logical operators: and, or, not
+ * - Built-in functions: like, ilike, between, in, @>, ??, and more
+ * - Handles jsonb fields and paths using #> and #>>
+ * - Supports AST evaluation via resolveNodeToField/resolveNodeToValue
+ * - Extendable via ExpressionQueryRegistry
+ *
+ * ---
+ * Environment:
+ * - Invoked from the Dsl facade when applying filters to Eloquent models (e.g. Memory)
+ * - Actively used in the Play Livewire component to filter records based on screen-defined conditions
+ * - Designed to be reused or extended for additional models or use-cases
+ */
 class ExpressionQueryParser
 {
     protected ExpressionLanguage $el;
     protected string $fieldPrefix;
-
     protected array $context = [];
 
     public function __construct()
     {
         $this->el = new ExpressionLanguage();
         $this->fieldPrefix = config('dsl.field_prefix', ':');
-
         ExpressionQueryRegistry::register($this->el);
     }
 
+    /**
+     * Applies a DSL expression to an Eloquent query, transforming it into SQL via AST traversal.
+     */
     public function apply(Builder $query, string $expression, array $context = []): Builder
     {
         $this->context = $context;
@@ -44,6 +63,9 @@ class ExpressionQueryParser
         return $query;
     }
 
+    /**
+     * Recursively walks the AST and returns a closure to be applied to the query.
+     */
     protected function walk(Node $node): callable
     {
         return match (true) {
@@ -54,6 +76,9 @@ class ExpressionQueryParser
         };
     }
 
+    /**
+     * Handles unary operators such as `not`.
+     */
     protected function handleUnary(UnaryNode $node): callable
     {
         $operator = $node->attributes['operator'];
@@ -66,6 +91,9 @@ class ExpressionQueryParser
         throw new RuntimeException("Unsupported unary operator: $operator");
     }
 
+    /**
+     * Handles function calls like `like`, `ilike`, `between`, `has`, `has_any`, `has_all`, etc.
+     */
     protected function handleFunction(FunctionNode $node): callable
     {
         $name = $node->attributes['name'];
@@ -83,6 +111,10 @@ class ExpressionQueryParser
             default => throw new RuntimeException("Unsupported function: $name"),
         };
     }
+
+    // Remaining methods such as handleLike, handleBinary, resolveNodeToField, etc.
+    // are already implemented in the class and can be explored by the interpreter directly.
+    // All essential context, behavior, and expected usage are described above.
 
     protected function handleLike(Builder $query, array $args, bool $caseInsensitive): void
     {
