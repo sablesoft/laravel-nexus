@@ -161,14 +161,14 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'nullable|string'
             ],
             'beforeString' => [
-                'title' => 'Before',
+                'title' => 'Effects',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
             'afterString' => [
-                'title' => 'After',
+                'title' => 'Effects After',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => "nullable|$dslEditor",

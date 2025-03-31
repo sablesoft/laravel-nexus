@@ -3,13 +3,11 @@ namespace App\Livewire\Workshop\Scenario;
 
 use App\Livewire\Workshop\HasCodeMirror;
 use App\Models\Control;
-use App\Models\Enums\Command;
 use App\Models\Scenario;
 use App\Models\Services\StoreService;
 use App\Models\Step;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
@@ -28,7 +26,6 @@ class Steps extends Component
     #[Locked]
     public ?int $stepId = null;
     public array $state;
-    public bool $scenarioLogic = false;
     public bool $addLogic = false;
 
     public function mount(int $scenarioId): void
@@ -37,7 +34,7 @@ class Steps extends Component
         $this->scenarios = Scenario::where('user_id', auth()->id())
             ->select(['id', 'title as name'])->get()->toArray();
         /** @var Collection<int, Control> $steps */
-        $steps = Step::where('scenario_id', $scenarioId)->orderBy('number')->with('nestedScenario')->get();
+        $steps = Step::where('parent_id', $scenarioId)->orderBy('number')->with('scenario')->get();
         foreach ($steps as $step) {
             $this->steps[$step->id] = $this->prepareStep($step);
         }
@@ -49,21 +46,11 @@ class Steps extends Component
         return view('livewire.workshop.scenario.steps');
     }
 
-    public function updatedScenarioLogic(): void
-    {
-        if ($this->scenarioLogic) {
-            $this->state['command'] = null;
-        } else {
-            $this->state['nested_id'] = null;
-        }
-    }
-
     public function updatedAddLogic(): void
     {
         if (!$this->addLogic) {
-            $this->state['command'] = null;
-            $this->state['nested_id'] = null;
-            $this->scenarioLogic = false;
+            $this->state['scenario_id'] = null;
+            $this->state['afterString'] = null;
         }
     }
 
@@ -80,7 +67,6 @@ class Steps extends Component
             $this->state[$field] = null;
         }
         $this->addLogic = false;
-        $this->scenarioLogic = false;
         $this->dispatchCodeMirror();
     }
 
@@ -92,8 +78,7 @@ class Steps extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = $step[$field];
         }
-        $this->addLogic = !empty($step['nested_id']) || !empty($step['command']);
-        $this->scenarioLogic = !empty($step['nested_id']);
+        $this->addLogic = !empty($step['scenario_id']);
         $this->dispatchCodeMirror();
         Flux::modal('form-step')->show();
     }
@@ -127,7 +112,7 @@ class Steps extends Component
     public function moveUp(int $id): void
     {
         $step = Step::findOrFail($id);
-        $prev = Step::where('scenario_id', $this->scenarioId)
+        $prev = Step::where('parent_id', $this->scenarioId)
             ->where('number', '<', $step->number)
             ->orderByDesc('number')
             ->first();
@@ -140,7 +125,7 @@ class Steps extends Component
     public function moveDown(int $id): void
     {
         $step = Step::findOrFail($id);
-        $next = Step::where('scenario_id', $this->scenarioId)
+        $next = Step::where('parent_id', $this->scenarioId)
             ->where('number', '>', $step->number)
             ->orderBy('number')
             ->first();
@@ -170,7 +155,7 @@ class Steps extends Component
     {
         return $this->stepId ?
             Step::findOrFail($this->stepId) :
-            new Step(['scenario_id' => $this->scenarioId]);
+            new Step(['parent_id' => $this->scenarioId]);
     }
 
     protected function prepareStep(Step $step): array
@@ -178,11 +163,9 @@ class Steps extends Component
         return [
             'id' => $step->number,
             'number' => $step->number,
-            'nested_id' => $step->nested_id,
-            'nestedTitle' => $step->nestedScenario?->title,
-            'command' => $step->command?->value,
-            'commandTitle' => $step->command ? ucfirst($step->command->value) : null,
-            'description' => $step->description ?: $step->nestedScenario?->description,
+            'scenario_id' => $step->scenario_id,
+            'scenarioTitle' => $step->scenario?->title,
+            'description' => $step->description ?: $step->scenario?->description,
             'beforeString' => $step->beforeString,
             'afterString' => $step->afterString,
         ];
@@ -190,12 +173,12 @@ class Steps extends Component
 
     protected function getNextNumber(): int
     {
-        return Step::where('scenario_id', $this->scenarioId)->max('number') + 1;
+        return Step::where('parent_id', $this->scenarioId)->max('number') + 1;
     }
 
     protected function renumber(): void
     {
-        $steps = Step::where('scenario_id', $this->scenarioId)
+        $steps = Step::where('parent_id', $this->scenarioId)
             ->orderBy('number')
             ->get();
 
@@ -211,7 +194,6 @@ class Steps extends Component
         $this->sortSteps();
     }
 
-
     protected function sortSteps(): void
     {
         $this->steps = collect($this->steps)
@@ -222,21 +204,12 @@ class Steps extends Component
     protected function rules(): array
     {
         $dlsEditor = config('dsl.editor');
-        $rules = [
+        return [
             'number'        => ['required', 'integer'],
             'description'   => ['nullable', 'string'],
             'beforeString'  => ['nullable', $dlsEditor],
             'afterString'   => ['nullable', $dlsEditor],
+            'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],
         ];
-
-        $required = $this->addLogic ? 'required' : 'nullable';
-
-        return array_merge($rules, $this->scenarioLogic ? [
-            'nested_id' => [$required, 'int'],
-            'command'   => ['nullable', 'string']
-        ] : [
-            'command'   => [$required, 'string', Rule::enum(Command::class)],
-            'nested_id' => ['nullable', 'int']
-        ]);
     }
 }

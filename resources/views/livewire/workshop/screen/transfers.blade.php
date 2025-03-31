@@ -61,14 +61,14 @@
                 <flux:error name="state.description"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <flux:label>Effects ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <flux:label>Effects After ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.afterString" class="w-full" />
@@ -135,7 +135,7 @@
                             {!! e($transfer['description']) !!}
                         </pre>
                     </div>
-                    <x-setup-view :before-string="$transfer['beforeString']" :after-string="$transfer['afterString']"/>
+                    <x-effects-view :before-string="$transfer['beforeString']" :after-string="$transfer['afterString']"/>
                 </div>
             </div>
         @endforeach

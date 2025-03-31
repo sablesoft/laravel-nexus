@@ -6,15 +6,15 @@ use App\Logic\Process;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Facade for SetupRunner service.
+ * Facade for EffectsRunner service.
  *
  * @method static void run(?array $config, Process $process)
- * @see \App\Logic\Runners\SetupRunner::run()
+ * @see \App\Logic\Runners\EffectsRunner::run()
  */
-class SetupRunner extends Facade
+class EffectsRunner extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'setup-runner';
+        return 'effects-runner';
     }
 }

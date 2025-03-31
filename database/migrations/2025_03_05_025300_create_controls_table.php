@@ -18,7 +18,6 @@ return new class extends Migration
                 ->constrained('app.screens')->cascadeOnDelete();
             $table->foreignId('scenario_id')->nullable()
                 ->constrained('app.scenarios')->cascadeOnDelete();
-            $table->string('command')->nullable(); // todo enum - system commands
             $table->enum('type', ControlType::values())->nullable(false)
                 ->default(ControlType::getDefault()->value)->index();
             $table->string('title')->nullable(false);
@@ -27,7 +26,7 @@ return new class extends Migration
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 
-            $table->unique(['screen_id', 'scenario_id', 'command']);
+            $table->unique(['screen_id', 'scenario_id']);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

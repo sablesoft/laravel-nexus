@@ -2,7 +2,7 @@
 
 namespace App\Logic\Contracts;
 
-interface SetupContract
+interface HasEffectsContract
 {
     public function getBefore(): ?array;
     public function getAfter(): ?array;

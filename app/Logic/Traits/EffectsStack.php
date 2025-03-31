@@ -2,39 +2,39 @@
 
 namespace App\Logic\Traits;
 
-use App\Logic\Contracts\SetupContract;
+use App\Logic\Contracts\HasEffectsContract;
 use Carbon\Carbon;
 
-trait SetupStack
+trait EffectsStack
 {
-    protected array $setupStack = [];
+    protected array $effectsStack = [];
     protected int $maxStack = 50;
 
     protected ?float $setupStarted = null;
 
-    public function startSetup(SetupContract $setup): void
+    public function startEffects(HasEffectsContract $effects): void
     {
         $this->setupStarted = microtime(true);
-        $code = $setup->getCode();
-        if (in_array($code, $this->setupStack)) {
-            throw new \RuntimeException("Recursive setup detected: $code, stack: ". implode(', ', $this->setupStack));
+        $code = $effects->getCode();
+        if (in_array($code, $this->effectsStack)) {
+            throw new \RuntimeException("Recursive effects detected: $code, stack: ". implode(', ', $this->effectsStack));
         }
-        logger()->debug('[Process][Setup][Start] '. $setup->getCode() .' L'. count($this->setupStack), [
+        logger()->debug('[Process][Effects][Start] '. $effects->getCode() .' L'. count($this->effectsStack), [
             'data' => $this->data,
             'started' => $this->formatMicrotime($this->setupStarted),
         ]);
-        $this->setupStack[] = $code;
+        $this->effectsStack[] = $code;
 
         if ($this->isOverflow()) {
             throw new \RuntimeException("Setup stack overflow");
         }
     }
 
-    public function finishSetup(SetupContract $setup): void
+    public function finishEffects(HasEffectsContract $effects): void
     {
         $ended = microtime(true);
-        array_pop($this->setupStack);
-        logger()->debug('[Process][Setup][Finish] '. $setup->getCode() .' L'. count($this->setupStack), [
+        array_pop($this->effectsStack);
+        logger()->debug('[Process][Effects][Finish] '. $effects->getCode() .' L'. count($this->effectsStack), [
             'data' => $this->data,
             'started' => $this->formatMicrotime($this->setupStarted),
             'ended' => $this->formatMicrotime($ended),
@@ -65,7 +65,7 @@ trait SetupStack
 
     protected function isOverflow(): bool
     {
-        return count($this->setupStack) > $this->maxStack;
+        return count($this->effectsStack) > $this->maxStack;
     }
 
     protected function formatMicrotime(float $timestamp, string $tz = 'UTC'): string

@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
  * @property null|array $after
  * @property null|string $afterString
  */
-trait HasSetup
+trait HasEffects
 {
     public function getBefore(): ?array
     {
@@ -31,12 +31,12 @@ trait HasSetup
 
     public function getBeforeStringAttribute(): ?string
     {
-        return $this->getSetupString('before');
+        return $this->getEffectsString('before');
     }
 
     public function getAfterStringAttribute(): ?string
     {
-        return $this->getSetupString('after');
+        return $this->getEffectsString('after');
     }
 
     /**
@@ -44,7 +44,7 @@ trait HasSetup
      */
     public function setBeforeStringAttribute(?string $value): void
     {
-        $this->setSetupStringAttribute('before', $value);
+        $this->setEffectsStringAttribute('before', $value);
     }
 
     /**
@@ -52,13 +52,13 @@ trait HasSetup
      */
     public function setAfterStringAttribute(?string $value): void
     {
-        $this->setSetupStringAttribute('after', $value);
+        $this->setEffectsStringAttribute('after', $value);
     }
 
     /**
      * @throws JsonException
      */
-    protected function setSetupStringAttribute(string $field, ?string $value): void
+    protected function setEffectsStringAttribute(string $field, ?string $value): void
     {
         if (is_null($value)) {
             $this->$field = null;
@@ -80,7 +80,7 @@ trait HasSetup
         }
     }
 
-    protected function getSetupString(string $field): ?string
+    protected function getEffectsString(string $field): ?string
     {
         $value = $this->$field;
 

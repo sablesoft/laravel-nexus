@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('app.steps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('scenario_id')->nullable(false)
+            $table->foreignId('parent_id')->nullable(false)
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->unsignedSmallInteger('number')->nullable(false)->index();
-            $table->foreignId('nested_id')->nullable()
+            $table->foreignId('scenario_id')->nullable()
                 ->constrained('app.scenarios')->cascadeOnDelete();
-            $table->string('command')->nullable(); // todo enum - system commands
             $table->string('description')->nullable();
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 
-            $table->unique(['scenario_id', 'number']);
+            $table->unique(['parent_id', 'number']);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

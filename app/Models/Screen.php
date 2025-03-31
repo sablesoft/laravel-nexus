@@ -8,7 +8,7 @@ use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
-use App\Models\Traits\HasSetup;
+use App\Models\Traits\HasEffects;
 use Carbon\Carbon;
 use Database\Factories\ScreenFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -57,7 +57,7 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
 class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasSetup, HasDslAdapter;
+    use HasOwner, HasFactory, HasImage, HasEffects, HasDslAdapter;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 

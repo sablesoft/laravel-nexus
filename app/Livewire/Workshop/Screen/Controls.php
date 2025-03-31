@@ -3,7 +3,6 @@ namespace App\Livewire\Workshop\Screen;
 
 use App\Livewire\Workshop\HasCodeMirror;
 use App\Models\Control;
-use App\Models\Enums\Command;
 use App\Models\Enums\ControlType;
 use App\Models\Scenario;
 use App\Models\Services\StoreService;
@@ -28,7 +27,6 @@ class Controls extends Component
     #[Locked]
     public ?int $controlId = null;
     public array $state;
-    public bool $scenarioLogic = false;
     public bool $addLogic = false;
 
     public function mount(int $screenId): void
@@ -49,21 +47,11 @@ class Controls extends Component
         return view('livewire.workshop.screen.controls');
     }
 
-    public function updatedScenarioLogic(): void
-    {
-        if ($this->scenarioLogic) {
-            $this->state['command'] = null;
-        } else {
-            $this->state['scenario_id'] = null;
-        }
-    }
-
     public function updatedAddLogic(): void
     {
         if (!$this->addLogic) {
-            $this->state['command'] = null;
             $this->state['scenario_id'] = null;
-            $this->scenarioLogic = false;
+            $this->state['afterString'] = null;
         }
     }
 
@@ -80,7 +68,6 @@ class Controls extends Component
             $this->state[$field] = null;
         }
         $this->addLogic = false;
-        $this->scenarioLogic = false;
         $this->dispatchCodeMirror();
     }
 
@@ -92,8 +79,7 @@ class Controls extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = $control[$field];
         }
-        $this->addLogic = !empty($control['scenario_id']) || !empty($control['command']);
-        $this->scenarioLogic = !empty($control['scenario_id']);
+        $this->addLogic = !empty($control['scenario_id']);
         $this->dispatchCodeMirror();
         Flux::modal('form-control')->show();
     }
@@ -132,8 +118,6 @@ class Controls extends Component
         return [
             'scenario_id' => $control->scenario_id,
             'scenarioTitle' => $control->scenario?->title,
-            'command' => $control->command?->value,
-            'commandTitle' => $control->command ? ucfirst($control->command->value) : null,
             'type' => $control->type->value,
             'title' => $control->title,
             'tooltip' => $control->tooltip,
@@ -148,22 +132,14 @@ class Controls extends Component
     protected function rules(): array
     {
         $dlsEditor = config('dsl.editor');
-        $rules = [
+        return [
             'type'          => ['required', 'string', Rule::enum(ControlType::class)],
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
             'description'   => ['nullable', 'string'],
             'beforeString'  => ['nullable', $dlsEditor],
-            'afterString'   => ['nullable', $dlsEditor]
+            'afterString'   => ['nullable', $dlsEditor],
+            'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],
         ];
-        $required = $this->addLogic ? 'required' : 'nullable';
-
-        return array_merge($rules, $this->scenarioLogic ? [
-            'scenario_id'   => [$required, 'int'],
-            'command'       => ['nullable', 'string'],
-        ] : [
-            'command'       => [$required, 'string', Rule::enum(Command::class)],
-            'scenario_id'   => ['nullable', 'int']
-        ]);
     }
 }

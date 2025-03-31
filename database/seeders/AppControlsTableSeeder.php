@@ -14,17 +14,16 @@ class AppControlsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.controls')->delete();
-        
+
         \DB::table('app.controls')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 2,
                 'screen_id' => 4,
                 'scenario_id' => 5,
-                'command' => NULL,
                 'type' => 'input',
                 'title' => 'Say',
                 'tooltip' => 'Try to say something...',
@@ -34,12 +33,11 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-03-28 05:54:18',
                 'updated_at' => '2025-03-29 05:23:11',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 1,
                 'screen_id' => 3,
                 'scenario_id' => NULL,
-                'command' => NULL,
                 'type' => 'input',
                 'title' => 'Say',
                 'tooltip' => 'Try to say something...',
@@ -50,7 +48,7 @@ class AppControlsTableSeeder extends Seeder
                 'updated_at' => '2025-03-29 06:03:54',
             ),
         ));
-        
-        
+
+
     }
 }

@@ -58,14 +58,14 @@ class Scenario extends AbstractCrud
                 'callback' => fn(\App\Models\Scenario $scenario) => $scenario->steps()->count()
             ],
             'beforeString' => [
-                'title' => 'Before',
+                'title' => 'Effects',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
             'afterString' => [
-                'title' => 'After',
+                'title' => 'Effects After',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => "nullable|$dslEditor",
@@ -95,7 +95,7 @@ class Scenario extends AbstractCrud
                 }
                 $list = [];
                 foreach ($inSteps as $inStep) {
-                    $list[$inStep->scenario_id] = $inStep->scenario->title;
+                    $list[$inStep->parent_id] = $inStep->parent->title;
                 }
                 return compact('list', 'route');
             },

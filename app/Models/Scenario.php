@@ -6,7 +6,7 @@ use App\Logic\Contracts\LogicContract;
 use App\Logic\Process;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasOwner;
-use App\Models\Traits\HasSetup;
+use App\Models\Traits\HasEffects;
 use Carbon\Carbon;
 use Database\Factories\ScenarioFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Scenario extends Model implements HasOwnerInterface, LogicContract
 {
     /** @use HasFactory<ScenarioFactory> */
-    use HasOwner, HasFactory, HasSetup;
+    use HasOwner, HasFactory, HasEffects;
 
     protected $fillable = [
         'user_id', 'code', 'title', 'description', 'before', 'after',

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasSetup;
+use App\Models\Traits\HasEffects;
 use Carbon\Carbon;
 use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -39,7 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Application extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasFactory, HasImage, HasSetup;
+    use HasOwner, HasFactory, HasImage, HasEffects;
 
     protected $fillable = [
         'user_id', 'title', 'description', 'is_public', 'before', 'after'

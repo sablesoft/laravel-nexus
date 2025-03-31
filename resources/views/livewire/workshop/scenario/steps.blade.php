@@ -16,58 +16,37 @@
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
+
+            {{-- Effects --}}
+            <flux:field class="mb-3">
+                <flux:label>Effects ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               wire:model.defer="state.beforeString" class="w-full" />
+                <flux:error name="state.beforeString"/>
+            </flux:field>
+
+            {{-- Logic --}}
             <flux:field>
                 <div class="flex gap-2">
                     <flux:switch label="Add Logic" class="cursor-pointer" wire:model.live="addLogic"/>
                 </div>
             </flux:field>
             @if($addLogic)
-                <flux:field>
-                    <div class="flex gap-2">
-                        <ui-label
-                            class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ $scenarioLogic ? '' : 'font-black' }}">
-                            Command
-                        </ui-label>
-                        <flux:switch class="cursor-pointer" wire:model.live="scenarioLogic"/>
-                        <ui-label
-                            class="cursor-pointer text-sm text-zinc-800 dark:text-white {{ !$scenarioLogic ? '' : 'font-black' }}">
-                            Scenario
-                        </ui-label>
-                    </div>
-                </flux:field>
                 <flux:field class="mb-3">
-                    @if($scenarioLogic)
-                        <x-searchable-select field="nested_id" :options="$scenarios"/>
-                        <flux:error name="state.nested_id"/>
-                    @else
-                        <flux:select wire:model="state.command" class="cursor-pointer">
-                            <flux:select.option selected>Not selected</flux:select.option>
-                            @foreach (\App\Models\Enums\Command::options() as $value => $title)
-                                <flux:select.option value="{{ $value }}">
-                                    {{ $title }}
-                                </flux:select.option>
-                            @endforeach
-                        </flux:select>
-                        <flux:error name="state.command"/>
-                    @endif
+                    <x-searchable-select field="scenario_id" :options="$scenarios"/>
+                    <flux:error name="state.scenario_id"/>
+                </flux:field>
+
+                {{-- Effects After --}}
+                <flux:field class="mb-3">
+                    <flux:label>Effects After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                    <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
+                                   :lang="config('dsl.editor', 'yaml')"
+                                   wire:model.defer="state.afterString" class="w-full" />
+                    <flux:error name="state.afterString"/>
                 </flux:field>
             @endif
-
-            {{-- Before & After --}}
-            <flux:field class="mb-3">
-                <flux:label>Before ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
-                               :lang="config('dsl.editor', 'yaml')"
-                               wire:model.defer="state.beforeString" class="w-full" />
-                <flux:error name="state.beforeString"/>
-            </flux:field>
-            <flux:field class="mb-3">
-                <flux:label>After ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
-                               :lang="config('dsl.editor', 'yaml')"
-                               wire:model.defer="state.afterString" class="w-full" />
-                <flux:error name="state.afterString"/>
-            </flux:field>
 
             <div class="flex gap-2">
                 <flux:spacer/>
@@ -96,12 +75,8 @@
 
         @foreach($steps as $id => $step)
         @php
-            $isScenario = !empty($step['nested_id']);
-            $isCommand = !empty($step['command']);
-            $logicTitle = ($isCommand || $isScenario) ? null : 'None';
-            $logicTitle = $logicTitle ?? ($isScenario
-                ? 'Scenario: ' . ($step['nestedTitle'] ?? '—')
-                : 'Command: ' . ($step['commandTitle'] ?? '—'));
+            $hasScenario = !empty($step['scenario_id']);
+            $logicTitle = $hasScenario ? $step['scenarioTitle'] : 'None';
         @endphp
 
         <div x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
@@ -114,9 +89,9 @@
 
                 {{-- Column 2: Logic --}}
                 <span class="text-sm text-zinc-600 dark:text-zinc-300">
-                    @if($isScenario)
+                    @if($hasScenario)
                     <a class="underline" wire:click.stop wire:navigate
-                       href="{{ route('workshop.scenarios', ['action' => 'view', 'id' => $step['nested_id']]) }}">
+                       href="{{ route('workshop.scenarios', ['action' => 'view', 'id' => $step['scenario_id']]) }}">
                         {{ $logicTitle }}
                     </a>
                     @else
@@ -147,7 +122,7 @@
                     <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
                     <p>{!! e($step['description']) !!}</p>
                 </div>
-                <x-setup-view :before-string="$step['beforeString']" :after-string="$step['afterString']"/>
+                <x-effects-view :before-string="$step['beforeString']" :after-string="$step['afterString']"/>
             </div>
         </div>
 

@@ -7,7 +7,7 @@ use App\Logic\Process;
 use RuntimeException;
 use Throwable;
 
-class SetupRunner
+class EffectsRunner
 {
     const STRING_PATTERN = '||';
 
@@ -84,7 +84,7 @@ class SetupRunner
                     unset($pending[$key]);
                     $progress = true;
                 } catch (Throwable $e) {
-                    logger()->warning('[Logic][SetupRunner] Evaluate error', [
+                    logger()->warning('[Logic][EffectsRunner] Evaluate error', [
                         'error' => $e,
                         'process' => $process->pack(),
                         'pending' => $pending

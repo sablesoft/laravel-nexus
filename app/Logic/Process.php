@@ -4,9 +4,9 @@ namespace App\Logic;
 
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
-use App\Logic\Contracts\SetupContract;
+use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
-use App\Logic\Traits\SetupStack;
+use App\Logic\Traits\EffectsStack;
 use App\Logic\Traits\Timing;
 use App\Models\Chat;
 use App\Models\Member;
@@ -28,12 +28,12 @@ use InvalidArgumentException;
  * - LogicJob — serializes and restores Process for background logic execution
  * - LogicRunner — manages full execution lifecycle using Process as the persistent logic context
  * - NodeRunner — executes individual logic nodes using Process
- * - SetupRunner — applies before/after config blocks using context from Process
+ * - EffectsRunner — applies before/after config blocks using context from Process
  * - Livewire component Chat\Play — creates Process instances for user interactions (action, input, transfer)
  */
 class Process
 {
-    use Timing, SetupStack;
+    use Timing, EffectsStack;
 
     protected array $data = []; // Custom data related to the current logic execution
     public bool $inQueue = false; // Whether the process is currently running via queue
@@ -178,14 +178,14 @@ class Process
 
     /**
      * Wraps the execution of a logic block (before/after) in a timer and logger.
-     * Used by NodeRunner and LogicRunner when executing SetupContract logic blocks.
+     * Used by NodeRunner and LogicRunner when executing HasEffectsContract logic blocks.
      */
-    public function handle(string $block, SetupContract $setup, callable $callback): mixed
+    public function handle(string $block, HasEffectsContract $effects, callable $callback): mixed
     {
-        $code = $setup->getCode() . '::' . $block;
+        $code = $effects->getCode() . '::' . $block;
         $data = match ($block) {
-            'before' => $setup->getBefore(),
-            'after'  => $setup->getAfter(),
+            'before' => $effects->getBefore(),
+            'after'  => $effects->getAfter(),
             default  => null
         };
 

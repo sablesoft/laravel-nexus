@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Logic\Dsl\Dsl;
 use App\Logic\Runners\LogicRunner;
 use App\Logic\Runners\NodeRunner;
-use App\Logic\Runners\SetupRunner;
+use App\Logic\Runners\EffectsRunner;
 use Illuminate\Support\ServiceProvider;
 
 class LogicProvider extends ServiceProvider
@@ -24,8 +24,8 @@ class LogicProvider extends ServiceProvider
         $this->app->singleton('node-runner', function ($app) {
             return new NodeRunner();
         });
-        $this->app->singleton('setup-runner', function ($app) {
-            return new SetupRunner();
+        $this->app->singleton('effects-runner', function ($app) {
+            return new EffectsRunner();
         });
     }
 
