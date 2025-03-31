@@ -4,7 +4,7 @@ namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 
-class SetEffectDefinition implements EffectDefinitionContract
+class SetDefinition implements EffectDefinitionContract
 {
     public const KEY = 'set';
 
@@ -30,5 +30,15 @@ class SetEffectDefinition implements EffectDefinitionContract
                 ['set' => ['flag' => true]],
             ],
         ];
+    }
+
+    public static function rules(): array
+    {
+        return ['*' => 'required|nullable'];
+    }
+
+    public static function nestedEffects(array $params): array
+    {
+        return [];
     }
 }

@@ -6,7 +6,7 @@ use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Process;
 
-class SetEffectHandler implements EffectHandlerContract
+class SetHandler implements EffectHandlerContract
 {
     public function __construct(protected array $vars) {}
 

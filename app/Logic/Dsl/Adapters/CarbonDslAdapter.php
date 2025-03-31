@@ -13,6 +13,16 @@ readonly class CarbonDslAdapter implements DslAdapterContract
         protected CarbonInterface $carbon
     ) {}
 
+    public function id(): ?int
+    {
+        return null;
+    }
+
+    public function code(): string
+    {
+        return 'carbon';
+    }
+
     public function __get(string $name): mixed
     {
         return match ($name) {
@@ -62,10 +72,5 @@ readonly class CarbonDslAdapter implements DslAdapterContract
     public function raw(): CarbonInterface
     {
         return $this->carbon;
-    }
-
-    public function id(): ?int
-    {
-        return null;
     }
 }

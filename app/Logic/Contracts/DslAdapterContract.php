@@ -7,4 +7,6 @@ interface DslAdapterContract
     public function __get(string $name): mixed;
 
     public function id(): ?int;
+
+    public function code(): string;
 }

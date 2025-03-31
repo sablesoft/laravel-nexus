@@ -3,6 +3,7 @@
 namespace App\Logic\Dsl\Adapters;
 
 use App\Logic\Contracts\DslAdapterContract;
+use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Process;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,23 @@ class ModelDslAdapter implements DslAdapterContract
         protected Process $process, // Execution context, allowing all adapters to interact with each other and with data via this mutual process
         protected Model $model // The wrapped Eloquent model (must be present)
     ) {}
+
+    /**
+     * Returns the model's ID — used for serializing Process state
+     */
+    public function id(): ?int
+    {
+        return $this->model->getKey();
+    }
+
+    public function code(): string
+    {
+        if ($this->model instanceof HasEffectsContract) {
+            return $this->model->getCode();
+        }
+
+        return strtolower(class_basename($this->model::class));
+    }
 
     /**
      * Magic accessor for adapter fields in DSL expressions, e.g., member.name
@@ -107,13 +125,5 @@ class ModelDslAdapter implements DslAdapterContract
     {
         $className = class_basename($this->model);
         logger()->{$level}("[DSL][$className] " . $message, $context);
-    }
-
-    /**
-     * Returns the model's ID — used for serializing Process state
-     */
-    public function id(): ?int
-    {
-        return $this->model->getKey();
     }
 }

@@ -3,12 +3,16 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectHandlerContract;
-use App\Logic\Effect\Definitions\SetEffectDefinition;
-use App\Logic\Effect\Definitions\UnsetEffectDefinition;
-use App\Logic\Effect\Definitions\ValidateEffectDefinition;
-use App\Logic\Effect\Handlers\SetEffectHandler;
-use App\Logic\Effect\Handlers\UnsetEffectHandler;
-use App\Logic\Effect\Handlers\ValidateEffectHandler;
+use App\Logic\Effect\Definitions\IfDefinition;
+use App\Logic\Effect\Definitions\MemoryCreateDefinition;
+use App\Logic\Effect\Definitions\SetDefinition;
+use App\Logic\Effect\Definitions\UnsetDefinition;
+use App\Logic\Effect\Definitions\ValidateDefinition;
+use App\Logic\Effect\Handlers\IfHandler;
+use App\Logic\Effect\Handlers\MemoryCreateHandler;
+use App\Logic\Effect\Handlers\SetHandler;
+use App\Logic\Effect\Handlers\UnsetHandler;
+use App\Logic\Effect\Handlers\ValidateHandler;
 use InvalidArgumentException;
 
 class EffectHandlerRegistry
@@ -36,8 +40,10 @@ class EffectHandlerRegistry
 
     public static function boot(): void
     {
-        EffectHandlerRegistry::register(SetEffectDefinition::KEY, SetEffectHandler::class);
-        EffectHandlerRegistry::register(UnsetEffectDefinition::KEY, UnsetEffectHandler::class);
-        EffectHandlerRegistry::register(ValidateEffectDefinition::KEY, ValidateEffectHandler::class);
+        EffectHandlerRegistry::register(IfDefinition::KEY, IfHandler::class);
+        EffectHandlerRegistry::register(SetDefinition::KEY, SetHandler::class);
+        EffectHandlerRegistry::register(UnsetDefinition::KEY, UnsetHandler::class);
+        EffectHandlerRegistry::register(ValidateDefinition::KEY, ValidateHandler::class);
+        EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);
     }
 }

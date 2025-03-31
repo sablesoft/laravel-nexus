@@ -3,9 +3,11 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Effect\Definitions\SetEffectDefinition;
-use App\Logic\Effect\Definitions\UnsetEffectDefinition;
-use App\Logic\Effect\Definitions\ValidateEffectDefinition;
+use App\Logic\Effect\Definitions\IfDefinition;
+use App\Logic\Effect\Definitions\MemoryCreateDefinition;
+use App\Logic\Effect\Definitions\SetDefinition;
+use App\Logic\Effect\Definitions\UnsetDefinition;
+use App\Logic\Effect\Definitions\ValidateDefinition;
 use InvalidArgumentException;
 
 class EffectDefinitionRegistry
@@ -41,9 +43,11 @@ class EffectDefinitionRegistry
 
     public static function boot(): void
     {
-        static::register(SetEffectDefinition::KEY, new SetEffectDefinition());
-        static::register(UnsetEffectDefinition::KEY, new UnsetEffectDefinition());
-        static::register(ValidateEffectDefinition::KEY, new ValidateEffectDefinition());
+        static::register(IfDefinition::KEY, new IfDefinition());
+        static::register(SetDefinition::KEY, new SetDefinition());
+        static::register(UnsetDefinition::KEY, new UnsetDefinition());
+        static::register(ValidateDefinition::KEY, new ValidateDefinition());
+        static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
     }
 
     public static function toSchema(): array

@@ -4,7 +4,7 @@ namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 
-class UnsetEffectDefinition implements EffectDefinitionContract
+class UnsetDefinition implements EffectDefinitionContract
 {
     public const KEY = 'unset';
 
@@ -27,5 +27,15 @@ class UnsetEffectDefinition implements EffectDefinitionContract
                 ['unset' => ['draft', 'temp', 'previous']],
             ],
         ];
+    }
+
+    public static function rules(): array
+    {
+        return ['*' => 'required|string'];
+    }
+
+    public static function nestedEffects(array $params): array
+    {
+        return [];
     }
 }

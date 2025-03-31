@@ -5,7 +5,7 @@ namespace App\Logic\Effect\Handlers;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Process;
 
-class UnsetEffectHandler implements EffectHandlerContract
+class UnsetHandler implements EffectHandlerContract
 {
     /**
      * @param array<int, string> $keys

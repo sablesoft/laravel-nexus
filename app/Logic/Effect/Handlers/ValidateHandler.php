@@ -7,7 +7,7 @@ use App\logic\Process;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class ValidateEffectHandler implements EffectHandlerContract
+class ValidateHandler implements EffectHandlerContract
 {
     /**
      * @param array<string, mixed> $rules

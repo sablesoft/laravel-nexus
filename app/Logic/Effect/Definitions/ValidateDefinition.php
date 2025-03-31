@@ -4,7 +4,7 @@ namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 
-class ValidateEffectDefinition implements EffectDefinitionContract
+class ValidateDefinition implements EffectDefinitionContract
 {
     public const KEY = 'validate';
 
@@ -29,5 +29,15 @@ class ValidateEffectDefinition implements EffectDefinitionContract
                 ['validate' => ['email' => 'required|email', 'age' => 'integer|min:18']],
             ],
         ];
+    }
+
+    public static function rules(): array
+    {
+        return ['*' => 'required|string'];
+    }
+
+    public static function nestedEffects(array $params): array
+    {
+        return [];
     }
 }
