@@ -55,8 +55,8 @@ class IfDefinition implements EffectDefinitionContract
         return [
             'condition' => 'required|string',
             'then' => 'required|array',
-            'then.*' => 'array',
-            'else' => 'sometimes|array',
+            'then.*' => 'array|min:1',
+            'else' => 'sometimes|array|min:1',
             'else.*' => 'array',
         ];
     }

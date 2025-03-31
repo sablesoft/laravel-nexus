@@ -54,13 +54,13 @@ class MemoryCreateDefinition implements EffectDefinitionContract
     {
         return [
             'type' => 'sometimes|string',
-            'data' => 'required|array',
+            'data' => 'required|array|min:1',
             'data.author_id' => 'sometimes|nullable|integer|exists:members,id',
             'data.member_id' => 'sometimes|nullable|integer|exists:members,id',
             'data.image_id' => 'sometimes|nullable|integer|exists:images,id',
             'data.title' => 'sometimes|nullable|string|max:300',
             'data.content' => 'sometimes|nullable|string|max:2000',
-            'data.meta' => 'sometimes|nullable|array',
+            'data.meta' => 'sometimes|nullable|array|min:1',
         ];
     }
 

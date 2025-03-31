@@ -31,7 +31,10 @@ class UnsetDefinition implements EffectDefinitionContract
 
     public static function rules(): array
     {
-        return ['*' => 'required|string'];
+        return [
+            'value' => 'required|array|min:1',
+            'value.*' => 'string',
+        ];
     }
 
     public static function nestedEffects(array $params): array

@@ -46,11 +46,14 @@ class EffectValidator
             return;
         }
 
-        $flat = is_array($params) ? Arr::dot($params) : ['value' => $params];
+        $flat = is_array($params)
+            ? (Arr::isList($params) ? ['value' => $params] : $params)
+            : ['value' => $params];
 
         try {
             validator($flat, $rules)->validate();
         } catch (\Throwable $e) {
+//            dd(compact('params', 'flat', 'rules'), $e);
             throw new InvalidArgumentException("Validation failed in [$keyPath]: " . $e->getMessage(), 0, $e);
         }
     }
