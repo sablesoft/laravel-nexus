@@ -30,7 +30,7 @@ class ChatRefreshDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'value' => ['sometimes', new StringOrArrayRule([
+            'value' => ['sometimes', 'nullable', new StringOrArrayRule([
                 'value' => 'array|min:1',
                 'value.*' => 'string'
             ])],
