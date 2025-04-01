@@ -1,26 +1,24 @@
 @props([
-    'channel' => 'users',
-    'events' => [],
+    'channels' => ['users' => []],
 ])
 @script
 <!--suppress JSUnresolvedReference -->
 <script>
-    let initPresence = function (channel) {
+    let initPresence = function (channel, events) {
         Debug('echo-presence','init',channel);
         let presenceChannel = Echo.join(channel);
             presenceChannel.here((users) => {
                 Debug('echo-presence','here',{channel, users});
-                $wire.dispatchSelf('usersHere', {users});
+                $wire.dispatchSelf('usersHere', {channel, users});
             }).joining((user) => {
                 Debug('echo-presence','joining',{channel, userId: user.id});
-                $wire.dispatchSelf('userJoining', {id: user.id});
+                $wire.dispatchSelf('userJoining', {channel, id: user.id});
             }).leaving((user) => {
                 Debug('echo-presence','leaving',{channel, userId: user.id});
-                $wire.dispatchSelf('userLeaving', {id: user.id});
+                $wire.dispatchSelf('userLeaving', {channel, id: user.id});
             }).error((error) => {
                 console.error(error);
             });
-        let events = @json($events);
         Object.entries(events).forEach(([event, handler]) => {
             Debug('echo-presence','listen',channel +': '+ event +' => '+  handler);
             presenceChannel.listen(`.${event}`, (e) => {
@@ -31,13 +29,23 @@
             });
         });
     }
-    let navigate = function(channel) {
-        Debug('echo-presence','navigate',`Leave ${channel}`);
-        Echo.leave(channel);
+    let navigate = function(channels) {
+        Debug('echo-presence','navigate', 'Leave', channels);
+        Object.entries(channels).forEach(([channel, events]) => {
+            Echo.leave(channel);
+        });
     }
-    document.addEventListener("livewire:navigate", function () {
-        navigate('{{ $channel }}');
+    document.addEventListener('swap-presence', function (e) {
+        Echo.leave(e.detail.fromChannel);
+        initPresence(e.detail.toChannel, e.detail.events);
     });
-    initPresence('{{ $channel }}');
+
+    let channels = @json($channels);
+    document.addEventListener('livewire:navigate', function () {
+        navigate(channels);
+    });
+    Object.entries(channels).forEach(([channel, events]) => {
+        initPresence(channel, events);
+    });
 </script>
 @endscript

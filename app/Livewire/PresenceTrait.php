@@ -18,26 +18,26 @@ trait PresenceTrait
         ];
     }
 
-    public function here(array $users): void
+    public function here(string $channel, array $users): void
     {
-        $this->userIds = array_column($users, 'id');
-        $this->handleHere();
+        $this->userIds[$channel] = array_column($users, 'id');
+        $this->handleHere($channel);
     }
 
-    public function leaving(int $id): void
+    public function leaving(string $channel, int $id): void
     {
-        $this->userIds = array_values(array_diff($this->userIds, [$id]));
-        $this->handleLeaving($id);
+        $this->userIds[$channel] = array_values(array_diff($this->userIds[$channel], [$id]));
+        $this->handleLeaving($channel, $id);
     }
 
-    public function joining(int $id): void
+    public function joining(string $channel, int $id): void
     {
-        $this->userIds[] = $id;
-        $this->userIds = array_unique($this->userIds);
-        $this->handleJoining($id);
+        $this->userIds[$channel][] = $id;
+        $this->userIds[$channel] = array_unique($this->userIds[$channel]);
+        $this->handleJoining($channel, $id);
     }
 
-    protected function handleHere(): void {}
-    protected function handleJoining(int $id): void {}
-    protected function handleLeaving(int $id): void {}
+    protected function handleHere(string $channel): void {}
+    protected function handleJoining(string $channel, int $id): void {}
+    protected function handleLeaving(string $channel, int $id): void {}
 }

@@ -20,6 +20,20 @@ Broadcast::channel('chats.play.{chatId}', function(User $user, int $chatId) {
     ] : false;
 });
 
+Broadcast::channel('chats.play.{chatId}.{screenId}', function(User $user, int $chatId, int $screenId) {
+    $query = Member::where('user_id', $user->id)
+        ->where('chat_id', $chatId)
+        ->where('is_confirmed', true);
+    /** @var null|Member $member */
+    $member = $query->first();
+
+// todo - use stored member screen
+
+    return ($member) ? [
+        'id' => $member->user_id
+    ] : false;
+});
+
 Broadcast::channel('chats.view.{chatId}', function(User $user, int $chatId) {
     return [
         'id' => $user->id

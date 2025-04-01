@@ -101,7 +101,28 @@ class Play extends Component
         ];
     }
 
-    #[On('refresh.screen')]
+    public function render(): mixed
+    {
+        return view('livewire.chat.play', [
+            'presence' => [
+                $this->chatChannel() => ['refresh.chat' => 'refresh'],
+                $this->screenChannel() => ['refresh.chat' => 'refresh'],
+            ]
+        ])
+            ->title('Chat Play: ' . $this->chat->title);
+    }
+
+    public function chatChannel(): string
+    {
+        return 'chats.play.'. $this->chat->id;
+    }
+
+    public function screenChannel(): string
+    {
+        return 'chats.play.'. $this->chat->id .'.'. $this->screen->id;
+    }
+
+    #[On('refresh.chat')]
     public function refresh(): void
     {
         $this->chat->load('memories.member');
@@ -128,10 +149,10 @@ class Play extends Component
     protected function initMembers(): void
     {
         $this->offlineMembers = $this->chat->takenSeats->filter(
-            fn($member) => !in_array($member->user_id, $this->userIds)
+            fn($member) => !in_array($member->user_id, $this->userIds[$this->chatChannel()] ?? [])
         );
         $this->onlineMembers = $this->chat->takenSeats->filter(
-            fn($member) => in_array($member->user_id, $this->userIds)
+            fn($member) => in_array($member->user_id,$this->userIds[$this->chatChannel()] ?? [])
         );
     }
 
@@ -259,13 +280,7 @@ class Play extends Component
         $this->activeInput = $this->inputs[$controlId];
     }
 
-    public function render(): mixed
-    {
-        return view('livewire.chat.play')
-            ->title('Chat Play: ' . $this->chat->title);
-    }
-
-    protected function handleHere(): void
+    protected function handleHere(string $channel): void
     {
         $this->initMembers();
 
@@ -277,12 +292,12 @@ class Play extends Component
         }
     }
 
-    protected function handleJoining(int $id): void
+    protected function handleJoining(string $channel, int $id): void
     {
         $this->initMembers();
     }
 
-    protected function handleLeaving(int $id): void
+    protected function handleLeaving(string $channel, int $id): void
     {
         $this->initMembers();
     }

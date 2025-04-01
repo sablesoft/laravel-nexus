@@ -18,6 +18,13 @@
                         const {component, message, context = null} = notification.debug;
                         Debug(component, message, context);
                     }
+                }).listen('swap', (e) => {
+                    const { swapName, fromChannel, toChannel, events } = e.detail;
+                    Debug('notification', 'Swap', { swapName, fromChannel, toChannel, events });
+                    const swapEvent = new CustomEvent(swapName, {
+                        detail: {fromChannel, toChannel, events : events ?? []}
+                    });
+                    window.dispatchEvent(swapEvent);
                 });
             Debug('notification', 'init');
         } else {

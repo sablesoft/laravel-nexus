@@ -155,5 +155,5 @@
         </div>
     </flux:modal>
 
-    <x-echo-presence channel="chats.view.{{ $chat->id }}"/>
+    <x-echo-presence :channels="$presence"/>
 </div>

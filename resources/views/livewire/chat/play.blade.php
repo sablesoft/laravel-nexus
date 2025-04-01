@@ -169,5 +169,5 @@
         @endif
     </footer>
 
-    <x-echo-presence channel="chats.play.{{ $chat->id }}"/>
+    <x-echo-presence :channels="$presence"/>
 </div>

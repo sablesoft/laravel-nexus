@@ -42,7 +42,13 @@ class View extends Component
     {
         return view('livewire.chat.view', [
             'chat' => $this->chat,
+            'presence' => [$this->chatViewChannel() => []]
         ])->title('Chat View: ' . $this->chat->title);
+    }
+
+    protected function chatViewChannel(): string
+    {
+        return 'chats.view.'. $this->chat->id;
     }
 
     public function close(): void
@@ -295,7 +301,7 @@ class View extends Component
             $handledIds[] = $this->chat->user_id;
         }
         // handle remain presence:
-        $remainIds = array_diff($this->userIds, array_unique($handledIds));
+        $remainIds = array_diff($this->userIds[$this->chatViewChannel()] ?? [], array_unique($handledIds));
         if ($remainIds) {
             $instance = new ChatUpdated();
             $users = User::whereIn('id', $remainIds)->get();
