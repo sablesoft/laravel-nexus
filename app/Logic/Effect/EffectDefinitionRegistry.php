@@ -11,13 +11,30 @@ use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
 use InvalidArgumentException;
 
+/**
+ * Central registry for all effect definitions used within the DSL system.
+ * Each definition is a class that describes the structure, schema, and
+ * validation logic of a particular effect. This registry provides access
+ * to those definitions by their DSL keys and ensures they are available
+ * to validators, compilers, and UI helpers.
+ *
+ * Environment:
+ * - Definitions are registered during system boot via the `boot()` method.
+ * - Used by `EffectValidator` to validate effect blocks statically.
+ * - Consumed by the Codemirror DSL editor to show documentation, autocomplete, and schema hints.
+ * - Sourced by the DSL interpreter and schema generator (`toSchema()`).
+ */
 class EffectDefinitionRegistry
 {
     /**
+     * Registered effect definitions by key.
      * @var array<string, EffectDefinitionContract>
      */
     protected static array $definitions = [];
 
+    /**
+     * Register a new effect definition under the given DSL key.
+     */
     public static function register(string $key, EffectDefinitionContract $definition): void
     {
         static::$definitions[$key] = $definition;
@@ -42,6 +59,11 @@ class EffectDefinitionRegistry
         return static::$definitions[$key];
     }
 
+    /**
+     * Register all core definitions at boot time.
+     *
+     * Called during application initialization to ensure base effects are available.
+     */
     public static function boot(): void
     {
         static::register(IfDefinition::KEY, new IfDefinition());
@@ -52,6 +74,11 @@ class EffectDefinitionRegistry
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
     }
 
+    /**
+     * Export all definitions in a format suitable for schema generation.
+     *
+     * Used by editor and validation tools to retrieve DSL structure.
+     */
     public static function toSchema(): array
     {
         $result = [];

@@ -6,6 +6,19 @@ use App\Logic\Contracts\EffectDefinitionContract;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
+/**
+ * Provides centralized validation for all DSL-defined effects.
+ * Validates both structure and data types using Laravel-style rules,
+ * and recursively checks nested effect blocks (e.g., `if`, `switch`, etc.).
+ *
+ * This is a compile-time utility invoked before scenario execution to ensure
+ * that the DSL content is safe, valid, and semantically correct.
+ *
+ * Environment:
+ * - Consumes effect metadata from `EffectDefinitionRegistry`.
+ * - Validates effect parameters based on `rules()` and `nestedEffects()` of each definition.
+ * - Used in Codemirror editor live checks and backend DSL compilers.
+ */
 class EffectValidator
 {
     /**
@@ -43,6 +56,9 @@ class EffectValidator
         }
     }
 
+    /**
+     * Apply validation rules to the effect parameters.
+     */
     protected static function validateRules(string $keyPath, mixed $params, array $rules): void
     {
         if (empty($rules)) {
@@ -56,6 +72,9 @@ class EffectValidator
         }
     }
 
+    /**
+     * Recursively validate nested effect blocks, if defined.
+     */
     protected static function validateNested(EffectDefinitionContract $definition, array $params, string $parentPath): void
     {
         $nested = $definition::nestedEffects($params);

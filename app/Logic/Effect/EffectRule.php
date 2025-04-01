@@ -6,8 +6,21 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Custom Laravel validation rule that parses and validates a raw DSL string
+ * (YAML or JSON) as a list of effects. Ensures that the content is syntactically
+ * and semantically valid before storing or executing it.
+ *
+ * Environment:
+ * - Used in request/form validation when editing effect blocks (e.g., in controls or steps).
+ * - Relies on `EffectValidator` for recursive structure checks.
+ * - Supports both YAML and JSON formats for flexibility in input.
+ */
 class EffectRule implements ValidationRule
 {
+    /**
+     * Language format of the input string: "yaml" or "json"
+     */
     protected string $lang;
 
     public function __construct(string $lang = 'yaml')
@@ -15,6 +28,9 @@ class EffectRule implements ValidationRule
         $this->lang = $lang;
     }
 
+    /**
+     * Validate the attribute as a stringified list of effects.
+     */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!is_string($value)) {

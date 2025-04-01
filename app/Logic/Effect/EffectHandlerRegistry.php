@@ -17,6 +17,18 @@ use App\Logic\Effect\Handlers\UnsetHandler;
 use App\Logic\Effect\Handlers\ValidateHandler;
 use InvalidArgumentException;
 
+/**
+ * Central registry that maps DSL effect keys to their corresponding handler classes.
+ * Used at runtime to resolve effect instances based on raw DSL input.
+ *
+ * Each handler implements `EffectHandlerContract` and contains logic
+ * to execute the effect in a given `Process` context.
+ *
+ * Environment:
+ * - Populated at boot via `boot()` to register all core handlers.
+ * - Used by `EffectRunner` to resolve and run effect handlers dynamically.
+ * - DSL key-to-handler mapping mirrors the one in `EffectDefinitionRegistry`.
+ */
 class EffectHandlerRegistry
 {
     protected static array $map = [];
@@ -26,6 +38,9 @@ class EffectHandlerRegistry
         self::$map[$key] = $class;
     }
 
+    /**
+     * Resolve a handler instance from raw DSL data.
+     */
     public static function resolve(array $raw): EffectHandlerContract
     {
         $key = array_key_first($raw);
@@ -40,6 +55,9 @@ class EffectHandlerRegistry
         return new $class(is_array($data) ? $data : [$data]);
     }
 
+    /**
+     * Register all core handlers at boot time.
+     */
     public static function boot(): void
     {
         EffectHandlerRegistry::register(IfDefinition::KEY, IfHandler::class);

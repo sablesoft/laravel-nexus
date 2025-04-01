@@ -4,15 +4,34 @@ namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 
+/**
+ * Defines the `if` effect, which provides conditional branching within DSL logic.
+ * Executes a block of `then` effects if the given boolean condition evaluates to true;
+ * otherwise, an optional `else` block is executed.
+ *
+ * This effect enables dynamic and expressive flows within scenarios and logic steps.
+ * Supports recursive validation and nesting of inner effects through `nestedEffects()`.
+ *
+ * Environment:
+ * - Registered in `EffectDefinitionRegistry` under the key `"if"`.
+ * - Executed by `IfHandler`, which interprets the condition and dispatches inner blocks.
+ * - Often used at step or control level to control execution paths.
+ */
 class IfDefinition implements EffectDefinitionContract
 {
     public const KEY = 'if';
 
+    /**
+     * Returns the DSL key that identifies this effect.
+     */
     public static function key(): string
     {
         return self::KEY;
     }
 
+    /**
+     * Provides schema metadata for validation, autocomplete, and documentation.
+     */
     public static function describe(): array
     {
         return [
@@ -50,6 +69,9 @@ class IfDefinition implements EffectDefinitionContract
         ];
     }
 
+    /**
+     * Validation rules for structure and required fields.
+     */
     public static function rules(): array
     {
         return [
@@ -61,6 +83,9 @@ class IfDefinition implements EffectDefinitionContract
         ];
     }
 
+    /**
+     * Return nested effect blocks for recursive validation.
+     */
     public static function nestedEffects(array $params): array
     {
         return [
