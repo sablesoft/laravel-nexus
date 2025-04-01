@@ -26,6 +26,13 @@ return [
 
     'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 30),
 
-    'gpt_model' => env('OPENAI_GPT_MODEL', 'gpt-3.5-turbo'),
-    'image_model' => env('OPENAI_IMAGE_MODEL', 'dall-e-3')
+    'gpt_model' => env('OPENAI_GPT_MODEL', 'gpt-4-turbo'),
+    'image_model' => env('OPENAI_IMAGE_MODEL', 'dall-e-3'),
+    'gpt_models' => [
+        'gpt-4',             // alias for latest GPT-4 with tool support
+        'gpt-4-turbo',       // faster & cheaper GPT-4
+        'gpt-4-0125-preview',// explicit snapshot (tool calls, JSON mode, etc.)
+        'gpt-3.5-turbo',     // fast & cheap, без функции tool calling
+        'gpt-3.5-turbo-0125' // последний снапшот GPT-3.5
+    ]
 ];

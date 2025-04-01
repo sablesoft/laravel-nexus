@@ -3,6 +3,7 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
@@ -72,6 +73,7 @@ class EffectDefinitionRegistry
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
+        static::register(ChatCompletionDefinition::KEY, new ChatCompletionDefinition());
     }
 
     /**
