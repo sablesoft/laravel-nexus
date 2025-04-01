@@ -17,7 +17,6 @@ class MemoryDslAdapter extends ModelDslAdapter
     public function loadByExpr(string $expression): bool
     {
         $query = Dsl::apply(Memory::query(), $expression, $this->process->toContext());
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $query->where('chat_id', $this->process->chat->id);
         // todo - hande collection:
         $this->model = $query->first();
@@ -33,21 +32,6 @@ class MemoryDslAdapter extends ModelDslAdapter
             : $default;
     }
 
-    public function save(): bool
-    {
-        return $this->model?->save();
-    }
-
-    public function create(string $type, array $data): true
-    {
-        $data['type'] = $type;
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        $data['chat_id'] = $this->process->chat->id;
-        $this->model = Memory::create($data);
-
-        return true;
-    }
-
     public function get(string $key): mixed
     {
         return $this->model?->getAttributeValue($key);
@@ -57,10 +41,5 @@ class MemoryDslAdapter extends ModelDslAdapter
     {
         $this->model?->setAttribute($key, $value);
         return true;
-    }
-
-    public function delete(): ?bool
-    {
-        return $this->model?->delete();
     }
 }

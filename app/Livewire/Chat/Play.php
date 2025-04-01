@@ -43,6 +43,11 @@ class Play extends Component
 {
     use PresenceTrait;
 
+    const CHANNELS_PREFIX = 'play';
+
+    #[Locked]
+    public string $channelsPrefix = self::CHANNELS_PREFIX;
+
     /** The current chat instance */
     #[Locked]
     public Chat $chat;
@@ -105,8 +110,8 @@ class Play extends Component
     {
         return view('livewire.chat.play', [
             'presence' => [
-                $this->chatChannel() => ['refresh.chat' => 'refresh'],
-                $this->screenChannel() => ['refresh.chat' => 'refresh'],
+                $this->chatChannel() => ['refresh.play' => 'refresh.play'],
+                $this->screenChannel() => ['refresh.play' => 'refresh.play'],
             ]
         ])
             ->title('Chat Play: ' . $this->chat->title);
@@ -114,15 +119,15 @@ class Play extends Component
 
     public function chatChannel(): string
     {
-        return 'chats.play.'. $this->chat->id;
+        return self::CHANNELS_PREFIX .'.'. $this->chat->id;
     }
 
     public function screenChannel(): string
     {
-        return 'chats.play.'. $this->chat->id .'.'. $this->screen->id;
+        return self::CHANNELS_PREFIX .'.'. $this->chat->id .'.'. $this->screen->id;
     }
 
-    #[On('refresh.chat')]
+    #[On('refresh.play')]
     public function refresh(): void
     {
         $this->chat->load('memories.member');
@@ -202,12 +207,13 @@ class Play extends Component
     protected function getMemories(): array
     {
         $query = Dsl::apply(Memory::query(), $this->screen->query, $this->getProcess()->toContext());
-        return $query->with('member')->where('chat_id', $this->chat->id)->get()
+        return $query->with('author')->where('chat_id', $this->chat->id)->get()
             ->map(fn(Memory $memory) => [
                 'id' => $memory->id,
+                'author_id' => $memory->author_id,
                 'member_id' => $memory->member_id,
-                'user_id' => $memory->member?->user_id,
-                'mask_name' => $memory->member?->maskName,
+                'user_id' => $memory->author?->user_id,
+                'mask_name' => $memory->author?->maskName,
                 'image_id' => $memory->image_id,
                 'title' => $memory->title,
                 'content' => $memory->content,
@@ -230,7 +236,15 @@ class Play extends Component
         $transfer = $this->getTransfer($screenId);
         NodeRunner::run($transfer, $this->getProcess());
         // todo - remove after completing effects feature:
+        $fromChannel = $this->screenChannel();
         $this->initScreen($transfer->screenTo);
+        $toChannel = $this->screenChannel();
+        $this->dispatch(
+            'swap-presence',
+            fromChannel: $fromChannel,
+            toChannel: $toChannel,
+            events: ['refresh.play' => 'refresh.play']
+        );
     }
 
     /**

@@ -102,7 +102,7 @@
 
         @foreach($controls as $id => $control)
             @php
-                $hasScenario = !empty($step['scenario_id']);
+                $hasScenario = !empty($control['scenario_id']);
                 $logicTitle = $hasScenario ? $control['scenarioTitle'] : 'None';
             @endphp
 

@@ -22,8 +22,9 @@
         Object.entries(events).forEach(([event, handler]) => {
             Debug('echo-presence','listen',channel +': '+ event +' => '+  handler);
             presenceChannel.listen(`.${event}`, (e) => {
-                Debug('echo-presence','event',{name: channel +': '+ event, event: e});
+                Debug('echo-presence', 'event', {name: channel +': '+ event, event: e});
                 if (handler && typeof $wire !== 'undefined') {
+                    Debug('echo-presence', 'handle event', handler, e);
                     $wire.dispatch(handler, e);
                 }
             });

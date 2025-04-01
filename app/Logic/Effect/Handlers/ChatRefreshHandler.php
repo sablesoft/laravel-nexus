@@ -2,7 +2,8 @@
 
 namespace App\Logic\Effect\Handlers;
 
-use App\Events\RefreshChat;
+use App\Events\RefreshPlay;
+use App\Livewire\Chat\Play;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Process;
@@ -17,9 +18,9 @@ class ChatRefreshHandler implements EffectHandlerContract
         $codes = !empty($this->params)
             ? ValueResolver::resolve($this->params, $process)
             : null;
-        $base = 'chats.play.'. $process->chat->id();
+        $base = Play::CHANNELS_PREFIX .'.'. $process->chat->id();
         foreach ($this->getChannels($codes, $base) as $channel) {
-            RefreshChat::dispatch($channel);
+            broadcast(new RefreshPlay($channel));
         }
     }
 

@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full max-h-dvh"
      x-data="{ typingUsers: {}, typingTimers: {} }"
-     x-init="Echo.join('chats.play.{{ $chat->id }}')
+     x-init="Echo.join('{{ $channelsPrefix }}.{{ $chat->id }}.{{ $screen->id }}')
                 .listenForWhisper('typing', (e) => {
                     console.debug('[Typing]', e.userId);
                     if (typingTimers[e.userId]) {
@@ -163,7 +163,7 @@
                             placeholder="{{ $activeInput['tooltip'] ?: '' }}" class="flex-1"
                             wire:keydown.enter="input"
                             x-on:input.debounce.500ms="
-                    Echo.join('chats.play.{{ $chat->id }}')
+                    Echo.join('{{ $channelsPrefix }}.{{ $chat->id }}.{{ $screen->id }}')
                         .whisper('typing', { userId: {{ auth()->id() }} });"/>
             </flux:input.group>
         @endif

@@ -5,6 +5,10 @@ namespace App\Logic\Effect\Definitions;
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Rules\StringOrIntRule;
+use App\Models\Image;
+use App\Models\Member;
+use Illuminate\Validation\Rules\Exists;
 
 class MemoryCreateDefinition implements EffectDefinitionContract
 {
@@ -55,9 +59,18 @@ class MemoryCreateDefinition implements EffectDefinitionContract
         return [
             'type' => 'sometimes|string',
             'data' => 'required|array|min:1',
-            'data.author_id' => 'sometimes|nullable|integer|exists:members,id',
-            'data.member_id' => 'sometimes|nullable|integer|exists:members,id',
-            'data.image_id' => 'sometimes|nullable|integer|exists:images,id',
+            'data.author_id' => [
+                'sometimes', 'nullable',
+                new StringOrIntRule(['value' => new Exists(Member::class, 'id')])
+            ],
+            'data.member_id' => [
+                'sometimes', 'nullable',
+                new StringOrIntRule(['value' => new Exists(Member::class, 'id')])
+            ],
+            'data.image_id' => [
+                'sometimes', 'nullable',
+                new StringOrIntRule(['value' => new Exists(Image::class, 'id')])
+            ],
             'data.title' => 'sometimes|nullable|string|max:300',
             'data.content' => 'sometimes|nullable|string|max:2000',
             'data.meta' => 'sometimes|nullable|array|min:1',
