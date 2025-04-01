@@ -31,11 +31,14 @@ class EffectValidator
             }
 
             $definition = EffectDefinitionRegistry::get($key);
+            $data = is_array($params)
+                ? (Arr::isList($params) ? ['value' => $params] : $params)
+                : ['value' => $params];
 
-            static::validateRules($fullKey, $params, $definition::rules());
+            static::validateRules($fullKey, $data, $definition::rules());
 
             if ($deep) {
-                static::validateNested($definition, $params, $fullKey);
+                static::validateNested($definition, $data, $fullKey);
             }
         }
     }
@@ -46,14 +49,9 @@ class EffectValidator
             return;
         }
 
-        $flat = is_array($params)
-            ? (Arr::isList($params) ? ['value' => $params] : $params)
-            : ['value' => $params];
-
         try {
-            validator($flat, $rules)->validate();
+            validator($params, $rules)->validate();
         } catch (\Throwable $e) {
-//            dd(compact('params', 'flat', 'rules'), $e);
             throw new InvalidArgumentException("Validation failed in [$keyPath]: " . $e->getMessage(), 0, $e);
         }
     }
