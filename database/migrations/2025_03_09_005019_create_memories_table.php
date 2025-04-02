@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('app.memories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('chat_id')->nullable(false)
+            $table->foreignId('chat_id')->nullable()
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('author_id')->nullable()
                 ->constrained('app.members')->cascadeOnDelete();

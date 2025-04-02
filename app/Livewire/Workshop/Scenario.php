@@ -5,7 +5,10 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsDefault;
+use App\Logic\Contracts\LogicContract;
 use App\Logic\Effect\EffectRule;
+use App\Logic\Facades\LogicRunner;
+use App\Logic\Process;
 
 class Scenario extends AbstractCrud
 {
@@ -122,5 +125,32 @@ class Scenario extends AbstractCrud
         }
 
         return [];
+    }
+
+    public function viewButtons(): array
+    {
+        return [
+            'edit' => [
+                'title' => __('Edit'),
+                'variant' => 'primary',
+            ],
+            'run' => [
+                'title' => __('Run'),
+            ]
+        ];
+    }
+
+    public function run(): void
+    {
+        /** @var LogicContract $scenario **/
+        $scenario = $this->getResource();
+        $process = new Process();
+        $process->skipQueue = true;
+        try {
+            LogicRunner::runLogic($scenario, $process);
+            dd($process);
+        } catch (\Throwable $e) {
+            dd($e, $process);
+        }
     }
 }
