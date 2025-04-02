@@ -21,7 +21,9 @@ use Throwable;
  * - Used by the DSL effect `chat.completion`.
  * - Depends on configuration provided via resolved DSL params (model, messages, etc).
  * - Executes downstream effects (content, calls.*) if provided.
- * - All API results are retained in the process for further usage.
+ * - Compiles only request-relevant fields initially (model, messages, etc).
+ * - Defers execution of content/calls blocks until OpenAI response is available.
+ * - Stores tool call results as stdClass to support Symfony expression language access.
  */
 class ChatCompletionHandler implements EffectHandlerContract
 {
@@ -37,8 +39,8 @@ class ChatCompletionHandler implements EffectHandlerContract
      */
     public function execute(Process $process): void
     {
-        $config = ValueResolver::resolve($this->params, $process);
-        $request = $this->buildRequest($config);
+        $compiled = ValueResolver::resolve(Arr::except($this->params, ['calls', 'content']), $process);
+        $request = $this->buildRequest($compiled);
 
         try {
             // Cleanup previously injected response data (if re-entered)
@@ -50,7 +52,7 @@ class ChatCompletionHandler implements EffectHandlerContract
             // Handle regular content-based response
             if (!empty($choice->content)) {
                 $process->set('content', $choice->content);
-                $effects = $config['content'] ?? null;
+                $effects = $this->params['content'] ?? null;
                 if ($effects) {
                     EffectRunner::run($effects, $process);
                 }
@@ -58,16 +60,16 @@ class ChatCompletionHandler implements EffectHandlerContract
 
             // Handle tool function calls (if any)
             if (isset($choice->toolCalls)) {
-                foreach ($choice->toolCalls as $call) {
-                    $process->push('calls', [
-                        'name' => $call->function->name,
-                        'arguments' => json_decode($call->function->arguments ?? '{}', true)
-                    ]);
+                foreach ($choice->toolCalls as $toolCall) {
+                    $call = new \stdClass();
+                    $call->name = $toolCall->function->name;
+                    $call->arguments = json_decode($toolCall->function->arguments ?? '{}', false);
+                    $process->push('calls', $call);
                 }
-                $this->handleCalls($config, $process);
+                $this->handleCalls($process);
             }
         } catch (Throwable $e) {
-            $this->notifyError($e, $process, $config);
+            $this->notifyError($e, $process, $request);
             throw $e;
         }
     }
@@ -120,12 +122,12 @@ class ChatCompletionHandler implements EffectHandlerContract
      * Resolves and executes handlers for all received tool calls.
      * Each tool handler receives `call` arguments in the process.
      */
-    protected function handleCalls(array $config, Process $process): void
+    protected function handleCalls(Process $process): void
     {
-        foreach ($process->get('calls') as $call) {
-            $block = $config['calls'][$call['name']] ?? null;
+        foreach ($process->get('calls', []) as $call) {
+            $block = $this->params['calls'][$call->name] ?? null;
             if ($block) {
-                $process->set('call', $call['arguments']);
+                $process->set('call', $call->arguments);
                 EffectRunner::run($block, $process);
             } else {
                 $this->notifyMissedHandler($call, $process);
@@ -148,7 +150,7 @@ class ChatCompletionHandler implements EffectHandlerContract
     /**
      * Logs (and later: notifies) runtime or API errors.
      */
-    protected function notifyError(Throwable $e, Process $process, array $payload): void
+    protected function notifyError(Throwable $e, Process $process, array $request): void
     {
         Log::error('[Effect][chat.completion] Error', [
             'error' => [
@@ -157,7 +159,8 @@ class ChatCompletionHandler implements EffectHandlerContract
                 'line' => $e->getLine(),
                 'trace' => $e->getTrace()
             ],
-            'payload' => $payload,
+            'request' => $request,
+            'params' => $this->params,
             'process' => $process->pack()
         ]);
     }
