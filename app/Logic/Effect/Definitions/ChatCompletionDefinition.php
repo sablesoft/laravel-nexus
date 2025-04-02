@@ -142,13 +142,16 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                 new PrefixedInRule(config('openai.gpt_models', ['gpt-4-turbo']))
             ],
 
-            'messages' => 'required|array|min:1',
-            'messages.*.role' => [
-                'required',
-                'string',
-                new PrefixedInRule(['user', 'system', 'assistant', 'tool'])
-            ],
-            'messages.*.content' => 'required|string',
+            'messages' => ['required', new VariableOrArrayRule([
+                'value' => 'array|min:1',
+                'value.*.role' => [
+                    'required',
+                    'string',
+                    new PrefixedInRule(['user', 'system', 'assistant', 'tool'])
+                ],
+                'value.*.content' => 'required|string',
+            ])],
+
             'temperature' => 'sometimes|numeric',
             'tool_choice' => ['sometimes', 'string'],
             'max_tokens' => 'sometimes|integer|min:1',
@@ -181,9 +184,11 @@ class ChatCompletionDefinition implements EffectDefinitionContract
     public static function nestedEffects(array $params): array
     {
         $nested = [];
-        foreach ($params['calls'] ?? [] as $key => $value) {
-            if (is_array($value)) {
-                $nested["calls.$key"] = $value;
+        if (!empty($params['calls']) && is_array($params['calls'])) {
+            foreach ($params['calls'] as $key => $value) {
+                if (is_array($value)) {
+                    $nested["calls.$key"] = $value;
+                }
             }
         }
 

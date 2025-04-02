@@ -56,7 +56,7 @@ class Scenario extends Model implements HasOwnerInterface, LogicContract
 
     public function steps(): HasMany
     {
-        return $this->hasMany(Step::class)
+        return $this->hasMany(Step::class, 'parent_id')
             ->orderBy('number');
     }
 

@@ -27,7 +27,7 @@ class ValidateDefinition implements EffectDefinitionContract
      */
     const ALLOWED_RULES = [
         'required', 'string', 'integer', 'email', 'boolean',
-        'min', 'max', 'in', 'nullable', 'array',
+        'min', 'max', 'in', 'sometimes', 'nullable', 'array',
     ];
 
     public const KEY = 'validate';

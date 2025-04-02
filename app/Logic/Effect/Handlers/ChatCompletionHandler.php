@@ -54,7 +54,8 @@ class ChatCompletionHandler implements EffectHandlerContract
                 $process->set('content', $choice->content);
                 $effects = $this->params['content'] ?? null;
                 if ($effects) {
-                    EffectRunner::run($effects, $process);
+                    $compiled = ValueResolver::resolve($effects, $process);
+                    EffectRunner::run($compiled, $process);
                 }
             }
 
@@ -124,8 +125,12 @@ class ChatCompletionHandler implements EffectHandlerContract
      */
     protected function handleCalls(Process $process): void
     {
+        if (empty($this->params['calls'])) {
+            $this->notifyMissedHandler($this->params, $process);
+        }
+        $compiled = ValueResolver::resolve($this->params['calls'], $process);
         foreach ($process->get('calls', []) as $call) {
-            $block = $this->params['calls'][$call->name] ?? null;
+            $block = $compiled[$call->name] ?? null;
             if ($block) {
                 $process->set('call', $call->arguments);
                 EffectRunner::run($block, $process);
