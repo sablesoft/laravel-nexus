@@ -101,14 +101,26 @@ class Process
         Arr::set($this->data, $key, $value);
     }
 
-    public function forget(string $key): void
+    public function forget(string|array $key): void
     {
-        Arr::forget($this->data, $key);
+        foreach ((array) $key as $variable) {
+            Arr::forget($this->data, $variable);
+        }
     }
 
     public function has(string $key): bool
     {
         return Arr::has($this->data, $key);
+    }
+
+    public function push(string $key, mixed $value): void
+    {
+        $array = Arr::get($this->data, $key, []);
+        if (!is_array($array)) {
+            return; // todo - throw exception
+        }
+        $array[] = $value;
+        Arr::set($this->data, $key, $array);
     }
 
     public function data(): array

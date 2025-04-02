@@ -27,8 +27,6 @@ class UnsetHandler implements EffectHandlerContract
      */
     public function execute(Process $process): void
     {
-        foreach ($this->keys as $key) {
-            $process->forget($key);
-        }
+        $process->forget($this->keys);
     }
 }

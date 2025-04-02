@@ -3,9 +3,21 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\StringOrArrayRule;
-use Illuminate\Validation\Rule;
+use App\Logic\Rules\PrefixedInRule;
+use App\Logic\Rules\VariableOrArrayRule;
 
+/**
+ * Defines the structure, validation, and editor schema for the `chat.completion` effect.
+ * This effect sends a chat completion request to OpenAI API (via openai-php client)
+ * and optionally supports tool-calling behavior with dynamic routing of tool responses
+ * and message responses to effect blocks.
+ *
+ * Context:
+ * - Registered via EffectDefinitionRegistry.
+ * - Used by EffectValidator for compile-time validation.
+ * - Provides documentation and autocomplete hints inside the Codemirror DSL editor.
+ * - Internally resolved and executed via ChatCompletionHandler.
+ */
 class ChatCompletionDefinition implements EffectDefinitionContract
 {
     public const KEY = 'chat.completion';
@@ -15,6 +27,10 @@ class ChatCompletionDefinition implements EffectDefinitionContract
         return self::KEY;
     }
 
+    /**
+     * Describes the structure of the effect for documentation and DSL editor support.
+     * Returns schema-like definition of expected fields and sample usage examples.
+     */
     public static function describe(): array
     {
         return [
@@ -65,13 +81,9 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                     'type' => 'map',
                     'description' => 'Tool call handlers by name and optional "default". Each value is either scenario code (string) or effect list (array).',
                 ],
-                'response' => [
+                'content' => [
                     'type' => 'expression',
-                    'description' => 'Fallback handler if no tool_call is present. Either scenario code or effect list.',
-                ],
-                'error' => [
-                    'type' => 'expression',
-                    'description' => 'Handler for errors (e.g. API/network). Either scenario code or effect list.',
+                    'description' => 'Fallback handler for content. Either scenario code or effect list.',
                 ],
             ],
             'examples' => [
@@ -97,47 +109,48 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                             ]
                         ],
                         'calls' => [
-                            'get_weather' => '>>weather_scenario',
-                            'default' => '>>fallback_scenario'
+                            'get_weather' => 'get_weather_effects'
                         ],
-                        'response' => '>>handle_response',
-                        'error' => [
-                            ['log' => ['message' => 'openai_error.message']]
-                        ]
+                        'content' => 'content_effects',
                     ]
                 ],
                 [
                     'openai.chat' => [
                         'model' => 'ai_model_var',
                         'messages' => 'messages_history_var',
-                        'tools' => [
-                            'get_weather' => 'get_weather_schema_var'
-                        ],
-                        'calls' => [
-                            'get_weather' => '>>weather_scenario',
-                            'default' => '>>fallback_scenario'
-                        ],
-                        'response' => '>>handle_response',
-                        'error' => [
-                            ['log' => ['message' => 'openai_error.message']]
-                        ]
+                        'tools' => 'tools_schema_var',
+                        'calls' => 'calls_effects_var',
+                        'content' => 'content_effects_var',
                     ]
                 ]
             ],
         ];
     }
 
+    /**
+     * Returns Laravel validation rules for this effect.
+     * Supports both literal structures and dynamic variable references via VariableOrArrayRule.
+     * - Tool and call handlers must be defined if used.
+     * - Only effect arrays or variable references are allowed.
+     */
     public static function rules(): array
     {
         return [
-            'model' => ['required', 'string', Rule::in(config('openai.gpt_models', ['gpt-4-turbo']))],
+            'model' => [
+                'required',
+                'string',
+                new PrefixedInRule(config('openai.gpt_models', ['gpt-4-turbo']))
+            ],
 
             'messages' => 'required|array|min:1',
-            'messages.*.role' => ['required', 'string', Rule::in(['user', 'system', 'assistant', 'tool'])],
+            'messages.*.role' => [
+                'required',
+                'string',
+                new PrefixedInRule(['user', 'system', 'assistant', 'tool'])
+            ],
             'messages.*.content' => 'required|string',
-
             'temperature' => 'sometimes|numeric',
-            'tool_choice' => ['sometimes', 'string', Rule::in(['none', 'auto', 'required', /* tool name allowed */])],
+            'tool_choice' => ['sometimes', 'string'],
             'max_tokens' => 'sometimes|integer|min:1',
             'top_p' => 'sometimes|numeric',
             'stop' => 'sometimes|array',
@@ -145,23 +158,22 @@ class ChatCompletionDefinition implements EffectDefinitionContract
             'presence_penalty' => 'sometimes|numeric',
             'frequency_penalty' => 'sometimes|numeric',
 
-            'tools' => 'sometimes|array',
-            'tools.*.description' => 'required|string',
-            'tools.*.parameters' => 'required|array',
+            'tools' => ['sometimes', 'nullable', new VariableOrArrayRule([
+                '*' => ['required', new VariableOrArrayRule([
+                    'description' => 'required|string',
+                    'parameters' => 'required|array',
+                    'parameters.type' => 'required|string',
+                    'parameters.properties' => 'required|array',
+                    'parameters.required' => 'required|array',
+                ])]
+            ])],
 
-            'calls' => 'sometimes|array',
-            'calls.*' => [
-                'required',
-                new StringOrArrayRule(['*' => 'array|min:1'])
-            ],
-            'response' => [
-                'sometimes',
-                new StringOrArrayRule(['value' => 'array|min:1'])
-            ],
-            'error' => [
-                'sometimes',
-                new StringOrArrayRule(['value' => 'array|min:1'])
-            ],
+            'calls' => ['sometimes', 'nullable', new VariableOrArrayRule([
+                '*' => ['required', new VariableOrArrayRule(['value' => 'array|min:1'])]
+            ])],
+            'content' => ['sometimes', 'nullable', new VariableOrArrayRule([
+                'value' => 'array|min:1'
+            ])],
         ];
     }
 
@@ -175,12 +187,8 @@ class ChatCompletionDefinition implements EffectDefinitionContract
             }
         }
 
-        if (isset($params['response']) && is_array($params['response'])) {
-            $nested['response'] = $params['response'];
-        }
-
-        if (isset($params['error']) && is_array($params['error'])) {
-            $nested['error'] = $params['error'];
+        if (!empty($params['content']) && is_array($params['content'])) {
+            $nested['content'] = $params['content'];
         }
 
         return $nested;

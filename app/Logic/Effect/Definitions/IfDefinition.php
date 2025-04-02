@@ -3,6 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Rules\VariableOrArrayRule;
 
 /**
  * Defines the `if` effect, which provides conditional branching within DSL logic.
@@ -76,10 +77,12 @@ class IfDefinition implements EffectDefinitionContract
     {
         return [
             'condition' => 'required|string',
-            'then' => 'required|array',
-            'then.*' => 'array|min:1',
-            'else' => 'sometimes|array|min:1',
-            'else.*' => 'array',
+            'then' => ['required', new VariableOrArrayRule([
+                'value' => 'array|min:1'
+            ])],
+            'else' => ['sometimes', 'nullable', new VariableOrArrayRule([
+                'value' => 'array|min:1'
+            ])],
         ];
     }
 

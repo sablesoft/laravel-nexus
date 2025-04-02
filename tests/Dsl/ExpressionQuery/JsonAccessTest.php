@@ -18,4 +18,4 @@ it('filters using nested json path with #>>', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":meta.attributes.strength" >= 10');
     expect($query->count())->toBe(1);
-});
+})->group('dsl', 'dsl-query');

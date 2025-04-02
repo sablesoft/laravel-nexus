@@ -3,7 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\StringOrArrayRule;
+use App\Logic\Rules\VariableOrArrayRule;
 
 /**
  * Defines the `chat.refresh` effect, which emits a broadcast event to refresh
@@ -52,7 +52,7 @@ class ChatRefreshDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'value' => ['sometimes', 'nullable', new StringOrArrayRule([
+            'value' => ['sometimes', 'nullable', new VariableOrArrayRule([
                 'value' => 'array|min:1',
                 'value.*' => 'string'
             ])],
