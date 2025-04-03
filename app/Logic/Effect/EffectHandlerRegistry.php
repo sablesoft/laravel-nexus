@@ -7,6 +7,7 @@ use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
+use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -14,6 +15,7 @@ use App\Logic\Effect\Handlers\ChatCompletionHandler;
 use App\Logic\Effect\Handlers\IfHandler;
 use App\Logic\Effect\Handlers\MemoryCreateHandler;
 use App\Logic\Effect\Handlers\ChatRefreshHandler;
+use App\Logic\Effect\Handlers\PushHandler;
 use App\Logic\Effect\Handlers\SetHandler;
 use App\Logic\Effect\Handlers\UnsetHandler;
 use App\Logic\Effect\Handlers\ValidateHandler;
@@ -64,6 +66,7 @@ class EffectHandlerRegistry
     {
         EffectHandlerRegistry::register(IfDefinition::KEY, IfHandler::class);
         EffectHandlerRegistry::register(SetDefinition::KEY, SetHandler::class);
+        EffectHandlerRegistry::register(PushDefinition::KEY, PushHandler::class);
         EffectHandlerRegistry::register(UnsetDefinition::KEY, UnsetHandler::class);
         EffectHandlerRegistry::register(ValidateDefinition::KEY, ValidateHandler::class);
         EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);

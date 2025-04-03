@@ -14,6 +14,7 @@ use App\Models\Memory;
 use App\Models\Screen;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * The Process class represents the central logic execution context
@@ -113,12 +114,17 @@ class Process
         return Arr::has($this->data, $key);
     }
 
+    /**
+     * @throw RuntimeException
+     */
     public function push(string $key, mixed $value): void
     {
         $array = Arr::get($this->data, $key, []);
-        if (!is_array($array)) {
-            return; // todo - throw exception
+
+        if (!is_array($array) || !array_is_list($array)) {
+            throw new RuntimeException("Cannot push to [$key]: value must be an indexed array.");
         }
+
         $array[] = $value;
         Arr::set($this->data, $key, $array);
     }
