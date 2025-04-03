@@ -11,7 +11,7 @@ it('validates simple set and unset effects', function () {
 
     EffectValidator::validate($effects);
     expect(true)->toBe(true);
-})->group('dsl', 'logic', 'effect');
+})->group('dsl', 'validation', 'effect', 'effect:set', 'effect:unset', 'effect:validate');
 
 it('validates if effect with nested then and else', function () {
     $effects = [
@@ -28,7 +28,7 @@ it('validates if effect with nested then and else', function () {
 
     EffectValidator::validate($effects);
     expect(true)->toBe(true);
-})->group('dsl', 'logic', 'effect');
+})->group('dsl', 'validate', 'effect', 'effect:if');
 
 it('validates nested if inside then', function () {
     $effects = [
@@ -45,17 +45,17 @@ it('validates nested if inside then', function () {
 
     EffectValidator::validate($effects);
     expect(true)->toBe(true);
-})->group('dsl', 'logic', 'effect');
+})->group('dsl', 'validate', 'effect', 'effect:if');
 
 it('fails on unknown effect key', function () {
     EffectValidator::validate([['unknown' => ['foo' => 'bar']]]);
 })->throws(InvalidArgumentException::class, 'Unknown effect type: [unknown]')
-    ->group('dsl', 'logic', 'effect');
+    ->group('dsl', 'validate', 'effect');
 
 it('fails if missing then block in if', function () {
     EffectValidator::validate([['if' => ['condition' => 'true']]]);
 })->throws(InvalidArgumentException::class, 'Validation failed in [if]:')
-    ->group('dsl', 'logic', 'effect');
+    ->group('dsl', 'validate', 'effect', 'effect:if');
 
 it('fails if nested effect has validation error', function () {
     EffectValidator::validate([
@@ -67,4 +67,4 @@ it('fails if nested effect has validation error', function () {
         ]],
     ]);
 })->throws(InvalidArgumentException::class)
-    ->group('dsl', 'logic', 'effect');
+    ->group('dsl', 'validate', 'effect', 'effect:if');

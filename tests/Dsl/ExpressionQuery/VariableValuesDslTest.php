@@ -30,28 +30,40 @@ it('filters by variable in root field', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":type" == selectedType', ['selectedType' => 'inventory']);
     expectQueryCount($query, 3);
-})->group('dsl', 'dsl-query');
+})->group('dsl', 'dsl-query', 'dsl:eq');
 
 it('filters by variable in json field', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":meta.level" > minLevel', ['minLevel' => 5]);
     expectQueryCount($query, 2);
-})->group('dsl', 'dsl-query');
+})->group('dsl', 'dsl-query', 'dsl:gt');
 
 it('filters with variable in json tag array (contains)', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":meta.tags" contains [tag]', ['tag' => 'weapon']);
     expectQueryCount($query, 2);
-})->group('dsl', 'dsl-query');
+})->group('dsl', 'dsl-query', 'dsl:contains');
 
 it('filters with variable for full json contains object', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":meta" contains expectedMeta', ['expectedMeta' => ['tags' => ['epic', 'weapon']]]);
     expectQueryCount($query, 1);
-})->group('dsl', 'dsl-query');
+})->group('dsl', 'dsl-query', 'dsl:contains');
 
 it('filters with mixed variables and literals', function () {
     $query = Memory::query();
     (new ExpressionQueryParser())->apply($query, '":meta.level" >= min and ":meta.level" <= max', ['min' => 5, 'max' => 10]);
     expectQueryCount($query, 2);
-})->group('dsl', 'dsl-query');
+})->group('dsl', 'dsl-query', 'dsl:gte', 'dsl:and', 'dsl:lte');
+
+test('list all test groups', function () {
+    $groups = collect(\Pest\Support\Collector::get()->groups->all())
+        ->flatten()
+        ->unique()
+        ->sort()
+        ->values();
+
+    dump($groups);
+    expect(true)->toBeTrue();
+})->group('listing');
+

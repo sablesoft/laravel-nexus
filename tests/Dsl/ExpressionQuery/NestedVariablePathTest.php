@@ -32,4 +32,4 @@ it('resolves nested variable paths like screen.extra.info.tag', function () {
     );
 
     expectQueryCount($query, 1);
-})->group('dsl', 'dsl-query');
+})->group('dsl', 'dsl-query', 'dsl:eq', 'dsl:#>>');
