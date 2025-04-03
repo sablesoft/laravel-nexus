@@ -17,6 +17,27 @@ use App\Logic\Contracts\EffectDefinitionContract;
  * - Registered in `EffectDefinitionRegistry` under the key `"validate"`.
  * - Executed by `ValidateHandler`, which runs Laravel's validator on the process data.
  * - Often used before branching or committing data to memory.
+ *
+ * Examples:
+ * ```yaml
+ * # Ensure email is present and correctly formatted
+ * - validate:
+ *     email: 'required|email'
+ *
+ * # Require age to be an integer and at least 18
+ * - validate:
+ *     age: 'required|integer|min:18'
+ *
+ * # Allow optional fields but validate if present
+ * - validate:
+ *     nickname: 'sometimes|string|max:20'
+ *
+ * # Combined rules with multiple fields
+ * - validate:
+ *     email: 'required|email'
+ *     name: 'required|string|max:50'
+ *     newsletter: 'boolean'
+ * ```
  */
 class ValidateDefinition implements EffectDefinitionContract
 {

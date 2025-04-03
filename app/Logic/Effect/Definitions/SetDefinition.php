@@ -5,15 +5,38 @@ namespace App\Logic\Effect\Definitions;
 use App\Logic\Contracts\EffectDefinitionContract;
 
 /**
- * Defines the `set` effect, which assigns one or more values to process variables.
- * This is one of the most fundamental DSL effects, used to mutate state within the logic flow.
- * Each field in the input map corresponds to a variable name and is assigned a value resolved
- * from a DSL expression or literal.
+ * Defines the `set` effect, which assigns values to variables in the process container.
+ * Each key in the DSL block represents a variable path, and each value is a DSL expression
+ * or a literal. Values are resolved at runtime and written directly into the container.
+ *
+ * - Keys can be dot-notated paths (e.g., `user.score`) to assign deeply nested values.
+ * - If a key is prefixed with one or more raw prefixes (`!`), the value is stored as-is and not evaluated.
+ * - Otherwise, the value is passed through the DSL evaluator and supports expressions, variables, and interpolation.
  *
  * Context:
- * - Registered via `EffectDefinitionRegistry` using the key `"set"`.
- * - Executed by `SetHandler`, which stores the resolved values into the process container.
- * - Often used in `before`/`after` blocks, as well as in conditional branches.
+ * - Registered under the key `"set"` in `EffectDefinitionRegistry`.
+ * - Executed by `SetHandler`, which uses `ValueResolver::resolveWithRaw()` for assignment.
+ * - A core effect commonly used for state mutation, flags, temporary variables, etc.
+ *
+ * Examples:
+ * ```yaml
+ * # Assign constant and dynamic values
+ * - set:
+ *     score: 100
+ *     name: user.name
+ *
+ * # Assign boolean literal
+ * - set:
+ *     flag: true
+ *
+ * # Assign a string with interpolation
+ * - set:
+ *     greeting: '>>Hello, {{ user.name }}!'
+ *
+ * # Assign a raw literal value without evaluation
+ * - set:
+ *     !config.raw: { enabled: true, level: 'debug' }
+ * ```
  */
 class SetDefinition implements EffectDefinitionContract
 {

@@ -14,6 +14,18 @@ use App\Logic\Rules\VariableOrArrayRule;
  * - Registered in `EffectDefinitionRegistry` under the key `"unset"`.
  * - Executed by `UnsetHandler`, which performs the deletion using `$process->forget(...)`.
  * - Used in steps, controls, or scenarios that need to reset part of the process state.
+ *
+ * Examples:
+ * ```yaml
+ * # Remove a few known variables
+ * - unset: ['draft', 'temp', 'previous']
+ *
+ * # Remove a conditional flag after branching
+ * - unset: ['flag.passed']
+ *
+ * # Remove deeply nested keys
+ * - unset: ['session.currentStep', 'player.stats.temp']
+ * ```
  */
 class UnsetDefinition implements EffectDefinitionContract
 {

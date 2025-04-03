@@ -5,7 +5,7 @@ namespace App\Logic\Exception;
 use Exception;
 
 /**
- * Special control-flow exception to interrupt logic execution and return a value.
+ * Special control-flow exception to interrupt logic execution.
  * Used internally by the `return` DSL effect.
  */
 class ReturnException extends Exception
