@@ -10,18 +10,18 @@ trait EffectsStack
     protected array $effectsStack = [];
     protected int $maxStack = 50;
 
-    protected ?float $setupStarted = null;
+    protected array $effectsStarted = [];
 
     public function startEffects(HasEffectsContract $effects): void
     {
-        $this->setupStarted = microtime(true);
         $code = $effects->getCode();
+        $this->effectsStarted[$code] = microtime(true);
         if (in_array($code, $this->effectsStack)) {
             throw new \RuntimeException("Recursive effects detected: $code, stack: ". implode(', ', $this->effectsStack));
         }
         logger()->debug('[Process][Effects][Start] '. $effects->getCode() .' L'. count($this->effectsStack), [
             'data' => $this->data,
-            'started' => $this->formatMicrotime($this->setupStarted),
+            'started' => $this->formatMicrotime($this->effectsStarted[$code]),
         ]);
         $this->effectsStack[] = $code;
 
@@ -33,14 +33,14 @@ trait EffectsStack
     public function finishEffects(HasEffectsContract $effects): void
     {
         $ended = microtime(true);
+        $code = $effects->getCode();
         array_pop($this->effectsStack);
-        logger()->debug('[Process][Effects][Finish] '. $effects->getCode() .' L'. count($this->effectsStack), [
+        logger()->debug('[Process][Effects][Finish] '. $code .' L'. count($this->effectsStack), [
             'data' => $this->data,
-            'started' => $this->formatMicrotime($this->setupStarted),
+            'started' => $this->formatMicrotime($this->effectsStarted[$code]),
             'ended' => $this->formatMicrotime($ended),
-            'duration' => number_format(($ended - $this->setupStarted) * 1000, 2) . 'ms',
+            'duration' => number_format(($ended - $this->effectsStarted[$code]) * 1000, 2) . 'ms',
         ]);
-        $this->setupStarted = null;
     }
 
     public function startLog(string $identifier, ?array $block): void
