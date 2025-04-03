@@ -55,15 +55,3 @@ it('filters with mixed variables and literals', function () {
     (new ExpressionQueryParser())->apply($query, '":meta.level" >= min and ":meta.level" <= max', ['min' => 5, 'max' => 10]);
     expectQueryCount($query, 2);
 })->group('dsl', 'dsl-query', 'dsl:gte', 'dsl:and', 'dsl:lte');
-
-test('list all test groups', function () {
-    $groups = collect(\Pest\Support\Collector::get()->groups->all())
-        ->flatten()
-        ->unique()
-        ->sort()
-        ->values();
-
-    dump($groups);
-    expect(true)->toBeTrue();
-})->group('listing');
-
