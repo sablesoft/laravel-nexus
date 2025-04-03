@@ -11,7 +11,7 @@ use App\Logic\Process;
  */
 class ReturnHandler implements EffectHandlerContract
 {
-    public function __construct(protected mixed $value = null) {}
+    public function __construct(protected bool $value = true) {}
 
     /**
      * @throws ReturnException

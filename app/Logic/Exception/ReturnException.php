@@ -11,13 +11,13 @@ use Exception;
 class ReturnException extends Exception
 {
     public function __construct(
-        protected mixed $value = null
+        protected bool $fullReturn = true
     ) {
         parent::__construct('Logic execution interrupted by return');
     }
 
-    public function getValue(): mixed
+    public function isFullReturn(): bool
     {
-        return $this->value;
+        return $this->fullReturn;
     }
 }

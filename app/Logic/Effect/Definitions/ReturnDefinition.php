@@ -22,7 +22,8 @@ class ReturnDefinition implements EffectDefinitionContract
             'description' => 'Immediately stops logic execution and returns control to the parent scenario or system.',
             'fields' => [],
             'examples' => [
-                ['return' => null],
+                ['return' => false],
+                ['return' => true],
             ],
         ];
     }
@@ -30,7 +31,7 @@ class ReturnDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'value' => 'sometimes|nullable',
+            'value' => 'sometimes|bool',
         ];
     }
 

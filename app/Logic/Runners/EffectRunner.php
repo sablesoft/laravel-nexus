@@ -3,6 +3,7 @@
 namespace App\Logic\Runners;
 
 use App\Logic\Effect\EffectHandlerRegistry;
+use App\Logic\Exception\ReturnException;
 use App\Logic\Process;
 
 /**
@@ -18,6 +19,8 @@ class EffectRunner
 {
     /**
      * Executes a list of effects inside the given process context.
+     * @throws ReturnException
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public static function run(?array $effects, Process $process): void
     {
@@ -25,9 +28,15 @@ class EffectRunner
             return;
         }
 
-        foreach ($effects as $raw) {
-            $effect = EffectHandlerRegistry::resolve($raw);
-            $effect->execute($process);
+        try {
+            foreach ($effects as $raw) {
+                $effect = EffectHandlerRegistry::resolve($raw);
+                $effect->execute($process);
+            }
+        } catch (ReturnException $e) {
+            if ($e->isFullReturn()) {
+                throw $e;
+            }
         }
     }
 }
