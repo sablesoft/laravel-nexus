@@ -66,10 +66,24 @@ class EffectValidator
         }
 
         try {
-            validator($params, $rules)->validate();
+            validator(static::trimKeyPrefixes($params), $rules)->validate();
         } catch (\Throwable $e) {
             throw new InvalidArgumentException("Validation failed in [$keyPath]: " . $e->getMessage(), 0, $e);
         }
+    }
+
+    protected static function trimKeyPrefixes(array $params): array
+    {
+        $result = [];
+
+        foreach ($params as $key => $value) {
+            $cleanKey = is_string($key) ? ltrim($key, config('dsl.raw_prefix')): $key;
+            $result[$cleanKey] = is_array($value)
+                ? static::trimKeyPrefixes($value)
+                : $value;
+        }
+
+        return $result;
     }
 
     /**

@@ -58,5 +58,7 @@ return [
     */
     'string_prefix' => env('DSL_STRING_PREFIX', \App\Logic\Dsl\ValueResolver::DEFAULT_STRING_PREFIX),
 
+    'raw_prefix' => env('DSL_RAW_PREFIX', \App\Logic\Dsl\ValueResolver::DEFAULT_RAW_PREFIX),
+
     'screen_query' => '":type" == screen.code'
 ];

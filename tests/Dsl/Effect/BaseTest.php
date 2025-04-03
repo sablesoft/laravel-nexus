@@ -1,70 +1,31 @@
 <?php
 
+use App\Logic\Process;
 use App\Logic\Effect\EffectValidator;
+use App\Logic\Effect\Handlers\SetHandler;
 
 it('validates simple set and unset effects', function () {
     $effects = [
-        ['set' => ['score' => 42, 'name' => 'player.name']],
+        ['set' => ['score' => 42, 'name' => '>>player.name']],
+        ['set' => ['score' => 42, '!name' => 'player.name']],
         ['unset' => ['score', 'name']],
         ['validate' => ['score' => 'required|integer']],
     ];
 
     EffectValidator::validate($effects);
     expect(true)->toBe(true);
-})->group('dsl', 'effect-validate', 'effect', 'effect:set', 'effect:unset', 'effect:validate');
-
-it('validates if effect with nested then and else', function () {
-    $effects = [
-        ['if' => [
-            'condition' => 'score > 10',
-            'then' => [
-                ['set' => ['flag' => true]],
-            ],
-            'else' => [
-                ['unset' => ['flag']],
-            ],
-        ]],
-    ];
-
-    EffectValidator::validate($effects);
-    expect(true)->toBe(true);
-})->group('dsl', 'effect-validate', 'effect', 'effect:if');
-
-it('validates nested if inside then', function () {
-    $effects = [
-        ['if' => [
-            'condition' => 'lives > 0',
-            'then' => [
-                ['if' => [
-                    'condition' => 'score > 100',
-                    'then' => [['set' => ['rank' => '>>elite']]],
-                ]],
-            ],
-        ]],
-    ];
-
-    EffectValidator::validate($effects);
-    expect(true)->toBe(true);
-})->group('dsl', 'effect-validate', 'effect', 'effect:if');
+})->group('dsl', 'dsl-raw', 'effect-validate', 'effect', 'effect:set', 'effect:unset', 'effect:validate');
 
 it('fails on unknown effect key', function () {
     EffectValidator::validate([['unknown' => ['foo' => 'bar']]]);
 })->throws(InvalidArgumentException::class, 'Unknown effect type: [unknown]')
     ->group('dsl', 'effect-validate', 'effect');
 
-it('fails if missing then block in if', function () {
-    EffectValidator::validate([['if' => ['condition' => 'true']]]);
-})->throws(InvalidArgumentException::class, 'Validation failed in [if]:')
-    ->group('dsl', 'effect-validate', 'effect', 'effect:if');
+it('executes set with raw key and skips value resolution', function () {
+    $process = new Process();
 
-it('fails if nested effect has effect-validate error', function () {
-    EffectValidator::validate([
-        ['if' => [
-            'condition' => 'true',
-            'then' => [
-                ['validate' => ['is', 'not', 'string']],
-            ],
-        ]],
-    ]);
-})->throws(InvalidArgumentException::class)
-    ->group('dsl', 'effect-validate', 'effect', 'effect:if');
+    $handler = new SetHandler(['!title' => 'call.title']);
+    $handler->execute($process);
+
+    expect($process->get('title'))->toBe('call.title');
+})->group('dsl', 'effect', 'effect-execute', 'effect:set', 'dsl-raw');

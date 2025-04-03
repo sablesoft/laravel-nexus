@@ -10,12 +10,13 @@ it('validates push with literals and expressions', function () {
         'push' => [
             'log.entries' => ['level' => '>>info', 'message' => '>>started'],
             'steps' => '>>first_step',
+            '!steps' => 'first_step',
         ]
     ]];
 
     EffectValidator::validate($effects);
     expect(true)->toBeTrue();
-})->group('dsl', 'effect-validate', 'effect', 'effect:push');
+})->group('dsl', 'dsl-raw', 'effect-validate', 'effect', 'effect:push');
 
 it('fails effect-validate if value is missing', function () {
     $effects = [[
@@ -62,3 +63,12 @@ it('appends to new key if path is missing in process', function () {
     $handler->execute($process);
     expect($process->get('events'))->toBe([['type' => 'info']]);
 })->group('dsl', 'effect-execute', 'process', 'effect', 'effect:push');
+
+it('executes push with raw key and skips value resolution', function () {
+    $process = new Process();
+
+    $handler = new PushHandler(['!log.entries' => 'event.started']);
+    $handler->execute($process);
+
+    expect($process->get('log.entries'))->toBe(['event.started']);
+})->group('dsl', 'effect', 'effect-execute', 'effect:push', 'dsl-raw');

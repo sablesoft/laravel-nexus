@@ -17,6 +17,38 @@ use App\Logic\Rules\VariableOrArrayRule;
  * - Used by EffectValidator for compile-time validation.
  * - Provides documentation and autocomplete hints inside the Codemirror DSL editor.
  * - Internally resolved and executed via ChatCompletionHandler.
+ *
+ * Examples:
+ * - Basic usage with tool schema and response handler:
+ *   ```yaml
+ *   - chat.completion:
+ *       model: 'gpt-4'
+ *       messages:
+ *         - role: 'user'
+ *           content: '>>Hi!'
+ *       tools:
+ *         get_weather:
+ *           description: '>>Get weather info'
+ *           parameters:
+ *             type: '>>object'
+ *             properties:
+ *               location:
+ *                 type: '>>string'
+ *                 description: '>>City name'
+ *             required: ['>>location']
+ *       calls:
+ *         get_weather: get_weather_effects
+ *       content: content_effects
+ *   ```
+ * - Dynamic mode using variables:
+ *   ```yaml
+ *   - chat.completion:
+ *       model: ai_model
+ *       messages: messages_history
+ *       tools: tools_schemas
+ *       calls: calls_effects
+ *       content: content_effects_var
+ *   ```
  */
 class ChatCompletionDefinition implements EffectDefinitionContract
 {

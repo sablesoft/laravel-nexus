@@ -22,6 +22,33 @@ use Illuminate\Validation\Rules\Exists;
  * - Executed by `MemoryCreateHandler`, which persists data to the `memories` table.
  * - Supports both direct field assignment and references via DSL expressions.
  * - Uses Laravel-style validation, including existence checks for foreign keys.
+ *
+ * Examples:
+ * - Basic memory creation with inline data:
+ *   ```yaml
+ *   - memory.create:
+ *       type: '>>message'
+ *       data:
+ *         content: 'ask'
+ *         member_id: member.id
+ *   ```
+ *
+ * - Using a variable to hold the memory payload:
+ *   ```yaml
+ *   - memory.create:
+ *       data: memory_payload
+ *   ```
+ *
+ * - Creating a structured memory with nested metadata:
+ *   ```yaml
+ *   - memory.create:
+ *       data:
+ *         title: '>>Chapter 1'
+ *         content: '>>The hero wakes up...'
+ *         meta:
+ *           tags: ['>>intro', '>>awakening']
+ *           chapter: 1
+ *   ```
  */
 class MemoryCreateDefinition implements EffectDefinitionContract
 {

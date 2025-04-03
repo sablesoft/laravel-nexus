@@ -13,7 +13,7 @@ class MergeHandler implements EffectHandlerContract
     public function execute(Process $process): void
     {
         foreach ($this->map as $path => $expr) {
-            $value = ValueResolver::resolve($expr, $process);
+            $value = ValueResolver::resolveWithRaw($path, $expr, $process);
             $process->merge($value, $path);
         }
     }

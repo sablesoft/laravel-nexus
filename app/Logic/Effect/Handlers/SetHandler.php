@@ -32,7 +32,7 @@ class SetHandler implements EffectHandlerContract
     public function execute(Process $process): void
     {
         foreach ($this->vars as $key => $expr) {
-            $value = ValueResolver::resolve($expr, $process);
+            $value = ValueResolver::resolveWithRaw($key, $expr, $process);
             $process->set($key, $value);
         }
     }

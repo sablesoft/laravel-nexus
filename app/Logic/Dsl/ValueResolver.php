@@ -25,6 +25,7 @@ use App\Logic\Process;
 class ValueResolver
 {
     public const DEFAULT_STRING_PREFIX = '>>';
+    public const DEFAULT_RAW_PREFIX = '!';
 
     /**
      * Get the string prefix used to indicate static string literals.
@@ -46,6 +47,24 @@ class ValueResolver
     public static function resolve(mixed $expr, Process $process): mixed
     {
         return static::evaluate($expr, $process->toContext());
+    }
+
+    public static function resolveWithRaw(string &$key, mixed $expr, Process $process): mixed
+    {
+        // Check if the key starts with one or more raw prefixes
+        $isRaw = false;
+        $prefix = config('dsl.raw_prefix');
+        while (str_starts_with($key, $prefix)) {
+            $key = substr($key, strlen($prefix));
+            $isRaw = true;
+        }
+
+        // If key was raw-marked, return value without compiling
+        if ($isRaw) {
+            return $expr;
+        }
+
+        return static::resolve($expr, $process);
     }
 
     /**

@@ -10,12 +10,13 @@ it('validates merge with indexed and associative arrays', function () {
         'merge' => [
             'tags' => ['>>magic', '>>stealth'],
             'stats' => ['hp' => 10, 'mp' => 5],
+            '!vars' => ['var1', 'var2'],
         ]
     ]];
 
     EffectValidator::validate($effects);
     expect(true)->toBeTrue();
-})->group('dsl', 'effect', 'effect-validate', 'effect:merge');
+})->group('dsl', 'dsl-raw', 'effect', 'effect-validate', 'effect:merge');
 
 it('fails effect-validate if value is not provided', function () {
     $effects = [[
@@ -86,3 +87,12 @@ it('initializes path if not exists', function () {
     $handler->execute($process);
     expect($process->get('stats'))->toBe(['hp' => 5]);
 })->group('dsl', 'effect', 'effect-execute', 'effect:merge', 'process');
+
+it('executes merge with raw key and skips value resolution', function () {
+    $process = new Process();
+
+    $handler = new MergeHandler(['!attributes' => ['strength' => 10]]);
+    $handler->execute($process);
+
+    expect($process->get('attributes'))->toBe(['strength' => 10]);
+})->group('dsl', 'effect', 'effect-execute', 'effect:merge', 'dsl-raw');

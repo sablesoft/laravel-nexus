@@ -13,7 +13,7 @@ class PushHandler implements EffectHandlerContract
     public function execute(Process $process): void
     {
         foreach ($this->map as $key => $expr) {
-            $value = ValueResolver::resolve($expr, $process);
+            $value = ValueResolver::resolveWithRaw($key, $expr, $process);
             $process->push($key, $value);
         }
     }

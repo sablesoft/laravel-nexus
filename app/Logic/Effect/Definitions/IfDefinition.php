@@ -17,6 +17,38 @@ use App\Logic\Rules\VariableOrArrayRule;
  * - Registered in `EffectDefinitionRegistry` under the key `"if"`.
  * - Executed by `IfHandler`, which interprets the condition and dispatches inner blocks.
  * - Often used at step or control level to control execution paths.
+ *
+ * Examples:
+ * - Run effects based on a simple boolean condition:
+ *   ```yaml
+ *   - if:
+ *       condition: 'score > 10'
+ *       then:
+ *         - set: { flag: true }
+ *       else:
+ *         - unset:
+ *             - '>>flag'
+ *   ```
+ *
+ * - Conditionally assign a value without an else block:
+ *   ```yaml
+ *   - if:
+ *       condition: 'player.role == "gm"'
+ *       then:
+ *         - set:
+ *             is_master: true
+ *   ```
+ *
+ * - Nest multiple `if` blocks inside one another:
+ *   ```yaml
+ *   - if:
+ *       condition: 'lives > 0'
+ *       then:
+ *         - if:
+ *             condition: 'score > 100'
+ *             then:
+ *               - set: { rank: '>>elite' }
+ *   ```
  */
 class IfDefinition implements EffectDefinitionContract
 {

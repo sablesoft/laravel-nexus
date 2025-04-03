@@ -17,6 +17,22 @@ use App\Logic\Rules\VariableOrArrayRule;
  * - Registered under the key `"chat.refresh"` in `EffectDefinitionRegistry`.
  * - Executed by `ChatRefreshHandler`, which broadcasts via Laravel Reverb.
  * - Supports both a single screen name or a list of screen names as input.
+ *
+ * Examples:
+ * - Refreshing a specific screen:
+ *   ```yaml
+ *   - chat.refresh: '>>main_screen'
+ *   ```
+ * - Refreshing multiple screens:
+ *   ```yaml
+ *   - chat.refresh:
+ *       - '>>lobby'
+ *       - '>>dashboard'
+ *   ```
+ * - Refreshing all screens in the chat:
+ *   ```yaml
+ *   - chat.refresh:
+ *   ```
  */
 class ChatRefreshDefinition implements EffectDefinitionContract
 {
