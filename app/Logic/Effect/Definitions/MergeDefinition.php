@@ -4,9 +4,9 @@ namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 
-class PushDefinition implements EffectDefinitionContract
+class MergeDefinition implements EffectDefinitionContract
 {
-    public const KEY = 'push';
+    public const KEY = 'merge';
 
     public static function key(): string
     {
@@ -16,23 +16,19 @@ class PushDefinition implements EffectDefinitionContract
     public static function describe(): array
     {
         return [
-            'title' => 'Push to Array',
-            'description' => 'Adds a value to the end of a list inside the process container. Target must be an indexed array.',
+            'title' => 'Merge Array or Map',
+            'description' => 'Appends list or key-value entries to an existing array in the process container. Both source and target must be of the same type.',
             'fields' => [
                 '*' => [
                     'type' => 'expression',
-                    'description' => 'Value to append. Must resolve to a single item.',
+                    'description' => 'Must resolve to either an indexed or associative array.',
                 ],
             ],
             'examples' => [
                 [
-                    'push' => [
-                        'steps' => '>>start',
-                        'events.log' => [
-                            'type' => '>>info',
-                            'message' => '>>Ready',
-                        ],
-                        'messages' => 'message_entry'
+                    'merge' => [
+                        'tags' => ['>>stealth', '>>magic'],
+                        'stats' => ['hp' => 10, 'mp' => 5],
                     ]
                 ]
             ],

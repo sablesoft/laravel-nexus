@@ -134,9 +134,25 @@ class Process
         return $this->data;
     }
 
-    public function merge(array $newData): void
+    public function merge(array $items, ?string $path = null): void
     {
-        $this->data = array_merge($this->data, $newData);
+        $data = $path ? $this->get($path, []) : $this->data;
+        $to = $path ? " to [$path]" : '';
+        if (!is_array($data)) {
+            throw new RuntimeException("Cannot merge data$to: value must be an array.");
+        }
+        $isIndexed = array_is_list($items);
+        $isDataIndexed = array_is_list($data);
+        if ($isIndexed !== $isDataIndexed) {
+            throw new RuntimeException("Cannot merge data$to: array types do not match (indexed vs associative).");
+        }
+
+        $data = array_merge($data, $items);
+        if ($path) {
+            $this->set($path, $data);
+        } else {
+            $this->data = $data;
+        }
     }
 
     /**

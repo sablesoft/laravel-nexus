@@ -7,6 +7,7 @@ use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
+use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
@@ -72,6 +73,7 @@ class EffectDefinitionRegistry
         static::register(IfDefinition::KEY, new IfDefinition());
         static::register(SetDefinition::KEY, new SetDefinition());
         static::register(PushDefinition::KEY, new PushDefinition());
+        static::register(MergeDefinition::KEY, new MergeDefinition());
         static::register(UnsetDefinition::KEY, new UnsetDefinition());
         static::register(ReturnDefinition::KEY, new ReturnDefinition());
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
