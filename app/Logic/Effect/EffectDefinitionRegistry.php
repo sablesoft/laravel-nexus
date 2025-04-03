@@ -8,6 +8,7 @@ use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
+use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -72,6 +73,7 @@ class EffectDefinitionRegistry
         static::register(SetDefinition::KEY, new SetDefinition());
         static::register(PushDefinition::KEY, new PushDefinition());
         static::register(UnsetDefinition::KEY, new UnsetDefinition());
+        static::register(ReturnDefinition::KEY, new ReturnDefinition());
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());

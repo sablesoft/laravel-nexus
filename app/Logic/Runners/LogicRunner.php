@@ -4,6 +4,7 @@ namespace App\Logic\Runners;
 
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
+use App\Logic\Exception\ReturnException;
 use App\Logic\Facades\NodeRunner;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\LogicJob;
@@ -42,6 +43,7 @@ class LogicRunner
      * - before effects via EffectRunner
      * - each node using NodeRunner
      * - after effects via EffectRunner
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function runLogic(?LogicContract $logic, Process $process): Process
     {
@@ -50,14 +52,22 @@ class LogicRunner
         }
 
         $process->startEffects($logic);
-        $process->handle('before', $logic, fn() => EffectRunner::run($logic->getBefore(), $process));
-        if($logic->getNodes()) {
-            $process->handle('nodes', $logic, function () use ($logic, $process) {
-                foreach ($logic->getNodes() as $node) {
-                    NodeRunner::run($node, $process);
-                }
-            });
-            $process->handle('after', $logic, fn() => EffectRunner::run($logic->getAfter(), $process));
+        try {
+            $process->handle('before', $logic, fn() => EffectRunner::run($logic->getBefore(), $process));
+            if($logic->getNodes()) {
+                $process->handle('nodes', $logic, function () use ($logic, $process) {
+                    foreach ($logic->getNodes() as $node) {
+                        NodeRunner::run($node, $process);
+                    }
+                });
+                $process->handle('after', $logic, fn() => EffectRunner::run($logic->getAfter(), $process));
+            }
+        } catch (ReturnException $e) {
+            logger()->debug('[NodeRunner] Return', [
+                'node' => $logic->getCode(),
+                'process' => $process->pack(),
+                'return' => $e->getValue()
+            ]);
         }
         $process->finishEffects($logic);
 

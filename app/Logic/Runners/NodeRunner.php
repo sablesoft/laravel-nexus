@@ -3,6 +3,7 @@
 namespace App\Logic\Runners;
 
 use App\Logic\Contracts\NodeContract;
+use App\Logic\Exception\ReturnException;
 use App\Logic\Facades\LogicRunner;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
@@ -31,14 +32,23 @@ class NodeRunner
 {
     /**
      * Executes the given node: runs through before -> logic -> after phases using the provided Process.
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function run(NodeContract $node, Process $process): Process
     {
         $process->startEffects($node);
-        $process->handle('before', $node, fn() => EffectRunner::run($node->getBefore(), $process));
-        if ($node->getLogic()) {
-            $process->handle('logic', $node, fn() => LogicRunner::run($node, $process));
-            $process->handle('after', $node, fn() => EffectRunner::run($node->getAfter(), $process));
+        try {
+            $process->handle('before', $node, fn() => EffectRunner::run($node->getBefore(), $process));
+            if ($node->getLogic()) {
+                $process->handle('logic', $node, fn() => LogicRunner::run($node, $process));
+                $process->handle('after', $node, fn() => EffectRunner::run($node->getAfter(), $process));
+            }
+        } catch (ReturnException $e) {
+            logger()->debug('[NodeRunner] Return', [
+                'node' => $node->getCode(),
+                'process' => $process->pack(),
+                'return' => $e->getValue()
+            ]);
         }
         $process->finishEffects($node);
 
