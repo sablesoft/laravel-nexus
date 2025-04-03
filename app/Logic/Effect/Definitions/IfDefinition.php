@@ -13,7 +13,7 @@ use App\Logic\Rules\VariableOrArrayRule;
  * This effect enables dynamic and expressive flows within scenarios and logic steps.
  * Supports recursive validation and nesting of inner effects through `nestedEffects()`.
  *
- * Environment:
+ * Context:
  * - Registered in `EffectDefinitionRegistry` under the key `"if"`.
  * - Executed by `IfHandler`, which interprets the condition and dispatches inner blocks.
  * - Often used at step or control level to control execution paths.

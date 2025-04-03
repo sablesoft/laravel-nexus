@@ -13,7 +13,7 @@ use App\Logic\Rules\VariableOrArrayRule;
  * This is typically used to trigger live UI updates for other participants
  * after data changes or control interactions.
  *
- * Environment:
+ * Context:
  * - Registered under the key `"chat.refresh"` in `EffectDefinitionRegistry`.
  * - Executed by `ChatRefreshHandler`, which broadcasts via Laravel Reverb.
  * - Supports both a single screen name or a list of screen names as input.

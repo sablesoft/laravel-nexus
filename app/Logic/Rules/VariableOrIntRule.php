@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
  * If the value is a variable, it is assumed to be a valid DSL expression and bypasses further checks.
  * If the value is an integer, optional validation rules can be applied using Laravel's validator.
  *
- * Environment:
+ * Context:
  * - Commonly used in effect definitions where a parameter can be either a literal (e.g. ID)
  *   or a dynamic expression (e.g. `member.id`, `input.value`).
  * - Integrated with YAML/JSON DSL editors where both forms may occur.

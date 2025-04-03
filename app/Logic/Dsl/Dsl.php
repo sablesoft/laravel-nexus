@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Builder;
  * All data types are supported, including arrays, strings, numbers, booleans, null, enums, etc.
  *
  * ---
- * Environment:
+ * Context:
  * - Used in EffectRunner to evaluate values, conditions, and logic
  * - Applied to filtering Memory records (and others) via Dsl::apply in Livewire\Chat\Play
  * - Can be used in any before/after DSL instructions or other structured configurations

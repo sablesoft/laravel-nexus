@@ -23,7 +23,7 @@ use App\Logic\Process;
  *  may launch a complex scenario with multiple steps).
  *
  * ---
- * Environment:
+ * Context:
  * - Accessible via the facade App\Logic\Facades\NodeRunner
  * - Called from App\Livewire\Chat\Play when executing control logic on a screen
  * - Invoked by LogicRunner when iterating through a logic’s node list via logic.getNodes()

@@ -9,7 +9,7 @@ use App\Logic\Process;
  * Each effect has a dedicated handler that implements this interface and is called
  * during the runtime of scenarios, steps, or controls.
  *
- * Environment:
+ * Context:
  * - Invoked by the `EffectRunner` service when executing effects.
  * - Registered via the `EffectHandlerRegistry`, which maps each DSL key
  *   to its corresponding handler class.

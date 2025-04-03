@@ -12,7 +12,7 @@ use App\Logic\Facades\EffectRunner;
  * Evaluates a boolean DSL expression and conditionally executes either the `then` or `else` effect blocks.
  * Enables branching logic inside scenarios, steps, and controls.
  *
- * Environment:
+ * Context:
  * - Resolved by `EffectHandlerRegistry` for the `"if"` key.
  * - Paired with `IfDefinition`, which defines schema and structure.
  * - Uses `Dsl::evaluate(...)` to resolve the condition in the current process context.

@@ -12,7 +12,7 @@ use App\Models\Memory;
  * Resolves all input parameters and creates a new memory record in the database.
  * If the `type` is not explicitly defined, it defaults to the current screen code.
  *
- * Environment:
+ * Context:
  * - Resolved via `EffectHandlerRegistry` using the key `"memory.create"`.
  * - Works with `MemoryCreateDefinition` for validation and structure.
  * - Uses `ValueResolver` to evaluate both literal and DSL-based fields.

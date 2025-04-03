@@ -13,7 +13,7 @@ use App\Logic\Contracts\EffectDefinitionContract;
  * Only a limited and explicitly allowed set of validation rules is supported
  * to prevent abuse and ensure clarity in the DSL context.
  *
- * Environment:
+ * Context:
  * - Registered in `EffectDefinitionRegistry` under the key `"validate"`.
  * - Executed by `ValidateHandler`, which runs Laravel's validator on the process data.
  * - Often used before branching or committing data to memory.

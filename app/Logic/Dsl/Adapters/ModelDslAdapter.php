@@ -24,7 +24,7 @@ use UnitEnum;
  * which can extend it to introduce additional logic and methods.
  *
  * ---
- * Environment:
+ * Context:
  * - Used internally by Process to wrap models: chat, screen, memory, member
  * - Can be replaced with a custom adapter if the model implements HasDslAdapterContract;
  *   such adapters usually extend this base class

@@ -32,7 +32,7 @@ use InvalidArgumentException;
  * Each handler implements `EffectHandlerContract` and contains logic
  * to execute the effect in a given `Process` context.
  *
- * Environment:
+ * Context:
  * - Populated at boot via `boot()` to register all core handlers.
  * - Used by `EffectRunner` to resolve and run effect handlers dynamically.
  * - DSL key-to-handler mapping mirrors the one in `EffectDefinitionRegistry`.

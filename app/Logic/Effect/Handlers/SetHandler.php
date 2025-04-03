@@ -11,7 +11,7 @@ use App\Logic\Process;
  * Assigns one or more resolved values to the process context under specified variable names.
  * All expressions are evaluated using the current process state before assignment.
  *
- * Environment:
+ * Context:
  * - Instantiated by `EffectHandlerRegistry` when resolving the `set` effect.
  * - Works in conjunction with `SetDefinition`, which defines the schema and rules.
  * - Uses `ValueResolver` to evaluate all DSL expressions or literals.

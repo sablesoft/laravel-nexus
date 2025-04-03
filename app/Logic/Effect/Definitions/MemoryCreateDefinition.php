@@ -17,7 +17,7 @@ use Illuminate\Validation\Rules\Exists;
  * This effect is useful for storing traceable or retrievable information during
  * interactive scenarios — such as messages, annotations, or structured interactions.
  *
- * Environment:
+ * Context:
  * - Registered under the key `"memory.create"` in `EffectDefinitionRegistry`.
  * - Executed by `MemoryCreateHandler`, which persists data to the `memories` table.
  * - Supports both direct field assignment and references via DSL expressions.

@@ -10,7 +10,7 @@ use App\Logic\Contracts\EffectDefinitionContract;
  * Each field in the input map corresponds to a variable name and is assigned a value resolved
  * from a DSL expression or literal.
  *
- * Environment:
+ * Context:
  * - Registered via `EffectDefinitionRegistry` using the key `"set"`.
  * - Executed by `SetHandler`, which stores the resolved values into the process container.
  * - Often used in `before`/`after` blocks, as well as in conditional branches.

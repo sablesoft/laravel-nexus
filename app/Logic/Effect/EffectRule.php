@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
  * (YAML or JSON) as a list of effects. Ensures that the content is syntactically
  * and semantically valid before storing or executing it.
  *
- * Environment:
+ * Context:
  * - Used in request/form validation when editing effect blocks (e.g., in controls or steps).
  * - Relies on `EffectValidator` for recursive structure checks.
  * - Supports both YAML and JSON formats for flexibility in input.

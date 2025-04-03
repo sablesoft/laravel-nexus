@@ -11,7 +11,7 @@ use App\Logic\Process;
  * Handles automatic prefix-based detection of static strings to distinguish them
  * from dynamic expressions, providing a unified way to treat values in YAML/JSON.
  *
- * Environment:
+ * Context:
  * - Used extensively during effect execution and logic evaluation.
  * - Called by handlers to extract real runtime values from user-defined input.
  * - Relies on the `Dsl` facade to interpret dynamic expressions using Symfony ExpressionLanguage.

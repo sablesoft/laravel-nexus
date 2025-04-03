@@ -17,7 +17,7 @@ use App\Models\Screen;
  * If specific screen codes are provided, only those screens will be refreshed.
  * Otherwise, the refresh is sent to the base chat channel (affecting all screens).
  *
- * Environment:
+ * Context:
  * - Registered via `EffectHandlerRegistry` under the key `"chat.refresh"`.
  * - Works with `ChatRefreshDefinition`, which defines allowed inputs.
  * - Uses Laravel's broadcasting system (Reverb) and `RefreshPlay` event.

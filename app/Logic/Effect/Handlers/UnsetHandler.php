@@ -10,7 +10,7 @@ use App\Logic\Process;
  * Iterates over a list of variable names and removes each from the process container.
  * This is typically used to clean up temporary state between logic steps.
  *
- * Environment:
+ * Context:
  * - Instantiated by `EffectHandlerRegistry` for the `"unset"` key.
  * - Works with `UnsetDefinition`, which provides validation and schema metadata.
  * - Uses `$process->forget(...)` to remove variables from memory.

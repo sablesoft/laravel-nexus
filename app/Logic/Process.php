@@ -25,7 +25,7 @@ use RuntimeException;
  * execution timing, before/after setup block tracing, and DSL-compatible data access.
  *
  * ---
- * Environment:
+ * Context:
  * - LogicJob — serializes and restores Process for background logic execution
  * - LogicRunner — manages full execution lifecycle using Process as the persistent logic context
  * - NodeRunner — executes individual logic nodes using Process

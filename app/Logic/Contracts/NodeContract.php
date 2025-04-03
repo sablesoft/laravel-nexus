@@ -12,7 +12,7 @@ namespace App\Logic\Contracts;
  * which will be executed by the LogicRunner.
  *
  * ---
- * Environment:
+ * Context:
  * - Implemented by entities such as Step, Control, and Transfer
  * - Executed through NodeRunner
  * - Supports logic nesting through getLogic, allowing users to embed and reuse any prepared logic

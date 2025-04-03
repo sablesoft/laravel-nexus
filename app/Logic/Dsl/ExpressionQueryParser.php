@@ -29,7 +29,7 @@ use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
  * - Extendable via ExpressionQueryRegistry
  *
  * ---
- * Environment:
+ * Context:
  * - Invoked from the Dsl facade when applying filters to Eloquent models (e.g. Memory)
  * - Actively used in the Play Livewire component to filter records based on screen-defined conditions
  * - Designed to be reused or extended for additional models or use-cases

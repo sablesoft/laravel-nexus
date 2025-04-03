@@ -22,7 +22,7 @@ use InvalidArgumentException;
  * to those definitions by their DSL keys and ensures they are available
  * to validators, compilers, and UI helpers.
  *
- * Environment:
+ * Context:
  * - Definitions are registered during system boot via the `boot()` method.
  * - Used by `EffectValidator` to validate effect blocks statically.
  * - Consumed by the Codemirror DSL editor to show documentation, autocomplete, and schema hints.

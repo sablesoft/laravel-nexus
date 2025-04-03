@@ -20,7 +20,7 @@ use App\Logic\Process;
  * before -> nodes -> after.
  *
  * ---
- * Environment:
+ * Context:
  * - Accessible via the facade App\Logic\Facades\LogicRunner.
  * - Invoked by NodeRunner when executing the logic of a specific node
  * - Used internally by LogicJob to run logic restored from a queued job

@@ -14,7 +14,7 @@ use InvalidArgumentException;
  * This is a compile-time utility invoked before scenario execution to ensure
  * that the DSL content is safe, valid, and semantically correct.
  *
- * Environment:
+ * Context:
  * - Consumes effect metadata from `EffectDefinitionRegistry`.
  * - Validates effect parameters based on `rules()` and `nestedEffects()` of each definition.
  * - Used in Codemirror editor live checks and backend DSL compilers.

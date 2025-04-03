@@ -25,7 +25,7 @@ use Throwable;
  * Currently, only stateful logic (Eloquent models with an ID) is supported.
  *
  * ---
- * Environment:
+ * Context:
  * - Triggered from LogicRunner::runLogic if logic needs to be deferred (shouldQueue = true)
  * - Serializes and deserializes the Process object while preserving DSL context and timing
  * - In the future, will dispatch a logic failure event so subscribers can notify relevant users (members, authors, admins) or take other actions

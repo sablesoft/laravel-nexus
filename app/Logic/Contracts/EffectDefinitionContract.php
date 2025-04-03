@@ -11,7 +11,7 @@ namespace App\Logic\Contracts;
  * the codebase to consistently identify this effect type. It should match the DSL key
  * returned from `key()`, and be used when registering handlers, definitions, and other logic.
  *
- * Environment:
+ * Context:
  * - Registered via the `EffectDefinitionRegistry` at system boot.
  * - Used by `EffectValidator` for static and recursive validation of effect structures.
  * - Powers the Codemirror-based DSL editor for live hints, documentation, and examples.

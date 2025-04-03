@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  * Throws a `ValidationException` if any rule fails, effectively interrupting
  * the scenario execution with an error.
  *
- * Environment:
+ * Context:
  * - Instantiated by `EffectHandlerRegistry` when resolving the `"validate"` effect.
  * - Works in conjunction with `ValidateDefinition`, which restricts allowed rules.
  * - Uses `$process->data()` as input source for validation.

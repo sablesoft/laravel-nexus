@@ -10,7 +10,7 @@ use App\Logic\Rules\VariableOrArrayRule;
  * This is useful for clearing temporary or intermediate state between steps or branches.
  * Accepts a list of variable names to delete from the internal data container.
  *
- * Environment:
+ * Context:
  * - Registered in `EffectDefinitionRegistry` under the key `"unset"`.
  * - Executed by `UnsetHandler`, which performs the deletion using `$process->forget(...)`.
  * - Used in steps, controls, or scenarios that need to reset part of the process state.

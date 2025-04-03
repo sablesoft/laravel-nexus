@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
  * It also inherits from HasEffectsContract and therefore supports before/after DSL instruction blocks.
  *
  * ---
- * Environment:
+ * Context:
  * - Executed by LogicRunner either directly or via NodeRunner
  * - May be queued via LogicJob if shouldQueue returns true
  */
