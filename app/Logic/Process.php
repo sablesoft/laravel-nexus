@@ -122,7 +122,7 @@ class Process
         $array = Arr::get($this->data, $key, []);
 
         if (!is_array($array) || !array_is_list($array)) {
-            throw new RuntimeException("Cannot push to [$key]: value must be an indexed array.");
+            throw new RuntimeException("Cannot push to [$key]: target is not an indexed array.");
         }
 
         $array[] = $value;
@@ -141,10 +141,12 @@ class Process
         if (!is_array($data)) {
             throw new RuntimeException("Cannot merge data$to: value must be an array.");
         }
-        $isIndexed = array_is_list($items);
-        $isDataIndexed = array_is_list($data);
-        if ($isIndexed !== $isDataIndexed) {
-            throw new RuntimeException("Cannot merge data$to: array types do not match (indexed vs associative).");
+        if (!empty($data)) {
+            $isIndexed = array_is_list($items);
+            $isDataIndexed = array_is_list($data);
+            if ($isIndexed !== $isDataIndexed) {
+                throw new RuntimeException("Cannot merge data$to: array types do not match (indexed vs associative).");
+            }
         }
 
         $data = array_merge($data, $items);

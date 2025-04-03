@@ -43,4 +43,4 @@ it('validates chat.completion with tools and handlers', function () {
 
     EffectValidator::validate($effects);
     expect(true)->toBeTrue();
-})->group('dsl', 'effect', 'validation', 'effect:chat.completion');
+})->group('dsl', 'effect', 'effect-validate', 'effect:chat.completion');
