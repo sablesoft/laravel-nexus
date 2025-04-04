@@ -32,9 +32,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read Collection<int, Screen>|Screen[] $screens     - All screens that belong to the application
- * @property-read Collection<int, Chat>|Chat[] $chats           - All chats created from this application
- * @property-read null|Screen $startScreen                       - Default starting screen of the application
+ * @property-read Collection<int, Screen> $screens     - All screens that belong to the application
+ * @property-read Collection<int, Chat> $chats         - All chats created from this application
+ * @property-read Collection<int, Group> $groups       - All groups that belong to this application
+ * @property-read Collection<int, GroupRole> $groupRoles - All group-roles that belong to this application
+ * @property-read null|Screen $startScreen             - Default starting screen of the application
  */
 class Application extends Model implements HasOwnerInterface
 {
@@ -59,6 +61,16 @@ class Application extends Model implements HasOwnerInterface
     public function getStartScreenAttribute(): ?Screen
     {
         return $this->screens->where('is_start', true)->first();
+    }
+
+    public function groups(): HasMany
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    public function groupRoles(): HasMany
+    {
+        return $this->hasMany(GroupRole::class);
     }
 
     public function chats(): HasMany
