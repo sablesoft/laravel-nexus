@@ -24,8 +24,8 @@ return new class extends Migration
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 
-            $table->text('visible')->nullable();
-            $table->text('enabled')->nullable();
+            $table->text('visible_condition')->nullable();
+            $table->text('enabled_condition')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

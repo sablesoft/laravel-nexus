@@ -9,6 +9,7 @@ use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\UI;
 use Carbon\Carbon;
 use Database\Factories\ScreenFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -57,12 +58,13 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
 class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasEffects, HasDslAdapter;
+    use HasOwner, HasFactory, HasImage, HasEffects, HasDslAdapter, UI;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
+        'visible_condition', 'enabled_condition',
         'is_start', 'query', 'before', 'after', 'template',
     ];
 

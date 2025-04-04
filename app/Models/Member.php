@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Models\Traits\HasDslAdapter;
+use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Database\Factories\MaskFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,10 +33,15 @@ use LogicException;
 class Member extends Model implements HasDslAdapterContract
 {
     /** @use HasFactory<MaskFactory> */
-    use HasOwner, HasFactory, HasDslAdapter;
+    use HasOwner, HasStates, HasFactory, HasDslAdapter;
 
     protected $fillable = [
-        'chat_id', 'mask_id', 'screen_id', 'user_id', 'is_confirmed'
+        'chat_id', 'mask_id', 'screen_id', 'user_id', 'is_confirmed', 'states'
+    ];
+
+    protected $casts = [
+        'is_confirmed' => 'bool',
+        'states' => 'array'
     ];
 
     public function chat(): BelongsTo

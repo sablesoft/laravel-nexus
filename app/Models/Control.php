@@ -6,6 +6,7 @@ use App\Logic\Contracts\NodeContract;
 use App\Models\Enums\ControlType;
 use App\Models\Traits\HasLogic;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\UI;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,10 +41,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Control extends Model implements NodeContract
 {
-    use HasEffects, HasLogic;
+    use HasEffects, HasLogic, UI;
 
     protected $fillable = [
         'screen_id', 'scenario_id', 'type',
+        'visible_condition', 'enabled_condition',
         'title', 'tooltip', 'description', 'before', 'after',
     ];
 

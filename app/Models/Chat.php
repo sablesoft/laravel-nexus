@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Models\Traits\HasDslAdapter;
+use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Database\Factories\ChatFactory;
 use Illuminate\Broadcasting\Channel;
@@ -52,14 +53,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract
 {
     /** @use HasFactory<ChatFactory> */
-    use HasOwner, HasFactory, BroadcastsEvents, HasDslAdapter;
+    use HasOwner, HasStates, HasFactory, BroadcastsEvents, HasDslAdapter;
 
     protected $fillable = [
-        'user_id', 'application_id', 'title', 'status'
+        'user_id', 'application_id', 'title', 'status', 'states'
     ];
 
     protected $casts = [
         'status' => ChatStatus::class,
+        'states' => 'array'
     ];
 
     public function application(): BelongsTo

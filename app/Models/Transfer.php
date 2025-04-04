@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\UI;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -39,10 +40,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Transfer extends Model implements NodeContract
 {
-    use HasFactory, HasEffects;
+    use HasFactory, HasEffects, UI;
 
     protected $fillable = [
         'screen_from_id', 'screen_to_id', 'title', 'tooltip',
+        'visible_condition', 'enabled_condition',
         'description', 'before', 'after',
     ];
 

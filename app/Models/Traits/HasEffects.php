@@ -3,7 +3,6 @@
 namespace App\Models\Traits;
 
 use JsonException;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @property null|array $before
@@ -13,6 +12,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 trait HasEffects
 {
+    use HasJson;
+
     public function getBefore(): ?array
     {
         return $this->before;
@@ -31,12 +32,12 @@ trait HasEffects
 
     public function getBeforeStringAttribute(): ?string
     {
-        return $this->getEffectsString('before');
+        return $this->getJsonAsString('before');
     }
 
     public function getAfterStringAttribute(): ?string
     {
-        return $this->getEffectsString('after');
+        return $this->getJsonAsString('after');
     }
 
     /**
@@ -44,54 +45,15 @@ trait HasEffects
      */
     public function setBeforeStringAttribute(?string $value): void
     {
-        $this->setEffectsStringAttribute('before', $value);
+        $this->setStringAsJson('before', $value);
     }
+
 
     /**
      * @throws JsonException
      */
     public function setAfterStringAttribute(?string $value): void
     {
-        $this->setEffectsStringAttribute('after', $value);
-    }
-
-    /**
-     * @throws JsonException
-     */
-    protected function setEffectsStringAttribute(string $field, ?string $value): void
-    {
-        if (is_null($value)) {
-            $this->$field = null;
-            return;
-        }
-
-        $editor = config('dsl.editor', 'json');
-
-        try {
-            if ($editor === 'yaml') {
-                $decoded = Yaml::parse($value);
-            } else {
-                $decoded = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            }
-
-            $this->$field = $decoded;
-        } catch (\Throwable $e) {
-            throw new JsonException("Invalid $editor decoding for field $field: " . $e->getMessage(), previous: $e);
-        }
-    }
-
-    protected function getEffectsString(string $field): ?string
-    {
-        $value = $this->$field;
-
-        if (!$value) {
-            return null;
-        }
-
-        $editor = config('dsl.editor', 'json');
-
-        return $editor === 'yaml'
-            ? Yaml::dump($value, 10, 2)
-            : json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $this->setStringAsJson('after', $value);
     }
 }

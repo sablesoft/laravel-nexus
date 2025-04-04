@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\HasImage;
+use App\Models\Traits\HasOwner;
+use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\HasImage;
-use App\Models\Traits\HasOwner;
-use App\Models\Interfaces\HasOwnerInterface;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -41,14 +42,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Application extends Model implements HasOwnerInterface
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasFactory, HasImage, HasEffects;
+    use HasOwner, HasStates, HasFactory, HasImage, HasEffects;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public', 'before', 'after'
+        'user_id', 'title', 'description', 'is_public', 'states', 'before', 'after'
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
+        'states' => 'array',
         'before' => 'array',
         'after' => 'array'
     ];
