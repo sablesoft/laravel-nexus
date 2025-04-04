@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('code')->nullable(false)->index();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
-            $table->boolean('is_default')->nullable(false)
+            $table->boolean('is_start')->nullable(false)
                 ->default(false)->index();
             $table->string('query')->nullable();
             $table->text('template')->nullable();

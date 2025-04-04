@@ -43,7 +43,7 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
  * @property null|string $code            - Unique code of the screen
  * @property null|string $title           - Display name of the screen
  * @property null|string $description     - Optional description
- * @property null|bool $is_default        - Whether this is the default screen
+ * @property null|bool $is_start          - Whether this is the start screen
  * @property null|string $query           - DSL expression for filtering messages (Memory) on this screen
  * @property null|string $template        - Message rendering template
  * @property null|Carbon $created_at
@@ -63,11 +63,11 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
-        'is_default', 'query', 'before', 'after', 'template',
+        'is_start', 'query', 'before', 'after', 'template',
     ];
 
     protected $casts = [
-        'is_default' => 'boolean',
+        'is_start' => 'boolean',
         'before' => 'array',
         'after' => 'array',
     ];
@@ -133,6 +133,11 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
             }
             if ($error = Screen::validateDslQuery($screen->query)) {
                 throw new \InvalidArgumentException("Invalid DSL query: " . $error->getMessage());
+            }
+            if ($screen->isDirty('is_start') && $screen->is_start) {
+                Screen::where('application_id', $screen->application_id)
+                    ->where('id', '!=', $screen->id)
+                    ->update(['is_start' => false]);
             }
         });
     }

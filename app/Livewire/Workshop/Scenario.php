@@ -4,7 +4,6 @@ namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleLinks;
-use App\Livewire\Filters\FilterIsDefault;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Effect\EffectRule;
 use App\Logic\Facades\LogicRunner;
@@ -12,7 +11,7 @@ use App\Logic\Process;
 
 class Scenario extends AbstractCrud
 {
-    use HandleLinks, FilterIsDefault;
+    use HandleLinks;
 
     /**
      * @return string

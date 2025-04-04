@@ -8,7 +8,7 @@ use App\Crud\Traits\HandleBelongsTo;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterApplication;
-use App\Livewire\Filters\FilterIsDefault;
+use App\Livewire\Filters\FilterIsFlag;
 use App\Logic\Effect\EffectRule;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 class Screen extends AbstractCrud implements ShouldBelongsTo
 {
     use HandleBelongsTo, HandleImage, HandleLinks,
-        FilterApplication, FilterIsDefault;
+        FilterApplication, FilterIsFlag;
 
     public function className(): string
     {
@@ -34,7 +34,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             'id' => 'ID',
             'title' => 'Title',
             'code' => 'Code',
-            'is_default' => 'Is Default',
+            'is_start' => 'Is Start',
         ];
     }
 
@@ -42,7 +42,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
     {
         return [
             'orderBy', 'orderDirection', 'perPage', 'search',
-            ...$this->filterApplicationProperties(), ...$this->filterIsDefaultProperties()
+            ...$this->filterApplicationProperties(), ...$this->filterIsFlagProperties()
         ];
     }
 
@@ -50,7 +50,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
     {
         return [
             ...$this->filterApplicationTemplates(),
-            ...$this->filterIsDefaultTemplates()
+            ...$this->filterIsFlagTemplates()
         ];
     }
 
@@ -135,13 +135,13 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             ],
             'application_id' =>
                 $this->belongsToField('Application', 'application', ['create', 'edit'], 'required|int'),
-            'is_default' => [
-                'title' => 'Is Default',
-                'action' => ['index', 'edit', 'view', 'create'],
+            'is_start' => [
+                'title' => 'Is Start',
+                'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'rules' => 'nullable|bool',
                 'init' => false,
-                'callback' => fn($model) => $model->is_default ? 'Yes' : 'No'
+                'callback' => fn(\App\Models\Screen $model) => $model->is_start ? 'Yes' : 'No'
             ],
             'query' => [
                 'action' => ['create','edit','view'],
@@ -207,7 +207,12 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
     protected function modifyQuery(Builder $query): Builder
     {
         $query = $this->applyFilterApplication($query->with('image'));
-        return $this->applyFilterIsDefault($query);
+        return $this->applyFilterIsFlag($query, 'is_start');
+    }
+
+    public function filterIsFlagLabel(): string
+    {
+        return 'Is Start';
     }
 
     public function validate($rules = null, $messages = [], $attributes = []): array
