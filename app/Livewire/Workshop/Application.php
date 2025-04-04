@@ -43,7 +43,7 @@ class Application extends AbstractCrud implements ShouldHasMany
 
         return match ($field) {
             'screen_id' => $this->optionsParam($field, \App\Models\Screen::class),
-            'screenLink' => $this->linkTemplateParams(Screen::routeName(), 'initScreen'),
+            'screenLink' => $this->linkTemplateParams(Screen::routeName(), 'startScreen'),
             'screensList' => $this->linkListTemplateParams(Screen::routeName(), 'screens'),
             default => [],
         };
@@ -89,7 +89,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                             if (is_null($this->state['image_id'])) {
                                 $fail('You cannot make this application public without an image.');
                             }
-                            if (!$this->getResource()->initScreen) {
+                            if (!$this->getResource()->startScreen) {
                                 $fail('You cannot make this application public without a init screen.');
                             }
                         }
@@ -110,7 +110,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
-            'screenLink' => $this->linkField('Init Screen', ['index', 'view']),
+            'screenLink' => $this->linkField('Start Screen', ['index', 'view']),
             'screensList' => $this->linkListField('Screens', ['index', 'view']),
         ];
     }

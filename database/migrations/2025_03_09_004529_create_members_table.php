@@ -19,6 +19,8 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()
                 ->constrained()->nullOnDelete();
+            $table->foreignId('screen_id')->nullable(false)
+                ->constrained()->cascadeOnDelete();
             $table->boolean('is_confirmed')->nullable(false)->default(false);
 
             $table->unique(['chat_id', 'mask_id']);

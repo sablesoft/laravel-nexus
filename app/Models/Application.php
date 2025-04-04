@@ -34,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read Collection<int, Screen>|Screen[] $screens     - All screens that belong to the application
  * @property-read Collection<int, Chat>|Chat[] $chats           - All chats created from this application
- * @property-read null|Screen $initScreen                       - Default starting screen of the application
+ * @property-read null|Screen $startScreen                       - Default starting screen of the application
  */
 class Application extends Model implements HasOwnerInterface
 {
@@ -56,9 +56,9 @@ class Application extends Model implements HasOwnerInterface
         return $this->hasMany(Screen::class);
     }
 
-    public function getInitScreenAttribute(): ?Screen
+    public function getStartScreenAttribute(): ?Screen
     {
-        return $this->screens->where('is_default', true)->first();
+        return $this->screens->where('is_start', true)->first();
     }
 
     public function chats(): HasMany

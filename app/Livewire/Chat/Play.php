@@ -53,7 +53,7 @@ class Play extends Component
     public Chat $chat;
 
     #[Locked]
-    public int $memberId;
+    public Member $member;
 
     #[Locked]
     public Application $application;
@@ -106,6 +106,23 @@ class Play extends Component
         ];
     }
 
+    public function mount(int $id): void
+    {
+        $this->chat = Chat::with([
+            'application.screens.controls.scenario',
+            'application.screens.transfers',
+            'members.mask',
+            'memories.member'
+        ])->findOrFail($id);
+        if (!$this->canPlay()) {
+            $this->redirectRoute('chats.view', ['id' => $id], true, true);
+        }
+        $this->application = $this->chat->application;
+        $this->member = $this->chat->takenSeats->where('user_id', auth()->id())->firstOrFail();
+        $this->initMembers();
+        $this->initScreen($this->member->screen);
+    }
+
     public function render(): mixed
     {
         return view('livewire.chat.play', [
@@ -132,23 +149,6 @@ class Play extends Component
     {
         $this->chat->load('memories.member');
         $this->prepareMemories();
-    }
-
-    public function mount(int $id): void
-    {
-        $this->chat = Chat::with([
-            'application.screens.controls.scenario',
-            'application.screens.transfers',
-            'members.mask',
-            'memories.member'
-        ])->findOrFail($id);
-        if (!$this->canPlay()) {
-            $this->redirectRoute('chats.view', ['id' => $id], true, true);
-        }
-        $this->application = $this->chat->application;
-        $this->memberId = $this->chat->takenSeats->where('user_id', auth()->id())->first()->id;
-        $this->initMembers();
-        $this->initScreen($this->application->initScreen);
     }
 
     protected function initMembers(): void
@@ -231,11 +231,12 @@ class Play extends Component
      * before/after blocks and nested logic. Currently, the screen transition happens unconditionally,
      * but this will be refined soon.
      */
-    public function transfer(int $screenId): void
+    public function transfer(int $transferId): void
     {
-        $transfer = $this->getTransfer($screenId);
+        $transfer = $this->getTransfer($transferId);
         NodeRunner::run($transfer, $this->getProcess());
-        // todo - remove after completing effects feature:
+        // todo - remove after completing transfer effect:
+        $this->member->update(['screen_id' => $transfer->screen_to_id]);
         $fromChannel = $this->screenChannel();
         $this->initScreen($transfer->screenTo);
         $toChannel = $this->screenChannel();
@@ -298,7 +299,7 @@ class Play extends Component
     {
         $this->initMembers();
 
-        $message = $this->getMember()->maskName . ' is playing "' . $this->chat->title . '"';
+        $message = $this->member->maskName . ' is playing "' . $this->chat->title . '"';
         $link = route('chats.play', ['id' => $this->chat->id]);
         /** @var Member $member */
         foreach ($this->offlineMembers as $member) {
@@ -331,7 +332,7 @@ class Play extends Component
         ]);
         /** @var Member $member */
         foreach ($this->onlineMembers as $member) {
-            if ($member->id !== $this->memberId) {
+            if ($member->id !== $this->member->id) {
                 $member->user->notifyNow(new ScreenUpdated());
             }
         }
@@ -356,18 +357,12 @@ class Play extends Component
         return $this->screen->controls->findOrFail($id);
     }
 
-    protected function getMember(?int $memberId = null): Member
-    {
-        $memberId = $memberId ?: $this->memberId;
-        return $this->chat->takenSeats->where('id', $memberId)->firstOrFail();
-    }
-
     protected function getProcess(array $data = []): Process
     {
         return new Process(array_merge([
             'chat' => $this->chat,
             'screen' => $this->screen,
-            'member' => $this->getMember(),
+            'member' => $this->member,
         ], $data));
     }
 }
