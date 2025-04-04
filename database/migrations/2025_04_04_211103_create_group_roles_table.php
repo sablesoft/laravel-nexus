@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('app.group_roles', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('application_id')->nullable(false)
+            $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('group_id')->nullable(false)
+            $table->foreignId('group_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('role_id')->nullable(false)
+            $table->foreignId('role_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
 
             $table->string('name')->nullable(false);

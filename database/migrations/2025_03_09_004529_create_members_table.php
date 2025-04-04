@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('app.members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('chat_id')->nullable(false)
+            $table->foreignId('chat_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('mask_id')->nullable(false)
+            $table->foreignId('mask_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->nullable()
+            $table->foreignId('user_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
-            $table->foreignId('screen_id')->nullable(false)
+            $table->foreignId('screen_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
             $table->boolean('is_confirmed')->nullable(false)->default(false);
 

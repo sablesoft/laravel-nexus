@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('app.screens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable(false)
+            $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('application_id')->nullable(false)
+            $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('image_id')->nullable()
+            $table->foreignId('image_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();

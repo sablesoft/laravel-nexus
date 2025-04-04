@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('app.groups', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('application_id')->nullable(false)
+            $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
 
             $table->string('name')->nullable(false);

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('app.applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable(false)
+            $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('image_id')->nullable()
+            $table->foreignId('image_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
             $table->string('title')->nullable(false)->unique();
             $table->text('description')->nullable();

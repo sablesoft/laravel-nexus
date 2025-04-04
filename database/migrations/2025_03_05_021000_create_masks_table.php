@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('app.masks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable(false)
+            $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('image_id')->nullable()
+            $table->foreignId('image_id')->nullable()->index()
                 ->constrained('app.images')->nullOnDelete();
-            $table->foreignId('portrait_id')->nullable()
+            $table->foreignId('portrait_id')->nullable()->index()
                 ->constrained('app.images')->nullOnDelete();
             $table->string('name')->nullable(false)->unique();
             $table->text('description')->nullable();

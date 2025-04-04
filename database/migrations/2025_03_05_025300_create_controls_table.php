@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('app.controls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('screen_id')->nullable(false)
+            $table->foreignId('screen_id')->nullable(false)->index()
                 ->constrained('app.screens')->cascadeOnDelete();
-            $table->foreignId('scenario_id')->nullable()
+            $table->foreignId('scenario_id')->nullable()->index()
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->enum('type', ControlType::values())->nullable(false)
                 ->default(ControlType::getDefault()->value)->index();

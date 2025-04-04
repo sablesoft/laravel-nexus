@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('app.chats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable(false)
+            $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('application_id')->nullable(false)
+            $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
             $table->string('title')->nullable(false);
             $table->unsignedSmallInteger('seats')->nullable(false)->default(1);

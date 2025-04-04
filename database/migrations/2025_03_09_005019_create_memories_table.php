@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('app.memories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('chat_id')->nullable()
+            $table->foreignId('chat_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('author_id')->nullable()
+            $table->foreignId('author_id')->nullable()->index()
                 ->constrained('app.members')->cascadeOnDelete();
-            $table->foreignId('member_id')->nullable()
+            $table->foreignId('member_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('image_id')->nullable()
+            $table->foreignId('image_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
             $table->string('title')->nullable();
             $table->text('content')->nullable();

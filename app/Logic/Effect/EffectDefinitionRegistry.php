@@ -5,6 +5,7 @@ namespace App\Logic\Effect;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
+use App\Logic\Effect\Definitions\CommentDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
@@ -76,6 +77,7 @@ class EffectDefinitionRegistry
         static::register(MergeDefinition::KEY, new MergeDefinition());
         static::register(UnsetDefinition::KEY, new UnsetDefinition());
         static::register(ReturnDefinition::KEY, new ReturnDefinition());
+        static::register(CommentDefinition::KEY, new CommentDefinition());
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());

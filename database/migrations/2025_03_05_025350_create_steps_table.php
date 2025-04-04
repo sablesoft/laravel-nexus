@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('app.steps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable(false)
+            $table->foreignId('parent_id')->nullable(false)->index()
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->unsignedSmallInteger('number')->nullable(false)->index();
-            $table->foreignId('scenario_id')->nullable()
+            $table->foreignId('scenario_id')->nullable()->index()
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->string('description')->nullable();
 
