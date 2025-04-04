@@ -11,7 +11,6 @@ use Arr;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Throwable;
@@ -70,7 +69,6 @@ class Transfers extends Component
         $screen = Screen::with('image')->findOrFail($id);
         $this->state = [
             'screen_to_id' => $id,
-            'code' => $this->screenId . '|' . $id,
             'title' => $screen->title,
             'tooltip' => null,
             'description' => null,
@@ -135,7 +133,6 @@ class Transfers extends Component
         return [
             'screen_from_id' => $this->screenId,
             'screen_to_id' => $transfer->screen_to_id,
-            'code' => $transfer->code,
             'title' => $transfer->title,
             'tooltip' => $transfer->tooltip,
             'description' => $transfer->description,
@@ -167,7 +164,6 @@ class Transfers extends Component
         $dslEditor = config('dsl.editor');
         return [
             'screen_to_id'      => ['required', 'int'],
-            'code'              => [Rule::unique(Transfer::class, 'code')->ignore($this->transferId)],
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
             'description'       => ['nullable', 'string'],

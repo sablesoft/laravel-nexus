@@ -23,6 +23,9 @@ return new class extends Migration
             $table->enum('status', ChatStatus::values())->index()
                 ->nullable(false)->default(ChatStatus::Created->value);
 
+            $table->jsonb('states')->nullable();
+            $table->index('states', 'app_chats_states_index', 'gin');
+
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

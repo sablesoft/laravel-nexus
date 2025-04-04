@@ -27,13 +27,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $id
  * @property null|int $screen_from_id   - ID of the screen from which this transfer originates
  * @property null|int $screen_to_id     - ID of the destination screen
- * @property null|string $code          - Unique code of the transfer
  * @property null|string $title         - Displayed title of the transfer (usually shown on the button)
  * @property null|string $tooltip       - Tooltip shown on hover
  * @property null|string $description   - Optional internal/editorial description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|string $code        - Unique code of the transfer
  * @property-read null|Screen $screenFrom  - Source screen of the transfer
  * @property-read null|Screen $screenTo    - Target screen of the transfer
  */
@@ -42,7 +42,7 @@ class Transfer extends Model implements NodeContract
     use HasFactory, HasEffects;
 
     protected $fillable = [
-        'screen_from_id', 'screen_to_id', 'code', 'title', 'tooltip',
+        'screen_from_id', 'screen_to_id', 'title', 'tooltip',
         'description', 'before', 'after',
     ];
 
@@ -50,6 +50,11 @@ class Transfer extends Model implements NodeContract
         'before' => 'array',
         'after' => 'array',
     ];
+
+    public function getCodeAttribute(): ?string
+    {
+        return $this->screen_from_id ."|". $this->screen_to_id;
+    }
 
     public function screenFrom(): BelongsTo
     {

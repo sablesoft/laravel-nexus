@@ -17,11 +17,16 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()
                 ->constrained()->nullOnDelete();
-            $table->string('title')->nullable(false);
+            $table->string('title')->nullable(false)->unique();
             $table->text('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
+
+            $table->jsonb('states')->nullable();
+
             $table->json('before')->nullable();
             $table->json('after')->nullable();
+
+            $table->index('states', 'app_applications_states_index', 'gin');
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

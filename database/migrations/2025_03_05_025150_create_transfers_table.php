@@ -17,12 +17,15 @@ return new class extends Migration
                 ->constrained('app.screens')->cascadeOnDelete();
             $table->foreignId('screen_to_id')->nullable(false)
                 ->constrained('app.screens')->cascadeOnDelete();
-            $table->string('code')->nullable(false)->unique();
             $table->string('title')->nullable(false);
             $table->string('tooltip')->nullable();
             $table->string('description')->nullable();
+
             $table->json('before')->nullable();
             $table->json('after')->nullable();
+
+            $table->text('visible')->nullable();
+            $table->text('enabled')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

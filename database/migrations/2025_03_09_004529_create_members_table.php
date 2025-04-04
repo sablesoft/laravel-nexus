@@ -23,6 +23,9 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->boolean('is_confirmed')->nullable(false)->default(false);
 
+            $table->jsonb('states')->nullable();
+            $table->index('states', 'app_members_states_index', 'gin');
+
             $table->unique(['chat_id', 'mask_id']);
 
             $table->timestamp('created_at')->useCurrent();

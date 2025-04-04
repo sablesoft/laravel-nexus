@@ -21,7 +21,6 @@ class ScenarioFactory extends AppFactory
         $title = $this->getFakeName(1, 2);
         return [
             'user_id' => User::factory(),
-            'code' => \Str::kebab($title),
             'title' => $title,
             'description' => fake()->text(),
         ];

@@ -30,12 +30,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * - Used in the Workshop UI to create, edit, and manage user logic flows
  *
  * @property null|int $id
- * @property null|string $code         - Unique scenario code (can be used for referencing and debugging)
  * @property null|string $title        - Scenario title shown to the user
  * @property null|string $description  - Optional description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|string $code                   - Unique scenario pseudo-code (only for debugging)
  * @property-read Collection<int, Step> $steps        - Steps in this scenario (executable NodeContract nodes)
  * @property-read Collection<int, Step> $inSteps      - Steps where this scenario is used as nested logic
  * @property-read Collection<int, Control> $inControls - Control elements that use this scenario
@@ -46,13 +46,18 @@ class Scenario extends Model implements HasOwnerInterface, LogicContract
     use HasOwner, HasFactory, HasEffects;
 
     protected $fillable = [
-        'user_id', 'code', 'title', 'description', 'before', 'after',
+        'user_id', 'title', 'description', 'before', 'after',
     ];
 
     protected $casts = [
         'before' => 'array',
         'after' => 'array',
     ];
+
+    public function getCodeAttribute(): ?string
+    {
+        return "scenario#". $this->getKey();
+    }
 
     public function steps(): HasMany
     {

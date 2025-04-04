@@ -19,20 +19,23 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()
                 ->constrained()->nullOnDelete();
-            $table->string('code')->nullable(false)->index();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
             $table->boolean('is_start')->nullable(false)
                 ->default(false)->index();
+
             $table->string('query')->nullable();
             $table->text('template')->nullable();
+
             $table->json('before')->nullable();
             $table->json('after')->nullable();
+
+            $table->text('visible')->nullable();
+            $table->text('enabled')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->unique(['application_id', 'code']);
             $table->unique(['application_id', 'title']);
         });
     }

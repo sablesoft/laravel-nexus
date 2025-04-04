@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable(false)
                 ->constrained()->cascadeOnDelete();
-            $table->string('code')->nullable(false)->index();
             $table->string('title')->nullable(false);
             $table->text('description')->nullable();
+
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 

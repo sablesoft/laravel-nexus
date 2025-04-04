@@ -55,6 +55,30 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-03-25 21:06:31',
                 'updated_at' => '2025-03-28 23:44:35',
             ),
+            3 => 
+            array (
+                'id' => 6,
+                'parent_id' => 10,
+                'number' => 2,
+                'scenario_id' => 7,
+                'description' => NULL,
+                'before' => NULL,
+                'after' => NULL,
+                'created_at' => '2025-04-03 21:30:03',
+                'updated_at' => '2025-04-03 21:30:03',
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'parent_id' => 10,
+                'number' => 1,
+                'scenario_id' => 9,
+                'description' => NULL,
+                'before' => NULL,
+                'after' => '[{"push":{"messages":{"role":">>system","content":">>Use a space fantasy setting"}}}]',
+                'created_at' => '2025-04-03 21:29:41',
+                'updated_at' => '2025-04-03 21:39:21',
+            ),
         ));
         
         

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('scenario_id')->nullable()
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->string('description')->nullable();
+
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 
