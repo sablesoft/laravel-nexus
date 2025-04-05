@@ -22,5 +22,6 @@ interface EffectHandlerContract
      * Execute this effect within the given process context.
      */
     public function execute(Process $process): void;
-}
 
+    public function describeLog(Process $process): ?string;
+}

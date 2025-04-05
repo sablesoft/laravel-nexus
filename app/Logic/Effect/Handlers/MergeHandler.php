@@ -8,21 +8,27 @@ use App\Logic\Process;
 
 /**
  * Runtime handler for the `merge` effect.
- * Iterates over all key-value pairs defined in the DSL block, resolves the value
- * using `ValueResolver::resolveWithRaw`, and merges the result into the target
- * path inside the process container.
- *
- * - Raw-prefixed keys (e.g., `!tags`) prevent evaluation and are treated as static values.
- * - Non-prefixed keys are evaluated in the current process context.
+ * Merges resolved values into existing process arrays or maps under the specified paths.
+ * Supports both indexed (list-style) and associative merges.
  *
  * Context:
- * - Called by `EffectRunner` during scenario or step execution.
- * - Supports both list-based and associative merges via `$process->merge(...)`.
- * - Works in tandem with `MergeDefinition` for validation and schema support.
+ * - Registered under the key `"merge"` in the EffectHandlerRegistry.
+ * - Defined structurally by `MergeDefinition`, which outlines rules and examples.
+ * - Frequently used to append new entries or extend nested maps in process state.
+ *
+ * Behavior:
+ * - Raw-prefixed keys (e.g. `!tags`) skip evaluation and are treated literally.
+ * - Uses `$process->merge(...)` to ensure type-consistent appends or merges.
  */
 class MergeHandler implements EffectHandlerContract
 {
     public function __construct(protected array $map) {}
+
+    public function describeLog(Process $process): ?string
+    {
+        $targets = array_keys($this->map);
+        return 'Merged into: ' . implode(', ', $targets);
+    }
 
     public function execute(Process $process): void
     {

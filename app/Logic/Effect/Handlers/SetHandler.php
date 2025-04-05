@@ -8,17 +8,17 @@ use App\Logic\Process;
 
 /**
  * Runtime handler for the `set` effect.
- * Iterates over key-value pairs from the DSL definition, resolves each value using
- * `ValueResolver::resolveWithRaw()`, and assigns the result into the process container
- * using `$process->set(...)`.
- *
- * - Keys represent variable paths (can be nested using dot notation).
- * - If a key starts with the raw prefix (`!`), the value is used directly without evaluation.
- * - Otherwise, expressions, variables, and interpolated strings are resolved dynamically.
+ * Assigns resolved values to variables inside the process container.
  *
  * Context:
- * - Called by `EffectRunner` when executing a step, control, or scenario.
- * - Provides a fundamental mechanism for variable mutation and state tracking.
+ * - Registered under the key `"set"` in the EffectHandlerRegistry.
+ * - Driven by `SetDefinition`, which defines structure and schema.
+ * - Used for variable assignment, flags, and temporary state changes during execution.
+ *
+ * Behavior:
+ * - Resolves each value in context (unless marked as raw with `!` prefix).
+ * - Supports dot-notation keys for nested assignments.
+ * - Stores results using `$process->set(...)`.
  */
 class SetHandler implements EffectHandlerContract
 {
@@ -26,6 +26,12 @@ class SetHandler implements EffectHandlerContract
      * @param array<string, mixed> $vars Key-value pairs from the effect block
      */
     public function __construct(protected array $vars) {}
+
+    public function describeLog(Process $process): ?string
+    {
+        $keys = array_keys($this->vars);
+        return 'Set variables: ' . implode(', ', $keys);
+    }
 
     /**
      * Execute the effect in the current process context.

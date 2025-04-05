@@ -30,6 +30,20 @@ class ChatRefreshHandler implements EffectHandlerContract
      */
     public function __construct(protected null|array|bool $params = false) {}
 
+    public function describeLog(Process $process): ?string
+    {
+        if (empty($this->params)) {
+            return 'Broadcasted refresh to all screens in chat';
+        }
+
+        $resolved = ValueResolver::resolve($this->params, $process);
+        if (is_array($resolved)) {
+            return 'Broadcasted refresh to screens: ' . implode(', ', $resolved);
+        }
+
+        return 'Broadcasted refresh to specific screens';
+    }
+
     /**
      * Execute the refresh broadcast based on resolved screen codes.
      */

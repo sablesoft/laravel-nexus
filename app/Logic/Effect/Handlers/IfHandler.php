@@ -9,14 +9,17 @@ use App\Logic\Facades\EffectRunner;
 
 /**
  * Runtime handler for the `if` effect.
- * Evaluates a boolean DSL expression and conditionally executes either the `then` or `else` effect blocks.
- * Enables branching logic inside scenarios, steps, and controls.
+ * Evaluates a boolean expression in the current process context
+ * and conditionally executes either the `then` or `else` block.
  *
  * Context:
- * - Resolved by `EffectHandlerRegistry` for the `"if"` key.
- * - Paired with `IfDefinition`, which defines schema and structure.
- * - Uses `Dsl::evaluate(...)` to resolve the condition in the current process context.
- * - Delegates effect execution to `EffectRunner::run(...)`.
+ * - Registered under the key `"if"` in the EffectHandlerRegistry.
+ * - Associated with `IfDefinition` for validation and structure.
+ * - Commonly used for conditional branching in DSL scenarios and steps.
+ *
+ * Behavior:
+ * - If the condition evaluates to `true`, executes the `then` effects.
+ * - Otherwise, executes the optional `else` effects (if provided).
  */
 class IfHandler implements EffectHandlerContract
 {
@@ -28,6 +31,13 @@ class IfHandler implements EffectHandlerContract
      * } $params Conditional effect structure
      */
     public function __construct(protected array $params) {}
+
+    public function describeLog(Process $process): ?string
+    {
+        $result = Dsl::evaluate($this->params['condition'], $process->toContext());
+
+        return 'IF "' . $this->params['condition'] . '" → ' . ($result ? 'THEN' : 'ELSE');
+    }
 
     /**
      * Execute the appropriate effect block based on the evaluated condition.

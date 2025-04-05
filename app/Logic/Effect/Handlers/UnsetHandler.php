@@ -7,13 +7,17 @@ use App\Logic\Process;
 
 /**
  * Runtime handler for the `unset` effect.
- * Iterates over a list of variable names and removes each from the process container.
- * This is typically used to clean up temporary state between logic steps.
+ * Removes one or more variables from the process state.
+ * Often used to clean up temporary or intermediate values between logic steps.
  *
  * Context:
- * - Instantiated by `EffectHandlerRegistry` for the `"unset"` key.
- * - Works with `UnsetDefinition`, which provides validation and schema metadata.
- * - Uses `$process->forget(...)` to remove variables from memory.
+ * - Registered under the key `"unset"` in the EffectHandlerRegistry.
+ * - Defined structurally by `UnsetDefinition`, which allows an array of variable names.
+ * - Uses `$process->forget(...)` for mutation.
+ *
+ * Behavior:
+ * - Accepts an array of variable names (strings).
+ * - Deletes each from the current process memory.
  */
 class UnsetHandler implements EffectHandlerContract
 {
@@ -21,6 +25,11 @@ class UnsetHandler implements EffectHandlerContract
      * @param array<int, string> $keys List of variable names to remove
      */
     public function __construct(protected array $keys) {}
+
+    public function describeLog(Process $process): ?string
+    {
+        return 'Unset variables: ' . implode(', ', $this->keys);
+    }
 
     /**
      * Execute the unset logic for the current process.

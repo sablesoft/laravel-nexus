@@ -29,6 +29,25 @@ class ChatCompletionHandler implements EffectHandlerContract
 {
     public function __construct(protected array $params) {}
 
+    public function describeLog(Process $process): ?string
+    {
+        $model = $this->params['model'] ?? 'unknown';
+        $messages = $this->params['messages'] ?? null;
+        $tools = $this->params['tools'] ?? null;
+
+        $summary = "OpenAI chat completion with model: {$model}";
+
+        if (is_array($messages)) {
+            $summary .= ", messages: " . count($messages);
+        }
+
+        if (!empty($tools)) {
+            $summary .= ", tools: " . implode(', ', array_keys($tools));
+        }
+
+        return $summary;
+    }
+
     /**
      * Sends chat completion request to OpenAI and handles response:
      * - sets `content` if present;

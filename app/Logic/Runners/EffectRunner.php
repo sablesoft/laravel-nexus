@@ -32,8 +32,10 @@ class EffectRunner
             foreach ($effects as $raw) {
                 $effect = EffectHandlerRegistry::resolve($raw);
                 $effect->execute($process);
+                $process->writeLog($raw, $effect->describeLog($process));
             }
         } catch (ReturnException $e) {
+            $process->writeLog($raw, $e->getMessage());
             if ($e->isFullReturn()) {
                 throw $e;
             }

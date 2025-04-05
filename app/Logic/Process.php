@@ -9,6 +9,7 @@ use App\Logic\Dsl\Adapters\ModelDslAdapter;
 use App\Logic\Traits\EffectsStack;
 use App\Logic\Traits\Timing;
 use App\Models\Chat;
+use App\Models\ChatLog;
 use App\Models\Member;
 use App\Models\Memory;
 use App\Models\Screen;
@@ -233,5 +234,26 @@ class Process
             $this->stopTimer($identifier);
             $this->stopLog($identifier, $data);
         }
+    }
+
+    public function writeLog(array $raw, ?string $message = null, string $level = 'info'): void
+    {
+        if (!$message) {
+            return;
+        }
+
+        $key = array_key_first($raw);
+        ChatLog::create([
+            'chat_id'    => $this->chat->id(),
+            'member_id'  => $this->member->id(),
+            'effect_key' => $key,
+            'level'      => $level,
+            'message'    => $message,
+            'context'    => [
+                'raw'    => $raw[$key],
+                'data'   => $this->data(),
+                'screen' => $this->screen->code(),
+            ],
+        ]);
     }
 }

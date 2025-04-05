@@ -8,21 +8,30 @@ use App\Logic\Process;
 
 /**
  * Runtime handler for the `return` effect.
- * When executed, it throws a `ReturnException`, which interrupts logic execution.
- * The exception carries a boolean flag that distinguishes between full and partial return:
- * - `true` (default): full return from the LogicContract (e.g., scenario).
- * - `false`: return from the current node (e.g., step), outer logic continues.
- *
- * This mechanism enables conditional exits and early termination of logic flows.
- * It’s often used inside `if` blocks, validation checks, or branching logic.
+ * Throws a `ReturnException` that cleanly exits the current logic flow.
  *
  * Context:
- * - Used by `EffectRunner`, `LogicRunner`, and `NodeRunner` to break flow cleanly.
- * - Exception is caught and handled by the caller (not considered an error).
+ * - Registered under the key `"return"` in the EffectHandlerRegistry.
+ * - Controlled by `ReturnDefinition`, which provides an optional `value`.
+ * - Used for early exits from DSL logic blocks like steps or scenarios.
+ *
+ * Behavior:
+ * - `true`  → full return from LogicContract (e.g. scenario).
+ * - `false` → return only from current node (e.g. step), outer logic continues.
+ *
+ * Exception is not considered an error — it's intercepted and handled
+ * by the effect runner (or node/logic runners) gracefully.
  */
 class ReturnHandler implements EffectHandlerContract
 {
     public function __construct(protected bool $value = true) {}
+
+    public function describeLog(Process $process): ?string
+    {
+        return $this->value
+            ? 'Return: exiting entire logic flow'
+            : 'Return: exiting current node only';
+    }
 
     /**
      * @throws ReturnException
