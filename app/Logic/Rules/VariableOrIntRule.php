@@ -33,10 +33,12 @@ class VariableOrIntRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $this->validateVariable($attribute, $value, $fail);
+        if ($this->validateVariable($attribute, $value, $fail)) {
+            return;
+        }
 
         if (!is_int($value)) {
-            $fail("The {$attribute} field must be a string (DSL) or an integer.");
+            $fail("The {$attribute} field must be a variable (DSL) or an integer.");
             return;
         }
 

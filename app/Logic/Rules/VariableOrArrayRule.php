@@ -25,9 +25,7 @@ class VariableOrArrayRule implements ValidationRule
      */
     public function __construct(
         protected array $rules = []
-    ) {
-        $this->prefix = config('dsl.string_prefix', '>>');
-    }
+    ) {}
 
     /**
      * Validate the attribute as either a variable name (without prefix) or a literal array.
@@ -37,6 +35,7 @@ class VariableOrArrayRule implements ValidationRule
         if ($this->validateVariable($attribute, $value, $fail)) {
             return;
         }
+
         $this->validateArray($attribute, $value, $fail);
     }
 }

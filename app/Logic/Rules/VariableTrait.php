@@ -4,14 +4,13 @@ namespace App\Logic\Rules;
 
 trait VariableTrait
 {
-    protected string $prefix;
-
     protected function validateVariable(string $attribute, mixed $value, \Closure $fail): bool
     {
+        $prefix = config('dsl.string_prefix', '>>');
         if (is_string($value)) {
             // Reject prefixed string literals (e.g., >>text)
-            if (str_starts_with($value, $this->prefix)) {
-                $fail("The {$attribute} field must be a variable (without {$this->prefix}) or an array.");
+            if (str_starts_with($value, $prefix)) {
+                $fail("The {$attribute} field must be a variable (without {$prefix}) or an array.");
                 return true;
             }
 
