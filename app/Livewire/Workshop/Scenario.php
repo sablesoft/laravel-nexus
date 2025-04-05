@@ -5,9 +5,10 @@ namespace App\Livewire\Workshop;
 use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleLinks;
 use App\Logic\Contracts\LogicContract;
-use App\Logic\Effect\EffectRule;
 use App\Logic\Facades\LogicRunner;
 use App\Logic\Process;
+use App\Logic\Rules\DslRule;
+use App\Logic\Validators\EffectsValidator;
 
 class Scenario extends AbstractCrud
 {
@@ -64,14 +65,14 @@ class Scenario extends AbstractCrud
                 'title' => 'Effects',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'Effects After',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'stepsCrud' => [

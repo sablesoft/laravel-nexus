@@ -1,6 +1,6 @@
 <?php
 
-use App\Logic\Effect\EffectValidator;
+use App\Logic\Validators\EffectsValidator;
 
 it('validates if effect with nested then and else', function () {
     $effects = [
@@ -15,17 +15,17 @@ it('validates if effect with nested then and else', function () {
         ]],
     ];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
     expect(true)->toBe(true);
 })->group('dsl', 'effect-validate', 'effect', 'effect:if');
 
 it('fails if missing then block in if', function () {
-    EffectValidator::validate([['if' => ['condition' => 'true']]]);
+    EffectsValidator::validate([['if' => ['condition' => 'true']]]);
 })->throws(InvalidArgumentException::class, 'Validation failed in [if]:')
     ->group('dsl', 'effect-validate', 'effect', 'effect:if');
 
 it('fails if nested effect has effect-validate error', function () {
-    EffectValidator::validate([
+    EffectsValidator::validate([
         ['if' => [
             'condition' => 'true',
             'then' => [
@@ -49,6 +49,6 @@ it('validates nested if inside then', function () {
         ]],
     ];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
     expect(true)->toBe(true);
 })->group('dsl', 'effect-validate', 'effect', 'effect:if');

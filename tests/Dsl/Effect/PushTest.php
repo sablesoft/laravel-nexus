@@ -1,9 +1,8 @@
 <?php
 
-use App\Logic\Effect\EffectValidator;
 use App\Logic\Effect\Handlers\PushHandler;
 use App\Logic\Process;
-use Illuminate\Validation\ValidationException;
+use App\Logic\Validators\EffectsValidator;
 
 it('validates push with literals and expressions', function () {
     $effects = [[
@@ -14,7 +13,7 @@ it('validates push with literals and expressions', function () {
         ]
     ]];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
     expect(true)->toBeTrue();
 })->group('dsl', 'dsl-raw', 'effect-validate', 'effect', 'effect:push');
 
@@ -25,7 +24,7 @@ it('fails effect-validate if value is missing', function () {
         ]
     ]];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
 })->throws(InvalidArgumentException::class, 'Validation failed in [push]:')
     ->group('dsl', 'effect-validate', 'effect', 'effect:push');
 

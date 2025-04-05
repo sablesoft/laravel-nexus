@@ -65,7 +65,7 @@ return [
                 'tooltip' => 'Manage your images!'
             ],
             'masks' => [
-                'icon' => 'identification',
+                'icon' => 'face-smile',
                 'title' => 'Masks',
                 'is_crud' => true,
                 'action' => \App\Livewire\Workshop\Mask::class,

@@ -1,31 +1,40 @@
 <?php
 
-namespace App\Logic\Effect;
+namespace App\Logic\Rules;
 
+use App\Logic\Contracts\DslValidatorContract;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Custom Laravel validation rule that parses and validates a raw DSL string
- * (YAML or JSON) as a list of effects. Ensures that the content is syntactically
+ * (YAML or JSON) as a DSL-content. Ensures that the content is syntactically
  * and semantically valid before storing or executing it.
  *
  * Context:
- * - Used in request/form validation when editing effect blocks (e.g., in controls or steps).
- * - Relies on `EffectValidator` for recursive structure checks.
+ * - Used in request/form validation when editing behaviors blocks.
+ * - Relies on specified dsl validator for recursive structure checks.
  * - Supports both YAML and JSON formats for flexibility in input.
  */
-class EffectRule implements ValidationRule
+class DslRule implements ValidationRule
 {
     /**
      * Language format of the input string: "yaml" or "json"
      */
     protected string $lang;
 
-    public function __construct(string $lang = 'yaml')
+    protected string|DslValidatorContract $validatorClass;
+
+    public function __construct(string $validatorClass, string $lang = 'yaml')
     {
         $this->lang = $lang;
+        if (class_exists($validatorClass) &&
+            in_array(DslValidatorContract::class, class_implements($validatorClass))) {
+            $this->validatorClass = $validatorClass;
+        } else {
+            throw new \LogicException('Invalid validator class');
+        }
     }
 
     /**
@@ -50,7 +59,7 @@ class EffectRule implements ValidationRule
                 return;
             }
 
-            EffectValidator::validate($parsed);
+            $this->validatorClass::validate($parsed);
         } catch (\Throwable $e) {
             $fail($e->getMessage());
         }

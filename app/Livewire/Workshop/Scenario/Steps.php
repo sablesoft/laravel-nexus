@@ -2,7 +2,8 @@
 namespace App\Livewire\Workshop\Scenario;
 
 use App\Livewire\Workshop\HasCodeMirror;
-use App\Logic\Effect\EffectRule;
+use App\Logic\Rules\DslRule;
+use App\Logic\Validators\EffectsValidator;
 use App\Models\Control;
 use App\Models\Scenario;
 use App\Models\Services\StoreService;
@@ -208,8 +209,8 @@ class Steps extends Component
         return [
             'number'        => ['required', 'integer'],
             'description'   => ['nullable', 'string'],
-            'beforeString'  => ['nullable', $dslEditor, new EffectRule($dslEditor)],
-            'afterString'   => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+            'beforeString'  => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+            'afterString'   => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],
         ];
     }

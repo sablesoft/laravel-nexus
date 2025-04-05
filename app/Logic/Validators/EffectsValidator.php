@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Logic\Effect;
+namespace App\Logic\Validators;
 
+use App\Logic\Contracts\DslValidatorContract;
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Effect\EffectDefinitionRegistry;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
@@ -19,18 +21,19 @@ use InvalidArgumentException;
  * - Validates effect parameters based on `rules()` and `nestedEffects()` of each definition.
  * - Used in Codemirror editor live checks and backend DSL compilers.
  */
-class EffectValidator
+class EffectsValidator implements DslValidatorContract
 {
     /**
      * Validates a list of effects.
-     *
-     * @param array<int, array<string, mixed>> $effects
-     * @param bool $deep Whether to recursively validate nested effect blocks
-     * @param string $path Effect key path (for error reporting)
      */
-    public static function validate(array $effects, bool $deep = true, string $path = ''): void
+    public static function validate(array $dsl): void
     {
-        foreach ($effects as $index => $effect) {
+        static::_validate($dsl);
+    }
+
+    protected static function _validate(array $dsl, string $path = ''): void
+    {
+        foreach ($dsl as $index => $effect) {
             if (!is_array($effect) || count($effect) !== 1) {
                 throw new InvalidArgumentException("Invalid effect at [$path#$index]: must have exactly one key.");
             }
@@ -49,10 +52,7 @@ class EffectValidator
                 : ['value' => $params];
 
             static::validateRules($fullKey, $data, $definition::rules());
-
-            if ($deep) {
-                static::validateNested($definition, $data, $fullKey);
-            }
+            static::validateNested($definition, $data, $fullKey);
         }
     }
 
@@ -95,7 +95,7 @@ class EffectValidator
 
         foreach ($nested as $slot => $effects) {
             $nestedPath = "$parentPath.$slot";
-            static::validate($effects, true, $nestedPath);
+            static::_validate($effects, $nestedPath);
         }
     }
 }

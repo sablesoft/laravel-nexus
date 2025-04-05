@@ -13,7 +13,7 @@ namespace App\Logic\Contracts;
  *
  * Context:
  * - Registered via the `EffectDefinitionRegistry` at system boot.
- * - Used by `EffectValidator` for static and recursive validation of effect structures.
+ * - Used by `EffectsValidator` for static and recursive validation of effect structures.
  * - Powers the Codemirror-based DSL editor for live hints, documentation, and examples.
  */
 interface EffectDefinitionContract

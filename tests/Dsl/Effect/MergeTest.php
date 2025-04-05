@@ -1,9 +1,8 @@
 <?php
 
-use App\Logic\Effect\EffectValidator;
 use App\Logic\Effect\Handlers\MergeHandler;
 use App\Logic\Process;
-use Illuminate\Validation\ValidationException;
+use App\Logic\Validators\EffectsValidator;
 
 it('validates merge with indexed and associative arrays', function () {
     $effects = [[
@@ -14,7 +13,7 @@ it('validates merge with indexed and associative arrays', function () {
         ]
     ]];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
     expect(true)->toBeTrue();
 })->group('dsl', 'dsl-raw', 'effect', 'effect-validate', 'effect:merge');
 
@@ -25,7 +24,7 @@ it('fails effect-validate if value is not provided', function () {
         ]
     ]];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
 })->throws(InvalidArgumentException::class, 'Validation failed in [merge]:')
     ->group('dsl', 'effect', 'effect-validate', 'effect:merge');
 

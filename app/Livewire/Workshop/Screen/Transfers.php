@@ -3,7 +3,8 @@ namespace App\Livewire\Workshop\Screen;
 
 use App\Crud\Traits\HandlePaginate;
 use App\Livewire\Workshop\HasCodeMirror;
-use App\Logic\Effect\EffectRule;
+use App\Logic\Rules\DslRule;
+use App\Logic\Validators\EffectsValidator;
 use App\Models\Screen;
 use App\Models\Services\StoreService;
 use App\Models\Transfer;
@@ -167,8 +168,8 @@ class Transfers extends Component
             'title'             => ['string', 'required'],
             'tooltip'           => ['nullable', 'string'],
             'description'       => ['nullable', 'string'],
-            'beforeString'      => ['nullable', $dslEditor, new EffectRule($dslEditor)],
-            'afterString'       => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+            'beforeString'      => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+            'afterString'       => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
         ];
     }
 }

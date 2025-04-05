@@ -2,7 +2,8 @@
 namespace App\Livewire\Workshop\Screen;
 
 use App\Livewire\Workshop\HasCodeMirror;
-use App\Logic\Effect\EffectRule;
+use App\Logic\Rules\DslRule;
+use App\Logic\Validators\EffectsValidator;
 use App\Models\Control;
 use App\Models\Enums\ControlType;
 use App\Models\Scenario;
@@ -138,8 +139,8 @@ class Controls extends Component
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
             'description'   => ['nullable', 'string'],
-            'beforeString'  => ['nullable', $dslEditor, new EffectRule($dslEditor)],
-            'afterString'   => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+            'beforeString'  => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+            'afterString'   => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],
         ];
     }

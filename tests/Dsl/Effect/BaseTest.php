@@ -1,8 +1,8 @@
 <?php
 
-use App\Logic\Process;
-use App\Logic\Effect\EffectValidator;
 use App\Logic\Effect\Handlers\SetHandler;
+use App\Logic\Process;
+use App\Logic\Validators\EffectsValidator;
 
 it('validates simple set and unset effects', function () {
     $effects = [
@@ -12,12 +12,12 @@ it('validates simple set and unset effects', function () {
         ['validate' => ['score' => 'required|integer']],
     ];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
     expect(true)->toBe(true);
 })->group('dsl', 'dsl-raw', 'effect-validate', 'effect', 'effect:set', 'effect:unset', 'effect:validate');
 
 it('fails on unknown effect key', function () {
-    EffectValidator::validate([['unknown' => ['foo' => 'bar']]]);
+    EffectsValidator::validate([['unknown' => ['foo' => 'bar']]]);
 })->throws(InvalidArgumentException::class, 'Unknown effect type: [unknown]')
     ->group('dsl', 'effect-validate', 'effect');
 

@@ -9,7 +9,8 @@ use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterApplication;
 use App\Livewire\Filters\FilterIsFlag;
-use App\Logic\Effect\EffectRule;
+use App\Logic\Rules\DslRule;
+use App\Logic\Validators\EffectsValidator;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -165,14 +166,14 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'title' => 'Effects',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'afterString' => [
                 'title' => 'Effects After',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new EffectRule($dslEditor)],
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'applicationLink' => $this->linkField('Application', ['index', 'view']),

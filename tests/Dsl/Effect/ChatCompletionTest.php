@@ -1,6 +1,6 @@
 <?php
 
-use App\Logic\Effect\EffectValidator;
+use App\Logic\Validators\EffectsValidator;
 
 it('validates chat.completion with tools and handlers', function () {
     $effects = [
@@ -41,6 +41,6 @@ it('validates chat.completion with tools and handlers', function () {
         ]]
     ];
 
-    EffectValidator::validate($effects);
+    EffectsValidator::validate($effects);
     expect(true)->toBeTrue();
 })->group('dsl', 'effect', 'effect-validate', 'effect:chat.completion');

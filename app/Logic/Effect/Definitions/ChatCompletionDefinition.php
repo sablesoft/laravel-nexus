@@ -14,7 +14,7 @@ use App\Logic\Rules\VariableOrArrayRule;
  *
  * Context:
  * - Registered via EffectDefinitionRegistry.
- * - Used by EffectValidator for compile-time validation.
+ * - Used by EffectsValidator for compile-time validation.
  * - Provides documentation and autocomplete hints inside the Codemirror DSL editor.
  * - Internally resolved and executed via ChatCompletionHandler.
  *
