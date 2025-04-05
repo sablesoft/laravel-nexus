@@ -72,6 +72,14 @@ return [
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Manage your masks!'
             ],
+            'roles' => [
+                'icon' => 'identification',
+                'title' => 'Roles',
+                'is_crud' => true,
+                'action' => \App\Livewire\Workshop\Role::class,
+                'middleware' => ['auth', 'verified'],
+                'tooltip' => 'Manage your roles'
+            ],
             'applications' => [
                 'icon' => 'server-stack',
                 'title' => 'Applications',

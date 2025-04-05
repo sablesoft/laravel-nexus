@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasBehaviors;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|string $description
  * @property null|int $limit
  * @property null|int $screen_id
- * @property null|array $behaviors
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class GroupRole extends Model
 {
+    use HasBehaviors;
+
     protected $fillable = [
         'application_id', 'group_id', 'role_id',
         'name', 'description', 'limit', 'screen_id', 'behaviors'
