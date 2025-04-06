@@ -27,6 +27,7 @@ class AppApplicationsTableSeeder extends Seeder
                 'title' => 'Wild Crash',
                 'description' => NULL,
                 'is_public' => true,
+                'states' => NULL,
                 'before' => NULL,
                 'after' => NULL,
                 'created_at' => '2025-03-28 04:15:22',
