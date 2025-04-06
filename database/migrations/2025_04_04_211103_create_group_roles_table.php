@@ -24,11 +24,14 @@ return new class extends Migration
             $table->string('name')->nullable(false);
             $table->text('description')->nullable();
 
-            $table->unsignedSmallInteger('limit')->nullable();
+            $table->unsignedSmallInteger('limit')->nullable(false)->default(0);
             $table->foreignId('screen_id')->nullable()
                 ->constrained()->nullOnDelete();
 
             $table->unique(['application_id', 'role_id']);
+
+            $table->jsonb('states')->nullable();
+            $table->index('states', 'app_group_roles_states_index', 'gin');
 
             $table->jsonb('behaviors')->nullable();
             $table->index('behaviors', 'app_group_roles_behaviors_index', 'gin');

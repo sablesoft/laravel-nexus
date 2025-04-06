@@ -48,11 +48,13 @@
                 let option = e.detail.option;
                 if (option.id) {
                     this[this.selectedField()] = option.id;
+                    $wire.set('state.' + field, option.id);
                 }
             },
             searchableCleared(e) {
                 this.debug('Searchable cleared', e);
                 this[this.selectedField()] = null;
+                $wire.set('state.' + field, null);
             },
 
             get model() {

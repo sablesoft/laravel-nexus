@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\HasBehaviors;
+use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,15 +27,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class GroupRole extends Model
 {
-    use HasBehaviors;
+    use HasBehaviors, HasStates;
 
     protected $fillable = [
         'application_id', 'group_id', 'role_id',
-        'name', 'description', 'limit', 'screen_id', 'behaviors'
+        'name', 'description', 'limit', 'screen_id', 'states', 'statesString', 'behaviors', 'behaviorsString'
     ];
 
     protected $casts = [
-        'behaviors' => 'array'
+        'states' => 'array',
+        'behaviors' => 'array',
     ];
 
     public function application(): BelongsTo

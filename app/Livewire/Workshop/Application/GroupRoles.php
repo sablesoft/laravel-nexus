@@ -4,6 +4,7 @@ namespace App\Livewire\Workshop\Application;
 use App\Livewire\Workshop\HasCodeMirror;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\BehaviorsValidator;
+use App\Logic\Validators\StatesValidator;
 use App\Models\GroupRole;
 use App\Models\Services\StoreService;
 use Flux\Flux;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Symfony\Component\Yaml\Yaml;
 
 class GroupRoles extends Component
 {
@@ -23,7 +25,7 @@ class GroupRoles extends Component
     #[Locked]
     public int $groupId;
     #[Locked]
-    public array $roles;
+    public array $roles = [];
     #[Locked]
     public array $groupRoles = [];
     #[Locked]
@@ -45,7 +47,12 @@ class GroupRoles extends Component
 
     public function render(): mixed
     {
-        return view('livewire.workshop.application.group-roles');
+        return view('livewire.workshop.application.group-roles', [
+            'selectRoles' => collect($this->roles)->map(fn($item) => [
+                'id' => $item['id'],
+                'name' => $item['name']
+            ])->values()->toArray()
+        ]);
     }
     #[On('roles-updated')]
     public function updateRoles(array $roles): void
@@ -54,9 +61,25 @@ class GroupRoles extends Component
         $this->setSelectKey();
     }
 
+    public function updatedStateRoleId(?int $id): void
+    {
+        if ($id && $role = $this->roles[$id] ?? null) {
+            $this->state['name'] = $role['name'];
+            $this->state['description'] = $role['description'];
+            $this->state['statesString'] = $role['states'] ? Yaml::dump( $role['states'], 10, 2) : null;
+            $this->state['behaviorsString'] = $role['behaviors'] ? Yaml::dump( $role['behaviors'], 10, 2) : null;
+        } else {
+            $this->state['name'] = null;
+            $this->state['description'] = null;
+            $this->state['statesString'] = null;
+            $this->state['behaviorsString'] = null;
+        }
+        $this->dispatchCodeMirror();
+    }
+
     protected function codeMirrorFields(): array
     {
-        return ['behaviorsString'];
+        return ['behaviorsString', 'statesString'];
     }
 
     public function resetForm(): void
@@ -66,6 +89,7 @@ class GroupRoles extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
+        $this->state['limit'] = 0;
         $this->dispatchCodeMirror();
     }
 
@@ -147,6 +171,7 @@ class GroupRoles extends Component
                 $groupRole->description :
                 $groupRole->role?->description,
             'limit' => $groupRole->limit,
+            'statesString' => $groupRole->statesString,
             'behaviorsString' => $groupRole->behaviorsString,
         ];
     }
@@ -158,6 +183,7 @@ class GroupRoles extends Component
             'limit'             => ['nullable', 'int'],
             'name'              => ['string', 'required'],
             'description'       => ['nullable', 'string'],
+            'statesString'      => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
             'behaviorsString'   => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
             'role_id'           => [ 'required', 'int'],
         ];

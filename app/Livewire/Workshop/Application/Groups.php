@@ -19,7 +19,7 @@ class Groups extends Component
     #[Locked]
     public array $groups = [];
     #[Locked]
-    public array $roles;
+    public array $roles = [];
     #[Locked]
     public string $action;
     #[Locked]
@@ -41,9 +41,11 @@ class Groups extends Component
     #[On('refresh-roles')]
     public function refreshRoles(): void
     {
-        $this->roles = Role::where('user_id', auth()->id())
-            ->whereNotIn('id', GroupRole::where('application_id', $this->applicationId)->pluck('role_id'))
-            ->select(['id', 'name'])->get()->toArray();
+        $this->roles = Role::where(function ($query) {
+            $query->where('user_id', auth()->id())
+                ->orWhere('is_public', true);
+        })->whereNotIn('id', GroupRole::where('application_id', $this->applicationId)->pluck('role_id'))
+            ->select(['id', 'name', 'description', 'behaviors', 'states'])->get()->keyBy('id')->toArray();
         $this->dispatch('roles-updated', roles: $this->roles);
     }
 

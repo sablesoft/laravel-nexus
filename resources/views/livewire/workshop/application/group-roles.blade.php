@@ -13,7 +13,7 @@
             <flux:field class="mb-3">
                 <flux:label>Role</flux:label>
                 <div wire:key="{{ $selectKey }}">
-                    <x-searchable-select field="role_id" :options="$roles" :key="'ForGroup'. $groupId"/>
+                    <x-searchable-select field="role_id" :options="$selectRoles" :key="'ForGroup'. $groupId"/>
                 </div>
                 <flux:error name="state.role_id"/>
             </flux:field>
@@ -32,8 +32,18 @@
 
             <flux:field class="mb-3">
                 <flux:label>Limit</flux:label>
-                <flux:input type="number" step="1" wire:model="state.limit"/>
+                <flux:input type="number" step="1" min="0" wire:model="state.limit"/>
                 <flux:error name="state.limit"/>
+            </flux:field>
+
+            {{-- States --}}
+            <flux:field class="mb-3">
+                <flux:label>States ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.statesString"
+                               :lang="config('dsl.editor', 'yaml')"
+                               :content="$state['statesString'] ?? ''"
+                               wire:model.defer="state.statesString" class="w-full" />
+                <flux:error name="state.statesString"/>
             </flux:field>
 
             {{-- Behaviors --}}
@@ -64,9 +74,10 @@
     <div class="space-y-2">
         @if($groupRoles)
             <div
-                class="grid grid-cols-4 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-                <span>Role</span>
+                class="grid grid-cols-[1fr_1fr_3fr_1fr_auto] gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
+                <span>Original Role</span>
                 <span>Name</span>
+                <span>Description</span>
                 <span>Limit</span>
                 <span class="text-right">Actions</span>
             </div>
@@ -76,7 +87,7 @@
             <div x-data="{ open: false }"
                  class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
                 {{-- Row --}}
-                <div class="grid grid-cols-4 gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
+                <div class="grid grid-cols-[1fr_1fr_3fr_1fr_auto] gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
                     <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
                         <a class="underline" wire:click.stop wire:navigate
                            href="{{ route('workshop.roles', ['action' => 'view', 'id' => $groupRole['role_id']]) }}">
@@ -86,8 +97,11 @@
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">
                         {{ $groupRole['name'] }}
                     </span>
+                    <span class="text-sm text-zinc-600 dark:text-zinc-300">
+                        {!! e($groupRole['description']) !!}
+                    </span>
                     <span class="text-sm text-zinc-500 dark:text-zinc-400">
-                        {{ $groupRole['limit'] }}
+                        {{ $groupRole['limit'] > 0 ? $groupRole['limit'] : 'Unlimited' }}
                     </span>
 
                     {{-- Expand toggle + actions --}}
@@ -105,12 +119,6 @@
 
                 {{-- Expandable section --}}
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
-                    <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
-                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto whitespace-pre-wrap">
-                            {!! e($groupRole['description']) !!}
-                        </pre>
-                    </div>
                     @if($groupRole['behaviorsString'])
                         <div class="mb-3">
                             <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Behaviors ({{ config('dsl.editor', 'yaml') }})</label>
@@ -118,6 +126,16 @@
                                            :lang="config('dsl.editor', 'yaml')"
                                            :readonly="true"
                                            :content="$groupRole['behaviorsString']"
+                                           class="w-full" />
+                        </div>
+                    @endif
+                    @if($groupRole['statesString'])
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">States ({{ config('dsl.editor', 'yaml') }})</label>
+                            <x-code-mirror wire:key="codemirror-before-{{ uuid_create() }}"
+                                           :lang="config('dsl.editor', 'yaml')"
+                                           :readonly="true"
+                                           :content="$groupRole['statesString']"
                                            class="w-full" />
                         </div>
                     @endif
