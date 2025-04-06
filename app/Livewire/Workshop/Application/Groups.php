@@ -66,6 +66,8 @@ class Groups extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
+        $this->state['roles_per_member'] = 1;
+        $this->state['is_required'] = true;
     }
 
     public function edit(int $id): void
