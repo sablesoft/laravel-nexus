@@ -7,25 +7,27 @@ use InvalidArgumentException;
 
 class BehaviorsValidator implements DslValidatorContract
 {
-
-    public static function validate(array $dsl): void
+    public static function validate(?array $dsl): void
     {
         if (empty($dsl)) {
             return;
         }
-        if (!isset($dsl['can'])) {
-            throw new InvalidArgumentException("Behaviors should contain 'can' root");
+
+        if (!array_key_exists('can', $dsl)) {
+            throw new InvalidArgumentException("Behaviors must contain a 'can' root block.");
         }
+
         $behaviors = $dsl['can'];
-        if (array_is_list($behaviors)) {
-            throw new InvalidArgumentException("Behaviors should be an associative array");
+        if (!is_array($behaviors) || array_is_list($behaviors)) {
+            throw new InvalidArgumentException("The 'can' block must be an associative array.");
         }
-        foreach ($behaviors as $name => $behavior) {
+
+        foreach ($behaviors as $name => $value) {
             if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_.]*$/', $name)) {
-                throw new InvalidArgumentException("The behavior name must be a valid variable name: " . $name);
+                throw new InvalidArgumentException("Invalid behavior name: '{$name}'. Use variable-like keys.");
             }
-            if (!is_string($behavior) && !is_bool($behavior)) {
-                throw new InvalidArgumentException("Behavior value should be expression string or boolean");
+            if (!is_string($value) && !is_bool($value)) {
+                throw new InvalidArgumentException("Behavior '{$name}' must be a boolean or an expression string.");
             }
         }
     }

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
 
-//            $table->jsonb('states')->nullable();
-//            $table->index('states', 'app_roles_states_index', 'gin');
+            $table->jsonb('states')->nullable();
+            $table->index('states', 'app_roles_states_index', 'gin');
 
             $table->jsonb('behaviors')->nullable();
             $table->index('behaviors', 'app_roles_behaviors_index', 'gin');

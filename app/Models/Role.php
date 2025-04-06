@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasOwner;
+use App\Models\Traits\HasStates;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,15 +20,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model implements HasOwnerInterface
 {
-    use HasOwner, HasBehaviors;
+    use HasOwner, HasBehaviors, HasStates, HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'description', 'is_public', 'behaviors'
+        'user_id', 'name', 'description', 'is_public', 'behaviors', 'states'
     ];
 
     protected $casts = [
         'is_public' => 'bool',
-        'behaviors' => 'array'
+        'behaviors' => 'array',
+        'states' => 'array',
     ];
 
     public static function boot(): void

@@ -7,6 +7,7 @@ use App\Crud\Traits\HandleUnique;
 use App\Livewire\Filters\FilterIsPublic;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\BehaviorsValidator;
+use App\Logic\Validators\StatesValidator;
 use Illuminate\Database\Eloquent\Builder;
 
 class Role extends AbstractCrud
@@ -61,6 +62,13 @@ class Role extends AbstractCrud
                 'rules' => ['boolean'],
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
             ],
+            'statesString' => [
+                'title' => 'States',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
             'behaviorsString' => [
                 'title' => 'Behaviors',
                 'action' => ['edit', 'view'],
@@ -69,11 +77,6 @@ class Role extends AbstractCrud
                 'collapsed' => true
             ],
         ];
-    }
-
-    public function componentParams(string $action, ?string $field = null): array
-    {
-        return [];
     }
 
     protected function modifyQuery(Builder $query): Builder
