@@ -29,15 +29,15 @@ class BackupCommand extends Command
         'app.roles',
         'app.masks',
         'app.applications',
+        'app.groups',
         'app.screens',
+        'app.group_roles',
         'app.transfers',
         'app.scenarios',
         'app.controls',
-        'app.steps',
-        'app.groups'
     ];
 
-    protected string $lastTable = 'app.group_roles';
+    protected string $lastTable = 'app.steps';
 
     /**
      * Execute the console command.

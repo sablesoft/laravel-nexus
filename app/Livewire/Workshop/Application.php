@@ -8,6 +8,9 @@ use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsPublic;
+use App\Logic\Rules\DslRule;
+use App\Logic\Validators\BehaviorsValidator;
+use App\Logic\Validators\StatesValidator;
 use App\Models\Role;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
@@ -119,6 +122,27 @@ class Application extends AbstractCrud implements ShouldHasMany
             ],
             'screenLink' => $this->linkField('Start Screen', ['index', 'view']),
             'screensList' => $this->linkListField('Screens', ['index', 'view']),
+            'statesString' => [
+                'title' => 'Global States',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
+            'memberStatesString' => [
+                'title' => 'Member States',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
+            'memberBehaviorsString' => [
+                'title' => 'Member Behaviors',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
             'groupsCrud' => [
                 'title' => 'Groups',
                 'action' => ['view'],

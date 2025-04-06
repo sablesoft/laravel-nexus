@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use JsonException;
 
 /**
  * The Application model represents a user-defined application (or scenario engine)
@@ -30,8 +31,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|string $title         - Application title, visible in UI
  * @property null|string $description   - Description or notes about the application
  * @property null|bool $is_public       - Visibility flag (public or private) TODO - change to status
+ * @property null|array $member_states
+ * @property null|array $member_behaviors
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
+ *
+ * @property null|string $memberStatesString
+ * @property null|string $memberBehaviorsString
  *
  * @property-read Collection<int, Screen> $screens     - All screens that belong to the application
  * @property-read Collection<int, Chat> $chats         - All chats created from this application
@@ -45,12 +51,15 @@ class Application extends Model implements HasOwnerInterface
     use HasOwner, HasStates, HasFactory, HasImage, HasEffects;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public', 'states', 'before', 'after'
+        'user_id', 'title', 'description', 'is_public',
+        'states', 'member_states', 'member_behaviors', 'before', 'after'
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
         'states' => 'array',
+        'member_states' => 'array',
+        'member_behaviors' => 'array',
         'before' => 'array',
         'after' => 'array'
     ];
@@ -78,6 +87,32 @@ class Application extends Model implements HasOwnerInterface
     public function chats(): HasMany
     {
         return $this->hasMany(Chat::class);
+    }
+
+    public function getMemberStatesStringAttribute(): ?string
+    {
+        return $this->getJsonAsString('member_states');
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function setMemberStatesStringAttribute(?string $value): void
+    {
+        $this->setStringAsJson('member_states', $value);
+    }
+
+    public function getMemberBehaviorsStringAttribute(): ?string
+    {
+        return $this->getJsonAsString('member_behaviors');
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function setMemberBehaviorsStringAttribute(?string $value): void
+    {
+        $this->setStringAsJson('member_behaviors', $value);
     }
 
     public static function boot(): void

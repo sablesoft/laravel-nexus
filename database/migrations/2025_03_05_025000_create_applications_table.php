@@ -22,11 +22,16 @@ return new class extends Migration
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->jsonb('states')->nullable();
+            $table->index('states', 'app_applications_states_index', 'gin');
+
+            $table->jsonb('member_states')->nullable();
+            $table->index('member_states', 'app_applications_member_states_index', 'gin');
+
+            $table->jsonb('member_behaviors')->nullable();
+            $table->index('member_behaviors', 'app_applications_member_behaviors_index', 'gin');
 
             $table->json('before')->nullable();
             $table->json('after')->nullable();
-
-            $table->index('states', 'app_applications_states_index', 'gin');
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
