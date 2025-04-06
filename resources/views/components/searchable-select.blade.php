@@ -1,15 +1,20 @@
-<div x-data='searchableSelect("{{ $field }}", @json($options))'>
+@props([
+    'key' => '',
+    'field' => '',
+    'options' => []
+])
+<div x-data='searchableSelect{{ $key }}("{{ $field }}", @json($options))'>
     <x-searchable id="{{ $field }}" :keep-selected="true" :allow-new="false"
                   @searchable-init="searchableInit"
                   @searchable-selected="searchableSelected"
                   @searchable-cleared="searchableCleared"/>
-{{--    <input type="hidden" x-model="model" value="{{ $state[$field] }}">--}}
 </div>
 
 @script
 <!--suppress JSUnresolvedReference -->
 <script>
-    window.searchableSelect = function (field, options) {
+    let componentName = "searchableSelect{{ $key }}"
+    window[componentName] = function (field, options) {
         let component = {
             field: field,
             selectOptions: options,
@@ -25,7 +30,7 @@
             },
 
             selectedField() {
-                return this.field + 'Selected';
+                return this.field + 'Selected{{ $key }}';
             },
 
             // handlers:
@@ -55,7 +60,7 @@
             }
         }
 
-        component[field + 'Selected'] = $wire.entangle('state.' + field);
+        component[field + "Selected{{ $key }}"] = $wire.entangle('state.' + field);
 
         return component;
     };

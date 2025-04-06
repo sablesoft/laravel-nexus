@@ -8,6 +8,7 @@ use App\Crud\Traits\HandleHasMany;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsPublic;
+use App\Models\Role;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -57,6 +58,12 @@ class Application extends AbstractCrud implements ShouldHasMany
             return $this->componentParamsImageSelector($field, $model->image_id, [
                 'aspectRatio' => ImageAspect::Landscape->value
             ]);
+        }
+
+        if ($action === 'view' && $field === 'groupsCrud') {
+            return [
+                'applicationId' => $this->modelId
+            ];
         }
 
         return [];
@@ -112,6 +119,14 @@ class Application extends AbstractCrud implements ShouldHasMany
             ],
             'screenLink' => $this->linkField('Start Screen', ['index', 'view']),
             'screensList' => $this->linkListField('Screens', ['index', 'view']),
+            'groupsCrud' => [
+                'title' => 'Groups',
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.application.groups',
+                'showEmpty' => true,
+                'collapsed' => true
+            ],
         ];
     }
 
