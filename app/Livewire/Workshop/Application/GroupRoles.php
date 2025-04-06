@@ -9,6 +9,7 @@ use App\Models\GroupRole;
 use App\Models\Services\StoreService;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -167,9 +168,11 @@ class GroupRoles extends Component
             'role_id' => $groupRole->role_id,
             'roleName' => $groupRole->role?->name,
             'name' => $groupRole->name,
+            'code' => $groupRole->code,
             'description' => !empty($groupRole->description) ?
                 $groupRole->description :
                 $groupRole->role?->description,
+            'allowed' => $groupRole->allowed,
             'limit' => $groupRole->limit,
             'statesString' => $groupRole->statesString,
             'behaviorsString' => $groupRole->behaviorsString,
@@ -182,7 +185,15 @@ class GroupRoles extends Component
         return [
             'limit'             => ['nullable', 'int'],
             'name'              => ['string', 'required'],
+            'code'              => [
+                'string',
+                'required',
+                Rule::unique('group_roles')
+                    ->where(fn ($query) => $query->where('application_id', $this->applicationId))
+                    ->ignore($this->groupRoleId),
+            ],
             'description'       => ['nullable', 'string'],
+            'allowed'           => ['nullable', 'string'], // todo - dsl-expression
             'statesString'      => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
             'behaviorsString'   => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
             'role_id'           => [ 'required', 'int'],

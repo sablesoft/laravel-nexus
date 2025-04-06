@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('number')->nullable(false);
             $table->unsignedSmallInteger('roles_per_member')->nullable(false)->default(1);
             $table->boolean('is_required')->nullable(false)->default(true);
+            $table->string('allowed')->nullable();
 
             $table->unique(['application_id', 'name']);
             $table->unique(['application_id', 'number']);

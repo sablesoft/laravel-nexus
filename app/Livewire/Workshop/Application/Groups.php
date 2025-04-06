@@ -54,11 +54,6 @@ class Groups extends Component
         return view('livewire.workshop.application.groups');
     }
 
-    protected function codeMirrorFields(): array
-    {
-        return ['beforeString', 'afterString'];
-    }
-
     public function resetForm(): void
     {
         $this->action = 'create';
@@ -165,6 +160,7 @@ class Groups extends Component
             'name' => $group->name,
             'description' => $group->description,
             'is_required' => $group->is_required,
+            'allowed' => $group->allowed,
             'roles_per_member' => $group->roles_per_member,
         ];
     }
@@ -206,6 +202,7 @@ class Groups extends Component
             'name'          => ['required', 'string'],
             'description'   => ['nullable', 'string'],
             'is_required'   => ['nullable', 'bool'],
+            'allowed'       => ['nullable', 'string'], // todo - dsl-expression
             'roles_per_member'   => ['nullable', 'int'],
         ];
     }

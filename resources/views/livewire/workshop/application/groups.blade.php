@@ -30,6 +30,11 @@
                 <flux:switch label="Is Required" class="cursor-pointer" wire:model="state.is_required"/>
                 <flux:error name="state.is_required"/>
             </flux:field>
+            <flux:field class="mb-3">
+                <flux:label>Allowed</flux:label>
+                <flux:textarea wire:model="state.allowed" rows="auto"></flux:textarea>
+                <flux:error name="state.allowed"/>
+            </flux:field>
 
             <div class="flex gap-2">
                 <flux:spacer/>
@@ -105,6 +110,14 @@
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
                         <p>{!! e($group['description']) !!}</p>
                     </div>
+                    @if($group['allowed'])
+                        <div class="mb-3">
+                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Allowed</label>
+                            <span class="text-sm text-zinc-600 dark:text-zinc-300">
+                            {!! e($group['allowed']) !!}
+                            </span>
+                        </div>
+                    @endif
                     <livewire:workshop.application.group-roles
                         :application-id="$applicationId"
                         :roles="$roles"

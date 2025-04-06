@@ -22,13 +22,16 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
 
             $table->string('name')->nullable(false);
+            $table->string('code')->nullable(false);
             $table->text('description')->nullable();
+            $table->string('allowed')->nullable();
 
             $table->unsignedSmallInteger('limit')->nullable(false)->default(0);
             $table->foreignId('screen_id')->nullable()
                 ->constrained()->nullOnDelete();
 
             $table->unique(['application_id', 'role_id']);
+            $table->unique(['application_id', 'code']);
 
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_group_roles_states_index', 'gin');

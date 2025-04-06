@@ -11,10 +11,16 @@ class SequencesSeeder extends Seeder
     protected array $tables = [
         'users',
         'images',
+        'roles',
+        'masks',
         'applications',
+        'groups',
         'screens',
+        'group_roles',
+        'transfers',
         'scenarios',
-        'masks'
+        'controls',
+        'steps',
     ];
 
     /**

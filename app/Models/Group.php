@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|int $number
  * @property null|int $roles_per_member
  * @property null|bool $is_required
+ * @property null|string $allowed
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
@@ -26,7 +27,7 @@ class Group extends Model
 {
     protected $fillable = [
         'application_id', 'name', 'description',
-        'number', 'roles_per_member', 'is_required'
+        'number', 'roles_per_member', 'is_required', 'allowed'
     ];
 
     protected $casts = [

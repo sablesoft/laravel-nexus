@@ -14,18 +14,19 @@ class AppGroupRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.group_roles')->delete();
-        
+
         \DB::table('app.group_roles')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 6,
                 'application_id' => 2,
                 'group_id' => 2,
                 'role_id' => 6,
                 'name' => 'Syndicate',
+                'code' => 'syndicate',
                 'description' => 'Operative of an organized shadow network — masters of influence, intimidation, and trade in secrets.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -34,13 +35,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 04:59:18',
                 'updated_at' => '2025-04-06 04:59:18',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 7,
                 'application_id' => 2,
                 'group_id' => 2,
                 'role_id' => 7,
                 'name' => 'The Order',
+                'code' => 'order',
                 'description' => 'A disciplined organization devoted to law, faith, or ancient principles. Bound by oaths and hierarchy.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -49,13 +51,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 05:00:18',
                 'updated_at' => '2025-04-06 05:00:18',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 1,
                 'application_id' => 2,
                 'group_id' => 1,
                 'role_id' => 1,
                 'name' => 'Noble',
+                'code' => 'noble',
                 'description' => 'Born into a life of privilege, trained in diplomacy and control.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -64,13 +67,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 04:42:35',
                 'updated_at' => '2025-04-06 04:46:39',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 2,
                 'application_id' => 2,
                 'group_id' => 1,
                 'role_id' => 2,
                 'name' => 'Orphan',
+                'code' => 'orphan',
                 'description' => 'Grew up without guidance, but learned to survive through resilience.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -79,13 +83,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 04:43:29',
                 'updated_at' => '2025-04-06 04:47:00',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 3,
                 'application_id' => 2,
                 'group_id' => 1,
                 'role_id' => 3,
                 'name' => 'Outlander',
+                'code' => 'outlander',
                 'description' => 'A stranger from distant lands, bearer of exotic knowledge and outsider instincts.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -94,13 +99,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 04:49:14',
                 'updated_at' => '2025-04-06 04:49:14',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 4,
                 'application_id' => 2,
                 'group_id' => 1,
                 'role_id' => 4,
                 'name' => 'Refugee',
+                'code' => 'refugee',
                 'description' => 'Driven from home by conflict, resilient and resourceful in times of hardship.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -109,13 +115,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 04:51:07',
                 'updated_at' => '2025-04-06 04:51:07',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 5,
                 'application_id' => 2,
                 'group_id' => 2,
                 'role_id' => 5,
                 'name' => 'Rebellion',
+                'code' => 'rebellion',
                 'description' => 'Part of an underground movement. Values freedom over order, always watching for a chance to strike.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -124,13 +131,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 04:58:10',
                 'updated_at' => '2025-04-06 04:58:10',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 8,
                 'application_id' => 2,
                 'group_id' => 2,
                 'role_id' => 8,
                 'name' => 'Nomads',
+                'code' => 'nomads',
                 'description' => 'Wanderers of the world, driven by survival, freedom, or ancient traditions. Adaptable and hard to pin down.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -139,13 +147,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 05:00:31',
                 'updated_at' => '2025-04-06 05:00:31',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 9,
                 'application_id' => 2,
                 'group_id' => 3,
                 'role_id' => 9,
                 'name' => 'Telepath',
+                'code' => 'telepath',
                 'description' => 'Possesses the ability to perceive or influence thoughts, emotions, or minds of others.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -154,13 +163,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 05:01:43',
                 'updated_at' => '2025-04-06 05:01:43',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 10,
                 'application_id' => 2,
                 'group_id' => 3,
                 'role_id' => 10,
                 'name' => 'Tinkerer',
+                'code' => 'tinkerer',
                 'description' => 'Inventor and modifier of devices, known for creativity, precision, and unconventional problem-solving.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -169,13 +179,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 05:02:00',
                 'updated_at' => '2025-04-06 05:02:00',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 11,
                 'application_id' => 2,
                 'group_id' => 3,
                 'role_id' => 11,
                 'name' => 'Diplomat',
+                'code' => 'diplomat',
                 'description' => 'Master of negotiation, persuasion, and maintaining fragile alliances. Balances tension with charm.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -184,13 +195,14 @@ class AppGroupRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 05:02:26',
                 'updated_at' => '2025-04-06 05:02:26',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 12,
                 'application_id' => 2,
                 'group_id' => 3,
                 'role_id' => 12,
                 'name' => 'Watcher',
+                'code' => 'watcher',
                 'description' => 'Silent observer of truths. Gathers intelligence and notices what others miss.',
                 'limit' => 0,
                 'screen_id' => NULL,
@@ -200,7 +212,7 @@ class AppGroupRolesTableSeeder extends Seeder
                 'updated_at' => '2025-04-06 05:02:42',
             ),
         ));
-        
-        
+
+
     }
 }

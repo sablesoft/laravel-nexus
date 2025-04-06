@@ -14,7 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $group_id
  * @property null|int $role_id
  * @property null|string $name
+ * @property null|string $code
  * @property null|string $description
+ * @property null|string $allowed
  * @property null|int $limit
  * @property null|int $screen_id
  * @property null|Carbon $created_at
@@ -30,8 +32,9 @@ class GroupRole extends Model
     use HasBehaviors, HasStates;
 
     protected $fillable = [
-        'application_id', 'group_id', 'role_id',
-        'name', 'description', 'limit', 'screen_id', 'states', 'statesString', 'behaviors', 'behaviorsString'
+        'application_id', 'group_id', 'role_id', 'allowed',
+        'name', 'code', 'description', 'limit', 'screen_id', 'states',
+        'statesString', 'behaviors', 'behaviorsString'
     ];
 
     protected $casts = [

@@ -26,6 +26,9 @@ return new class extends Migration
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_members_states_index', 'gin');
 
+            $table->jsonb('behaviors')->nullable();
+            $table->index('behaviors', 'app_members_behaviors_index', 'gin');
+
             $table->unique(['chat_id', 'mask_id']);
 
             $table->timestamp('created_at')->useCurrent();
