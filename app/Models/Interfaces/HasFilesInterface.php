@@ -4,5 +4,5 @@ namespace App\Models\Interfaces;
 
 interface HasFilesInterface
 {
-    public function getPaths(): array;
+    public function getPathAttributes(): array;
 }

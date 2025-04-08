@@ -54,7 +54,10 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
         static::creating(function (Image $image) {
             self::assignCurrentUser($image);
         });
-
+        static::updating(function(Image $image) {
+            FileService::check($image);
+            FileService::update($image);
+        });
         static::saving(function(Image $image) {
             FileService::check($image);
         });
@@ -64,7 +67,7 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
         });
     }
 
-    public function getPaths(): array
+    public function getPathAttributes(): array
     {
         return [
             $this->path,

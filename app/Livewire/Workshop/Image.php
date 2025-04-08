@@ -7,6 +7,7 @@ use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleOwner;
 use App\Crud\Traits\HandleUnique;
 use App\Jobs\GenerateImage;
+use App\Jobs\RegenerateImage;
 use App\Jobs\ScaleImage;
 use App\Livewire\Filters\FilterImage;
 use App\Livewire\Filters\FilterIsPublic;
@@ -74,7 +75,7 @@ class Image extends AbstractCrud
 
             // generate:
             'prompt' => [
-                'action' => ['generate', 'view'],
+                'action' => ['generate', 'regenerate', 'view'],
                 'type' => 'textarea',
                 'placeholder' => '(ENGLISH ONLY) Describe your image...',
                 'rules' => 'required|string'
@@ -85,18 +86,6 @@ class Image extends AbstractCrud
                 'type' => 'select',
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->aspect->value
-            ],
-            'has_glitches' => [
-                'title' => 'Has Glitches',
-                'action' => ['view', 'edit', 'index'],
-                'type' => 'checkbox',
-                'rules' => 'required|bool',
-                'callback' => fn(\App\Models\Image $model) => $model->has_glitches ? 'Yes' : 'No'
-            ],
-            'attempts' => [
-                'action' => ['view'],
-                'type' => 'number',
-                'rules' => 'required|number'
             ],
             'style' => [
                 'action' => ['generate', 'view', 'index', 'edit'],
@@ -109,6 +98,19 @@ class Image extends AbstractCrud
                 'type' => 'select',
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->quality->value
+            ],
+
+            'has_glitches' => [
+                'title' => 'Has Glitches',
+                'action' => ['view', 'edit', 'index'],
+                'type' => 'checkbox',
+                'rules' => 'required|bool',
+                'callback' => fn(\App\Models\Image $model) => $model->has_glitches ? 'Yes' : 'No'
+            ],
+            'attempts' => [
+                'action' => ['view'],
+                'type' => 'number',
+                'rules' => 'required|number'
             ],
         ];
     }
@@ -147,7 +149,10 @@ class Image extends AbstractCrud
             ],
             'scale' => [
                 'title' => __('Scale'),
-            ]
+            ],
+            'regenerateForm' => [
+                'title' => __('Regenerate'),
+            ],
         ];
     }
 
@@ -159,6 +164,15 @@ class Image extends AbstractCrud
             'style' => ImageStyle::options(),
             default => [],
         };
+    }
+
+    public function regenerateForm(): void
+    {
+        $this->resetState();
+        $this->state['prompt'] = $this->getResource()->prompt;
+        $this->action = 'regenerate';
+        $this->formAction = 'regenerate';
+        $this->openForm();
     }
 
     public function generateForm(): void
@@ -183,6 +197,15 @@ class Image extends AbstractCrud
         $request->addParams($data);
         GenerateImage::dispatch($request, auth()->user(), $data['title'] ?? null);
         $this->dispatch('flash', message: 'Your generate request is processing. Please wait.');
+        $this->close();
+    }
+
+    public function regenerate(): void
+    {
+        $rules = $this->actionConfig($this->action, 'rules');
+        $data = $this->validate(\Arr::prependKeysWith($rules, 'state.'))['state'];
+        RegenerateImage::dispatch($this->getResource(), $data['prompt']);
+        $this->dispatch('flash', message: 'Your regenerate request is processing. Please wait.');
         $this->close();
     }
 

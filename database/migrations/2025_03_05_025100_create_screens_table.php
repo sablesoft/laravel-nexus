@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('image_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
             $table->string('title')->nullable(false);
+            $table->string('code')->nullable(false)->index();
             $table->text('description')->nullable();
             $table->boolean('is_start')->nullable(false)
                 ->default(false)->index();
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
+            $table->unique(['application_id', 'code']);
             $table->unique(['application_id', 'title']);
         });
     }
