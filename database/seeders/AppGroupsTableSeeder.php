@@ -21,18 +21,6 @@ class AppGroupsTableSeeder extends Seeder
         \DB::table('app.groups')->insert(array (
             0 => 
             array (
-                'id' => 1,
-                'application_id' => 2,
-                'name' => 'Origins',
-                'description' => NULL,
-                'number' => 1,
-                'roles_per_member' => 1,
-                'is_required' => true,
-                'created_at' => '2025-04-06 04:17:07',
-                'updated_at' => '2025-04-06 04:17:07',
-            ),
-            1 => 
-            array (
                 'id' => 2,
                 'application_id' => 2,
                 'name' => 'Factions',
@@ -40,10 +28,11 @@ class AppGroupsTableSeeder extends Seeder
                 'number' => 2,
                 'roles_per_member' => 1,
                 'is_required' => true,
+                'allowed' => NULL,
                 'created_at' => '2025-04-06 04:50:51',
                 'updated_at' => '2025-04-06 04:50:51',
             ),
-            2 => 
+            1 => 
             array (
                 'id' => 3,
                 'application_id' => 2,
@@ -52,8 +41,22 @@ class AppGroupsTableSeeder extends Seeder
                 'number' => 3,
                 'roles_per_member' => 1,
                 'is_required' => true,
+                'allowed' => NULL,
                 'created_at' => '2025-04-06 05:01:08',
                 'updated_at' => '2025-04-06 05:01:08',
+            ),
+            2 => 
+            array (
+                'id' => 1,
+                'application_id' => 2,
+                'name' => 'Origins',
+                'description' => 'What is your backstory?',
+                'number' => 1,
+                'roles_per_member' => 1,
+                'is_required' => true,
+                'allowed' => 'true',
+                'created_at' => '2025-04-06 04:17:07',
+                'updated_at' => '2025-04-06 06:25:10',
             ),
         ));
         

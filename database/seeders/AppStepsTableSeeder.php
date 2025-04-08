@@ -21,42 +21,6 @@ class AppStepsTableSeeder extends Seeder
         \DB::table('app.steps')->insert(array (
             0 => 
             array (
-                'id' => 3,
-                'parent_id' => 4,
-                'number' => 3,
-                'scenario_id' => 1,
-                'description' => NULL,
-                'before' => NULL,
-                'after' => NULL,
-                'created_at' => '2025-03-25 21:11:07',
-                'updated_at' => '2025-03-25 21:11:07',
-            ),
-            1 => 
-            array (
-                'id' => 1,
-                'parent_id' => 4,
-                'number' => 1,
-                'scenario_id' => 3,
-                'description' => 'Provides basic system prompt components instructing the assistant to act as a professional DALL·E 2 prompt engineer.',
-                'before' => NULL,
-                'after' => NULL,
-                'created_at' => '2025-03-25 21:04:09',
-                'updated_at' => '2025-03-28 23:44:15',
-            ),
-            2 => 
-            array (
-                'id' => 2,
-                'parent_id' => 4,
-                'number' => 2,
-                'scenario_id' => 2,
-                'description' => 'Generates a system message for the OpenAI chat completion based on predefined instructional parts for the assistant role. Required "system_parts" array.',
-                'before' => NULL,
-                'after' => NULL,
-                'created_at' => '2025-03-25 21:06:31',
-                'updated_at' => '2025-03-28 23:44:35',
-            ),
-            3 => 
-            array (
                 'id' => 6,
                 'parent_id' => 10,
                 'number' => 2,
@@ -67,7 +31,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-03 21:30:03',
                 'updated_at' => '2025-04-03 21:30:03',
             ),
-            4 => 
+            1 => 
             array (
                 'id' => 5,
                 'parent_id' => 10,
@@ -78,6 +42,54 @@ class AppStepsTableSeeder extends Seeder
                 'after' => '[{"push":{"messages":{"role":">>system","content":">>Use a space fantasy setting"}}}]',
                 'created_at' => '2025-04-03 21:29:41',
                 'updated_at' => '2025-04-03 21:39:21',
+            ),
+            2 => 
+            array (
+                'id' => 9,
+                'parent_id' => 13,
+                'number' => 4,
+                'scenario_id' => 7,
+                'description' => NULL,
+                'before' => NULL,
+                'after' => NULL,
+                'created_at' => '2025-04-08 00:43:34',
+                'updated_at' => '2025-04-08 02:12:28',
+            ),
+            3 => 
+            array (
+                'id' => 8,
+                'parent_id' => 13,
+                'number' => 3,
+                'scenario_id' => 11,
+                'description' => NULL,
+                'before' => NULL,
+                'after' => NULL,
+                'created_at' => '2025-04-08 00:43:20',
+                'updated_at' => '2025-04-08 02:12:30',
+            ),
+            4 => 
+            array (
+                'id' => 7,
+                'parent_id' => 13,
+                'number' => 2,
+                'scenario_id' => 12,
+                'description' => NULL,
+                'before' => NULL,
+                'after' => NULL,
+                'created_at' => '2025-04-08 00:43:04',
+                'updated_at' => '2025-04-08 02:12:32',
+            ),
+            5 => 
+            array (
+                'id' => 11,
+                'parent_id' => 13,
+                'number' => 1,
+                'scenario_id' => 14,
+                'description' => 'Add lift description',
+                'before' => NULL,
+                'after' => '[{"push":{"messages":{"role":">>assistant","content":"lift_description"}}},{"set":{"ask":"ask ?? \'Look out the window\'"}}]',
+                'created_at' => '2025-04-08 02:11:49',
+                'updated_at' => '2025-04-08 03:50:09',
             ),
         ));
         

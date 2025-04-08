@@ -73,6 +73,24 @@ class AppScreensTableSeeder extends Seeder
                 'created_at' => '2025-03-28 04:15:58',
                 'updated_at' => '2025-04-04 02:28:17',
             ),
+            3 => 
+            array (
+                'id' => 6,
+                'user_id' => 1,
+                'application_id' => 3,
+                'image_id' => 50,
+                'title' => 'Lift',
+                'description' => NULL,
+                'is_start' => true,
+            'query' => '":type" == screen.code()',
+                'template' => NULL,
+                'before' => NULL,
+                'after' => NULL,
+                'visible_condition' => NULL,
+                'enabled_condition' => NULL,
+                'created_at' => '2025-04-08 01:37:45',
+                'updated_at' => '2025-04-08 01:42:12',
+            ),
         ));
         
         

@@ -21,6 +21,18 @@ class AppRolesTableSeeder extends Seeder
         \DB::table('app.roles')->insert(array (
             0 => 
             array (
+                'id' => 12,
+                'user_id' => 1,
+                'name' => 'Watcher',
+                'description' => 'Silent observer of truths. Gathers intelligence and notices what others miss.',
+                'is_public' => true,
+                'states' => '{"has": {"clarity": {"type": "int", "value": 5, "description": "Perception and attention to subtle cues."}, "insight": {"type": "int", "value": 7, "description": "Ability to deduce hidden intentions or truths."}, "observation_mode": {"type": "enum", "value": "Passive", "options": ["Passive", "Focused", "Covert"], "description": "Current observation strategy."}, "recording_device": {"type": "bool", "value": true, "description": "Carries a device for gathering data."}}}',
+            'behaviors' => '{"can": {"cast": "member.has(\'insight\') > 6", "record": "member.has(\'clarity\') > 4", "observe": true}}',
+                'created_at' => '2025-04-06 03:32:21',
+                'updated_at' => '2025-04-06 03:45:24',
+            ),
+            1 => 
+            array (
                 'id' => 1,
                 'user_id' => 1,
                 'name' => 'Noble',
@@ -31,7 +43,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            1 => 
+            2 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -43,7 +55,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            2 => 
+            3 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -55,7 +67,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            3 => 
+            4 => 
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -67,7 +79,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            4 => 
+            5 => 
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -79,7 +91,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            5 => 
+            6 => 
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -91,7 +103,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            6 => 
+            7 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -103,7 +115,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            7 => 
+            8 => 
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -115,7 +127,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            8 => 
+            9 => 
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -127,7 +139,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            9 => 
+            10 => 
             array (
                 'id' => 10,
                 'user_id' => 1,
@@ -139,7 +151,7 @@ class AppRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
             ),
-            10 => 
+            11 => 
             array (
                 'id' => 11,
                 'user_id' => 1,
@@ -150,18 +162,6 @@ class AppRolesTableSeeder extends Seeder
             'behaviors' => '{"can": {"ally": "chat.has(\'trust-level\') >= 3", "negotiate": "member.has(\'charisma\') > 6", "deescalate": "member.has(\'tension\') < 5"}}',
                 'created_at' => '2025-04-06 03:32:21',
                 'updated_at' => '2025-04-06 03:32:21',
-            ),
-            11 => 
-            array (
-                'id' => 12,
-                'user_id' => 1,
-                'name' => 'Watcher',
-                'description' => 'Silent observer of truths. Gathers intelligence and notices what others miss.',
-                'is_public' => true,
-                'states' => '{"has": {"clarity": {"type": "int", "value": 5, "description": "Perception and attention to subtle cues."}, "insight": {"type": "int", "value": 7, "description": "Ability to deduce hidden intentions or truths."}, "observation_mode": {"type": "enum", "value": "Passive", "options": ["Passive", "Focused", "Covert"], "description": "Current observation strategy."}, "recording_device": {"type": "bool", "value": true, "description": "Carries a device for gathering data."}}}',
-            'behaviors' => '{"can": {"cast": "member.has(\'insight\') > 6", "record": "member.has(\'clarity\') > 4", "observe": true}}',
-                'created_at' => '2025-04-06 03:32:21',
-                'updated_at' => '2025-04-06 03:45:24',
             ),
         ));
         
