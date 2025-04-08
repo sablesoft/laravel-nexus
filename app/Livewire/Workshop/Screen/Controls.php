@@ -4,6 +4,7 @@ namespace App\Livewire\Workshop\Screen;
 use App\Livewire\Workshop\HasCodeMirror;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\EffectsValidator;
+use App\Logic\Validators\QueryExpressionValidator;
 use App\Models\Control;
 use App\Models\Enums\ControlType;
 use App\Models\Scenario;
@@ -128,6 +129,8 @@ class Controls extends Component
                 $control->scenario?->description,
             'beforeString' => $control->beforeString,
             'afterString' => $control->afterString,
+            'enabled_condition' => $control->enabled_condition,
+            'visible_condition' => $control->visible_condition,
         ];
     }
 
@@ -139,6 +142,8 @@ class Controls extends Component
             'title'         => ['string', 'required'],
             'tooltip'       => ['nullable', 'string'],
             'description'   => ['nullable', 'string'],
+            'enabled_condition' => ['nullable', 'string', new DslRule(QueryExpressionValidator::class, 'raw')],
+            'visible_condition' => ['nullable', 'string', new DslRule(QueryExpressionValidator::class, 'raw')],
             'beforeString'  => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'afterString'   => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'scenario_id'   => [ $this->addLogic ? 'required' : 'nullable', 'int'],

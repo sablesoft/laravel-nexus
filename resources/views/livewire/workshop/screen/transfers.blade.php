@@ -61,6 +61,16 @@
                 <flux:error name="state.description"/>
             </flux:field>
             <flux:field class="mb-3">
+                <flux:label>Visible Condition</flux:label>
+                <flux:textarea wire:model="state.visible_condition" rows="auto"></flux:textarea>
+                <flux:error name="state.visible_condition"/>
+            </flux:field>
+            <flux:field class="mb-3">
+                <flux:label>Enabled Condition</flux:label>
+                <flux:textarea wire:model="state.enabled_condition" rows="auto"></flux:textarea>
+                <flux:error name="state.enabled_condition"/>
+            </flux:field>
+            <flux:field class="mb-3">
                 <flux:label>Effects ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
                                :lang="config('dsl.editor', 'yaml')"
@@ -131,10 +141,20 @@
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                     <div class="mb-3">
                         <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
-                        <pre class="bg-zinc-100 dark:bg-zinc-800 p-2 rounded text-xs overflow-auto whitespace-pre-wrap">
-                            {!! e($transfer['description']) !!}
-                        </pre>
+                        <pre class="whitespace-pre-wrap text-left font-sans mt-1 bg-zinc-100 dark:bg-zinc-800">{!! e($transfer['description']) !!}</pre>
                     </div>
+                    @if(!empty($transfer['visible_condition']))
+                    <div class="mb-3">
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Visible Condition</label>
+                        <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($transfer['visible_condition']) !!}</pre>
+                    </div>
+                    @endif
+                    @if(!empty($transfer['enabled_condition']))
+                    <div class="mb-3">
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Enabled Condition</label>
+                        <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($transfer['enabled_condition']) !!}</pre>
+                    </div>
+                    @endif
                     <x-effects-view :before-string="$transfer['beforeString']" :after-string="$transfer['afterString']"/>
                 </div>
             </div>

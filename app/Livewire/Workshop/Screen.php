@@ -173,6 +173,26 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
+            'enabled_condition' => [
+                'title' => 'Enabled Condition',
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => [
+                    'nullable',
+                    'string',
+                    new DslRule(QueryExpressionValidator::class, 'raw')
+                ]
+            ],
+            'visible_condition' => [
+                'title' => 'Visible Condition',
+                'action' => ['edit', 'view'],
+                'type' => 'textarea',
+                'rules' => [
+                    'nullable',
+                    'string',
+                    new DslRule(QueryExpressionValidator::class, 'raw')
+                ]
+            ],
             'applicationLink' => $this->linkField('Application', ['index', 'view']),
             'transfersToList' => $this->linkListField('Transfers To', ['index']),
             'transfersFromList' => $this->linkListField('Transfers From', ['index', 'view']),

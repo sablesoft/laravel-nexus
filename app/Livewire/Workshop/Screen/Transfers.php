@@ -5,6 +5,7 @@ use App\Crud\Traits\HandlePaginate;
 use App\Livewire\Workshop\HasCodeMirror;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\EffectsValidator;
+use App\Logic\Validators\QueryExpressionValidator;
 use App\Models\Screen;
 use App\Models\Services\StoreService;
 use App\Models\Transfer;
@@ -139,6 +140,8 @@ class Transfers extends Component
             'description' => $transfer->description,
             'beforeString' => $transfer->beforeString,
             'afterString' => $transfer->afterString,
+            'enabled_condition' => $transfer->enabled_condition,
+            'visible_condition' => $transfer->visible_condition,
             'screenTitle' => $transfer->screenTo->title,
             'imageUrlSm' => $transfer->screenTo->imageUrlSm,
         ];
@@ -170,6 +173,8 @@ class Transfers extends Component
             'description'       => ['nullable', 'string'],
             'beforeString'      => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'afterString'       => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+            'enabled_condition' => ['nullable', 'string', new DslRule(QueryExpressionValidator::class, 'raw')],
+            'visible_condition' => ['nullable', 'string', new DslRule(QueryExpressionValidator::class, 'raw')],
         ];
     }
 }
