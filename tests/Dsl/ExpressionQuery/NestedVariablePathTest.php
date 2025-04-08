@@ -1,6 +1,6 @@
 <?php
 
-use App\Logic\Dsl\ExpressionQueryParser;
+use App\Logic\Dsl\QueryExpressionParser;
 use App\Models\Chat;
 use App\Models\Memory;
 
@@ -17,7 +17,7 @@ beforeEach(function () {
 it('resolves nested variable paths like screen.extra.info.tag', function () {
     $query = Memory::query();
 
-    (new ExpressionQueryParser())->apply(
+    (new QueryExpressionParser())->apply(
         $query,
         '":meta.extra.info.tag" == screen.extra.info.tag',
         [

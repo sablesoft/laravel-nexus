@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Dsl is the core interpreter service for user-defined DSL expressions.
  * It is based on Symfony ExpressionLanguage and extended with additional functions,
- * including the ability to transform expressions into SQL queries via ExpressionQueryParser.
+ * including the ability to transform expressions into SQL queries via QueryExpressionParser.
  *
  * The Dsl service is used throughout the platform wherever users can define
  * logical conditions, expressions, filters, or executable instructions.
@@ -34,13 +34,13 @@ use Illuminate\Database\Eloquent\Builder;
 class Dsl
 {
     protected ExpressionLanguage $el;
-    protected ExpressionQueryParser $queryParser;
+    protected QueryExpressionParser $queryParser;
 
     public function __construct()
     {
         $this->el = $this->makeExpressionLanguage();
         $this->registerBuiltins();
-        $this->queryParser = new ExpressionQueryParser();
+        $this->queryParser = new QueryExpressionParser();
     }
 
     /**

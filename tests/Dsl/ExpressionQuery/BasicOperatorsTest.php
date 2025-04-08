@@ -1,6 +1,6 @@
 <?php
 
-use App\Logic\Dsl\ExpressionQueryParser;
+use App\Logic\Dsl\QueryExpressionParser;
 use App\Models\Chat;
 use App\Models\Memory;
 
@@ -22,18 +22,18 @@ beforeEach(function () {
 
 it('filters using equality operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, '":type" == "note"');
+    (new QueryExpressionParser())->apply($query, '":type" == "note"');
     expect($query->count())->toBe(1);
 })->group('dsl', 'dsl-query', 'dsl:eq');
 
 it('filters using in operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, '":type" in ["note", "inventory"]');
+    (new QueryExpressionParser())->apply($query, '":type" in ["note", "inventory"]');
     expect($query->count())->toBe(2);
 })->group('dsl', 'dsl-query', 'dsl:in');
 
 it('filters using like operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, 'like(":title", "%Scroll%")');
+    (new QueryExpressionParser())->apply($query, 'like(":title", "%Scroll%")');
     expect($query->count())->toBe(1);
 })->group('dsl', 'dsl-query', 'dsl:like');

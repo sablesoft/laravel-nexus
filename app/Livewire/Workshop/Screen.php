@@ -11,6 +11,7 @@ use App\Livewire\Filters\FilterApplication;
 use App\Livewire\Filters\FilterIsFlag;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\EffectsValidator;
+use App\Logic\Validators\QueryExpressionValidator;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -150,11 +151,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => [
                     'nullable',
                     'string',
-                    function (string $attribute, mixed $value, \Closure $fail) {
-                        if ($error = \App\Models\Screen::validateDslQuery($value)) {
-                            $fail("Invalid DSL expression: " . $error->getMessage());
-                        }
-                    },
+                    new DslRule(QueryExpressionValidator::class, 'raw'),
                 ]
             ],
             'template' => [

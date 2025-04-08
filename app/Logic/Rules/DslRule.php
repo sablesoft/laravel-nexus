@@ -5,11 +5,12 @@ namespace App\Logic\Rules;
 use App\Logic\Contracts\DslValidatorContract;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Custom Laravel validation rule that parses and validates a raw DSL string
- * (YAML or JSON) as a DSL-content. Ensures that the content is syntactically
+ * Custom Laravel validation rule that parses and validates a DSL string
+ * (YAML, JSON or raw) as a DSL-content. Ensures that the content is syntactically
  * and semantically valid before storing or executing it.
  *
  * Context:
@@ -22,18 +23,23 @@ class DslRule implements ValidationRule
     /**
      * Language format of the input string: "yaml" or "json"
      */
-    protected string $lang;
+    protected string $parser;
+
+    protected array $allowedParsers = ['yaml', 'json', 'raw'];
 
     protected string|DslValidatorContract $validatorClass;
 
-    public function __construct(string $validatorClass, string $lang = 'yaml')
+    public function __construct(string $validatorClass, string $parser = 'yaml')
     {
-        $this->lang = $lang;
+        if (!in_array($parser, $this->allowedParsers)) {
+            throw new InvalidArgumentException('Invalid parser type');
+        }
+        $this->parser = $parser;
         if (class_exists($validatorClass) &&
             in_array(DslValidatorContract::class, class_implements($validatorClass))) {
             $this->validatorClass = $validatorClass;
         } else {
-            throw new \LogicException('Invalid validator class');
+            throw new InvalidArgumentException('Invalid validator class');
         }
     }
 
@@ -48,14 +54,15 @@ class DslRule implements ValidationRule
         }
 
         try {
-            $parsed = match ($this->lang) {
+            $parsed = match ($this->parser) {
                 'json' => json_decode($value, true, 512, JSON_THROW_ON_ERROR),
                 'yaml' => Yaml::parse($value),
-                default => throw new \RuntimeException("Unsupported DSL language: {$this->lang}"),
+                'raw' => $value,
+                default => throw new \RuntimeException("Unsupported DSL language: {$this->parser}"),
             };
 
-            if (!is_array($parsed)) {
-                $fail('The :attribute must be a list of effects.');
+            if ($this->parser !== 'raw' && !is_array($parsed)) {
+                $fail('The :attribute must be an array.');
                 return;
             }
 

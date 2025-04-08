@@ -4,7 +4,7 @@ namespace App\Logic\Dsl;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-class ExpressionQueryRegistry
+class QueryExpressionRegistry
 {
     public static function register(ExpressionLanguage $el): void
     {

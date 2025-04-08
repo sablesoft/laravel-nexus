@@ -26,8 +26,12 @@ class EffectsValidator implements DslValidatorContract
     /**
      * Validates a list of effects.
      */
-    public static function validate(array $dsl): void
+    public static function validate(mixed $dsl): void
     {
+        if (!is_array($dsl)) {
+            throw new InvalidArgumentException("Effects must be an array.");
+        }
+
         static::_validate($dsl);
     }
 

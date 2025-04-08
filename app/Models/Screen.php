@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
-use App\Logic\Dsl\ExpressionQueryRegistry;
+use App\Logic\Dsl\QueryExpressionRegistry;
+use App\Logic\Validators\QueryExpressionValidator;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasImage;
@@ -94,28 +95,6 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
         return $this->hasMany(Control::class);
     }
 
-    public static function allowedDslVariables(): array
-    {
-        // todo
-        return [
-            'screen', 'chat', 'application', 'member', 'mask',
-            'members', 'onlineMembers', 'offlineMembers'
-        ];
-    }
-
-    public static function validateDslQuery(string $value): ?\Throwable
-    {
-        try {
-            $el = new ExpressionLanguage();
-            ExpressionQueryRegistry::register($el);
-            $el->parse($value, self::allowedDslVariables());
-        } catch (SyntaxError|\RuntimeException $e) {
-            return $e;
-        }
-
-        return null;
-    }
-
     public static function boot(): void
     {
         parent::boot();
@@ -124,18 +103,14 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
             if (empty($screen->query)) {
                 $screen->query = config('dsl.screen_query', self::DEFAULT_DSL_QUERY);
             }
-            if ($error = Screen::validateDslQuery($screen->query)) {
-                throw new \InvalidArgumentException("Invalid DSL query: " . $error->getMessage());
-            }
+            QueryExpressionValidator::validate($screen->query);
         });
 
         static::updating(function (self $screen) {
             if ($screen->isDirty('query') && empty(trim($screen->query))) {
                 $screen->query = config('dsl.screen_query', self::DEFAULT_DSL_QUERY);
             }
-            if ($error = Screen::validateDslQuery($screen->query)) {
-                throw new \InvalidArgumentException("Invalid DSL query: " . $error->getMessage());
-            }
+            QueryExpressionValidator::validate($screen->query);
             if ($screen->isDirty('is_start') && $screen->is_start) {
                 Screen::where('application_id', $screen->application_id)
                     ->where('id', '!=', $screen->id)

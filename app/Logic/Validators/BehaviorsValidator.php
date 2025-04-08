@@ -7,10 +7,14 @@ use InvalidArgumentException;
 
 class BehaviorsValidator implements DslValidatorContract
 {
-    public static function validate(?array $dsl): void
+    public static function validate(mixed $dsl): void
     {
         if (empty($dsl)) {
             return;
+        }
+
+        if (!is_array($dsl)) {
+            throw new InvalidArgumentException("Behaviors must be an array.");
         }
 
         if (!array_key_exists('can', $dsl)) {

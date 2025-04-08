@@ -1,6 +1,6 @@
 <?php
 
-use App\Logic\Dsl\ExpressionQueryParser;
+use App\Logic\Dsl\QueryExpressionParser;
 use App\Models\Chat;
 use App\Models\Memory;
 
@@ -22,24 +22,24 @@ beforeEach(function () {
 
 it('filters with @>(contains) operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, '":meta" contains {"tags": ["epic", "weapon"]}');
+    (new QueryExpressionParser())->apply($query, '":meta" contains {"tags": ["epic", "weapon"]}');
     expectQueryCount($query, 1);
 })->group('dsl', 'dsl-query', 'dsl:contains');
 
 it('filters with has operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, 'has(":meta.attributes", "strength")');
+    (new QueryExpressionParser())->apply($query, 'has(":meta.attributes", "strength")');
     expectQueryCount($query, 1);
 })->group('dsl', 'dsl-query', 'dsl:has');
 
 it('filters with has_any operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, 'has_any(":meta.tags", ["legendary", "epic"])');
+    (new QueryExpressionParser())->apply($query, 'has_any(":meta.tags", ["legendary", "epic"])');
     expectQueryCount($query, 1);
 })->group('dsl', 'dsl-query', 'dsl:has_any');
 
 it('filters with has_all operator', function () {
     $query = Memory::query();
-    (new ExpressionQueryParser())->apply($query, 'has_all(":meta.tags", ["epic", "weapon"])');
+    (new QueryExpressionParser())->apply($query, 'has_all(":meta.tags", ["epic", "weapon"])');
     expectQueryCount($query, 1);
 })->group('dsl', 'dsl-query', 'dsl:has_all');

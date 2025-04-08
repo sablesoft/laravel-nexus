@@ -9,10 +9,13 @@ class StatesValidator implements DslValidatorContract
 {
     protected const SUPPORTED_TYPES = ['bool', 'int', 'string', 'enum'];
 
-    public static function validate(array $dsl): void
+    public static function validate(mixed $dsl): void
     {
         if (empty($dsl)) {
             return;
+        }
+        if (!is_array($dsl)) {
+            throw new InvalidArgumentException("States must be an array.");
         }
         if (!array_key_exists('has', $dsl)) {
             throw new InvalidArgumentException("States must contain a 'has' root block.");

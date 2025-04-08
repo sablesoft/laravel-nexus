@@ -17,7 +17,7 @@ use Symfony\Component\ExpressionLanguage\Node\Node;
 use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
 
 /**
- * ExpressionQueryParser is a DSL-to-SQL query interpreter for Laravel's query builder (Builder).
+ * QueryExpressionParser is a DSL-to-SQL query interpreter for Laravel's query builder (Builder).
  * It is based on Symfony ExpressionLanguage. It parses the expression into an AST,
  * walks the tree, and transforms it into a closure that applies SQL conditions to the query.
  *
@@ -26,7 +26,7 @@ use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
  * - Built-in functions: like, ilike, between, in, @>, ??, and more
  * - Handles jsonb fields and paths using #> and #>>
  * - Supports AST evaluation via resolveNodeToField/resolveNodeToValue
- * - Extendable via ExpressionQueryRegistry
+ * - Extendable via QueryExpressionRegistry
  *
  * ---
  * Context:
@@ -34,7 +34,7 @@ use Symfony\Component\ExpressionLanguage\Node\UnaryNode;
  * - Actively used in the Play Livewire component to filter records based on screen-defined conditions
  * - Designed to be reused or extended for additional models or use-cases
  */
-class ExpressionQueryParser
+class QueryExpressionParser
 {
     protected ExpressionLanguage $el;
     protected string $fieldPrefix;
@@ -44,7 +44,7 @@ class ExpressionQueryParser
     {
         $this->el = new ExpressionLanguage();
         $this->fieldPrefix = config('dsl.field_prefix', ':');
-        ExpressionQueryRegistry::register($this->el);
+        QueryExpressionRegistry::register($this->el);
     }
 
     /**

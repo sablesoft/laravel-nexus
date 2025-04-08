@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Logic\Dsl\ExpressionQueryParser;
+use App\Logic\Dsl\QueryExpressionParser;
 use App\Models\Memory;
 use Illuminate\Console\Command;
 
-class DslQueryCommand extends Command
+class QueryExpressionCommand extends Command
 {
     protected $signature = 'dsl:query
                             {expression : DSL-выражение для фильтрации}
@@ -23,7 +23,7 @@ class DslQueryCommand extends Command
         $showRaw = $this->option('raw');
         $onlyCount = $this->option('count');
 
-        $parser = new ExpressionQueryParser();
+        $parser = new QueryExpressionParser();
         $query = $parser->apply(Memory::query(), $expression);
 
         if ($showRaw) {

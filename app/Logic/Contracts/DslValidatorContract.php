@@ -4,5 +4,5 @@ namespace App\Logic\Contracts;
 
 interface DslValidatorContract
 {
-    public static function validate(array $dsl): void;
+    public static function validate(mixed $dsl): void;
 }
