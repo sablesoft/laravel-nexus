@@ -238,7 +238,7 @@ class Process
 
     public function writeLog(array $raw, ?string $message = null, string $level = 'info'): void
     {
-        if (!$message) {
+        if (!$message || !$this->chat->id()) {
             return;
         }
 

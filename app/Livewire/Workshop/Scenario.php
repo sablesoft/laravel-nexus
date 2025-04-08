@@ -47,10 +47,6 @@ class Scenario extends AbstractCrud
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
-            'code' => [
-                'action' => ['index', 'create', 'edit', 'view'],
-                'rules' => 'required|string',
-            ],
             'description' => [
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',

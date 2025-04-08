@@ -11,6 +11,7 @@ use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
+use App\Logic\Effect\Definitions\RunDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -22,6 +23,7 @@ use App\Logic\Effect\Handlers\ChatRefreshHandler;
 use App\Logic\Effect\Handlers\MergeHandler;
 use App\Logic\Effect\Handlers\PushHandler;
 use App\Logic\Effect\Handlers\ReturnHandler;
+use App\Logic\Effect\Handlers\RunHandler;
 use App\Logic\Effect\Handlers\SetHandler;
 use App\Logic\Effect\Handlers\UnsetHandler;
 use App\Logic\Effect\Handlers\ValidateHandler;
@@ -62,7 +64,7 @@ class EffectHandlerRegistry
 
         $class = self::$map[$key];
 
-        return new $class(is_array($data) ? $data : [$data]);
+        return new $class($data);
     }
 
     /**
@@ -72,6 +74,7 @@ class EffectHandlerRegistry
     {
         EffectHandlerRegistry::register(IfDefinition::KEY, IfHandler::class);
         EffectHandlerRegistry::register(SetDefinition::KEY, SetHandler::class);
+        EffectHandlerRegistry::register(RunDefinition::KEY, RunHandler::class);
         EffectHandlerRegistry::register(PushDefinition::KEY, PushHandler::class);
         EffectHandlerRegistry::register(MergeDefinition::KEY, MergeHandler::class);
         EffectHandlerRegistry::register(UnsetDefinition::KEY, UnsetHandler::class);

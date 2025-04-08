@@ -3,6 +3,7 @@
 namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
+use App\Logic\Dsl\ValueResolver;
 use App\Logic\Process;
 
 /**
@@ -32,6 +33,6 @@ class CommentHandler implements EffectHandlerContract
      */
     public function execute(Process $process): void
     {
-        // Intentionally left empty
+        $this->value = ValueResolver::resolve($this->value, $process);
     }
 }

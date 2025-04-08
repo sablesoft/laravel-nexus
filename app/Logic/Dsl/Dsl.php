@@ -39,6 +39,7 @@ class Dsl
     public function __construct()
     {
         $this->el = $this->makeExpressionLanguage();
+        $this->registerBuiltins();
         $this->queryParser = new ExpressionQueryParser();
     }
 
@@ -68,6 +69,20 @@ class Dsl
 
         return new ExpressionLanguage(
             $cacheEnabled ? app('cache.psr6') : null
+        );
+    }
+
+    protected function registerBuiltins(): void
+    {
+        // json_encode(array)
+        $this->el->register('json_encode', fn($arr, $sep) => '', fn ($args, $arr) => json_encode($arr));
+        // append(array, value)
+        $this->el->register('array_keys', fn($arr) => '', fn ($args, $arr) => array_keys($arr));
+        // array_has(key)
+        $this->el->register('array_has', fn($key) => '', fn ($args, $key) => \Arr::has($args, $key));
+        // array_get(key, default)
+        $this->el->register('array_get', fn($key, $default) => '', fn ($args, $key, $default = null) =>
+            \Arr::get($args, $key, $default)
         );
     }
 }

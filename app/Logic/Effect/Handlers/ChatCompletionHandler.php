@@ -42,7 +42,7 @@ class ChatCompletionHandler implements EffectHandlerContract
         }
 
         if (!empty($tools)) {
-            $summary .= ", tools: " . implode(', ', array_keys($tools));
+            $summary .= ", tools: " . (is_array($tools) ? implode(', ', array_keys($tools)) : $tools);
         }
 
         return $summary;

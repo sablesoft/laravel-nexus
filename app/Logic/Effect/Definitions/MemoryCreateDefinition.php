@@ -108,6 +108,7 @@ class MemoryCreateDefinition implements EffectDefinitionContract
     {
         return [
             'type' => 'sometimes|string',
+//            todo - rewrite
             'data' => ['required', new VariableOrArrayRule([
                 'author_id' => [
                     'sometimes', 'nullable',

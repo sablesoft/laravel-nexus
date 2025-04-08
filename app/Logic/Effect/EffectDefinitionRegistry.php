@@ -11,6 +11,7 @@ use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
+use App\Logic\Effect\Definitions\RunDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -73,6 +74,7 @@ class EffectDefinitionRegistry
     {
         static::register(IfDefinition::KEY, new IfDefinition());
         static::register(SetDefinition::KEY, new SetDefinition());
+        static::register(RunDefinition::KEY, new RunDefinition());
         static::register(PushDefinition::KEY, new PushDefinition());
         static::register(MergeDefinition::KEY, new MergeDefinition());
         static::register(UnsetDefinition::KEY, new UnsetDefinition());
