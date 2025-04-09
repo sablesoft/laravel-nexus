@@ -30,11 +30,12 @@ trait HasStates
 
     public function getState(string $key): mixed
     {
-        if (!array_key_exists($key, $this->states)) {
+        $states = $this->states['has'] ?? [];
+        if (!array_key_exists($key, $states)) {
             throw new \DomainException("State '{$key}' is not defined for model " . class_basename($this));
         }
 
-        $entry = $this->states[$key];
+        $entry = $states[$key];
         $this->validateState($key, $entry);
 
         return $entry['value'];
@@ -100,7 +101,7 @@ trait HasStates
 
     public function prevState(string $key): mixed
     {
-        $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");
+        $entry = $this->states['has'][$key] ?? throw new \DomainException("State '{$key}' not found.");
         $this->validateState($key, $entry);
 
         return match ($entry['type']) {

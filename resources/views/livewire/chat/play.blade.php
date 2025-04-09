@@ -101,44 +101,42 @@
     <footer id="chat-control"
         class="p-3 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
         {{-- Transfers --}}
-        @if(count($transfers))
-            <flux:input.group class="!w-auto">
-                @foreach($transfers as $transfer)
-                    @if($transfer['tooltip'])
-                    <flux:tooltip :content="$transfer['tooltip']">
-                        <flux:button wire:click="transfer({{ $transfer['id'] }})" class="cursor-pointer">
-                            {{ $transfer['title'] }}
-                        </flux:button>
-                    </flux:tooltip>
-                    @else
-                    <flux:button wire:click="transfer({{ $transfer['id'] }})" class="cursor-pointer">
+        @foreach($transfers as $transfer)
+            @if($transfer['tooltip'])
+                <flux:tooltip :content="$transfer['tooltip']">
+                    <flux:button wire:click="transfer({{ $transfer['id'] }})"
+                        :disabled="!$transfer['enabled']"
+                        class="cursor-pointer">
                         {{ $transfer['title'] }}
                     </flux:button>
-                    @endif
-                @endforeach
-            </flux:input.group>
-        @endif
+                </flux:tooltip>
+            @else
+                <flux:button wire:click="transfer({{ $transfer['id'] }})"
+                    :disabled="!$transfer['enabled']"
+                    class="cursor-pointer">
+                    {{ $transfer['title'] }}
+                </flux:button>
+            @endif
+        @endforeach
 
         {{-- Actions --}}
-        @if(count($actions))
-            <flux:input.group class="!w-auto">
-                @foreach($actions as $action)
-                    @if($action['tooltip'])
-                    <flux:tooltip :content="$action['tooltip']">
-                        <flux:button variant="filled" wire:click="action({{ $action['id'] }})"
-                                     class="cursor-pointer">
-                            {{ $action['title'] }}
-                        </flux:button>
-                    </flux:tooltip>
-                    @else
+        @foreach($actions as $action)
+            @if($action['tooltip'])
+                <flux:tooltip :content="$action['tooltip']">
                     <flux:button variant="filled" wire:click="action({{ $action['id'] }})"
-                                 class="cursor-pointer">
+                        :disabled="!$action['enabled']"
+                        class="cursor-pointer">
                         {{ $action['title'] }}
                     </flux:button>
-                    @endif
-                @endforeach
-            </flux:input.group>
-        @endif
+                </flux:tooltip>
+            @else
+                <flux:button variant="filled" wire:click="action({{ $action['id'] }})"
+                    :disabled="!$action['enabled']"
+                    class="cursor-pointer">
+                    {{ $action['title'] }}
+                </flux:button>
+            @endif
+        @endforeach
 
         {{-- Inputs --}}
         @if(count($inputs))
@@ -152,7 +150,8 @@
                     <flux:menu>
                         @foreach($inputs as $input)
                             @if($input['id'] !== $activeInput['id'])
-                            <flux:menu.item wire:click="changeInput({{ $input['id'] }})">
+                            <flux:menu.item wire:click="changeInput({{ $input['id'] }})"
+                                            :disabled="!$input['enabled']">
                                 {{ $input['title'] }}
                             </flux:menu.item>
                             @endif
@@ -162,6 +161,7 @@
                 <flux:input wire:model.defer="ask"
                             placeholder="{{ $activeInput['tooltip'] ?: '' }}" class="flex-1"
                             wire:keydown.enter="input"
+                            :disabled="!$activeInput['enabled']"
                             x-on:input.debounce.500ms="
                     Echo.join('{{ $channelsPrefix }}.{{ $chat->id }}.{{ $screen->id }}')
                         .whisper('typing', { userId: {{ auth()->id() }} });"/>

@@ -66,6 +66,12 @@ class Play extends Component
     #[Locked]
     public array $screenHistory = [];
 
+    #[Locked]
+    public array $rawTransfers = [];
+
+    #[Locked]
+    public array $rawControls = [];
+
     /** Array of Transfer buttons rendered in the footer */
     #[Locked]
     public array $transfers;
@@ -149,6 +155,7 @@ class Play extends Component
     {
         $this->chat->load('memories.member');
         $this->prepareMemories();
+        $this->prepareControls();
     }
 
     protected function initMembers(): void
@@ -167,15 +174,33 @@ class Play extends Component
             $this->screenHistory[] = $screen->id;
         }
         $this->screen = $screen;
-        $this->prepareControl();
+        $this->rawTransfers = $screen->transfers->map(fn (Transfer $transfer) => [
+            'id' => $transfer->id,
+            'screen_to_id' => $transfer->screen_to_id,
+            'title' => $transfer->title,
+            'tooltip' => $transfer->tooltip,
+            'visible_condition' => $transfer->visible_condition,
+            'enabled_condition' => $transfer->enabled_condition,
+        ])->toArray();
+
+        $this->rawControls = $screen->controls->map(fn (Control $control) => [
+            'id' => $control->id,
+            'type' => $control->type->value,
+            'title' => $control->title,
+            'tooltip' => $control->tooltip,
+            'visible_condition' => $control->visible_condition,
+            'enabled_condition' => $control->enabled_condition,
+        ])->toArray();
+
+        $this->prepareControls();
         $this->prepareMemories();
     }
 
-    protected function prepareControl(): void
+    protected function prepareControls(): void
     {
-        $this->transfers = collect($this->getTransfers())->keyBy('id')->toArray();
-        $this->actions = collect($this->getControls(ControlType::Action->value))->keyBy('id')->toArray();
-        $this->inputs = collect($this->getControls(ControlType::Input->value))->keyBy('id')->toArray();
+        $this->transfers = $this->getTransfers();
+        $this->actions = $this->getControls(ControlType::Action->value);
+        $this->inputs = $this->getControls(ControlType::Input->value);
         $this->activeInput = reset($this->inputs) ?: null;
     }
 
@@ -186,23 +211,32 @@ class Play extends Component
 
     protected function getTransfers(): array
     {
-        return $this->screen->transfers->map(fn(Transfer $transfer) => [
-            'id' => $transfer->id,
-            'screen_to_id' => $transfer->screen_to_id,
-            'title' => $transfer->title,
-            'tooltip' => $transfer->tooltip,
-        ])->toArray();
+        $context = $this->getProcess()->toContext();
+        return collect($this->rawTransfers)
+            ->filter(fn ($t) => !$t['visible_condition'] || Dsl::evaluate($t['visible_condition'], $context))
+            ->map(fn ($t) => [
+                'id'            => $t['id'],
+                'screen_to_id'  => $t['screen_to_id'],
+                'title'         => $t['title'],
+                'tooltip'       => $t['tooltip'],
+                'enabled'       => !$t['enabled_condition'] || Dsl::evaluate($t['enabled_condition'], $context),
+            ])->keyBy('id')->toArray();
     }
 
     protected function getControls(string $type): array
     {
-        return $this->screen->controls->where('type', $type)
-            ->map(fn(Control $control) => [
-                'id' => $control->id,
-                'title' => $control->title,
-                'tooltip' => $control->tooltip,
-            ])->toArray();
+        $context = $this->getProcess()->toContext();
+        return collect($this->rawControls)
+            ->filter(fn ($c) => $c['type'] === $type)
+            ->filter(fn ($c) => !$c['visible_condition'] || Dsl::evaluate($c['visible_condition'], $context))
+            ->map(fn ($c) => [
+                'id' => $c['id'],
+                'title' => $c['title'],
+                'tooltip' => $c['tooltip'],
+                'enabled' => !$c['enabled_condition'] || Dsl::evaluate($c['enabled_condition'], $context),
+            ])->keyBy('id')->toArray();
     }
+
 
     protected function getMemories(): array
     {
