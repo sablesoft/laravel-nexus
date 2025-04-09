@@ -35,7 +35,7 @@ class MemoryCreateHandler implements EffectHandlerContract
     {
         $params = ValueResolver::resolve($this->params, $process);
 
-        $type = $params['type'] ?? $process->screen->code();
+        $type = $params['type'] ?? $process->screen->code;
         $title = $params['title'] ?? null;
         $content = $params['content'] ?? null;
 
@@ -59,10 +59,10 @@ class MemoryCreateHandler implements EffectHandlerContract
         $params = ValueResolver::resolve($this->params, $process);
 
         // Determine memory type
-        $params['type'] = $params['type'] ?? $process->screen->code();
+        $params['type'] = $params['type'] ?? $process->screen->code;
 
         // Prepare and store memory record
-        $params['chat_id'] = $process->chat->id();
+        $params['chat_id'] = $process->chat->getKey();
 
         Memory::create($params);
     }

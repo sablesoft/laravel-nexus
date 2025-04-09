@@ -53,7 +53,7 @@ class ChatRefreshHandler implements EffectHandlerContract
             ? ValueResolver::resolve($this->params, $process)
             : null;
 
-        $base = Play::CHANNELS_PREFIX .'.'. $process->chat->id();
+        $base = Play::CHANNELS_PREFIX .'.'. $process->chat->getKey();
 
         foreach ($this->getChannels($codes, $base) as $channel) {
             broadcast(new RefreshPlay($channel));

@@ -2,7 +2,6 @@
 
 namespace App\Logic;
 
-use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
@@ -48,10 +47,10 @@ class Process
      * Custom adapters can be returned via HasDslAdapterContract;
      * otherwise, the default ModelDslAdapter is used.
      */
-    public readonly DslAdapterContract $chat;
-    public readonly DslAdapterContract $memory;
-    public readonly DslAdapterContract $screen;
-    public readonly DslAdapterContract $member;
+    public readonly Chat $chat;
+    public readonly Memory $memory;
+    public readonly Screen $screen;
+    public readonly Member $member;
 
     /**
      * Adapter mapping: each key maps to an Eloquent model.
@@ -74,12 +73,7 @@ class Process
             if (!($model instanceof $modelClass)) {
                 throw new InvalidArgumentException("Invalid model [$key], expected instance of [$modelClass].");
             }
-
-            // Use a custom DSL adapter if available, otherwise fallback to the default adapter
-            $this->{$key} = ($model instanceof HasDslAdapterContract)
-                ? $model->getDslAdapter($this)
-                : new ModelDslAdapter($this, $model);
-
+            $this->{$key} = $model;
             unset($initial[$key]); // Remaining entries are treated as general data
         }
 
@@ -167,7 +161,11 @@ class Process
     {
         $context = [];
         foreach (array_keys($this->adapters) as $key) {
-            $context[$key] = $this->{$key};
+            $model = $this->{$key};
+            // Use a custom DSL adapter if available, otherwise fallback to the default adapter
+            $context[$key] =($model instanceof HasDslAdapterContract)
+                ? $model->getDslAdapter($this)
+                : new ModelDslAdapter($this, $model);
         }
 
         return array_merge($this->data, $context);
@@ -181,10 +179,10 @@ class Process
         return [
             'data' => $this->data,
             'adapters' => [
-                'chat'   => $this->chat->id(),
-                'screen' => $this->screen->id(),
-                'memory' => $this->memory->id(),
-                'member' => $this->member->id(),
+                'chat'   => $this->chat->getKey(),
+                'screen' => $this->screen->getKey(),
+                'memory' => $this->memory->getKey(),
+                'member' => $this->member->getKey(),
             ],
             'inQueue'    => $this->inQueue,
             'skipQueue'  => $this->skipQueue,
@@ -238,21 +236,21 @@ class Process
 
     public function writeLog(array $raw, ?string $message = null, string $level = 'info'): void
     {
-        if (!$message || !$this->chat->id()) {
+        if (!$message || !$this->chat->getKey()) {
             return;
         }
 
         $key = array_key_first($raw);
         ChatLog::create([
-            'chat_id'    => $this->chat->id(),
-            'member_id'  => $this->member->id(),
+            'chat_id'    => $this->chat->getKey(),
+            'member_id'  => $this->member->getKey(),
             'effect_key' => $key,
             'level'      => $level,
             'message'    => $message,
             'context'    => [
                 'raw'    => $raw[$key],
                 'data'   => $this->data(),
-                'screen' => $this->screen->code(),
+                'screen' => $this->screen->code,
             ],
         ]);
     }

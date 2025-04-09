@@ -17,7 +17,7 @@ class MemoryDslAdapter extends ModelDslAdapter
     public function loadByExpr(string $expression): bool
     {
         $query = Dsl::apply(Memory::query(), $expression, $this->process->toContext());
-        $query->where('chat_id', $this->process->chat->id);
+        $query->where('chat_id', $this->process->chat->getKey());
         // todo - hande collection:
         $this->model = $query->first();
         return !!$this->model;
