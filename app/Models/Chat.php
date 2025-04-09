@@ -105,6 +105,20 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
+        static::created(function(self $model) {
+            $application = $model->application;
+            if (!$application) {
+                throw new \RuntimeException('Cannot initialize chat: chat has no associated application.');
+            }
+            $screens = $application->screens;
+            foreach ($screens as $screen) {
+                ChatScreenState::create([
+                    'chat_id'   => $model->id,
+                    'screen_id' => $screen->id,
+                    'states'    => $screen->states ?? [],
+                ]);
+            }
+        });
         static::saving(function(self $model) {
             if ($model->isDirty('states')) {
                 $states = $model->states ?: [];

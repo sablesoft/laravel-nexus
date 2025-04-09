@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
-use App\Logic\Dsl\QueryExpressionRegistry;
+use App\Logic\Dsl\Adapters\ScreenDslAdapter;
+use App\Logic\Process;
 use App\Logic\Validators\QueryExpressionValidator;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
-use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
@@ -20,8 +21,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
  * The Screen model represents a visual screen within a user-defined application (Application),
@@ -61,7 +60,7 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
 class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasEffects, HasStates, HasDslAdapter, UI;
+    use HasOwner, HasFactory, HasImage, HasEffects, HasStates, UI;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
@@ -96,6 +95,11 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, 
     public function controls(): HasMany
     {
         return $this->hasMany(Control::class);
+    }
+
+    public function getDslAdapter(Process $process): DslAdapterContract
+    {
+        return new ScreenDslAdapter($process, $this);
     }
 
     public static function boot(): void
