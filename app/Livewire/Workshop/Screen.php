@@ -161,7 +161,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => 'nullable|string'
             ],
             'statesString' => [
-                'title' => 'Global States',
+                'title' => 'States',
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],

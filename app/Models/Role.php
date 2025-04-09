@@ -32,18 +32,10 @@ class Role extends Model implements HasOwnerInterface, Stateful
         'behaviors' => 'array',
         'states' => 'array',
     ];
-
     public static function boot(): void
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
-        static::saving(function(self $model) {
-            if ($model->isDirty('states')) {
-                $states = $model->states ?: [];
-                foreach ($states as $key => $state) {
-                    $model->validateState($key, $state);
-                }
-            }
-        });
+        static::saving([self::class, 'savingAllStates']);
     }
 }

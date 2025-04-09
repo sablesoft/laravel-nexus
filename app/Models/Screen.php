@@ -125,13 +125,6 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, 
             }
         });
 
-        static::saving(function(self $model) {
-            if ($model->isDirty('states')) {
-                $states = $model->states ?: [];
-                foreach ($states as $key => $state) {
-                    $model->validateState($key, $state);
-                }
-            }
-        });
+        static::saving([self::class, 'savingAllStates']);
     }
 }

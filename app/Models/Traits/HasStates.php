@@ -3,6 +3,8 @@
 namespace App\Models\Traits;
 
 use App\Models\Enums\StateType;
+use App\Models\Interfaces\Stateful;
+use Illuminate\Database\Eloquent\Model;
 use JsonException;
 
 /**
@@ -77,6 +79,15 @@ trait HasStates
 
         if (!$type->isValid($state)) {
             throw new \UnexpectedValueException("Invalid value for state '{$key}' of type '{$type->value}'");
+        }
+    }
+
+    public static function savingAllStates(Model|Stateful $model): void
+    {
+        if ($model->isDirty('states') && !empty($model->states)) {
+            foreach ($model->states['has'] as $key => $state) {
+                $model->validateState($key, $state);
+            }
         }
     }
 }

@@ -120,13 +120,6 @@ class Application extends Model implements HasOwnerInterface, Stateful
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
-        static::saving(function(self $model) {
-            if ($model->isDirty('states')) {
-                $states = $model->states ?: [];
-                foreach ($states as $key => $state) {
-                    $model->validateState($key, $state);
-                }
-            }
-        });
+        static::saving([self::class, 'savingAllStates']);
     }
 }

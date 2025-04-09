@@ -36,4 +36,10 @@ class ChatScreenState extends Model implements Stateful
     {
         return $this->belongsTo(Screen::class);
     }
+
+    public static function boot(): void
+    {
+        parent::boot();
+        static::saving([self::class, 'savingAllStates']);
+    }
 }
