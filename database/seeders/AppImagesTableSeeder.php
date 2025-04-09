@@ -21,6 +21,60 @@ class AppImagesTableSeeder extends Seeder
         \DB::table('app.images')->insert(array (
             0 => 
             array (
+                'id' => 51,
+                'user_id' => 1,
+                'title' => 'Cover - In The Dusk',
+                'prompt' => 'A dirt road runs through a dense forest. In the upper left corner, taking up much of the space, stands an old cabin, partially hidden by trees and mist. Near it, roughly in the center of the image, is a worn but sturdy sedan parked beside the road. The sky is covered with a dusty grey tone. The overall color palette is reddish and earthy. The composition draws the viewer’s eye from the car in the foreground to the looming cabin in the background, evoking a sense of unease but also a faint hope. Cinematic, slightly grim, and atmospheric. Landscape format.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'landscape',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-UcFE0qLYFoIE7f76Gpp7CaAG.png',
+                'path_md' => 'images_md/img-UcFE0qLYFoIE7f76Gpp7CaAG.webp',
+                'path_sm' => 'images_sm/img-UcFE0qLYFoIE7f76Gpp7CaAG.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-08 18:16:50',
+                'updated_at' => '2025-04-08 19:28:22',
+            ),
+            1 => 
+            array (
+                'id' => 52,
+                'user_id' => 1,
+                'title' => 'Screen - Prologue',
+                'prompt' => 'A dirt road runs through a dense forest. The sky is covered with a dusty grey tone, casting a muted light over the landscape. The overall color palette is reddish and earthy — faded rust, dried clay, and muted browns dominate the scene. The road winds into the distance, drawing the eye along its curve as it disappears into the trees, suggesting both journey and uncertainty. The foliage is overgrown and tangled, encroaching on the road like nature reclaiming what’s left behind. A few broken road signs and remnants of a forgotten world lie half-buried near the edges. The atmosphere is cinematic, slightly grim, and heavy with silence — the kind that feels loud. Dust floats in the air.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-u77KT9O9YppePJY5n7Q8hu0t.png',
+                'path_md' => 'images_md/img-u77KT9O9YppePJY5n7Q8hu0t.webp',
+                'path_sm' => 'images_sm/img-u77KT9O9YppePJY5n7Q8hu0t.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-08 19:41:40',
+                'updated_at' => '2025-04-08 19:41:42',
+            ),
+            2 => 
+            array (
+                'id' => 53,
+                'user_id' => 1,
+                'title' => 'Screen - Porch',
+                'prompt' => 'A weathered wooden cabin porch in a quiet forest. The entrance features a heavy, surprisingly sturdy front door. A doormat lies before it, covered in dry leaves — any writing on it obscured. The porch boards are aged and slightly warped, surrounded by overgrown vegetation. The mood is still and tense, with muted earthy tones and soft, overcast light filtering through the trees.',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-rwzfcWmxH8JSWHA2q1mYerP1.png',
+                'path_md' => 'images_md/img-rwzfcWmxH8JSWHA2q1mYerP1.webp',
+                'path_sm' => 'images_sm/img-rwzfcWmxH8JSWHA2q1mYerP1.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-08 19:48:41',
+                'updated_at' => '2025-04-08 19:52:54',
+            ),
+            3 => 
+            array (
                 'id' => 13,
                 'user_id' => 1,
                 'title' => 'Discussion',
@@ -37,7 +91,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:34:51',
                 'updated_at' => '2025-03-23 04:37:19',
             ),
-            1 => 
+            4 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -55,7 +109,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:46:49',
                 'updated_at' => '2025-03-23 04:38:53',
             ),
-            2 => 
+            5 => 
             array (
                 'id' => 26,
                 'user_id' => 1,
@@ -73,7 +127,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:11',
                 'updated_at' => '2025-03-23 05:09:46',
             ),
-            3 => 
+            6 => 
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -91,7 +145,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:25',
                 'updated_at' => '2025-03-23 05:17:46',
             ),
-            4 => 
+            7 => 
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -109,7 +163,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:05',
                 'updated_at' => '2025-03-23 04:25:46',
             ),
-            5 => 
+            8 => 
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -127,7 +181,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:22',
                 'updated_at' => '2025-03-23 04:32:10',
             ),
-            6 => 
+            9 => 
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -145,7 +199,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:48:57',
                 'updated_at' => '2025-03-23 04:32:26',
             ),
-            7 => 
+            10 => 
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -163,7 +217,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:08:46',
                 'updated_at' => '2025-03-23 04:32:51',
             ),
-            8 => 
+            11 => 
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -181,7 +235,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:46',
                 'updated_at' => '2025-03-23 04:33:03',
             ),
-            9 => 
+            12 => 
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -199,7 +253,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:49',
                 'updated_at' => '2025-03-23 04:33:16',
             ),
-            10 => 
+            13 => 
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -217,7 +271,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:02',
                 'updated_at' => '2025-03-23 04:33:34',
             ),
-            11 => 
+            14 => 
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -235,7 +289,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:07',
                 'updated_at' => '2025-03-23 04:34:05',
             ),
-            12 => 
+            15 => 
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -253,7 +307,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:02:13',
                 'updated_at' => '2025-03-23 04:34:19',
             ),
-            13 => 
+            16 => 
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -271,7 +325,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:00:33',
                 'updated_at' => '2025-03-23 04:34:31',
             ),
-            14 => 
+            17 => 
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -289,7 +343,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 05:02:09',
                 'updated_at' => '2025-03-23 04:34:44',
             ),
-            15 => 
+            18 => 
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -307,7 +361,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:59:55',
                 'updated_at' => '2025-03-23 04:34:56',
             ),
-            16 => 
+            19 => 
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -325,7 +379,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:58:19',
                 'updated_at' => '2025-03-23 04:35:21',
             ),
-            17 => 
+            20 => 
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -343,7 +397,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:46:07',
                 'updated_at' => '2025-03-23 04:35:32',
             ),
-            18 => 
+            21 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -361,7 +415,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 02:26:26',
                 'updated_at' => '2025-03-23 04:38:20',
             ),
-            19 => 
+            22 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -379,7 +433,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:14:48',
                 'updated_at' => '2025-03-23 04:39:44',
             ),
-            20 => 
+            23 => 
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -397,7 +451,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:28',
                 'updated_at' => '2025-03-23 05:10:14',
             ),
-            21 => 
+            24 => 
             array (
                 'id' => 44,
                 'user_id' => 1,
@@ -415,7 +469,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-19 22:29:03',
                 'updated_at' => '2025-03-23 04:13:00',
             ),
-            22 => 
+            25 => 
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -433,25 +487,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:01:26',
                 'updated_at' => '2025-03-23 04:17:02',
             ),
-            23 => 
-            array (
-                'id' => 38,
-                'user_id' => 1,
-                'title' => 'Desert Caravan Camp Screen',
-            'prompt' => 'A nomadic caravan resting in the middle of a vast desert. Tents made of colorful fabrics, a campfire burning in the center, and camels resting nearby. The golden sand dunes stretch far into the horizon under a pinkish-orange sunset sky. Aspect ratio: portrait (tall image, 1024x1792)',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'portrait',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-wXvsgxnNHaAaTjQWOtkJbGmE.png',
-                'path_md' => 'images_md/img-wXvsgxnNHaAaTjQWOtkJbGmE.webp',
-                'path_sm' => 'images_sm/img-wXvsgxnNHaAaTjQWOtkJbGmE.webp',
-                'is_public' => false,
-                'created_at' => '2025-03-16 19:00:42',
-                'updated_at' => '2025-03-23 04:17:36',
-            ),
-            24 => 
+            26 => 
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -469,7 +505,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:00:22',
                 'updated_at' => '2025-03-23 04:18:24',
             ),
-            25 => 
+            27 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -487,7 +523,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:58:46',
                 'updated_at' => '2025-03-23 04:19:44',
             ),
-            26 => 
+            28 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -505,7 +541,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:47',
                 'updated_at' => '2025-03-23 04:31:51',
             ),
-            27 => 
+            29 => 
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -523,7 +559,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-23 04:33:47',
             ),
-            28 => 
+            30 => 
             array (
                 'id' => 45,
                 'user_id' => 1,
@@ -540,78 +576,6 @@ class AppImagesTableSeeder extends Seeder
                 'is_public' => false,
                 'created_at' => '2025-03-28 05:30:25',
                 'updated_at' => '2025-03-28 05:30:27',
-            ),
-            29 => 
-            array (
-                'id' => 48,
-                'user_id' => 1,
-                'title' => 'Lift',
-                'prompt' => 'A view of the futuristic luxury elevator from inside the cabin.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'portrait',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-bUm9t0k4CLoV72yxoMV3UyFd.png',
-                'path_md' => 'images_md/img-bUm9t0k4CLoV72yxoMV3UyFd.webp',
-                'path_sm' => 'images_sm/img-bUm9t0k4CLoV72yxoMV3UyFd.webp',
-                'is_public' => false,
-                'created_at' => '2025-04-08 01:24:46',
-                'updated_at' => '2025-04-08 01:24:47',
-            ),
-            30 => 
-            array (
-                'id' => 47,
-                'user_id' => 1,
-                'title' => 'Lift Entrance',
-                'prompt' => 'A view of the futuristic luxury elevator from the inside.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'portrait',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-CbF6nv2LfWfhdDVEeycTG7L4.png',
-                'path_md' => 'images_md/img-CbF6nv2LfWfhdDVEeycTG7L4.webp',
-                'path_sm' => 'images_sm/img-CbF6nv2LfWfhdDVEeycTG7L4.webp',
-                'is_public' => false,
-                'created_at' => '2025-04-08 01:20:51',
-                'updated_at' => '2025-04-08 01:23:20',
-            ),
-            31 => 
-            array (
-                'id' => 46,
-                'user_id' => 1,
-                'title' => 'Urban Futuristic Nightscape',
-                'prompt' => 'Urban futuristic nightscape',
-                'has_glitches' => true,
-                'attempts' => 1,
-                'aspect' => 'landscape',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-TaerQjiLFg7Mutsdlbg6QGAg.png',
-                'path_md' => 'images_md/img-TaerQjiLFg7Mutsdlbg6QGAg.webp',
-                'path_sm' => 'images_sm/img-TaerQjiLFg7Mutsdlbg6QGAg.webp',
-                'is_public' => false,
-                'created_at' => '2025-04-08 01:16:43',
-                'updated_at' => '2025-04-08 01:24:59',
-            ),
-            32 => 
-            array (
-                'id' => 50,
-                'user_id' => 1,
-                'title' => 'Lift 2',
-                'prompt' => 'A light cabin of a futuristic elevator. Several pots with live plants and a cozy sofa are visible. A large touch screen is visible on the wall. View from inside the cabin.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'portrait',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-ARNn7xTtmtt1z7c4RFyuUtDQ.png',
-                'path_md' => 'images_md/img-ARNn7xTtmtt1z7c4RFyuUtDQ.webp',
-                'path_sm' => 'images_sm/img-ARNn7xTtmtt1z7c4RFyuUtDQ.webp',
-                'is_public' => false,
-                'created_at' => '2025-04-08 01:30:50',
-                'updated_at' => '2025-04-08 01:30:51',
             ),
         ));
         
