@@ -4,6 +4,7 @@ namespace App\Livewire\Chat;
 
 use App\Livewire\PresenceTrait;
 use App\Logic\Facades\Dsl;
+use App\Logic\Facades\EffectRunner;
 use App\Logic\Facades\NodeRunner;
 use App\Logic\Process;
 use App\Models\Application;
@@ -194,6 +195,9 @@ class Play extends Component
 
         $this->prepareControls();
         $this->prepareMemories();
+        if ($screen->before) {
+            EffectRunner::run($screen->before, $this->getProcess());
+        }
     }
 
     protected function prepareControls(): void
@@ -270,6 +274,9 @@ class Play extends Component
         $transfer = $this->getTransfer($transferId);
         NodeRunner::run($transfer, $this->getProcess());
         // todo - remove after completing transfer effect:
+        if ($this->screen->after) {
+            EffectRunner::run($this->screen->after, $this->getProcess());
+        }
         $this->member->update(['screen_id' => $transfer->screen_to_id]);
         $fromChannel = $this->screenChannel();
         $this->initScreen($transfer->screenTo);

@@ -28,26 +28,23 @@ use Illuminate\Validation\Rules\Exists;
  *   ```yaml
  *   - memory.create:
  *       type: '>>message'
- *       data:
- *         content: 'ask'
- *         member_id: member.id
+ *       content: 'ask'
+ *       member_id: member.id
  *   ```
  *
  * - Using a variable to hold the memory payload:
  *   ```yaml
- *   - memory.create:
- *       data: memory_payload
+ *   - memory.create: memory_payload
  *   ```
  *
  * - Creating a structured memory with nested metadata:
  *   ```yaml
  *   - memory.create:
- *       data:
- *         title: '>>Chapter 1'
- *         content: '>>The hero wakes up...'
- *         meta:
- *           tags: ['>>intro', '>>awakening']
- *           chapter: 1
+ *       title: '>>Chapter 1'
+ *       content: '>>The hero wakes up...'
+ *       meta:
+ *         tags: ['>>intro', '>>awakening']
+ *         chapter: 1
  *   ```
  */
 class MemoryCreateDefinition implements EffectDefinitionContract
@@ -72,28 +69,44 @@ class MemoryCreateDefinition implements EffectDefinitionContract
             'description' => 'Stores a new memory record of type `screen.code` or explicitly defined.',
             'fields' => [
                 'type' => [
-                    'type' => 'string',
+                    'type' => 'expression',
                     'description' => 'Optional type of memory (defaults to screen.code). Must be prefixed with the string prefix to be treated as a literal.',
                 ],
-                'data' => [
-                    'type' => 'map',
-                    'description' => 'Required structured data to be stored as meta, may include content, member_id, etc.',
+                'title' => [
+                    'type' => 'expression',
+                    'description' => 'Optional title of memory (defaults to null)',
+                ],
+                'content' => [
+                    'type' => 'expression',
+                    'description' => 'Optional content of memory (defaults to null)',
+                ],
+                'meta' => [
+                    'type' => 'expression',
+                    'description' => 'Optional meta of memory (defaults to null)',
+                ],
+                'author_id' => [
+                    'type' => 'expression',
+                    'description' => 'Optional author_id of memory (defaults to null)',
+                ],
+                'member_id' => [
+                    'type' => 'expression',
+                    'description' => 'Optional member_id of memory (defaults to null)',
+                ],
+                'image_id' => [
+                    'type' => 'expression',
+                    'description' => 'Optional image_id of memory (defaults to null)',
                 ],
             ],
             'examples' => [
                 [
                     'memory.create' => [
                         'type' => '>>message',
-                        'data' => [
-                            'content' => 'ask',
-                            'member_id' => 'member.id'
-                        ]
+                        'content' => 'ask',
+                        'member_id' => 'member.id'
                     ],
                 ],
                 [
-                    'memory.create' => [
-                        'data' => 'memory_data'
-                    ],
+                    'memory.create' => 'memory_data'
                 ]
             ],
         ];
@@ -108,25 +121,21 @@ class MemoryCreateDefinition implements EffectDefinitionContract
     {
         return [
             'type' => 'sometimes|string',
-//            todo - rewrite
-            'data' => ['required', new VariableOrArrayRule([
-                'author_id' => [
-                    'sometimes', 'nullable',
-                    new VariableOrIntRule(['value' => new Exists(Member::class, 'id')])
-                ],
-                'member_id' => [
-                    'sometimes', 'nullable',
-                    new VariableOrIntRule(['value' => new Exists(Member::class, 'id')])
-                ],
-                'image_id' => [
-                    'sometimes', 'nullable',
-                    new VariableOrIntRule(['value' => new Exists(Image::class, 'id')])
-                ],
-
-                'title' => 'sometimes|nullable|string|max:300',
-                'content' => 'sometimes|nullable|string|max:2000',
-                'meta' => ['sometimes', 'nullable', new VariableOrArrayRule([])],
-            ])],
+            'title' => 'sometimes|nullable|string|max:300',
+            'content' => 'sometimes|nullable|string|max:2000',
+            'meta' => ['sometimes', 'nullable', new VariableOrArrayRule([])],
+            'author_id' => [
+                'sometimes', 'nullable',
+                new VariableOrIntRule(['value' => new Exists(Member::class, 'id')])
+            ],
+            'member_id' => [
+                'sometimes', 'nullable',
+                new VariableOrIntRule(['value' => new Exists(Member::class, 'id')])
+            ],
+            'image_id' => [
+                'sometimes', 'nullable',
+                new VariableOrIntRule(['value' => new Exists(Image::class, 'id')])
+            ],
         ];
     }
 

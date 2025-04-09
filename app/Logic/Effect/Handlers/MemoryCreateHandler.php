@@ -6,6 +6,7 @@ use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Process;
 use App\Models\Memory;
+use Illuminate\Support\Arr;
 
 /**
  * Runtime handler for the `memory.create` effect.
@@ -23,17 +24,11 @@ use App\Models\Memory;
  */
 class MemoryCreateHandler implements EffectHandlerContract
 {
-    /**
-     * @param array{
-     *     type?: string,
-     *     data: array<string, mixed>
-     * } $params
-     */
-    public function __construct(protected array $params) {}
+    public function __construct(protected string|array $data) {}
 
     public function describeLog(Process $process): ?string
     {
-        $params = ValueResolver::resolve($this->params, $process);
+        $params = ValueResolver::resolve($this->data, $process);
 
         $type = $params['type'] ?? $process->screen->code;
         $title = $params['title'] ?? null;
@@ -56,7 +51,11 @@ class MemoryCreateHandler implements EffectHandlerContract
     public function execute(Process $process): void
     {
         // Evaluate all values in the context of the current process
-        $params = ValueResolver::resolve($this->params, $process);
+        $params = ValueResolver::resolve($this->data, $process);
+        $params = Arr::only($params, [
+            'type', 'title', 'content', 'author_id',
+            'member_id', 'image_id', 'meta'
+        ]);
 
         // Determine memory type
         $params['type'] = $params['type'] ?? $process->screen->code;

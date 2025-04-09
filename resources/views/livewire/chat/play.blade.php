@@ -99,7 +99,7 @@
     </div>
 
     <footer id="chat-control"
-        class="p-3 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
+        class="select-none p-3 bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-300 dark:border-zinc-700 flex items-center gap-2 w-full">
         {{-- Transfers --}}
         @foreach($transfers as $transfer)
             @if($transfer['tooltip'])

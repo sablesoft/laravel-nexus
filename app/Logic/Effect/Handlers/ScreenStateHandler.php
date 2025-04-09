@@ -6,30 +6,35 @@ use App\Models\Screen;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Process;
+use Illuminate\Support\Collection;
 
 class ScreenStateHandler implements EffectHandlerContract
 {
     public function __construct(
-        protected array $values,
-        protected ?array $targets = null
+        protected string|array $params,
     ) {}
 
     public function describeLog(Process $process): ?string
     {
-        $keys = implode(', ', array_keys($this->values));
-        $targetInfo = $this->targets ? implode(', ', $this->targets) : 'current';
+        $params = ValueResolver::resolve($this->params, $process);
+        $keys = implode(', ', array_keys($params['values'] ?? []));
+        $targets = $params['targets'] ?? [];
+        $targetInfo = $targets ?
+            implode(', ', $targets) :
+            $process->screen->code;
         return "Set screen state(s) [{$keys}] on [{$targetInfo}] screen(s)";
     }
 
     public function execute(Process $process): void
     {
+        $params = ValueResolver::resolve($this->params, $process);
         if (!$process->chat->getKey()) {
             throw new \DomainException('Cannot use screen.state effect without chat in context');
         }
 
-        $screenIds = $this->resolveScreenIds($process);
+        $screenIds = $this->resolveScreenIds($process, $params['targets'] ?? []);
 
-        /** @var \Illuminate\Support\Collection $stateMap */
+        /** @var Collection $stateMap */
         $stateMap = $process->chat
             ->screenStates()
             ->whereIn('screen_id', $screenIds)
@@ -43,7 +48,7 @@ class ScreenStateHandler implements EffectHandlerContract
         }
 
         $resolved = [];
-        foreach ($this->values as $key => $expr) {
+        foreach ($params['values'] as $key => $expr) {
             $resolved[$key] = ValueResolver::resolve($expr, $process);
         }
 
@@ -59,14 +64,14 @@ class ScreenStateHandler implements EffectHandlerContract
     /**
      * @return array<int> screen IDs
      */
-    protected function resolveScreenIds(Process $process): array
+    protected function resolveScreenIds(Process $process, array $targets): array
     {
-        if (!$this->targets) {
+        if (!$targets) {
             return [$process->screen->getKey()];
         }
 
         return Screen::query()
-            ->whereIn('code', $this->targets)
+            ->whereIn('code', $targets)
             ->where('application_id', $process->chat->application_id)
             ->pluck('id')
             ->all();
