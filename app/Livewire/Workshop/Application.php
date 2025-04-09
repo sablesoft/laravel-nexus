@@ -106,22 +106,6 @@ class Application extends AbstractCrud implements ShouldHasMany
                     },
                 ],
             ],
-            'beforeString' => [
-                'title' => 'Before',
-                'action' => ['edit', 'view'],
-                'type' => 'codemirror',
-                'rules' => "nullable|$dslEditor",
-                'collapsed' => true
-            ],
-            'afterString' => [
-                'title' => 'After',
-                'action' => ['edit', 'view'],
-                'type' => 'codemirror',
-                'rules' => "nullable|$dslEditor",
-                'collapsed' => true
-            ],
-            'screenLink' => $this->linkField('Start Screen', ['index', 'view']),
-            'screensList' => $this->linkListField('Screens', ['index', 'view']),
             'statesString' => [
                 'title' => 'Global States',
                 'action' => ['edit', 'view'],
@@ -129,6 +113,22 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
+            'beforeString' => [
+                'title' => 'Initial Effects',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
+                'collapsed' => true
+            ],
+            'afterString' => [
+                'title' => 'Ending Effects',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => "nullable|$dslEditor",
+                'collapsed' => true
+            ],
+            'screenLink' => $this->linkField('Start Screen', ['index', 'view']),
+            'screensList' => $this->linkListField('Screens', ['index', 'view']),
             'memberStatesString' => [
                 'title' => 'Member States',
                 'action' => ['edit', 'view'],

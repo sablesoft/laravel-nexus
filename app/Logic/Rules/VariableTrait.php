@@ -15,7 +15,7 @@ trait VariableTrait
             }
 
             // Optionally validate variable naming (e.g., a, a.b.c, user.name)
-            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_.]*$/', $value)) {
+            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_.\'\(\)]*$/', $value)) {
                 $fail("The {$attribute} field must be a valid variable name.");
             }
 

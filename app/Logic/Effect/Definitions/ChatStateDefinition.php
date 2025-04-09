@@ -34,7 +34,7 @@ class ChatStateDefinition implements EffectDefinitionContract
 
     public static function rules(): array
     {
-        return ['value' => ['required', new VariableOrArrayRule(['*' => 'required'])]];
+        return ['*' => ['required', new VariableOrArrayRule(['*' => 'required'])]];
     }
 
     public static function nestedEffects(array $params): array
