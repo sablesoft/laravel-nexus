@@ -3,6 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Rules\VariableOrArrayRule;
 
 class ChatStateDefinition implements EffectDefinitionContract
 {
@@ -33,7 +34,7 @@ class ChatStateDefinition implements EffectDefinitionContract
 
     public static function rules(): array
     {
-        return ['*' => 'required|nullable'];
+        return ['value' => ['required', new VariableOrArrayRule(['*' => 'required'])]];
     }
 
     public static function nestedEffects(array $params): array

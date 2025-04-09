@@ -14,6 +14,7 @@ use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\RunDefinition;
+use App\Logic\Effect\Definitions\ScreenStateDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -84,6 +85,7 @@ class EffectDefinitionRegistry
         static::register(CommentDefinition::KEY, new CommentDefinition());
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
         static::register(ChatStateDefinition::KEY, new ChatStateDefinition());
+        static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
         static::register(MemberStateDefinition::KEY, new MemberStateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());

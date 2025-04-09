@@ -3,6 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Rules\VariableOrArrayRule;
 
 class MemberStateDefinition implements EffectDefinitionContract
 {
@@ -44,9 +45,8 @@ class MemberStateDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'target' => 'sometimes|array',
-            'values' => 'required|array',
-            'values.*' => 'required', // null is not allowed
+            'target' => ['sometimes', new VariableOrArrayRule(['*' => 'required|int'])],
+            'values' => ['required', new VariableOrArrayRule(['*' => 'required'])],
         ];
     }
 
