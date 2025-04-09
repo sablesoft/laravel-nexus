@@ -5,7 +5,7 @@ use App\Livewire\Workshop\HasCodeMirror;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\BehaviorsValidator;
 use App\Logic\Validators\StatesValidator;
-use App\Models\GroupRole;
+use App\Models\ChatRole;
 use App\Models\Services\StoreService;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,7 +15,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Symfony\Component\Yaml\Yaml;
 
-class GroupRoles extends Component
+class ChatRoles extends Component
 {
     use HasCodeMirror;
 
@@ -38,8 +38,8 @@ class GroupRoles extends Component
     public function mount(): void
     {
         $this->setSelectKey();
-        /** @var Collection<int, GroupRole> $groupRoles */
-        $groupRoles = GroupRole::where('group_id', $this->groupId)->with('role')->get();
+        /** @var Collection<int, ChatRole> $groupRoles */
+        $groupRoles = ChatRole::where('group_id', $this->groupId)->with('role')->get();
         foreach ($groupRoles as $groupRole) {
             $this->groupRoles[$groupRole->id] = $this->prepareGroupRole($groupRole);
         }
@@ -48,7 +48,7 @@ class GroupRoles extends Component
 
     public function render(): mixed
     {
-        return view('livewire.workshop.application.group-roles', [
+        return view('livewire.workshop.application.chat-roles', [
             'selectRoles' => collect($this->roles)->map(fn($item) => [
                 'id' => $item['id'],
                 'name' => $item['name']
@@ -126,7 +126,7 @@ class GroupRoles extends Component
         if ($this->submitRoleChanged($data['state'], $groupRole)) {
             $this->dispatch('refresh-roles');
         }
-        /** @var GroupRole $groupRole */
+        /** @var ChatRole $groupRole */
         $groupRole = StoreService::handle($data['state'], $groupRole);
         $this->groupRoles[$groupRole->id] = $this->prepareGroupRole($groupRole);
         $this->resetForm();
@@ -134,7 +134,7 @@ class GroupRoles extends Component
         $this->dispatch('flash', message: 'Group Role' . ($this->groupRoleId ? ' updated' : ' created'));
     }
 
-    protected function submitRoleChanged(array $data, GroupRole $groupRole): bool
+    protected function submitRoleChanged(array $data, ChatRole $groupRole): bool
     {
         return ($this->action === 'create') || ($data['role_id'] !== $groupRole->role_id);
     }
@@ -150,17 +150,17 @@ class GroupRoles extends Component
         $this->resetForm();
     }
 
-    protected function getModel(): GroupRole
+    protected function getModel(): ChatRole
     {
         return $this->groupRoleId ?
-            GroupRole::findOrFail($this->groupRoleId) :
-            new GroupRole([
+            ChatRole::findOrFail($this->groupRoleId) :
+            new ChatRole([
                 'application_id' => $this->applicationId,
                 'group_id' => $this->groupId
             ]);
     }
 
-    protected function prepareGroupRole(GroupRole $groupRole): array
+    protected function prepareGroupRole(ChatRole $groupRole): array
     {
         return [
             'application_id' => $groupRole->application_id,

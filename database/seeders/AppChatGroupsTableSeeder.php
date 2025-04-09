@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class AppGroupsTableSeeder extends Seeder
+class AppChatGroupsTableSeeder extends Seeder
 {
 
     /**
@@ -14,11 +14,11 @@ class AppGroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('app.groups')->delete();
-        
-        
-        
+
+        \DB::table('app.chat_groups')->delete();
+
+
+
     }
 }

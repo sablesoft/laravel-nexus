@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app.groups', function (Blueprint $table) {
+        Schema::create('app.chat_groups', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('application_id')->nullable(false)->index()
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app.groups');
+        Schema::dropIfExists('app.chat_groups');
     }
 };

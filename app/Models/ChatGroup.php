@@ -21,9 +21,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $updated_at
  *
  * @property-read null|Application $application             - The parent application this group belongs to
- * @property-read Collection<int, GroupRole> $groupRoles    - All group-roles that belong to this group
+ * @property-read Collection<int, ChatRole> $chatRoles    - All chat-roles that belong to this chat-group
  */
-class Group extends Model
+class ChatGroup extends Model
 {
     protected $fillable = [
         'application_id', 'name', 'description',
@@ -39,8 +39,8 @@ class Group extends Model
         return $this->belongsTo(Application::class);
     }
 
-    public function groupRoles(): HasMany
+    public function chatRoles(): HasMany
     {
-        return $this->hasMany(GroupRole::class);
+        return $this->hasMany(ChatRole::class);
     }
 }

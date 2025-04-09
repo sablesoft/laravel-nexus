@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app.group_roles', function (Blueprint $table) {
+        Schema::create('app.chat_roles', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('application_id')->nullable(false)->index()
@@ -34,10 +34,10 @@ return new class extends Migration
             $table->unique(['application_id', 'code']);
 
             $table->jsonb('states')->nullable();
-            $table->index('states', 'app_group_roles_states_index', 'gin');
+            $table->index('states', 'app_chat_roles_states_index', 'gin');
 
             $table->jsonb('behaviors')->nullable();
-            $table->index('behaviors', 'app_group_roles_behaviors_index', 'gin');
+            $table->index('behaviors', 'app_chat_roles_behaviors_index', 'gin');
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
@@ -49,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app.group_roles');
+        Schema::dropIfExists('app.chat_roles');
     }
 };

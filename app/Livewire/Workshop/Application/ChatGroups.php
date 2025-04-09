@@ -2,8 +2,8 @@
 namespace App\Livewire\Workshop\Application;
 
 use App\Models\Control;
-use App\Models\Group;
-use App\Models\GroupRole;
+use App\Models\ChatGroup;
+use App\Models\ChatRole;
 use App\Models\Role;
 use App\Models\Services\StoreService;
 use Flux\Flux;
@@ -12,7 +12,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Groups extends Component
+class ChatGroups extends Component
 {
     #[Locked]
     public int $applicationId;
@@ -30,7 +30,7 @@ class Groups extends Component
     {
         $this->applicationId = $applicationId;
         /** @var Collection<int, Control> $groups */
-        $groups = Group::where('application_id', $applicationId)->orderBy('number')->with('groupRoles')->get();
+        $groups = ChatGroup::where('application_id', $applicationId)->orderBy('number')->with('chatRoles')->get();
         foreach ($groups as $group) {
             $this->groups[$group->id] = $this->prepareGroup($group);
         }
@@ -44,14 +44,14 @@ class Groups extends Component
         $this->roles = Role::where(function ($query) {
             $query->where('user_id', auth()->id())
                 ->orWhere('is_public', true);
-        })->whereNotIn('id', GroupRole::where('application_id', $this->applicationId)->pluck('role_id'))
+        })->whereNotIn('id', ChatRole::where('application_id', $this->applicationId)->pluck('role_id'))
             ->select(['id', 'name', 'description', 'behaviors', 'states'])->get()->keyBy('id')->toArray();
         $this->dispatch('roles-updated', roles: $this->roles);
     }
 
     public function render(): mixed
     {
-        return view('livewire.workshop.application.groups');
+        return view('livewire.workshop.application.chat-groups');
     }
 
     public function resetForm(): void
@@ -83,7 +83,7 @@ class Groups extends Component
         }
         $data = $this->validate(\Arr::prependKeysWith($this->rules(), 'state.'));
         $group = $this->getModel();
-        /** @var Group $group */
+        /** @var ChatGroup $group */
         $group = StoreService::handle($data['state'], $group);
         $this->groups[$group->id] = $this->prepareGroup($group);
         $this->resetForm();
@@ -104,8 +104,8 @@ class Groups extends Component
 
     public function moveUp(int $id): void
     {
-        $group = Group::findOrFail($id);
-        $prev = Group::where('application_id', $this->applicationId)
+        $group = ChatGroup::findOrFail($id);
+        $prev = ChatGroup::where('application_id', $this->applicationId)
             ->where('number', '<', $group->number)
             ->orderByDesc('number')
             ->first();
@@ -117,8 +117,8 @@ class Groups extends Component
 
     public function moveDown(int $id): void
     {
-        $group = Group::findOrFail($id);
-        $next = Group::where('application_id', $this->applicationId)
+        $group = ChatGroup::findOrFail($id);
+        $next = ChatGroup::where('application_id', $this->applicationId)
             ->where('number', '>', $group->number)
             ->orderBy('number')
             ->first();
@@ -128,7 +128,7 @@ class Groups extends Component
         }
     }
 
-    protected function swapGroupNumbers(Group $a, Group $b): void
+    protected function swapGroupNumbers(ChatGroup $a, ChatGroup $b): void
     {
         $tempA = $a->number;
         $tempB = $b->number;
@@ -144,14 +144,14 @@ class Groups extends Component
         $this->sortGroups();
     }
 
-    protected function getModel(): Group
+    protected function getModel(): ChatGroup
     {
         return $this->groupId ?
-            Group::findOrFail($this->groupId) :
-            new Group(['application_id' => $this->applicationId]);
+            ChatGroup::findOrFail($this->groupId) :
+            new ChatGroup(['application_id' => $this->applicationId]);
     }
 
-    protected function prepareGroup(Group $group): array
+    protected function prepareGroup(ChatGroup $group): array
     {
         return [
             'id' => $group->id, // ??
@@ -167,12 +167,12 @@ class Groups extends Component
 
     protected function getNextNumber(): int
     {
-        return Group::where('application_id', $this->applicationId)->max('number') + 1;
+        return ChatGroup::where('application_id', $this->applicationId)->max('number') + 1;
     }
 
     protected function renumber(): void
     {
-        $groups = Group::where('application_id', $this->applicationId)
+        $groups = ChatGroup::where('application_id', $this->applicationId)
             ->orderBy('number')
             ->get();
 

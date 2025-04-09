@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class AppGroupRolesTableSeeder extends Seeder
+class AppChatRolesTableSeeder extends Seeder
 {
 
     /**
@@ -14,11 +14,11 @@ class AppGroupRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('app.group_roles')->delete();
-        
-        
-        
+
+        \DB::table('app.chat_roles')->delete();
+
+
+
     }
 }

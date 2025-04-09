@@ -42,8 +42,8 @@ use JsonException;
  *
  * @property-read Collection<int, Screen> $screens     - All screens that belong to the application
  * @property-read Collection<int, Chat> $chats         - All chats created from this application
- * @property-read Collection<int, Group> $groups       - All groups that belong to this application
- * @property-read Collection<int, GroupRole> $groupRoles - All group-roles that belong to this application
+ * @property-read Collection<int, ChatGroup> $chatGroups  - All chat-groups that belong to this application
+ * @property-read Collection<int, ChatRole> $chatRoles - All chat-roles that belong to this application
  * @property-read null|Screen $startScreen             - Default starting screen of the application
  */
 class Application extends Model implements HasOwnerInterface, Stateful
@@ -75,14 +75,14 @@ class Application extends Model implements HasOwnerInterface, Stateful
         return $this->screens->where('is_start', true)->first();
     }
 
-    public function groups(): HasMany
+    public function chatGroups(): HasMany
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(ChatGroup::class);
     }
 
-    public function groupRoles(): HasMany
+    public function chatRoles(): HasMany
     {
-        return $this->hasMany(GroupRole::class);
+        return $this->hasMany(ChatRole::class);
     }
 
     public function chats(): HasMany

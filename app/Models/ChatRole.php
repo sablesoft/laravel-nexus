@@ -24,11 +24,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $updated_at
  *
  * @property-read null|Application $application  - The parent application this group-role belongs to
- * @property-read null|Group $group              - The parent group this group-role belongs to
+ * @property-read null|ChatGroup $group              - The parent group this group-role belongs to
  * @property-read null|Role $role                - The global role this group-role belongs to
  * @property-read null|Screen $screen            - TODO: The initial screen this group-role starts from?
  */
-class GroupRole extends Model implements Stateful
+class ChatRole extends Model implements Stateful
 {
     use HasBehaviors, HasStates;
 
@@ -50,7 +50,7 @@ class GroupRole extends Model implements Stateful
 
     public function group(): BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(ChatGroup::class);
     }
 
     public function role(): BelongsTo
