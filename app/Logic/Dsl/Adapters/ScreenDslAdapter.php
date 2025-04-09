@@ -8,6 +8,21 @@ class ScreenDslAdapter extends ModelDslAdapter
 {
     public function state(string $key): mixed
     {
+        return $this->chatScreenState()->getState($key);
+    }
+
+    public function nextState(string $key): mixed
+    {
+        return $this->chatScreenState()->nextState($key);
+    }
+
+    public function prevState(string $key): mixed
+    {
+        return $this->chatScreenState()->prevState($key);
+    }
+
+    protected function chatScreenState(): ChatScreenState
+    {
         $chat = $this->process->chat;
         if (!$chat->getKey()) {
             throw new \DomainException('Cannot use screen state without chat in context');
@@ -22,6 +37,6 @@ class ScreenDslAdapter extends ModelDslAdapter
             throw new \RuntimeException("No state found for screen [{$this->model->getKey()}] in chat [{$chat->id}]");
         }
 
-        return $screenState->getState($key);
+        return $screenState;
     }
 }

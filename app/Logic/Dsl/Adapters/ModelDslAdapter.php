@@ -66,6 +66,24 @@ class ModelDslAdapter implements DslAdapterContract
         return $this->model->getState($key);
     }
 
+    public function nextState(string $key): mixed
+    {
+        if (!($this->model instanceof Stateful::class)) {
+            throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
+        }
+
+        return $this->model->nextState($key);
+    }
+
+    public function prevState(string $key): mixed
+    {
+        if (!($this->model instanceof Stateful::class)) {
+            throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
+        }
+
+        return $this->model->prevState($key);
+    }
+
     /**
      * Magic accessor for adapter fields in DSL expressions, e.g., member.name
      * Checks for a local accessor method first, then falls back to model attributes.

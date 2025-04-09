@@ -60,6 +60,51 @@ trait HasStates
         $this->save();
     }
 
+    public function nextState(string $key): mixed
+    {
+        $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");
+        $this->validateState($key, $entry);
+
+        return match ($entry['type']) {
+            'bool' => !$entry['value'],
+            'int'  => $entry['value'] + 1,
+            'enum' => $this->cycleEnum($entry['value'], $entry['options'] ?? []),
+            default => throw new \LogicException("Cannot advance state of type '{$entry['type']}'"),
+        };
+    }
+
+    public function prevState(string $key): mixed
+    {
+        $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");
+        $this->validateState($key, $entry);
+
+        return match ($entry['type']) {
+            'bool' => !$entry['value'],
+            'int'  => $entry['value'] - 1,
+            'enum' => $this->cycleEnum($entry['value'], $entry['options'] ?? [], backward: true),
+            default => throw new \LogicException("Cannot reverse state of type '{$entry['type']}'"),
+        };
+    }
+
+    protected function cycleEnum(string $current, array $options, bool $backward = false): string
+    {
+        $index = array_search($current, $options, true);
+        if ($index === false) {
+            throw new \UnexpectedValueException("Value '{$current}' not found in enum options.");
+        }
+
+        $count = count($options);
+        if ($count === 0) {
+            throw new \UnexpectedValueException("Enum options are empty.");
+        }
+
+        $newIndex = ($backward)
+            ? ($index - 1 + $count) % $count
+            : ($index + 1) % $count;
+
+        return $options[$newIndex];
+    }
+
     public function getAllStates(): array
     {
         return $this->states ?: [];
