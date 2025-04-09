@@ -79,7 +79,7 @@ class ModelDslAdapter implements DslAdapterContract
 
     protected function statefulModel(): Stateful
     {
-        if (!($this->model instanceof Stateful::class)) {
+        if (!($this->model instanceof Stateful)) {
             throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
         }
 

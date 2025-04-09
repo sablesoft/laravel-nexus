@@ -44,7 +44,7 @@ class ScreenStateHandler implements EffectHandlerContract
 
         $resolved = [];
         foreach ($this->values as $key => $expr) {
-            $resolved[$key] = ValueResolver::resolve($key, $expr);
+            $resolved[$key] = ValueResolver::resolve($expr, $process);
         }
 
         foreach ($stateMap as $screenState) {

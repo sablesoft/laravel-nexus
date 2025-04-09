@@ -42,11 +42,7 @@ trait HasStates
 
     public function setState(string $key, mixed $value): void
     {
-        if (!array_key_exists($key, $this->states)) {
-            throw new \DomainException("Cannot set undefined state '{$key}' on model " . class_basename($this));
-        }
-
-        $state = $this->states[$key];
+        $state = $this->states['has'][$key] ?? throw new \DomainException("State '{$key}' not found.");
 
         if (!empty($state['constant'])) {
             throw new \LogicException("State '{$key}' is constant and cannot be modified");
@@ -55,27 +51,28 @@ trait HasStates
         $state['value'] = $value;
 
         $this->validateState($key, $state);
-
-        $this->states[$key]['value'] = $value;
+        $states = $this->states;
+        $states['has'][$key]['value'] = $value;
+        $this->states = $states;
         $this->save();
     }
 
     public function randomState(string $key): mixed
     {
-        $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");
-        $this->validateState($key, $entry);
-        switch ($entry['type']) {
+        $state = $this->states['has'][$key] ?? throw new \DomainException("State '{$key}' not found.");
+        $this->validateState($key, $state);
+        switch ($state['type']) {
             case 'bool':
                 return fake()->boolean();
             case 'enum':
-                $options = $entry['options'] ?? [];
+                $options = $state['options'] ?? [];
                 if (empty($options)) {
                     throw new \UnexpectedValueException("Enum '{$key}' has no options.");
                 }
                 return fake()->randomElement($options);
             case 'int':
-                $max = $entry['max'] ?? null;
-                $min = $entry['min'] ?? 0;
+                $max = $state['max'] ?? null;
+                $min = $state['min'] ?? 0;
                 if (is_null($max)) {
                     throw new \LogicException("State '{$key}' has no max value for random.");
                 }
@@ -84,20 +81,20 @@ trait HasStates
                 }
                 return fake()->numberBetween($min, $max);
             default:
-                throw new \LogicException("Cannot randomize state '{$key}' with type '{$entry['type']}'");
+                throw new \LogicException("Cannot randomize state '{$key}' with type '{$state['type']}'");
         }
     }
 
     public function nextState(string $key): mixed
     {
-        $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");
-        $this->validateState($key, $entry);
+        $state = $this->states['has'][$key] ?? throw new \DomainException("State '{$key}' not found.");
+        $this->validateState($key, $state);
 
-        return match ($entry['type']) {
-            'bool' => !$entry['value'],
-            'int'  => $entry['value'] + 1,
-            'enum' => $this->cycleEnum($entry['value'], $entry['options'] ?? []),
-            default => throw new \LogicException("Cannot advance state of type '{$entry['type']}'"),
+        return match ($state['type']) {
+            'bool' => !$state['value'],
+            'int'  => $state['value'] + 1,
+            'enum' => $this->cycleEnum($state['value'], $state['options'] ?? []),
+            default => throw new \LogicException("Cannot advance state of type '{$state['type']}'"),
         };
     }
 

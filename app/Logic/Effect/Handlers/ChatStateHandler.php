@@ -22,7 +22,7 @@ class ChatStateHandler implements EffectHandlerContract
     public function execute(Process $process): void
     {
         foreach ($this->states as $key => $expression) {
-            $value = ValueResolver::resolve($key, $expression);
+            $value = ValueResolver::resolve($expression, $process);
             $process->chat->setState($key, $value);
         }
     }

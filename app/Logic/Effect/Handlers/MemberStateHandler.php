@@ -28,7 +28,7 @@ class MemberStateHandler implements EffectHandlerContract
         $ids = $this->resolveTargetIds($this->targets, $process);
         $resolved = [];
         foreach ($this->values as $key => $expr) {
-            $resolved[$key] = ValueResolver::resolve($key, $expr);
+            $resolved[$key] = ValueResolver::resolve($expr, $process);
         }
         $members = Member::whereIn('id', $ids)->get();
         foreach ($members as $member) {

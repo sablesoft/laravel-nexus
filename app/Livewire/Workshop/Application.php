@@ -11,7 +11,6 @@ use App\Livewire\Filters\FilterIsPublic;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\BehaviorsValidator;
 use App\Logic\Validators\StatesValidator;
-use App\Models\Role;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 

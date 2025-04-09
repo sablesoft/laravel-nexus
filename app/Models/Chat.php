@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Logic\Facades\EffectRunner;
+use App\Logic\Process;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
@@ -104,7 +106,10 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
     public static function boot(): void
     {
         parent::boot();
-        static::creating([self::class, 'assignCurrentUser']);
+        static::creating(function(self $model) {
+            self::assignCurrentUser($model);
+            $model->states = $model->application->states;
+        });
         static::created(function(self $model) {
             $application = $model->application;
             if (!$application) {
@@ -117,6 +122,11 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
                     'screen_id' => $screen->id,
                     'states'    => $screen->states ?? [],
                 ]);
+            }
+            if ($application->before) {
+                EffectRunner::run($application->before, new Process([
+                    'chat' => $model,
+                ]));
             }
         });
         static::saving([self::class, 'savingAllStates']);

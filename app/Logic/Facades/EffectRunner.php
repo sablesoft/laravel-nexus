@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Facade for EffectRunner service.
  *
- * @method static void run(?array $config, Process $process)
+ * @method static void run(?array $effects, Process $process)
  * @see \App\Logic\Runners\EffectRunner::run()
  */
 class EffectRunner extends Facade

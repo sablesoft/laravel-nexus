@@ -40,7 +40,6 @@ class Catalog extends Component
             'application_id' => $this->application->id
         ])->count() + 1;
         $chat = Chat::create([
-            'user_id' => auth()->id(),
             'application_id' => $this->application->id,
             'title' => $this->application->title . ' #' . $number
         ]);
