@@ -4,8 +4,10 @@ namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
+use App\Logic\Effect\Definitions\ChatStateDefinition;
 use App\Logic\Effect\Definitions\CommentDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
+use App\Logic\Effect\Definitions\MemberStateDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
@@ -16,8 +18,10 @@ use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
 use App\Logic\Effect\Handlers\ChatCompletionHandler;
+use App\Logic\Effect\Handlers\ChatStateHandler;
 use App\Logic\Effect\Handlers\CommentHandler;
 use App\Logic\Effect\Handlers\IfHandler;
+use App\Logic\Effect\Handlers\MemberStateHandler;
 use App\Logic\Effect\Handlers\MemoryCreateHandler;
 use App\Logic\Effect\Handlers\ChatRefreshHandler;
 use App\Logic\Effect\Handlers\MergeHandler;
@@ -81,8 +85,10 @@ class EffectHandlerRegistry
         EffectHandlerRegistry::register(ReturnDefinition::KEY, ReturnHandler::class);
         EffectHandlerRegistry::register(CommentDefinition::KEY, CommentHandler::class);
         EffectHandlerRegistry::register(ValidateDefinition::KEY, ValidateHandler::class);
-        EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);
+        EffectHandlerRegistry::register(ChatStateDefinition::KEY, ChatStateHandler::class);
         EffectHandlerRegistry::register(ChatRefreshDefinition::KEY, ChatRefreshHandler::class);
+        EffectHandlerRegistry::register(MemberStateDefinition::KEY, MemberStateHandler::class);
+        EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);
         EffectHandlerRegistry::register(ChatCompletionDefinition::KEY, ChatCompletionHandler::class);
     }
 }

@@ -5,8 +5,10 @@ namespace App\Logic\Effect;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
+use App\Logic\Effect\Definitions\ChatStateDefinition;
 use App\Logic\Effect\Definitions\CommentDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
+use App\Logic\Effect\Definitions\MemberStateDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
@@ -81,8 +83,10 @@ class EffectDefinitionRegistry
         static::register(ReturnDefinition::KEY, new ReturnDefinition());
         static::register(CommentDefinition::KEY, new CommentDefinition());
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
-        static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
+        static::register(ChatStateDefinition::KEY, new ChatStateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
+        static::register(MemberStateDefinition::KEY, new MemberStateDefinition());
+        static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
         static::register(ChatCompletionDefinition::KEY, new ChatCompletionDefinition());
     }
 

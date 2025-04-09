@@ -5,6 +5,7 @@ namespace App\Logic\Dsl\Adapters;
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Process;
+use App\Models\Interfaces\Stateful;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -35,6 +36,7 @@ class ModelDslAdapter implements DslAdapterContract
 {
     public function __construct(
         protected Process $process, // Execution context, allowing all adapters to interact with each other and with data via this mutual process
+        /** @var Model|Stateful $model */
         protected Model $model // The wrapped Eloquent model (must be present)
     ) {}
 
@@ -53,6 +55,15 @@ class ModelDslAdapter implements DslAdapterContract
         }
 
         return strtolower(class_basename($this->model::class));
+    }
+
+    public function state(string $key): mixed
+    {
+        if (!($this->model instanceof Stateful::class)) {
+            throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
+        }
+
+        return $this->model->getState($key);
     }
 
     /**
