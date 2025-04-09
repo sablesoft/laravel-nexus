@@ -59,29 +59,31 @@ class ModelDslAdapter implements DslAdapterContract
 
     public function state(string $key): mixed
     {
-        if (!($this->model instanceof Stateful::class)) {
-            throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
-        }
-
-        return $this->model->getState($key);
+        return $this->statefulModel()->getState($key);
     }
 
     public function nextState(string $key): mixed
     {
-        if (!($this->model instanceof Stateful::class)) {
-            throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
-        }
-
-        return $this->model->nextState($key);
+        return $this->statefulModel()->nextState($key);
     }
 
     public function prevState(string $key): mixed
+    {
+        return $this->statefulModel()->prevState($key);
+    }
+
+    public function randomState(string $key): mixed
+    {
+        return $this->statefulModel()->randomState($key);
+    }
+
+    protected function statefulModel(): Stateful
     {
         if (!($this->model instanceof Stateful::class)) {
             throw new \BadMethodCallException('Model ' . class_basename($this->model) . " doesn't support states");
         }
 
-        return $this->model->prevState($key);
+        return $this->model;
     }
 
     /**

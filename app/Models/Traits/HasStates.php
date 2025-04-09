@@ -60,6 +60,34 @@ trait HasStates
         $this->save();
     }
 
+    public function randomState(string $key): mixed
+    {
+        $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");
+        $this->validateState($key, $entry);
+        switch ($entry['type']) {
+            case 'bool':
+                return fake()->boolean();
+            case 'enum':
+                $options = $entry['options'] ?? [];
+                if (empty($options)) {
+                    throw new \UnexpectedValueException("Enum '{$key}' has no options.");
+                }
+                return fake()->randomElement($options);
+            case 'int':
+                $max = $entry['max'] ?? null;
+                $min = $entry['min'] ?? 0;
+                if (is_null($max)) {
+                    throw new \LogicException("State '{$key}' has no max value for random.");
+                }
+                if ($min > $max) {
+                    throw new \LogicException("State '{$key}' has invalid range: min > max.");
+                }
+                return fake()->numberBetween($min, $max);
+            default:
+                throw new \LogicException("Cannot randomize state '{$key}' with type '{$entry['type']}'");
+        }
+    }
+
     public function nextState(string $key): mixed
     {
         $entry = $this->states[$key] ?? throw new \DomainException("State '{$key}' not found.");

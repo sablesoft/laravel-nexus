@@ -21,6 +21,11 @@ class ScreenDslAdapter extends ModelDslAdapter
         return $this->chatScreenState()->prevState($key);
     }
 
+    public function randomState(string $key): mixed
+    {
+        return $this->chatScreenState()->randomState($key);
+    }
+
     protected function chatScreenState(): ChatScreenState
     {
         $chat = $this->process->chat;
