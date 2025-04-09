@@ -94,7 +94,7 @@ trait HandlePaginate
 
     protected function filterByOwner(Builder $query): Builder
     {
-        if ($query->getModel() instanceof HasOwnerInterface::class) {
+        if ($query->getModel() instanceof HasOwnerInterface) {
             $query = $query->where('user_id', auth()->id());
         }
 
