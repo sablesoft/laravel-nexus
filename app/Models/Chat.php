@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
@@ -50,7 +51,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Member>|Member[] $freeSeats - Available member slots (user_id is null)
  * @property-read Collection<int, Member>|Member[] $takenSeats - Assigned participant seats (user_id is not null)
  */
-class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract
+class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ChatFactory> */
     use HasOwner, HasStates, HasFactory, BroadcastsEvents, HasDslAdapter;
@@ -98,6 +99,14 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
+        static::saving(function(self $model) {
+            if ($model->isDirty('states')) {
+                $states = $model->states ?: [];
+                foreach ($states as $key => $state) {
+                    $model->validateState($key, $state);
+                }
+            }
+        });
     }
 
     public function broadcastOn(string $event): array

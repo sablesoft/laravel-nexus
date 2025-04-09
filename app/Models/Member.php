@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
@@ -30,7 +31,7 @@ use LogicException;
  * @property-read null|string $maskName
  * @property-read Collection<int, Memory>|Memory[] $memories
  */
-class Member extends Model implements HasDslAdapterContract
+class Member extends Model implements HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<MaskFactory> */
     use HasOwner, HasStates, HasFactory, HasDslAdapter;
@@ -78,6 +79,15 @@ class Member extends Model implements HasDslAdapterContract
                 throw new LogicException('Cannot create member without starting screen!');
             }
             $member->screen_id = $startScreen->id;
+        });
+
+        static::saving(function(self $model) {
+            if ($model->isDirty('states')) {
+                $states = $model->states ?: [];
+                foreach ($states as $key => $state) {
+                    $model->validateState($key, $state);
+                }
+            }
         });
     }
 }

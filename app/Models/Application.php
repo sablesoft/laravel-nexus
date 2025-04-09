@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
@@ -45,7 +46,7 @@ use JsonException;
  * @property-read Collection<int, GroupRole> $groupRoles - All group-roles that belong to this application
  * @property-read null|Screen $startScreen             - Default starting screen of the application
  */
-class Application extends Model implements HasOwnerInterface
+class Application extends Model implements HasOwnerInterface, Stateful
 {
     /** @use HasFactory<ApplicationFactory> */
     use HasOwner, HasStates, HasFactory, HasImage, HasEffects;
@@ -119,5 +120,13 @@ class Application extends Model implements HasOwnerInterface
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
+        static::saving(function(self $model) {
+            if ($model->isDirty('states')) {
+                $states = $model->states ?: [];
+                foreach ($states as $key => $state) {
+                    $model->validateState($key, $state);
+                }
+            }
+        });
     }
 }

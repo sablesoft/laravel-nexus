@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasStates;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  */
-class Role extends Model implements HasOwnerInterface
+class Role extends Model implements HasOwnerInterface, Stateful
 {
     use HasOwner, HasBehaviors, HasStates, HasFactory;
 
@@ -36,5 +37,13 @@ class Role extends Model implements HasOwnerInterface
     {
         parent::boot();
         static::creating([self::class, 'assignCurrentUser']);
+        static::saving(function(self $model) {
+            if ($model->isDirty('states')) {
+                $states = $model->states ?: [];
+                foreach ($states as $key => $state) {
+                    $model->validateState($key, $state);
+                }
+            }
+        });
     }
 }

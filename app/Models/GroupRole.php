@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read null|Role $role                - The global role this group-role belongs to
  * @property-read null|Screen $screen            - TODO: The initial screen this group-role starts from?
  */
-class GroupRole extends Model
+class GroupRole extends Model implements Stateful
 {
     use HasBehaviors, HasStates;
 
@@ -60,5 +61,18 @@ class GroupRole extends Model
     public function screen(): BelongsTo
     {
         return $this->belongsTo(Screen::class);
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+        static::saving(function(self $model) {
+            if ($model->isDirty('states')) {
+                $states = $model->states ?: [];
+                foreach ($states as $key => $state) {
+                    $model->validateState($key, $state);
+                }
+            }
+        });
     }
 }
