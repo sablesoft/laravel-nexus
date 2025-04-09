@@ -45,11 +45,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read null|Application $application               - The parent application used to create this chat
- * @property-read Collection<int, Memory>|Memory[] $memories  - All messages or stored entries linked to the chat
- * @property-read Collection<int, Member>|Member[] $members   - All participant seats (both free and taken)
- * @property-read Collection<int, Member>|Member[] $freeSeats - Available member slots (user_id is null)
- * @property-read Collection<int, Member>|Member[] $takenSeats - Assigned participant seats (user_id is not null)
+ * @property-read null|Application $application     - The parent application used to create this chat
+ * @property-read Collection<int, Memory> $memories  - All messages or stored entries linked to the chat
+ * @property-read Collection<int, Member> $members   - All participant seats (both free and taken)
+ * @property-read Collection<int, Member> $freeSeats - Available member slots (user_id is null)
+ * @property-read Collection<int, Member> $takenSeats - Assigned participant seats (user_id is not null)
+ * @property-read Collection<int, ChatScreenState> $screenStates - Assigned participant seats (user_id is not null)
  */
 class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
 {
@@ -93,6 +94,11 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
     public function allowedSeatsCount(): int
     {
         return $this->seats - $this->takenSeats()->count();
+    }
+
+    public function screenStates(): HasMany
+    {
+        return $this->hasMany(ChatScreenState::class);
     }
 
     public static function boot(): void

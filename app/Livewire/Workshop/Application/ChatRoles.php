@@ -39,7 +39,7 @@ class ChatRoles extends Component
     {
         $this->setSelectKey();
         /** @var Collection<int, ChatRole> $groupRoles */
-        $groupRoles = ChatRole::where('group_id', $this->groupId)->with('role')->get();
+        $groupRoles = ChatRole::where('chat_group_id', $this->groupId)->with('role')->get();
         foreach ($groupRoles as $groupRole) {
             $this->groupRoles[$groupRole->id] = $this->prepareGroupRole($groupRole);
         }
@@ -156,7 +156,7 @@ class ChatRoles extends Component
             ChatRole::findOrFail($this->groupRoleId) :
             new ChatRole([
                 'application_id' => $this->applicationId,
-                'group_id' => $this->groupId
+                'chat_group_id' => $this->groupId
             ]);
     }
 
@@ -164,7 +164,7 @@ class ChatRoles extends Component
     {
         return [
             'application_id' => $groupRole->application_id,
-            'group_id' => $groupRole->group_id,
+            'group_id' => $groupRole->chat_group_id,
             'role_id' => $groupRole->role_id,
             'roleName' => $groupRole->role?->name,
             'name' => $groupRole->name,

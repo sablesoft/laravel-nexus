@@ -6,10 +6,12 @@ use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\QueryExpressionRegistry;
 use App\Logic\Validators\QueryExpressionValidator;
 use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\HasStates;
 use App\Models\Traits\UI;
 use Carbon\Carbon;
 use Database\Factories\ScreenFactory;
@@ -56,21 +58,22 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
  * @property-read Collection<int, Transfer> $transfersFrom - Incoming screen transitions (screen_to_id)
  * @property-read Collection<int, Control> $controls       - Controls placed on this screen
  */
-class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
+class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasEffects, HasDslAdapter, UI;
+    use HasOwner, HasFactory, HasImage, HasEffects, HasStates, HasDslAdapter, UI;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
-        'visible_condition', 'enabled_condition',
+        'visible_condition', 'enabled_condition', 'states',
         'is_start', 'query', 'before', 'after', 'template',
     ];
 
     protected $casts = [
         'is_start' => 'boolean',
+        'states' => 'array',
         'before' => 'array',
         'after' => 'array',
     ];
@@ -115,6 +118,15 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract
                 Screen::where('application_id', $screen->application_id)
                     ->where('id', '!=', $screen->id)
                     ->update(['is_start' => false]);
+            }
+        });
+
+        static::saving(function(self $model) {
+            if ($model->isDirty('states')) {
+                $states = $model->states ?: [];
+                foreach ($states as $key => $state) {
+                    $model->validateState($key, $state);
+                }
             }
         });
     }

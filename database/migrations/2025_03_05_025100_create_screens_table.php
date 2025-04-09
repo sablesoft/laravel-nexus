@@ -31,6 +31,9 @@ return new class extends Migration
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 
+            $table->jsonb('states')->nullable();
+            $table->index('states', 'app_screens_states_index', 'gin');
+
             $table->text('visible_condition')->nullable();
             $table->text('enabled_condition')->nullable();
 

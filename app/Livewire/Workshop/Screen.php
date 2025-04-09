@@ -12,6 +12,7 @@ use App\Livewire\Filters\FilterIsFlag;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\EffectsValidator;
 use App\Logic\Validators\QueryExpressionValidator;
+use App\Logic\Validators\StatesValidator;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -158,6 +159,13 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'action' => ['create','edit','view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
+            ],
+            'statesString' => [
+                'title' => 'Global States',
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
+                'collapsed' => true
             ],
             'beforeString' => [
                 'title' => 'Effects',

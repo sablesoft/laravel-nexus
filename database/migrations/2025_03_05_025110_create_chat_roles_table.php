@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('group_id')->nullable(false)->index()
+            $table->foreignId('chat_group_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('role_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();

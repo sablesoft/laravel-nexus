@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property null|int $id
  * @property null|int $application_id
- * @property null|int $group_id
+ * @property null|int $chat_group_id
  * @property null|int $role_id
  * @property null|string $name
  * @property null|string $code
@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $updated_at
  *
  * @property-read null|Application $application  - The parent application this group-role belongs to
- * @property-read null|ChatGroup $group              - The parent group this group-role belongs to
+ * @property-read null|ChatGroup $chatGroup      - The parent group this group-role belongs to
  * @property-read null|Role $role                - The global role this group-role belongs to
  * @property-read null|Screen $screen            - TODO: The initial screen this group-role starts from?
  */
@@ -33,7 +33,7 @@ class ChatRole extends Model implements Stateful
     use HasBehaviors, HasStates;
 
     protected $fillable = [
-        'application_id', 'group_id', 'role_id', 'allowed',
+        'application_id', 'chat_group_id', 'role_id', 'allowed',
         'name', 'code', 'description', 'limit', 'screen_id', 'states',
         'statesString', 'behaviors', 'behaviorsString'
     ];
@@ -48,7 +48,7 @@ class ChatRole extends Model implements Stateful
         return $this->belongsTo(Application::class);
     }
 
-    public function group(): BelongsTo
+    public function chatGroup(): BelongsTo
     {
         return $this->belongsTo(ChatGroup::class);
     }
