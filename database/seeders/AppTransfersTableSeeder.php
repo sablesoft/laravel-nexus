@@ -30,10 +30,10 @@ class AppTransfersTableSeeder extends Seeder
 Appears only after all parts of the prologue have been shown. Becomes the player’s first active choice to explore the world.',
                 'before' => NULL,
                 'after' => NULL,
-            'visible_condition' => 'chat.state(\'prologueDone\')',
+            'visible_condition' => 'screen.state(\'isDone\')',
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 20:06:27',
-                'updated_at' => '2025-04-08 22:18:42',
+                'updated_at' => '2025-04-09 03:57:27',
             ),
         ));
         

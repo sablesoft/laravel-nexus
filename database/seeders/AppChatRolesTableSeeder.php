@@ -14,11 +14,11 @@ class AppChatRolesTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.chat_roles')->delete();
-
-
-
+        
+        
+        
     }
 }

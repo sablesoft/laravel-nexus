@@ -31,10 +31,10 @@ class AppControlsTableSeeder extends Seeder
 Each press progresses the narrative. After the final part, the button disappears and marks the prologue as complete.',
                 'before' => NULL,
                 'after' => NULL,
-            'visible_condition' => 'not chat.state(\'prologueDone\')',
+            'visible_condition' => 'not screen.state(\'isDone\')',
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 20:05:14',
-                'updated_at' => '2025-04-08 22:15:31',
+                'updated_at' => '2025-04-09 03:57:57',
             ),
         ));
         

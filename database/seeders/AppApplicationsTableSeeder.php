@@ -31,13 +31,13 @@ This story invites you into a quiet, persistent narrative experience where survi
 
 Your journey begins in the dust of the ruined world. What follows is yours to uncover.',
                 'is_public' => false,
-                'states' => '{"has": {"prologue": {"type": "int", "value": 0}, "prologueDone": {"type": "bool", "value": false}, "prologueParts": {"type": "int", "value": 3, "constant": true}}}',
+                'states' => '{"has": {"time": {"type": "enum", "value": "evening", "options": ["morning", "noon", "evening", "night"]}, "weather": {"type": "enum", "value": "cloudy", "options": ["clear", "cloudy", "overcast", "rain", "storm", "fog"]}}}',
                 'member_states' => NULL,
                 'member_behaviors' => NULL,
-                'before' => NULL,
+            'before' => '[{"comment":">>Prepare weather and time"},{"chat.state":{"weather":"chat.randomState(\'weather\')","time":"chat.randomState(\'time\')"}}]',
                 'after' => NULL,
                 'created_at' => '2025-04-08 19:35:33',
-                'updated_at' => '2025-04-08 20:03:29',
+                'updated_at' => '2025-04-09 05:03:08',
             ),
         ));
         

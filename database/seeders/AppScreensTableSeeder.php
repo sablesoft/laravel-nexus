@@ -33,6 +33,7 @@ class AppScreensTableSeeder extends Seeder
                 'template' => NULL,
                 'before' => NULL,
                 'after' => NULL,
+                'states' => NULL,
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:54:06',
@@ -52,10 +53,11 @@ class AppScreensTableSeeder extends Seeder
                 'template' => NULL,
                 'before' => NULL,
                 'after' => NULL,
+                'states' => '{"has": {"step": {"type": "int", "value": 0}, "steps": {"type": "int", "value": 3, "constant": true}, "isDone": {"type": "bool", "value": false}}}',
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:43:19',
-                'updated_at' => '2025-04-08 19:55:52',
+                'updated_at' => '2025-04-09 04:57:42',
             ),
         ));
         

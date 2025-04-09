@@ -14,11 +14,11 @@ class AppChatGroupsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.chat_groups')->delete();
-
-
-
+        
+        
+        
     }
 }
