@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Casts\LocaleString;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +32,9 @@ class ChatGroup extends Model
     ];
 
     protected $casts = [
-        'is_required' => 'bool'
+        'is_required' => 'bool',
+        'name' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function application(): BelongsTo

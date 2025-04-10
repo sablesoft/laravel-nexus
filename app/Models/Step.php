@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Logic\Contracts\NodeContract;
+use App\Models\Casts\LocaleString;
 use App\Models\Traits\HasLogic;
 use App\Models\Traits\HasEffects;
 use Carbon\Carbon;
@@ -47,7 +48,8 @@ class Step extends Model implements NodeContract
 
     protected $casts = [
         'before' => 'array',
-        'after' => 'array'
+        'after' => 'array',
+        'description' => LocaleString::class,
     ];
 
     public function parent(): BelongsTo

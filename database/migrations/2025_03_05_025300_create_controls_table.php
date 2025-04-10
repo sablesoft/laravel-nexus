@@ -20,9 +20,9 @@ return new class extends Migration
                 ->constrained('app.scenarios')->cascadeOnDelete();
             $table->enum('type', ControlType::values())->nullable(false)
                 ->default(ControlType::getDefault()->value)->index();
-            $table->string('title')->nullable(false);
-            $table->string('tooltip')->nullable();
-            $table->string('description')->nullable();
+            $table->json('title')->nullable(false);
+            $table->json('tooltip')->nullable();
+            $table->json('description')->nullable();
 
             $table->json('before')->nullable();
             $table->json('after')->nullable();
@@ -31,7 +31,6 @@ return new class extends Migration
             $table->text('enabled_condition')->nullable();
 
             $table->unique(['screen_id', 'scenario_id']);
-            $table->unique(['screen_id', 'title']);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

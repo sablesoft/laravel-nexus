@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasStates;
@@ -41,6 +42,8 @@ class ChatRole extends Model implements Stateful
     protected $casts = [
         'states' => 'array',
         'behaviors' => 'array',
+        'name' => LocaleString::class,
+        'description' => LocaleString::class
     ];
 
     public function application(): BelongsTo

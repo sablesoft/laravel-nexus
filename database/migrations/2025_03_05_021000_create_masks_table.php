@@ -19,8 +19,8 @@ return new class extends Migration
                 ->constrained('app.images')->nullOnDelete();
             $table->foreignId('portrait_id')->nullable()->index()
                 ->constrained('app.images')->nullOnDelete();
-            $table->string('name')->nullable(false)->unique();
-            $table->text('description')->nullable();
+            $table->json('name')->nullable(false);
+            $table->json('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();

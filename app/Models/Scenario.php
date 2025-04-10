@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Process;
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
@@ -52,6 +53,8 @@ class Scenario extends Model implements HasOwnerInterface, LogicContract
     protected $casts = [
         'before' => 'array',
         'after' => 'array',
+        'title' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function getCodeAttribute(): ?string

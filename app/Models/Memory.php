@@ -40,6 +40,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $image_id     - ID of the image attached to this record
  * @property null|string $title     - Optional title of the record
  * @property null|string $content   - Main textual content
+ * @property null|string $language  - Memory language
  * @property null|string $type      - Type of the record (e.g. screen code or any custom type: 'log', 'message', 'item', 'location', etc.)
  * @property null|array $meta       - Arbitrary metadata stored as jsonb
  * @property null|Carbon $created_at

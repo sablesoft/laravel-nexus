@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasEffects;
@@ -62,7 +63,9 @@ class Application extends Model implements HasOwnerInterface, Stateful
         'member_states' => 'array',
         'member_behaviors' => 'array',
         'before' => 'array',
-        'after' => 'array'
+        'after' => 'array',
+        'title' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function screens(): HasMany

@@ -17,8 +17,8 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
-            $table->string('title')->nullable(false)->unique();
-            $table->text('description')->nullable();
+            $table->json('title')->nullable(false);
+            $table->json('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->jsonb('states')->nullable();

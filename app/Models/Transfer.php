@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
+use App\Models\Casts\LocaleString;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\UI;
 use Carbon\Carbon;
@@ -51,6 +52,9 @@ class Transfer extends Model implements NodeContract
     protected $casts = [
         'before' => 'array',
         'after' => 'array',
+        'title' => LocaleString::class,
+        'tooltip' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function getCodeAttribute(): ?string

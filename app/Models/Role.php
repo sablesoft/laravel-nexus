@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasBehaviors;
@@ -31,6 +32,8 @@ class Role extends Model implements HasOwnerInterface, Stateful
         'is_public' => 'bool',
         'behaviors' => 'array',
         'states' => 'array',
+        'name' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
     public static function boot(): void
     {

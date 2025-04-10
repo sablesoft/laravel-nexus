@@ -21,9 +21,9 @@ return new class extends Migration
             $table->foreignId('role_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
 
-            $table->string('name')->nullable(false);
+            $table->json('name')->nullable(false);
             $table->string('code')->nullable(false);
-            $table->text('description')->nullable();
+            $table->json('description')->nullable();
             $table->string('allowed')->nullable();
 
             $table->unsignedSmallInteger('limit')->nullable(false)->default(0);

@@ -14,21 +14,20 @@ class AppControlsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.controls')->delete();
-        
+
         \DB::table('app.controls')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 4,
                 'screen_id' => 7,
                 'scenario_id' => NULL,
                 'type' => 'action',
-                'title' => 'Continue',
-                'tooltip' => 'Press to continue your story',
-                'description' => 'Advances the prologue one step forward. Visible as long as the prologue is not yet finished.
-Each press progresses the narrative. After the final part, the button disappears and marks the prologue as complete.',
+                'title' => '{"en": "Continue"}',
+                'tooltip' => '{"en":"Press to continue your story"}',
+                'description' => '{"en":"Advances the prologue one step forward. Visible as long as the prologue is not yet finished. \nEach press progresses the narrative. After the final part, the button disappears and marks the prologue as complete."}',
                 'before' => NULL,
                 'after' => NULL,
             'visible_condition' => 'not screen.state(\'isDone\')',
@@ -37,7 +36,7 @@ Each press progresses the narrative. After the final part, the button disappears
                 'updated_at' => '2025-04-09 03:57:57',
             ),
         ));
-        
-        
+
+
     }
 }

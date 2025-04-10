@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
@@ -65,7 +66,8 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
 
     protected $casts = [
         'status' => ChatStatus::class,
-        'states' => 'array'
+        'states' => 'array',
+        'title' => LocaleString::class
     ];
 
     public function application(): BelongsTo

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
@@ -33,6 +34,11 @@ class Mask extends Model implements HasOwnerInterface
 
     protected $fillable = [
         'user_id', 'image_id', 'portrait_id', 'name', 'description', 'is_public'
+    ];
+
+    protected $casts = [
+        'name' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function getTitleAttribute(): ?string

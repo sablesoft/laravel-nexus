@@ -7,6 +7,7 @@ use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\Adapters\ScreenDslAdapter;
 use App\Logic\Process;
 use App\Logic\Validators\QueryExpressionValidator;
+use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasImage;
@@ -75,6 +76,8 @@ class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, 
         'states' => 'array',
         'before' => 'array',
         'after' => 'array',
+        'title' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function application(): BelongsTo

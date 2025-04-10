@@ -14,22 +14,18 @@ class AppApplicationsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.applications')->delete();
-        
+
         \DB::table('app.applications')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 4,
                 'user_id' => 1,
                 'image_id' => 51,
-                'title' => 'In The Dust',
-                'description' => 'A post-apocalyptic setting. A slow-burning mystery. A world that remembers.
-
-This story invites you into a quiet, persistent narrative experience where survival is only part of the challenge. Explore forgotten places, make meaningful decisions, and adapt as the story unfolds — dynamically shaped by a new kind of generative storytelling engine. Every object, every detail, every choice matters.
-
-Your journey begins in the dust of the ruined world. What follows is yours to uncover.',
+                'title' => '{"en":"In The Dust"}',
+                'description' => '{"en":"A post-apocalyptic setting. A slow-burning mystery. A world that remembers.\nThis story invites you into a quiet, persistent narrative experience where survival is only part of the challenge. Explore forgotten places, make meaningful decisions, and adapt as the story unfolds — dynamically shaped by a new kind of generative storytelling engine. Every object, every detail, every choice matters.\nYour journey begins in the dust of the ruined world. What follows is yours to uncover."}',
                 'is_public' => false,
                 'states' => '{"has": {"time": {"type": "enum", "value": "evening", "options": ["morning", "noon", "evening", "night"]}, "weather": {"type": "enum", "value": "cloudy", "options": ["clear", "cloudy", "overcast", "rain", "storm", "fog"]}}}',
                 'member_states' => NULL,
@@ -40,7 +36,7 @@ Your journey begins in the dust of the ruined world. What follows is yours to un
                 'updated_at' => '2025-04-09 05:03:08',
             ),
         ));
-        
-        
+
+
     }
 }

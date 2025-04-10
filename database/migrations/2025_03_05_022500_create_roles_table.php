@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
 
-            $table->string('name')->nullable(false)->unique();
-            $table->text('description')->nullable();
+            $table->json('name')->nullable(false);
+            $table->json('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->jsonb('states')->nullable();

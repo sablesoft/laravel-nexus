@@ -2,6 +2,7 @@
 
 namespace App\Models\Casts;
 
+use App\Enums\Language;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 class LocaleString implements CastsAttributes
@@ -11,7 +12,7 @@ class LocaleString implements CastsAttributes
         $locale = app()->getLocale();
         $data = json_decode($value ?: '{}', true);
 
-        return $data[$locale] ?? null;
+        return $data[$locale] ?? $data[Language::defaultCode()] ?? null;
     }
 
     public function set($model, string $key, $value, array $attributes): array

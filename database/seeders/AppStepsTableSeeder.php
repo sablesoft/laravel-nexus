@@ -14,12 +14,12 @@ class AppStepsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.steps')->delete();
-        
+
         \DB::table('app.steps')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 6,
                 'parent_id' => 10,
@@ -31,7 +31,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-03 21:30:03',
                 'updated_at' => '2025-04-03 21:30:03',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 5,
                 'parent_id' => 10,
@@ -43,7 +43,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-03 21:29:41',
                 'updated_at' => '2025-04-03 21:39:21',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 9,
                 'parent_id' => 13,
@@ -55,7 +55,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-08 00:43:34',
                 'updated_at' => '2025-04-08 02:12:28',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 8,
                 'parent_id' => 13,
@@ -67,7 +67,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-08 00:43:20',
                 'updated_at' => '2025-04-08 02:12:30',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 7,
                 'parent_id' => 13,
@@ -79,20 +79,20 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-08 00:43:04',
                 'updated_at' => '2025-04-08 02:12:32',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 11,
                 'parent_id' => 13,
                 'number' => 1,
                 'scenario_id' => 14,
-                'description' => 'Add lift description',
+                'description' => '{"en":"Add lift description"}',
                 'before' => NULL,
                 'after' => '[{"push":{"messages":{"role":">>assistant","content":"lift_description"}}},{"set":{"ask":"ask ?? \'Look out the window\'"}}]',
                 'created_at' => '2025-04-08 02:11:49',
                 'updated_at' => '2025-04-08 03:50:09',
             ),
         ));
-        
-        
+
+
     }
 }

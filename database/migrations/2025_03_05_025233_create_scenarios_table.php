@@ -15,16 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->string('title')->nullable(false);
-            $table->text('description')->nullable();
+            $table->json('title')->nullable(false);
+            $table->json('description')->nullable();
 
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-
-            $table->unique(['user_id', 'title']);
         });
     }
 

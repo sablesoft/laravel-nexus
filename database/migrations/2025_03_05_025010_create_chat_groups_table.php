@@ -17,15 +17,14 @@ return new class extends Migration
             $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
 
-            $table->string('name')->nullable(false);
-            $table->text('description')->nullable();
+            $table->json('name')->nullable(false);
+            $table->json('description')->nullable();
 
             $table->unsignedSmallInteger('number')->nullable(false);
             $table->unsignedSmallInteger('roles_per_member')->nullable(false)->default(1);
             $table->boolean('is_required')->nullable(false)->default(true);
             $table->string('allowed')->nullable();
 
-            $table->unique(['application_id', 'name']);
             $table->unique(['application_id', 'number']);
 
             $table->timestamp('created_at')->useCurrent();

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Logic\Contracts\NodeContract;
+use App\Models\Casts\LocaleString;
 use App\Models\Enums\ControlType;
 use App\Models\Traits\HasLogic;
 use App\Models\Traits\HasEffects;
@@ -53,6 +54,9 @@ class Control extends Model implements NodeContract
         'type' => ControlType::class,
         'before' => 'array',
         'after' => 'array',
+        'title' => LocaleString::class,
+        'tooltip' => LocaleString::class,
+        'description' => LocaleString::class,
     ];
 
     public function screen(): BelongsTo

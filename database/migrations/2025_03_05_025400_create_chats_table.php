@@ -18,7 +18,7 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('application_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->string('title')->nullable(false);
+            $table->json('title')->nullable(false);
             $table->unsignedSmallInteger('seats')->nullable(false)->default(1);
             $table->enum('status', ChatStatus::values())->index()
                 ->nullable(false)->default(ChatStatus::Created->value);

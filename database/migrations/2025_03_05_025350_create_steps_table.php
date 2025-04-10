@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('number')->nullable(false)->index();
             $table->foreignId('scenario_id')->nullable()->index()
                 ->constrained('app.scenarios')->cascadeOnDelete();
-            $table->string('description')->nullable();
+            $table->json('description')->nullable();
 
             $table->json('before')->nullable();
             $table->json('after')->nullable();

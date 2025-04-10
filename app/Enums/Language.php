@@ -27,5 +27,10 @@ enum Language: string
     {
         return array_map(fn(self $case) => $case->value, self::cases());
     }
+
+    public static function defaultCode(): string
+    {
+        return self::En->value;
+    }
 }
 
