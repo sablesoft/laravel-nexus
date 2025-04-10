@@ -32,8 +32,8 @@ class Application extends AbstractCrud implements ShouldHasMany
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'is_public' => 'Is Public'
+//            'title' => __('Title'), todo!!
+            'is_public' => __('Public')
         ];
     }
 
@@ -76,18 +76,20 @@ class Application extends AbstractCrud implements ShouldHasMany
         $dslEditor = config('dsl.editor', 'json');
         return [
             'title' => [
+                'title' => __('Title'),
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
             'image' => $this->imageViewerField(),
             'image_id' => $this->imageSelectorField(),
             'description' => [
+                'title' => __('Description'),
                 'action' => ['create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
             'is_public' => [
-                'title' => 'Public',
+                'title' => __('Public'),
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'callback' => fn($model) => $model->is_public ? 'Yes' : 'No',
@@ -106,44 +108,44 @@ class Application extends AbstractCrud implements ShouldHasMany
                 ],
             ],
             'statesString' => [
-                'title' => 'Global States',
+                'title' => __('Global States'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'beforeString' => [
-                'title' => 'Initial Effects',
+                'title' => __('Initial Effects'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
             'afterString' => [
-                'title' => 'Ending Effects',
+                'title' => __('Ending Effects'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => "nullable|$dslEditor",
                 'collapsed' => true
             ],
-            'screenLink' => $this->linkField('Start Screen', ['index', 'view']),
-            'screensList' => $this->linkListField('Screens', ['index', 'view']),
+            'screenLink' => $this->linkField(__('Start Screen'), ['index', 'view']),
+            'screensList' => $this->linkListField(__('Screens'), ['index', 'view']),
             'memberStatesString' => [
-                'title' => 'Member States',
+                'title' => __('Member States'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'memberBehaviorsString' => [
-                'title' => 'Member Behaviors',
+                'title' => __('Member Behaviors'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'groupsCrud' => [
-                'title' => 'Groups',
+                'title' => __('Groups'),
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.application.chat-groups',

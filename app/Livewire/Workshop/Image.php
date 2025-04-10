@@ -52,22 +52,23 @@ class Image extends AbstractCrud
     {
         return [
             'path' => [
-                'title' => 'File',
+                'title' => __('File'),
                 'action' => ['create', 'edit'],
                 'type' => 'image',
                 'rules' => ['string', $this->uniqueRule('images', 'path')],
             ],
             'path_md' => [
-                'title' => 'File',
+                'title' => __('File'),
                 'action' => ['view'],
                 'type' => 'image',
             ],
             'path_sm' => [
-                'title' => 'File',
+                'title' => __('File'),
                 'action' => ['index'],
                 'type' => 'image',
             ],
             'title' => [
+                'title' => __('Title'),
                 'action' => ['create', 'edit', 'view', 'generate'],
                 'rules' => 'required|string',
             ],
@@ -75,25 +76,28 @@ class Image extends AbstractCrud
 
             // generate:
             'prompt' => [
+                'title' => __('Prompt'),
                 'action' => ['generate', 'regenerate', 'view'],
                 'type' => 'textarea',
                 'placeholder' => '(ENGLISH ONLY) Describe your image...',
                 'rules' => 'required|string'
             ],
             'aspect' => [
-                'title' => 'Aspect Ratio',
+                'title' => __('Aspect Ratio'),
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->aspect->value
             ],
             'style' => [
+                'title' => __('Style'),
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->style->value
             ],
             'quality' => [
+                'title' => __('Quality'),
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
                 'rules' => 'required|string',
@@ -101,13 +105,14 @@ class Image extends AbstractCrud
             ],
 
             'has_glitches' => [
-                'title' => 'Has Glitches',
+                'title' => __('Has Glitches'),
                 'action' => ['view', 'edit', 'index'],
                 'type' => 'checkbox',
                 'rules' => 'required|bool',
                 'callback' => fn(\App\Models\Image $model) => $model->has_glitches ? 'Yes' : 'No'
             ],
             'attempts' => [
+                'title' => __('Attempts'),
                 'action' => ['view'],
                 'type' => 'number',
                 'rules' => 'required|number'
@@ -124,11 +129,11 @@ class Image extends AbstractCrud
     {
         return [
             'id' => 'ID',
-            'aspect' => 'Ratio',
-            'quality' => 'Quality',
-            'style' => 'Style',
-            'has_glitches' => 'Glitches',
-            'is_public' => 'Is Public'
+            'aspect' => __('Ratio'),
+            'quality' => __('Quality'),
+            'style' => __('Style'),
+            'has_glitches' => __('Glitches'),
+            'is_public' => __('Public')
         ];
     }
 

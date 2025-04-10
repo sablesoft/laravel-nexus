@@ -32,7 +32,7 @@ trait HandleOwner
     protected function isPublicField(array $action = ['edit', 'view']): array
     {
         return [
-            'title' => 'Is Public',
+            'title' => __('Public'),
             'action' => $action,
             'type' => 'checkbox',
             'rules' => 'bool',

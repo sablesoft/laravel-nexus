@@ -34,8 +34,8 @@ class Scenario extends AbstractCrud
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'code' => 'Code',
+            'title' => __('Title'),
+//            'code' => __('Code'),
         ];
     }
 
@@ -44,43 +44,45 @@ class Scenario extends AbstractCrud
         $dslEditor = config('dsl.editor', 'json');
         return [
             'title' => [
+                'title' => __('Title'),
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
             'description' => [
+                'title' => __('Description'),
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
             'stepsCount' => [
-                'title' => 'Steps Count',
+                'title' => __('Steps Count'),
                 'action' => ['index'],
                 'callback' => fn(\App\Models\Scenario $scenario) => $scenario->steps()->count()
             ],
             'beforeString' => [
-                'title' => 'Effects',
+                'title' => __('Effects'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'afterString' => [
-                'title' => 'Effects After',
+                'title' => __('Effects After'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'stepsCrud' => [
-                'title' => 'Steps',
+                'title' => __('Steps'),
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.scenario.steps',
                 'showEmpty' => true,
                 'collapsed' => true
             ],
-            'inStepsList' => $this->linkListField('In Steps Of', ['index', 'view']),
-            'inControlsList' => $this->linkListField('In Controls Of', ['index', 'view']),
+            'inStepsList' => $this->linkListField(__('In Steps Of'), ['index', 'view']),
+            'inControlsList' => $this->linkListField(__('In Controls Of'), ['index', 'view']),
         ];
     }
 

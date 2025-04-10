@@ -62,7 +62,7 @@ class Transfers extends Component
     {
         return [
             'id' => 'ID',
-            'title' => 'Title'
+//            'title' => __('Title') TODO
         ];
     }
 

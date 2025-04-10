@@ -35,9 +35,9 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'code' => 'Code',
-            'is_start' => 'Is Start',
+//            'title' => __('Title'), TODO
+            'code' => __('Code'),
+            'is_start' => __('Is Start'),
         ];
     }
 
@@ -122,24 +122,27 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
         $dslEditor = config('dsl.editor', 'json');
         return [
             'title' => [
+                'title' => __('Title'),
                 'action' => ['index', 'create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
             'code' => [
+                'title' => __('Code'),
                 'action' => ['create', 'edit', 'view'],
                 'rules' => 'required|string',
             ],
             'image' => $this->imageViewerField(),
             'image_id' => $this->imageSelectorField(),
             'description' => [
+                'title' => __('Description'),
                 'action' => ['create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
             'application_id' =>
-                $this->belongsToField('Application', 'application', ['create', 'edit'], 'required|int'),
+                $this->belongsToField(__('Application'), 'application', ['create', 'edit'], 'required|int'),
             'is_start' => [
-                'title' => 'Is Start',
+                'title' => __('Is Start'),
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'rules' => 'nullable|bool',
@@ -147,6 +150,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'callback' => fn(\App\Models\Screen $model) => $model->is_start ? 'Yes' : 'No'
             ],
             'query' => [
+                'title' => __('Query'),
                 'action' => ['create','edit','view'],
                 'type' => 'textarea',
                 'rules' => [
@@ -156,33 +160,34 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 ]
             ],
             'template' => [
+                'title' => __('Template'),
                 'action' => ['create','edit','view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
             'statesString' => [
-                'title' => 'States',
+                'title' => __('States'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'beforeString' => [
-                'title' => 'Effects',
+                'title' => __('Effects'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'afterString' => [
-                'title' => 'Effects After',
+                'title' => __('Effects After'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'enabled_condition' => [
-                'title' => 'Enabled Condition',
+                'title' => __('Enabled Condition'),
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
                 'rules' => [
@@ -192,7 +197,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 ]
             ],
             'visible_condition' => [
-                'title' => 'Visible Condition',
+                'title' => __('Visible Condition'),
                 'action' => ['edit', 'view'],
                 'type' => 'textarea',
                 'rules' => [
@@ -201,11 +206,11 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                     new DslRule(QueryExpressionValidator::class, 'raw')
                 ]
             ],
-            'applicationLink' => $this->linkField('Application', ['index', 'view']),
-            'transfersToList' => $this->linkListField('Transfers To', ['index']),
-            'transfersFromList' => $this->linkListField('Transfers From', ['index', 'view']),
+            'applicationLink' => $this->linkField(__('Application'), ['index', 'view']),
+            'transfersToList' => $this->linkListField(__('Transfers To'), ['index']),
+            'transfersFromList' => $this->linkListField(__('Transfers From'), ['index', 'view']),
             'transfersCrud' => [
-                'title' => 'Transfers To',
+                'title' => __('Transfers To'),
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.screen.transfers',
@@ -213,7 +218,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'collapsed' => true,
             ],
             'controlsCrud' => [
-                'title' => 'Controls',
+                'title' => __('Controls'),
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.screen.controls',
@@ -238,7 +243,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
 
     public function filterIsFlagLabel(): string
     {
-        return 'Is Start';
+        return __('Is Start');
     }
 
     public function validate($rules = null, $messages = [], $attributes = []): array

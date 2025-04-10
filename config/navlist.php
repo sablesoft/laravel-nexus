@@ -1,9 +1,9 @@
 <?php
 
 return [
-    // navlist.group platform
+    // navlist.group portal
     'platform' => [
-        'heading' => 'Platform',
+        'heading' => 'Portal',
         'prefix' => null, // route and uri prefix
         'items' => [
             'dashboard' => [ // route and uri key

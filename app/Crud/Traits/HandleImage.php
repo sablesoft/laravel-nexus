@@ -30,12 +30,13 @@ trait HandleImage
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      * @param array $action
      * @return array
      */
-    protected function imageSelectorField(string $title = 'Image', array $action = ['create', 'edit']): array
+    protected function imageSelectorField(?string $title = null, array $action = ['create', 'edit']): array
     {
+        $title = $title ?: __('Image');
         return [
             'title' => $title,
             'action' => $action,
@@ -46,11 +47,12 @@ trait HandleImage
     }
 
     protected function imageViewerField(
-        string $title = 'Image',
+        string $title = null,
         string $relation = 'image',
         array $action = ['index', 'view']
     ): array
     {
+        $title = $title ?: __('Image');
         return [
             'title' => $title,
             'action' => $action,

@@ -28,20 +28,20 @@ class ChatRoles extends Component
     #[Locked]
     public array $roles = [];
     #[Locked]
-    public array $groupRoles = [];
+    public array $chatRoles = [];
     #[Locked]
     public string $action;
     #[Locked]
-    public ?int $groupRoleId = null;
+    public ?int $chatRoleId = null;
     public array $state;
 
     public function mount(): void
     {
         $this->setSelectKey();
-        /** @var Collection<int, ChatRole> $groupRoles */
-        $groupRoles = ChatRole::where('chat_group_id', $this->groupId)->with('role')->get();
-        foreach ($groupRoles as $groupRole) {
-            $this->groupRoles[$groupRole->id] = $this->prepareGroupRole($groupRole);
+        /** @var Collection<int, ChatRole> $chatRoles */
+        $chatRoles = ChatRole::where('chat_group_id', $this->groupId)->with('role')->get();
+        foreach ($chatRoles as $chatRole) {
+            $this->chatRoles[$chatRole->id] = $this->prepareGroupRole($chatRole);
         }
         $this->resetForm();
     }
@@ -86,7 +86,7 @@ class ChatRoles extends Component
     public function resetForm(): void
     {
         $this->action = 'create';
-        $this->groupRoleId = null;
+        $this->chatRoleId = null;
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
@@ -102,17 +102,17 @@ class ChatRoles extends Component
 
     public function edit(int $id): void
     {
-        $this->groupRoleId = $id;
+        $this->chatRoleId = $id;
         $this->action = 'edit';
-        $groupRole = $this->groupRoles[$id];
+        $chatRole = $this->chatRoles[$id];
         foreach (array_keys($this->rules()) as $field) {
-            $this->state[$field] = $groupRole[$field];
+            $this->state[$field] = $chatRole[$field];
         }
-        if ($groupRole['role_id']) {
+        if ($chatRole['role_id']) {
             $this->setSelectKey();
             $this->roles[] = [
-                'name' => $groupRole['roleName'],
-                'id' => $groupRole['role_id']
+                'name' => $chatRole['roleName'],
+                'id' => $chatRole['role_id']
             ];
         }
         $this->dispatchCodeMirror();
@@ -122,16 +122,16 @@ class ChatRoles extends Component
     public function submit(): void
     {
         $data = $this->validate(\Arr::prependKeysWith($this->rules(), 'state.'));
-        $groupRole = $this->getModel();
-        if ($this->submitRoleChanged($data['state'], $groupRole)) {
+        $chatRole = $this->getModel();
+        if ($this->submitRoleChanged($data['state'], $chatRole)) {
             $this->dispatch('refresh-roles');
         }
-        /** @var ChatRole $groupRole */
-        $groupRole = StoreService::handle($data['state'], $groupRole);
-        $this->groupRoles[$groupRole->id] = $this->prepareGroupRole($groupRole);
+        /** @var ChatRole $chatRole */
+        $chatRole = StoreService::handle($data['state'], $chatRole);
+        $this->chatRoles[$chatRole->id] = $this->prepareGroupRole($chatRole);
         $this->resetForm();
         Flux::modal('form-group-'.$this->groupId.'-role')->close();
-        $this->dispatch('flash', message: 'Group Role' . ($this->groupRoleId ? ' updated' : ' created'));
+        $this->dispatch('flash', message: 'Group Role' . ($this->chatRoleId ? ' updated' : ' created'));
     }
 
     protected function submitRoleChanged(array $data, ChatRole $groupRole): bool
@@ -141,41 +141,41 @@ class ChatRoles extends Component
 
     public function delete(int $id): void
     {
-        $this->groupRoleId = $id;
-        $groupRole = $this->getModel();
-        $groupRole->delete();
-        unset($this->groupRoles[$id]);
-        $this->dispatch('flash', message: 'Group Role deleted');
+        $this->chatRoleId = $id;
+        $chatRole = $this->getModel();
+        $chatRole->delete();
+        unset($this->chatRoles[$id]);
+        $this->dispatch('flash', message: __('Chat Role deleted'));
         $this->dispatch('refresh-roles');
         $this->resetForm();
     }
 
     protected function getModel(): ChatRole
     {
-        return $this->groupRoleId ?
-            ChatRole::findOrFail($this->groupRoleId) :
+        return $this->chatRoleId ?
+            ChatRole::findOrFail($this->chatRoleId) :
             new ChatRole([
                 'application_id' => $this->applicationId,
                 'chat_group_id' => $this->groupId
             ]);
     }
 
-    protected function prepareGroupRole(ChatRole $groupRole): array
+    protected function prepareGroupRole(ChatRole $chatRole): array
     {
         return [
-            'application_id' => $groupRole->application_id,
-            'group_id' => $groupRole->chat_group_id,
-            'role_id' => $groupRole->role_id,
-            'roleName' => $groupRole->role?->name,
-            'name' => $groupRole->name,
-            'code' => $groupRole->code,
-            'description' => !empty($groupRole->description) ?
-                $groupRole->description :
-                $groupRole->role?->description,
-            'allowed' => $groupRole->allowed,
-            'limit' => $groupRole->limit,
-            'statesString' => $groupRole->statesString,
-            'behaviorsString' => $groupRole->behaviorsString,
+            'application_id' => $chatRole->application_id,
+            'group_id' => $chatRole->chat_group_id,
+            'role_id' => $chatRole->role_id,
+            'roleName' => $chatRole->role?->name,
+            'name' => $chatRole->name,
+            'code' => $chatRole->code,
+            'description' => !empty($chatRole->description) ?
+                $chatRole->description :
+                $chatRole->role?->description,
+            'allowed' => $chatRole->allowed,
+            'limit' => $chatRole->limit,
+            'statesString' => $chatRole->statesString,
+            'behaviorsString' => $chatRole->behaviorsString,
         ];
     }
 
@@ -190,7 +190,7 @@ class ChatRoles extends Component
                 'required',
                 Rule::unique('group_roles')
                     ->where(fn ($query) => $query->where('application_id', $this->applicationId))
-                    ->ignore($this->groupRoleId),
+                    ->ignore($this->chatRoleId),
             ],
             'description'       => ['nullable', 'string'],
             'allowed'           => ['nullable', 'string'], // todo - dsl-expression
@@ -202,6 +202,6 @@ class ChatRoles extends Component
 
     protected function setSelectKey(): void
     {
-        $this->selectKey = 'GroupRoles' . uniqid();
+        $this->selectKey = 'ChatRoles' . uniqid();
     }
 }

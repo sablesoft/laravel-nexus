@@ -33,8 +33,8 @@ class Mask extends AbstractCrud
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'is_public' => 'Is Public'
+            'name' => __('Name'),
+            'is_public' => __('Public')
         ];
     }
 
@@ -45,20 +45,22 @@ class Mask extends AbstractCrud
     {
         return [
             'name' => [
+                'title' => __('Name'),
                 'action' => ['index', 'edit', 'create', 'view'],
                 'rules' => ['required', 'string', $this->uniqueRule('masks', 'name')],
             ],
-            'image' => $this->imageViewerField('Avatar'),
-            'image_id' => $this->imageSelectorField('Avatar'),
-            'portrait' => $this->imageViewerField('Portrait', 'portrait'),
-            'portrait_id' => $this->imageSelectorField('Portrait'),
+            'image' => $this->imageViewerField(__('Avatar')),
+            'image_id' => $this->imageSelectorField(__('Avatar')),
+            'portrait' => $this->imageViewerField(__('Portrait'), 'portrait'),
+            'portrait_id' => $this->imageSelectorField(__('Portrait')),
             'description' => [
+                'title' => __('Description'),
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
             'is_public' => [
-                'title' => 'Public',
+                'title' => __('Public'),
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'rules' => [

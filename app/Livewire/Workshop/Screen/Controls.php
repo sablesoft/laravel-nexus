@@ -105,7 +105,7 @@ class Controls extends Component
         $control = $this->getModel();
         $control->delete();
         unset($this->controls[$id]);
-        $this->dispatch('flash', message: 'Control deleted');
+        $this->dispatch('flash', message: __('Control deleted'));
         $this->resetForm();
     }
 

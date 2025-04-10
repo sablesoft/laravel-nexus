@@ -98,7 +98,7 @@ class ChatGroups extends Component
         $group->delete();
         unset($this->groups[$id]);
         $this->renumber();
-        $this->dispatch('flash', message: 'Group deleted');
+        $this->dispatch('flash', message: __('Group deleted'));
         $this->resetForm();
     }
 

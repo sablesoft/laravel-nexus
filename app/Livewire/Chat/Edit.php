@@ -24,7 +24,7 @@ class Edit extends Component
     public function render(): mixed
     {
         return view('livewire.chat.edit')
-            ->title('Chat Edit: ' . $this->chat->title);
+            ->title(__('Chat Edit').': ' . $this->chat->title);
     }
 
     public function close(): void
@@ -45,6 +45,6 @@ class Edit extends Component
         ];
         $data = $this->validate(\Arr::prependKeysWith($rules, 'state.'));
         StoreService::handle($data['state'], $this->chat);
-        $this->dispatch('flash', message: 'Your chat was updated!');
+        $this->dispatch('flash', message: __('Your chat was updated'));
     }
 }

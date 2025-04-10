@@ -43,7 +43,7 @@ class View extends Component
         return view('livewire.chat.view', [
             'chat' => $this->chat,
             'presence' => [$this->chatViewChannel() => []]
-        ])->title('Chat View: ' . $this->chat->title);
+        ])->title(__('Chat View').': ' . $this->chat->title);
     }
 
     protected function chatViewChannel(): string
@@ -92,7 +92,7 @@ class View extends Component
         }
 
         $this->chat->update(['status' => ChatStatus::Published]);
-        $this->dispatch('flash', message: 'Your chat was published!');
+        $this->dispatch('flash', message: __('Your chat was published'));
     }
 
     // member flow
@@ -137,7 +137,7 @@ class View extends Component
             'owner' => __('Member added to your chat') .': '. $this->chat->title
         ] : [];
         $this->notify($messages);
-        $this->dispatch('flash', message: 'Member added to chat!');
+        $this->dispatch('flash', message: __('Member added to chat'));
     }
 
     public function deleteMember(int $id): void
@@ -154,7 +154,7 @@ class View extends Component
         $member->delete();
         $this->reloadChat();
         $this->dispatch('maskRemoved', maskId: $member->mask_id);
-        $this->dispatch('flash', message: 'Member deleted from chat!');
+        $this->dispatch('flash', message: __('Member deleted from chat'));
     }
 
     public function isJoined(): bool
@@ -174,7 +174,7 @@ class View extends Component
             'owner' => __('User joined your chat') . ': ' . $this->chat->title
         ] : [];
         $this->notify($messages);
-        $this->dispatch('flash', message: 'You joined this chat!');
+        $this->dispatch('flash', message: __('You joined this chat'));
     }
 
     public function leave(int $id): void
@@ -193,7 +193,7 @@ class View extends Component
             'owner' => __('User leaved your chat') . ': ' . $this->chat->title
         ] : [];
         $this->notify($messages);
-        $this->dispatch('flash', message: 'You leaved this chat!');
+        $this->dispatch('flash', message: __('You leaved this chat'));
     }
 
     public function confirm(int $id): void
@@ -208,7 +208,7 @@ class View extends Component
             $member->user_id => __('Your seat was confirmed in the chat') . ': ' . $this->chat->title
         ] : [];
         $this->notify($messages);
-        $this->dispatch('flash', message: 'Member confirmed');
+        $this->dispatch('flash', message: __('Member confirmed'));
     }
 
     public function showMask(int $id): void

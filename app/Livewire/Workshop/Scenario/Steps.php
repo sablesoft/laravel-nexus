@@ -107,7 +107,7 @@ class Steps extends Component
         $step->delete();
         unset($this->steps[$id]);
         $this->renumber();
-        $this->dispatch('flash', message: 'Step deleted');
+        $this->dispatch('flash', message: __('Step deleted'));
         $this->resetForm();
     }
 

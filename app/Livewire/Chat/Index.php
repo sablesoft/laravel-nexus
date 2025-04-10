@@ -35,7 +35,7 @@ class Index extends Component
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
+//            'title' => __('Title'), TODO
         ];
     }
 
@@ -76,7 +76,7 @@ class Index extends Component
         } else {
             $member->update(['user_id' => null]);
         }
-        $this->dispatch('flash', message: 'Your leaved this chat!');
+        $this->dispatch('flash', message: __('You leaved this chat'));
     }
 
     public function canPlay(int $id): bool
