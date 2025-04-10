@@ -27,7 +27,7 @@
                     <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#" label="Search" />
                 </flux:tooltip>
 
-                <flux:tooltip content="{{ __('Langauge') }}" position="bottom">
+                <flux:tooltip content="{{ __('Language') }}" position="bottom">
                     <flux:navbar.item>
                         <form action="{{ route('language.set') }}" method="POST">
                             @csrf
