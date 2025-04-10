@@ -9,22 +9,22 @@
     <!-- Control -->
     <x-crud.control>
         <x-slot name="filters">
-            <flux:tooltip content="Owner">
-                <flux:select id="owner" wire:model.live="owner" placeholder="Owner" class="cursor-pointer">
+            <flux:tooltip content="{{ __('Owner') }}">
+                <flux:select id="owner" wire:model.live="owner" placeholder="{{ __('Owner') }}" class="cursor-pointer">
                     <flux:select.option selected value="all">{{ 'All' }}</flux:select.option>
                     <flux:select.option value="user">{{ 'You' }}</flux:select.option>
                     <flux:select.option value="others">{{ 'Others' }}</flux:select.option>
                 </flux:select>
             </flux:tooltip>
-            <flux:tooltip content="Status">
-                <flux:select id="status" wire:model.live="status" placeholder="Status" class="cursor-pointer">
+            <flux:tooltip content="{{ __('Status') }}">
+                <flux:select id="status" wire:model.live="status" placeholder="{{ __('Status') }}" class="cursor-pointer">
                     <flux:select.option selected value="all">{{ 'All' }}</flux:select.option>
                     @foreach($this->getStatuses() as $value)
                         <flux:select.option value="{{ $value }}">{{ ucfirst($value) }}</flux:select.option>
                     @endforeach
                 </flux:select>
             </flux:tooltip>
-            <flux:tooltip content="Only With You">
+            <flux:tooltip content="{{ __('Only With You') }}">
                 <flux:switch wire:model.live="memberOnly"/>
             </flux:tooltip>
         </x-slot>
@@ -44,22 +44,22 @@
                         {{ $model->title }}
                     </flux:heading>
                     <flux:subheading>
-                        <p>Owner: {{ ucfirst($model->user->name) }}</p>
-                        <p>Seats: {{ $model->allowedSeatsCount() }} / {{ $model->seats }}</p>
-                        <p>Status: {{ ucfirst($model->status->value) }}</p>
+                        <p>{{ __('Owner') }}: {{ ucfirst($model->user->name) }}</p>
+                        <p>{{ __('Seats') }}: {{ $model->allowedSeatsCount() }} / {{ $model->seats }}</p>
+                        <p>{{ __('Status') }}: {{ ucfirst($model->status->value) }}</p>
                     </flux:subheading>
                     <flux:button.group class="mt-2">
-                        <flux:tooltip content="View">
+                        <flux:tooltip content="{{ __('View') }}">
                             <flux:button icon="eye" wire:click="view({{ $model->id }})" class="cursor-pointer"></flux:button>
                         </flux:tooltip>
                         @if($this->canLeave($model->id))
-                        <flux:tooltip content="Leave">
+                        <flux:tooltip content="{{ __('Leave') }}">
                             <flux:button icon="arrow-right-start-on-rectangle" class="cursor-pointer"
                                          wire:click="leave({{ $model->id }})"></flux:button>
                         </flux:tooltip>
                         @endif
                         @if($this->canPlay($model->id))
-                        <flux:tooltip content="Play">
+                        <flux:tooltip content="{{ __('Play') }}">
                             <flux:button icon="play" wire:click="play({{ $model->id }})" class="cursor-pointer"></flux:button>
                         </flux:tooltip>
                         @endif

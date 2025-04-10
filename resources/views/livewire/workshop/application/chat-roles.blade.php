@@ -2,7 +2,7 @@
 
     {{-- Modal Form --}}
     <div class="flex justify-end mb-2">
-        <flux:button variant="primary" wire:click="addRole" class="cursor-pointer">Add Role</flux:button>
+        <flux:button variant="primary" wire:click="addRole" class="cursor-pointer">{{ __('Add Role') }}</flux:button>
     </div>
     <flux:modal name="form-group-{{ $groupId }}-role"
                 x-on:cancel="$wire.resetForm()"
@@ -11,7 +11,7 @@
             <flux:heading>{{ $this->groupRoleId ? __('Edit Group Role') : __('Create Group Role') }}</flux:heading>
 
             <flux:field class="mb-3">
-                <flux:label>Role</flux:label>
+                <flux:label>{{ __('Role') }}</flux:label>
                 <div wire:key="{{ $selectKey }}">
                     <x-searchable-select field="role_id" :options="$selectRoles" :key="'ForGroup'. $groupId"/>
                 </div>
@@ -19,38 +19,38 @@
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Code</flux:label>
+                <flux:label>{{ __('Code') }}</flux:label>
                 <flux:input wire:model="state.code"/>
                 <flux:error name="state.code"/>
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Name</flux:label>
+                <flux:label>{{ __('Name') }}</flux:label>
                 <flux:input wire:model="state.name"/>
                 <flux:error name="state.name"/>
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Description</flux:label>
+                <flux:label>{{ __('Description') }}</flux:label>
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Limit</flux:label>
+                <flux:label>{{ __('Limit') }}</flux:label>
                 <flux:input type="number" step="1" min="0" wire:model="state.limit"/>
                 <flux:error name="state.limit"/>
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Allowed</flux:label>
+                <flux:label>{{ __('Allowed') }}</flux:label>
                 <flux:textarea wire:model="state.allowed" rows="auto"></flux:textarea>
                 <flux:error name="state.allowed"/>
             </flux:field>
 
             {{-- States --}}
             <flux:field class="mb-3">
-                <flux:label>States ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <flux:label>{{ __('States') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.statesString"
                                :lang="config('dsl.editor', 'yaml')"
                                :content="$state['statesString'] ?? ''"
@@ -60,7 +60,7 @@
 
             {{-- Behaviors --}}
             <flux:field class="mb-3">
-                <flux:label>Behaviors ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <flux:label>{{ __('Behaviors') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.behaviorsString"
                                :lang="config('dsl.editor', 'yaml')"
                                :content="$state['behaviorsString'] ?? ''"
@@ -87,12 +87,12 @@
         @if($groupRoles)
             <div
                 class="grid grid-cols-[1fr_1fr_1fr_3fr_1fr_auto] gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-                <span>Original Role</span>
-                <span>Code</span>
-                <span>Name</span>
-                <span>Description</span>
-                <span>Limit</span>
-                <span class="text-right">Actions</span>
+                <span>{{ __('Original Role') }}</span>
+                <span>{{ __('Code') }}</span>
+                <span>{{ __('Name') }}</span>
+                <span>{{ __('Description') }}</span>
+                <span>{{ __('Limit') }}</span>
+                <span class="text-right">{{ __('Actions') }}</span>
             </div>
         @endif
 
@@ -137,7 +137,7 @@
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                     @if($groupRole['allowed'])
                         <div class="mb-3">
-                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Allowed</label>
+                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Allowed') }}</label>
                             <span class="text-sm text-zinc-600 dark:text-zinc-300">
                             {!! e($groupRole['allowed']) !!}
                             </span>
@@ -145,7 +145,7 @@
                     @endif
                     @if($groupRole['behaviorsString'])
                         <div class="mb-3">
-                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Behaviors ({{ config('dsl.editor', 'yaml') }})</label>
+                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Behaviors') }} ({{ config('dsl.editor', 'yaml') }})</label>
                             <x-code-mirror wire:key="codemirror-before-{{ uuid_create() }}"
                                            :lang="config('dsl.editor', 'yaml')"
                                            :readonly="true"
@@ -155,7 +155,7 @@
                     @endif
                     @if($groupRole['statesString'])
                         <div class="mb-3">
-                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">States ({{ config('dsl.editor', 'yaml') }})</label>
+                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('States') }} ({{ config('dsl.editor', 'yaml') }})</label>
                             <x-code-mirror wire:key="codemirror-before-{{ uuid_create() }}"
                                            :lang="config('dsl.editor', 'yaml')"
                                            :readonly="true"

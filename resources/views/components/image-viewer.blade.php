@@ -6,7 +6,7 @@
 
 <div class="relative inline-block w-full h-full hover:scale-105 transition-transform">
     @if(!$path)
-        <span class="text-gray-500">No Image</span>
+        <span class="text-gray-500">{{ __('No Image') }}</span>
     @else
         <img src="{{ Storage::url($path) }}" alt="{{ $alt }}" class="object-contain">
         <div x-on:click.stop="$flux.modal('image-viewer-{{ $uuid }}').show()"

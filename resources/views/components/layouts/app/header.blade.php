@@ -19,27 +19,27 @@
 
             <flux:spacer />
 
+
+
             <flux:navbar class="mr-1.5 space-x-0.5 py-0!">
+
                 <flux:tooltip content="Search" position="bottom">
                     <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#" label="Search" />
                 </flux:tooltip>
-                <flux:tooltip content="Repository" position="bottom">
-                    <flux:navbar.item
-                        class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                        icon="folder-git-2"
-                        href="https://github.com/laravel/livewire-starter-kit"
-                        target="_blank"
-                        label="Repository"
-                    />
-                </flux:tooltip>
-                <flux:tooltip content="Documentation" position="bottom">
-                    <flux:navbar.item
-                        class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                        icon="book-open-text"
-                        href="https://laravel.com/docs/starter-kits"
-                        target="_blank"
-                        label="Documentation"
-                    />
+
+                <flux:tooltip content="{{ __('Langauge') }}" position="bottom">
+                    <flux:navbar.item>
+                        <form action="{{ route('language.set') }}" method="POST">
+                            @csrf
+                            <flux:select name="language" size="sm" class="w-full" onchange="this.form.submit()">
+                                @foreach(\App\Enums\Language::options() as $lang => $label)
+                                    <option value="{{ $lang }}" @selected($lang === app()->getLocale())>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                            </flux:select>
+                        </form>
+                    </flux:navbar.item>
                 </flux:tooltip>
             </flux:navbar>
 

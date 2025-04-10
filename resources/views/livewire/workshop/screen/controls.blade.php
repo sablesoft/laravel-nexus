@@ -13,7 +13,7 @@
             <flux:heading>{{ $this->controlId ? __('Edit Control') : __('Create Control') }}</flux:heading>
 
             <flux:field class="mb-3">
-                <flux:label>Type</flux:label>
+                <flux:label>{{ __('Type') }}</flux:label>
                 <flux:select wire:model="state.type" class="cursor-pointer">
                     <flux:select.option selected>Not selected</flux:select.option>
                     @foreach (\App\Models\Enums\ControlType::options() as $value => $title)
@@ -26,35 +26,35 @@
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Title</flux:label>
+                <flux:label>{{ __('Title') }}</flux:label>
                 <flux:input type="text" wire:model="state.title"/>
                 <flux:error name="state.title"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Tooltip</flux:label>
+                <flux:label>{{ __('Tooltip') }}</flux:label>
                 <flux:textarea wire:model="state.tooltip" rows="auto"></flux:textarea>
                 <flux:error name="state.tooltip"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Description</flux:label>
+                <flux:label>{{ __('Description') }}</flux:label>
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
 
             <flux:field class="mb-3">
-                <flux:label>Visible Condition</flux:label>
+                <flux:label>{{ __('Visible Condition') }}</flux:label>
                 <flux:textarea wire:model="state.visible_condition" rows="auto"></flux:textarea>
                 <flux:error name="state.visible_condition"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Enabled Condition</flux:label>
+                <flux:label></flux:label>
                 <flux:textarea wire:model="state.enabled_condition" rows="auto"></flux:textarea>
                 <flux:error name="state.enabled_condition"/>
             </flux:field>
 
             {{-- Effects --}}
             <flux:field class="mb-3">
-                <flux:label>Effects ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <flux:label>{{ __('Effects') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
                                :lang="config('dsl.editor', 'yaml')"
                                :content="$state['beforeString'] ?? ''"
@@ -65,7 +65,7 @@
             {{-- Add Logic --}}
             <flux:field>
                 <div class="flex gap-2">
-                    <flux:switch label="Add Logic" class="cursor-pointer" wire:model.live="addLogic"/>
+                    <flux:switch label="{{ __('Add Logic') }}" class="cursor-pointer" wire:model.live="addLogic"/>
                 </div>
             </flux:field>
             @if($addLogic)
@@ -75,7 +75,7 @@
                 </flux:field>
                 {{-- Effects After --}}
                 <flux:field class="mb-3">
-                    <flux:label>Effects After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                    <flux:label>{{ __('Effects After') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
                     <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
                                    :lang="config('dsl.editor', 'yaml')"
                                    :content="$state['beforeString'] ?? ''"
@@ -103,11 +103,11 @@
         @if($controls)
             <div
                 class="grid grid-cols-5 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-                <span>Type</span>
-                <span>Title</span>
-                <span>Tooltip</span>
-                <span>Logic</span>
-                <span class="text-right">Actions</span>
+                <span>{{ __('Type') }}</span>
+                <span>{{ __('Title') }}</span>
+                <span>{{ __('Tooltip') }}</span>
+                <span>{{ __('Logic') }}</span>
+                <span class="text-right">{{ __('Actions') }}</span>
             </div>
         @endif
 
@@ -157,18 +157,18 @@
                 {{-- Expandable section --}}
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                     <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Description') }}</label>
                         <pre class="whitespace-pre-wrap text-left font-sans mt-1 bg-zinc-100 dark:bg-zinc-800">{!! e($control['description']) !!}</pre>
                     </div>
                     @if(!empty($control['visible_condition']))
                     <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Visible Condition</label>
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Visible Condition') }}</label>
                         <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($control['visible_condition']) !!}</pre>
                     </div>
                     @endif
                     @if(!empty($control['enabled_condition']))
                     <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Enabled Condition</label>
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Enabled Condition') }}</label>
                         <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($control['enabled_condition']) !!}</pre>
                     </div>
                     @endif

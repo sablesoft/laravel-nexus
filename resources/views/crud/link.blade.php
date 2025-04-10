@@ -13,5 +13,5 @@
     </a>
     </flux:button>
 @else
-    {{ $title ?: '(not set)' }}
+    {{ $title ?: __('(not set)') }}
 @endif

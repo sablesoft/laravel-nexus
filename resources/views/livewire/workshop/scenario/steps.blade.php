@@ -12,14 +12,14 @@
         <div class="space-y-4">
             <flux:heading>{{ $this->stepId ? __('Edit Step') : __('Create Step') }}</flux:heading>
             <flux:field class="mb-3">
-                <flux:label>Description</flux:label>
+                <flux:label>{{ __('Description') }}</flux:label>
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
 
             {{-- Effects --}}
             <flux:field class="mb-3">
-                <flux:label>Effects ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                <flux:label>{{ __('Effects') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
                 <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.beforeString"
                                :lang="config('dsl.editor', 'yaml')"
                                wire:model.defer="state.beforeString" class="w-full" />
@@ -29,7 +29,7 @@
             {{-- Logic --}}
             <flux:field>
                 <div class="flex gap-2">
-                    <flux:switch label="Add Logic" class="cursor-pointer" wire:model.live="addLogic"/>
+                    <flux:switch label="{{ __('Add Logic') }}" class="cursor-pointer" wire:model.live="addLogic"/>
                 </div>
             </flux:field>
             @if($addLogic)
@@ -40,7 +40,7 @@
 
                 {{-- Effects After --}}
                 <flux:field class="mb-3">
-                    <flux:label>Effects After ({{ config('dsl.editor', 'yaml') }})</flux:label>
+                    <flux:label>{{ __('Effects After') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
                     <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
                                    :lang="config('dsl.editor', 'yaml')"
                                    wire:model.defer="state.afterString" class="w-full" />
@@ -67,9 +67,9 @@
         @if($steps)
         {{-- Table header --}}
         <div class="grid grid-cols-3 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-            <span>Number</span>
-            <span>Logic</span>
-            <span class="text-right">Details</span>
+            <span>{{ __('Number') }}</span>
+            <span>{{ __('Logic') }}</span>
+            <span class="text-right">{{ __('Details') }}</span>
         </div>
         @endif
 
@@ -119,7 +119,7 @@
             {{-- Expandable section --}}
             <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                 <div class="mb-3">
-                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
+                    <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Description') }}</label>
                     <p>{!! e($step['description']) !!}</p>
                 </div>
                 <x-effects-view :before-string="$step['beforeString']" :after-string="$step['afterString']"/>

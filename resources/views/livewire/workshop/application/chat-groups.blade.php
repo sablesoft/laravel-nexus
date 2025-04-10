@@ -3,7 +3,7 @@
     {{-- Modal Form --}}
     <div class="flex justify-end">
         <flux:modal.trigger name="form-group">
-            <flux:button variant="primary" class="cursor-pointer">Add Group</flux:button>
+            <flux:button variant="primary" class="cursor-pointer">{{ __('Add Group') }}</flux:button>
         </flux:modal.trigger>
     </div>
     <flux:modal name="form-group"
@@ -12,26 +12,26 @@
         <div class="space-y-4">
             <flux:heading>{{ $this->groupId ? __('Edit Group') : __('Create Group') }}</flux:heading>
             <flux:field class="mb-3">
-                <flux:label>Name</flux:label>
+                <flux:label>{{ __('Name') }}</flux:label>
                 <flux:input wire:model="state.name"></flux:input>
                 <flux:error name="state.name"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Description</flux:label>
+                <flux:label>{{ __('Description') }}</flux:label>
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Roles Per Member</flux:label>
+                <flux:label>{{ __('Roles Per Member') }}</flux:label>
                 <flux:input type="number" min="0" step="1" wire:model="state.roles_per_member"></flux:input>
                 <flux:error name="state.roles_per_member"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:switch label="Is Required" class="cursor-pointer" wire:model="state.is_required"/>
+                <flux:switch label="{{ __('Is Required') }}" class="cursor-pointer" wire:model="state.is_required"/>
                 <flux:error name="state.is_required"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>Allowed</flux:label>
+                <flux:label>{{ __('Allowed') }}</flux:label>
                 <flux:textarea wire:model="state.allowed" rows="auto"></flux:textarea>
                 <flux:error name="state.allowed"/>
             </flux:field>
@@ -55,11 +55,11 @@
         @if($groups)
             {{-- Table header --}}
             <div class="grid grid-cols-5 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-                <span>Number</span>
-                <span>Name</span>
-                <span>Is Required</span>
-                <span>Roles Per Member</span>
-                <span class="text-right">Details</span>
+                <span>{{ __('Number') }}</span>
+                <span>{{ __('Name') }}</span>
+                <span>{{ __('Is Required') }}</span>
+                <span>{{ __('Roles Per Member') }}</span>
+                <span class="text-right">{{ __('Details') }}</span>
             </div>
         @endif
 
@@ -107,12 +107,12 @@
                 {{-- Expandable section --}}
                 <div x-show="open" x-transition class="px-6 pb-4 pt-2 text-sm text-zinc-700 dark:text-zinc-300">
                     <div class="mb-3">
-                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Description</label>
+                        <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Description') }}</label>
                         <p>{!! e($group['description']) !!}</p>
                     </div>
                     @if($group['allowed'])
                         <div class="mb-3">
-                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">Allowed</label>
+                            <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Allowed') }}</label>
                             <span class="text-sm text-zinc-600 dark:text-zinc-300">
                             {!! e($group['allowed']) !!}
                             </span>

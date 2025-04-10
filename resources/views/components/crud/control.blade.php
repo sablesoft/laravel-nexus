@@ -1,8 +1,8 @@
 <div class="flex items-center gap-2">
 
     @if(count($this->orderByFields()) > 1)
-    <flux:tooltip content="Order and Search By">
-        <flux:select id="orderBy" wire:model.live="orderBy" placeholder="Order By" class="cursor-pointer">
+    <flux:tooltip content="{{ __('Order and Search By') }}">
+        <flux:select id="orderBy" wire:model.live="orderBy" placeholder="{{ __('Order By') }}" class="cursor-pointer">
             @foreach($this->orderByFields() as $field => $title)
                 <flux:select.option value="{{ $field }}">{{ $title }}</flux:select.option>
             @endforeach
@@ -10,15 +10,15 @@
     </flux:tooltip>
     @endif
 
-    <flux:tooltip content="Direction">
-        <flux:select id="orderDirection" wire:model.live="orderDirection" placeholder="Direction" class="cursor-pointer">
+    <flux:tooltip content="{{ __('Direction') }}">
+        <flux:select id="orderDirection" wire:model.live="orderDirection" placeholder="{{ __('Direction') }}" class="cursor-pointer">
             <flux:select.option value="asc">ASC</flux:select.option>
             <flux:select.option value="desc">DESC</flux:select.option>
         </flux:select>
     </flux:tooltip>
 
-    <flux:tooltip content="Per Page">
-        <flux:select id="perPage" wire:model.live="perPage" placeholder="Per page..." class="cursor-pointer">
+    <flux:tooltip content="{{ __('Per Page') }}">
+        <flux:select id="perPage" wire:model.live="perPage" placeholder="{{ __('Per page') }}..." class="cursor-pointer">
             @foreach($this->perPageCounts() as $count)
                 <flux:select.option value="{{ $count }}">{{ $count }}</flux:select.option>
             @endforeach
@@ -39,7 +39,7 @@
             @endif
         </flux:input>
         <flux:tooltip.content>
-            {{ __('Search by ') . $this->orderBy . ' value' }}
+            {{ __('Search by ') . $this->orderBy . __(' value') }}
         </flux:tooltip.content>
     </flux:tooltip>
 

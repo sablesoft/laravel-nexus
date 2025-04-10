@@ -38,6 +38,7 @@
                                     class="text-xs text-gray-400">{{ ($memory['created_at'])->diffForHumans() }}</span>
                             </div>
                         @endforeach
+                        <div wire:loading.delay><flux:icon.loading /></div>
                     </div>
                 </div>
             </div>
