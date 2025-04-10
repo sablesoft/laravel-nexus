@@ -71,15 +71,13 @@ class ChatCompletionHandler implements EffectHandlerContract
             // Handle regular content-based response
             if (!empty($choice->content)) {
                 $process->set('content', $choice->content);
-                $effects = $this->params['content'] ?? null;
-                if ($effects) {
-                    $compiled = ValueResolver::resolve($effects, $process);
-                    EffectRunner::run($compiled, $process);
+                if ($effects = $this->params['content'] ?? null) {
+                    EffectRunner::run($effects, $process);
                 }
             }
 
             // Handle tool function calls (if any)
-            if (isset($choice->toolCalls)) {
+            if (!empty($choice->toolCalls)) {
                 foreach ($choice->toolCalls as $toolCall) {
                     $call = new \stdClass();
                     $call->name = $toolCall->function->name;
@@ -146,6 +144,7 @@ class ChatCompletionHandler implements EffectHandlerContract
     {
         if (empty($this->params['calls'])) {
             $this->notifyMissedHandler($this->params, $process);
+            return;
         }
         $compiled = ValueResolver::resolve($this->params['calls'], $process);
         foreach ($process->get('calls', []) as $call) {
