@@ -17,12 +17,17 @@
             <flux:spacer />
 
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
+                <flux:navlist.item>
+                    <form action="{{ route('language.set') }}" method="POST">
+                        @csrf
+                        <flux:select name="language" size="sm" class="w-full" onchange="this.form.submit()">
+                            @foreach(\App\Enums\Language::options() as $lang => $label)
+                                <option value="{{ $lang }}" @selected($lang === app()->getLocale())>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </flux:select>
+                    </form>
                 </flux:navlist.item>
             </flux:navlist>
 

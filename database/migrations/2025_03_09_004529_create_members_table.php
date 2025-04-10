@@ -23,6 +23,8 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->boolean('is_confirmed')->nullable(false)->default(false);
 
+            $table->string('language', 2)->nullable(false)->default('en');
+
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_members_states_index', 'gin');
 

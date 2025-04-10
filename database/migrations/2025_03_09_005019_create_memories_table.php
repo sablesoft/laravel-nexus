@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->string('type', 20)->nullable(false)->index();
+            $table->string('language', 2)->nullable(false)->default('en');
             $table->jsonb('meta')->nullable();
 
             $table->index('meta', 'app_memories_meta_index', 'gin');

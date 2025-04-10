@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Symfony\Component\Intl\Languages;
 
 class Profile extends Component
 {
     public string $name = '';
 
     public string $email = '';
+
+    public string $language = 'en';
 
     /**
      * Mount the component.
@@ -21,6 +24,7 @@ class Profile extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->language = Auth::user()->language;
     }
 
     /**
@@ -29,7 +33,6 @@ class Profile extends Component
     public function updateProfileInformation(): void
     {
         $user = Auth::user();
-
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
 
@@ -41,6 +44,7 @@ class Profile extends Component
                 'max:255',
                 Rule::unique(User::class)->ignore($user->id),
             ],
+            'language' => ['required', 'string', 'min:2', 'max:5', Rule::in(Languages::getLanguageCodes())]
         ]);
 
         $user->fill($validated);

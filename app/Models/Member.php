@@ -15,16 +15,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Traits\HasOwner;
 use LogicException;
+use Symfony\Component\Intl\Languages;
 
 /**
  * @property null|int $id
  * @property null|int $chat_id
  * @property null|int $mask_id
  * @property null|int $screen_id
+ * @property null|string $language
  * @property null|bool $is_confirmed
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|string $languageName
  * @property-read null|Chat $chat
  * @property-read null|Screen $screen
  * @property-read null|Mask $mask
@@ -37,7 +40,8 @@ class Member extends Model implements HasDslAdapterContract, Stateful
     use HasOwner, HasStates, HasFactory, HasDslAdapter;
 
     protected $fillable = [
-        'chat_id', 'mask_id', 'screen_id', 'user_id', 'is_confirmed', 'states'
+        'chat_id', 'mask_id', 'screen_id', 'user_id',
+        'is_confirmed', 'states', 'language'
     ];
 
     protected $casts = [
@@ -70,6 +74,11 @@ class Member extends Model implements HasDslAdapterContract, Stateful
         return $this->mask?->name;
     }
 
+    public function getLanguageNameAttribute(): string
+    {
+        return Languages::getName($this->language);
+    }
+
     public static function boot(): void
     {
         parent::boot();
@@ -81,6 +90,9 @@ class Member extends Model implements HasDslAdapterContract, Stateful
             $member->screen_id = $startScreen->id;
         });
 
-        static::saving([self::class, 'savingAllStates']);
+        static::saving(function (self $member) {
+            self::savingAllStates($member);
+            $member->language = $member->user?->language ?? 'en';
+        });
     }
 }

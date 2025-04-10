@@ -27,6 +27,8 @@
                 @endif
             </div>
 
+            <flux:input wire:model="language" :label="__('Language Code')" type="text" name="language" required />
+
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
                     <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
