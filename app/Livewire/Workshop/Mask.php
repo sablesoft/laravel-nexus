@@ -47,7 +47,7 @@ class Mask extends AbstractCrud
             'name' => [
                 'title' => __('Name'),
                 'action' => ['index', 'edit', 'create', 'view'],
-                'rules' => ['required', 'string', $this->uniqueRule('masks', 'name')],
+                'rules' => ['required', 'string'],
             ],
             'image' => $this->imageViewerField(__('Avatar')),
             'image_id' => $this->imageSelectorField(__('Avatar')),
