@@ -110,12 +110,16 @@ abstract class AbstractCrud extends Component
         return [];
     }
 
+    /** @noinspection PhpPossiblePolymorphicInvocationInspection */
     public function optionsParam(string $field, string $class): array
     {
         return [
             'field' => $field,
-            'options' => $this->filterByOwner($this->getQuery($class))
-                ->select(['id', 'title as name'])->get()->toArray()
+            'options' => $this->filterByOwner($this->getQuery($class))->get()
+                ->map(fn(Model $model) => [
+                    'id' => $model->getKey(),
+                    'name' => $model->title
+                ])->toArray()
         ];
     }
 

@@ -10,6 +10,7 @@ use App\Models\Services\StoreService;
 use App\Models\Step;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
@@ -34,7 +35,10 @@ class Steps extends Component
     {
         $this->scenarioId = $scenarioId;
         $this->scenarios = Scenario::where('user_id', auth()->id())
-            ->select(['id', 'title as name'])->get()->toArray();
+            ->get()->map(fn(Scenario $scenario) => [
+                'id' => $scenario->getKey(),
+                'name' => $scenario->title
+            ])->toArray();
         /** @var Collection<int, Control> $steps */
         $steps = Step::where('parent_id', $scenarioId)->orderBy('number')->with('scenario')->get();
         foreach ($steps as $step) {

@@ -14,8 +14,8 @@
 
             <flux:field class="mb-3">
                 <flux:label>{{ __('Type') }}</flux:label>
-                <flux:select wire:model="state.type" class="cursor-pointer">
-                    <flux:select.option selected>Not selected</flux:select.option>
+                <flux:select wire:model="state.type" class="cursor-pointer" required>
+                    <flux:select.option selected>{{ __('Not selected') }}</flux:select.option>
                     @foreach (\App\Models\Enums\ControlType::options() as $value => $title)
                         <flux:select.option value="{{ $value }}">
                             {{ $title }}
@@ -27,7 +27,7 @@
 
             <flux:field class="mb-3">
                 <flux:label>{{ __('Title') }}</flux:label>
-                <flux:input type="text" wire:model="state.title"/>
+                <flux:input required type="text" wire:model="state.title"/>
                 <flux:error name="state.title"/>
             </flux:field>
             <flux:field class="mb-3">
@@ -47,7 +47,7 @@
                 <flux:error name="state.visible_condition"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label></flux:label>
+                <flux:label>{{ __('Enabled Condition') }}</flux:label>
                 <flux:textarea wire:model="state.enabled_condition" rows="auto"></flux:textarea>
                 <flux:error name="state.enabled_condition"/>
             </flux:field>
@@ -70,7 +70,7 @@
             </flux:field>
             @if($addLogic)
                 <flux:field class="mb-3">
-                    <x-searchable-select field="scenario_id" :options="$scenarios"/>
+                    <x-searchable-select required field="scenario_id" :options="$scenarios"/>
                     <flux:error name="state.scenario_id"/>
                 </flux:field>
                 {{-- Effects After --}}
@@ -114,7 +114,7 @@
         @foreach($controls as $id => $control)
             @php
                 $hasScenario = !empty($control['scenario_id']);
-                $logicTitle = $hasScenario ? $control['scenarioTitle'] : 'None';
+                $logicTitle = $hasScenario ? $control['scenarioTitle'] : __('None');
             @endphp
 
             <div x-data="{ open: false }"
@@ -122,7 +122,7 @@
                 {{-- Row --}}
                 <div class="grid grid-cols-5 gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
                 <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                    {{ ucfirst($control['type']) }}
+                    {{ __(ucfirst($control['type'])) }}
                 </span>
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">
                     {{ $control['title'] }}

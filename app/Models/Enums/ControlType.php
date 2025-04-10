@@ -21,7 +21,7 @@ enum ControlType: string
     {
         return array_reduce(self::cases(), function ($result, $case) {
             $value = $case->value;
-            $result[$value] = ucfirst($value);
+            $result[$value] = __(ucfirst($value));
             return $result;
         }, []);
     }

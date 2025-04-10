@@ -35,8 +35,11 @@ class Controls extends Component
     public function mount(int $screenId): void
     {
         $this->screenId = $screenId;
-        $this->scenarios = Scenario::where('user_id', auth()->id())
-            ->select(['id', 'title as name'])->get()->toArray();
+        $this->scenarios = Scenario::where('user_id', auth()->id())->get()
+            ->map(fn(Scenario $scenario) => [
+                'id' => $scenario->getKey(),
+                'name' => $scenario->title
+             ])->toArray();
         /** @var Collection<int, Control> $controls */
         $controls = Control::where('screen_id', $screenId)->with('scenario')->get();
         foreach ($controls as $control) {

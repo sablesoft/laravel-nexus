@@ -147,7 +147,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'type' => 'checkbox',
                 'rules' => 'nullable|bool',
                 'init' => false,
-                'callback' => fn(\App\Models\Screen $model) => $model->is_start ? 'Yes' : 'No'
+                'callback' => fn(\App\Models\Screen $model) => $model->is_start ? __('Yes') : __('No')
             ],
             'query' => [
                 'title' => __('Query'),
