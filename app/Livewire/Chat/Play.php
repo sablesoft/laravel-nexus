@@ -193,11 +193,11 @@ class Play extends Component
             'enabled_condition' => $control->enabled_condition,
         ])->toArray();
 
-        $this->prepareControls();
-        $this->prepareMemories();
         if ($screen->before) {
             EffectRunner::run($screen->before, $this->getProcess());
         }
+        $this->prepareControls();
+        $this->prepareMemories();
     }
 
     protected function prepareControls(): void

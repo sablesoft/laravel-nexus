@@ -16,7 +16,10 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
             const key = this.$el.dataset.codemirrorKey;
 
             container.innerHTML = '';
-            const initial = textarea.value ?? '';
+            let initial = textarea.value ?? '';
+            if (lang === 'yaml') {
+                initial = this.normalizeMultilineYaml(initial);
+            }
 
             const extensions = [
                 basicSetup,
@@ -99,7 +102,10 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
                 window.addEventListener('codemirror:update', (e) => {
                     if (e.detail?.key !== key) return;
 
-                    const newValue = e.detail.value ?? '';
+                    let newValue = e.detail.value ?? '';
+                    if (lang === 'yaml') {
+                        newValue = this.normalizeMultilineYaml(newValue);
+                    }
                     const currentValue = this.view.state.doc.toString();
 
                     if (newValue !== currentValue) {
@@ -113,5 +119,19 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
                 });
             }
         });
+    },
+
+    normalizeMultilineYaml(value) {
+        try {
+            const parsed = jsYaml.load(value);
+            return jsYaml.dump(parsed, {
+                lineWidth: 120, // folding 120
+                styles: {
+                    '!!str': '|' // force literal block for multiline
+                }
+            });
+        } catch (e) {
+            return value;
+        }
     }
 });

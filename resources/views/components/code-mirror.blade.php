@@ -5,7 +5,7 @@
 ])
 <div wire:ignore x-data="codeMirrorComponent('{{ $lang }}', {{ $readonly ? 'true' : 'false' }})"
      data-codemirror-key="{{ $attributes->get('wire:key') }}"
-     class="relative">
+     class="relative overflow-x-auto whitespace-nowrap">
 
     <div x-ref="editorContainer"></div>
 
