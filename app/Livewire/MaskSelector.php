@@ -26,7 +26,7 @@ class MaskSelector extends Component
         $values = $chat->members->pluck('mask_id')->toArray();
         $this->excludedIds = $values;
         $this->isOwner = $chat->user_id === auth()->id();
-        $this->orderBy = 'name';
+        $this->orderBy = 'id';
     }
 
     public function render(): mixed
@@ -45,7 +45,6 @@ class MaskSelector extends Component
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
             'is_public' => 'Is Public',
         ];
     }

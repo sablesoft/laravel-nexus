@@ -14,20 +14,20 @@ class AppScreensTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.screens')->delete();
-
+        
         \DB::table('app.screens')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 8,
                 'user_id' => 1,
                 'application_id' => 4,
                 'image_id' => 53,
-                'title' => '{"en":"Porch"}',
+                'title' => '{"en":"Porch","ru":"\\u041d\\u0430 \\u043f\\u043e\\u0440\\u043e\\u0433\\u0435"}',
                 'code' => 'porch',
-                'description' => NULL,
+                'description' => '{"ru":null}',
                 'is_start' => false,
                 'query' => '":type" == screen.code',
                 'template' => NULL,
@@ -37,30 +37,30 @@ class AppScreensTableSeeder extends Seeder
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:54:06',
-                'updated_at' => '2025-04-08 19:55:52',
+                'updated_at' => '2025-04-10 05:26:11',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
                 'application_id' => 4,
                 'image_id' => 52,
-                'title' => '{"en":"Prologue"}',
+                'title' => '{"en":"Prologue","ru":"\\u041f\\u0440\\u043e\\u043b\\u043e\\u0433"}',
                 'code' => 'prologue',
-                'description' => NULL,
+                'description' => '{"ru":null}',
                 'is_start' => true,
                 'query' => '":type" == screen.code',
                 'template' => NULL,
-                'before' => NULL,
+            'before' => '[{"if":{"condition":"screen.state(\'step\') == 0","then":[{"comment":">>Generating first prologue message"},{"screen.state":{"values":{"waiting":true}}},{"chat.completion":{"model":">>gpt-4-turbo","messages":[{"role":">>system","content":">>You are an AI narrator for an interactive post-apocalyptic story. Tell the user that he is alone, driving his sedan down a gravel road through a dense forest. It\'s currently {{ chat.state(\'time\') }}, and the weather is {{ chat.state(\'weather\') }}. Gas is almost gone. There\\u2019s no one around. Generate a vivid, immersive paragraph (4\\u20136 sentences) describing what the player sees, hears, and feels in this moment. Use a vivid, immersive style inspired by Jeff VanderMeer: poetic but grounded in physical sensation. Focus on textures, sounds, colors, small details. End with a slow shift in tone: the player begins to remember something and then turns on his voice recorder. Add an ellipsis at the end."},{"role":">>system","content":">>The user\\u2019s preferred language is {{ member.language }}. Always respond in this language unless instructed otherwise."}],"content":[{"memory.create":{"content":"content"}}]}},{"screen.state":{"values":{"waiting":false,"step":"screen.nextState(\'step\')"}}},{"chat.refresh":null}]}}]',
                 'after' => NULL,
-                'states' => '{"has": {"step": {"type": "int", "value": 0}, "steps": {"type": "int", "value": 3, "constant": true}, "isDone": {"type": "bool", "value": false}}}',
+                'states' => '{"has": {"step": {"type": "int", "value": 0}, "steps": {"type": "int", "value": 3, "constant": true}, "isDone": {"type": "bool", "value": false}, "waiting": {"type": "bool", "value": false}}}',
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:43:19',
-                'updated_at' => '2025-04-09 04:57:42',
+                'updated_at' => '2025-04-10 06:12:49',
             ),
         ));
-
-
+        
+        
     }
 }
