@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Casts\LocaleString;
+use App\Models\Enums\Gender;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasOwner;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|int $user_id
  * @property null|string $name
  * @property null|string $description
+ * @property null|Gender $gender
  * @property null|boolean $is_public
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -39,6 +41,7 @@ class Mask extends Model implements HasOwnerInterface
     protected $casts = [
         'name' => LocaleString::class,
         'description' => LocaleString::class,
+        'gender' => Gender::class,
     ];
 
     public function getTitleAttribute(): ?string
