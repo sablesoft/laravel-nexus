@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PublicUsersTableSeeder::class);
         $this->call(AppImagesTableSeeder::class);
         $this->call(AppMasksTableSeeder::class);
+        $this->call(AppGroupsTableSeeder::class);
         $this->call(AppRolesTableSeeder::class);
         $this->call(AppApplicationsTableSeeder::class);
         $this->call(AppScreensTableSeeder::class);

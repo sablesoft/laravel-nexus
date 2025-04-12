@@ -21,6 +21,18 @@ class PublicUsersTableSeeder extends Seeder
         \DB::table('public.users')->insert(array (
             0 => 
             array (
+                'id' => 1,
+                'name' => 'Raman',
+                'email' => 'sable.lair@gmail.com',
+                'email_verified_at' => '2025-03-05 18:48:07',
+                'password' => '$2y$12$gqzTj4axfOb/CiY4Ft5Ai.JC.P31L.einegDgA/DaKA.rTB.rCL.y',
+                'remember_token' => 'jWes7vm78i10mYUMyunjPs4iHXWm3ojdhUMjq1tZg3Kf6dn2atWt90K5uCWF',
+                'created_at' => '2025-03-04 21:17:48',
+                'updated_at' => '2025-04-12 05:05:29',
+                'language' => 'ru',
+            ),
+            1 => 
+            array (
                 'id' => 2,
                 'name' => 'Vasia',
                 'email' => 'vasia@gmail.com',
@@ -30,18 +42,6 @@ class PublicUsersTableSeeder extends Seeder
                 'created_at' => '2025-03-10 20:06:57',
                 'updated_at' => '2025-03-10 20:07:28',
                 'language' => 'en',
-            ),
-            1 => 
-            array (
-                'id' => 1,
-                'name' => 'Raman',
-                'email' => 'sable.lair@gmail.com',
-                'email_verified_at' => '2025-03-05 18:48:07',
-                'password' => '$2y$12$gqzTj4axfOb/CiY4Ft5Ai.JC.P31L.einegDgA/DaKA.rTB.rCL.y',
-                'remember_token' => 'jWes7vm78i10mYUMyunjPs4iHXWm3ojdhUMjq1tZg3Kf6dn2atWt90K5uCWF',
-                'created_at' => '2025-03-04 21:17:48',
-                'updated_at' => '2025-04-12 00:34:52',
-                'language' => 'ru',
             ),
         ));
         

@@ -14,12 +14,12 @@ class AppMembersTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.members')->delete();
-
+        
         \DB::table('app.members')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 3,
                 'application_id' => 4,
@@ -35,7 +35,7 @@ class AppMembersTableSeeder extends Seeder
                 'created_at' => '2025-04-12 01:50:33',
                 'updated_at' => '2025-04-12 01:50:33',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 4,
                 'application_id' => 4,
@@ -51,7 +51,7 @@ class AppMembersTableSeeder extends Seeder
                 'created_at' => '2025-04-12 01:58:47',
                 'updated_at' => '2025-04-12 01:58:47',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 5,
                 'application_id' => 4,
@@ -67,7 +67,7 @@ class AppMembersTableSeeder extends Seeder
                 'created_at' => '2025-04-12 01:58:55',
                 'updated_at' => '2025-04-12 01:58:55',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 6,
                 'application_id' => 4,
@@ -83,9 +83,8 @@ class AppMembersTableSeeder extends Seeder
                 'created_at' => '2025-04-12 01:59:03',
                 'updated_at' => '2025-04-12 01:59:03',
             ),
-
         ));
-
-
+        
+        
     }
 }
