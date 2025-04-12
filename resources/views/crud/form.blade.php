@@ -73,7 +73,7 @@
 
                                 @case('select')
                                     <flux:select wire:model="state.{{ $field }}" class="cursor-pointer">
-                                        @foreach ($this->selectOptions($field) as $value => $label)
+                                        @foreach ($this->config($field, 'options', []) as $value => $label)
                                             <flux:select.option value="{{ $value }}">{{ $label }}</flux:select.option>
                                         @endforeach
                                     </flux:select>

@@ -72,10 +72,6 @@
                                 @endswitch
                                 @break
 
-                            @case('select')
-                                {!! $this->selectedOptionTitle($field, $state[$field]) !!}
-                                @break
-
                             @case('template')
                                 @if($this->config($field, 'callback'))
                                     {!! nl2br($state[$field]) !!}

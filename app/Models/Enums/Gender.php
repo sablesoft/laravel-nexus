@@ -8,6 +8,11 @@ enum Gender: string
     case Female = 'female';
     case Other = 'other';
 
+    public function label(): string
+    {
+        return __(ucfirst($this->value));
+    }
+
     public static function options(): array
     {
         return collect(self::cases())

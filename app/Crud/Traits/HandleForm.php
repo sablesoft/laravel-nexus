@@ -80,11 +80,6 @@ trait HandleForm
         return $this->config($field, 'placeholder');
     }
 
-    public function selectOptions(string $field): array
-    {
-        return [];
-    }
-
     public function config(string $field, string $param, mixed $default = null): mixed
     {
         $config = $this->fieldsConfig()[$field];

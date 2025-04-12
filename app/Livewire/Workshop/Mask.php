@@ -6,6 +6,7 @@ use App\Crud\AbstractCrud;
 use App\Crud\Traits\HandleImage;
 use App\Crud\Traits\HandleUnique;
 use App\Livewire\Filters\FilterIsPublic;
+use App\Models\Enums\Gender;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -48,6 +49,12 @@ class Mask extends AbstractCrud
                 'title' => __('Name'),
                 'action' => ['index', 'edit', 'create', 'view'],
                 'rules' => ['required', 'string'],
+            ],
+            'gender' => [
+                'title' => __('Gender'),
+                'action' => ['index', 'create', 'edit', 'view'],
+                'type' => 'select',
+                'options' => Gender::options()
             ],
             'image' => $this->imageViewerField(__('Avatar')),
             'image_id' => $this->imageSelectorField(__('Avatar')),

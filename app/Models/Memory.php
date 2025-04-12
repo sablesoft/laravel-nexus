@@ -60,6 +60,10 @@ class Memory extends Model implements HasDslAdapterContract
         'author_id', 'member_id', 'chat_id', 'image_id', 'title', 'content', 'type', 'meta'
     ];
 
+    protected $casts = [
+        'meta' => 'array'
+    ];
+
     public function chat(): BelongsTo
     {
         return $this->belongsTo(Chat::class);
@@ -79,10 +83,6 @@ class Memory extends Model implements HasDslAdapterContract
     {
         return $this->belongsTo(Image::class);
     }
-
-    protected $casts = [
-        'meta' => 'array'
-    ];
 
     public function getDslAdapter(Process $process): DslAdapterContract
     {

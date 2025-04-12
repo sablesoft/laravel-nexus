@@ -123,12 +123,6 @@ abstract class AbstractCrud extends Component
         ];
     }
 
-    public function selectedOptionTitle(string $field, string $key): string
-    {
-        $options = $this->selectOptions($field);
-        return $options[$key];
-    }
-
     public function classTitle(bool $plural = true): string
     {
         $parts = explode('\\', $this->className());
@@ -184,8 +178,13 @@ abstract class AbstractCrud extends Component
 
             return $this->$callback($model);
         }
+        $value = $model->$field;
+        if ($value instanceof \UnitEnum) {
+            $value = is_callable([$value, 'label']) ?
+                $value->label() : $value->value;
+        }
 
-        return $model->$field;
+        return $value;
     }
 
     protected function getModel(?int $id = null): ?Model
