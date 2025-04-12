@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Traits\HasOwner;
 use LogicException;
@@ -36,7 +37,8 @@ use Symfony\Component\Intl\Languages;
  * @property-read null|Screen $screen
  * @property-read null|Mask $mask
  * @property-read null|string $maskName
- * @property-read Collection<int, Memory>|Memory[] $memories
+ * @property-read Collection<int, ChatRole> $chatRoles
+ * @property-read Collection<int, Memory> $memories
  */
 class Member extends Model implements HasDslAdapterContract, Stateful
 {
@@ -72,6 +74,11 @@ class Member extends Model implements HasDslAdapterContract, Stateful
     public function mask(): BelongsTo
     {
         return $this->belongsTo(Mask::class);
+    }
+
+    public function chatRoles(): BelongsToMany
+    {
+        return $this->belongsToMany(ChatRole::class)->withTimestamps();
     }
 
     public function memories(): HasMany

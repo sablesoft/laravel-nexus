@@ -45,6 +45,8 @@ class Mask extends AbstractCrud
     protected function fieldsConfig(): array
     {
         return [
+            'image' => $this->imageViewerField(__('Avatar')),
+            'portrait' => $this->imageViewerField(__('Portrait'), 'portrait'),
             'name' => [
                 'title' => __('Name'),
                 'action' => ['index', 'edit', 'create', 'view'],
@@ -56,9 +58,7 @@ class Mask extends AbstractCrud
                 'type' => 'select',
                 'options' => Gender::options()
             ],
-            'image' => $this->imageViewerField(__('Avatar')),
             'image_id' => $this->imageSelectorField(__('Avatar')),
-            'portrait' => $this->imageViewerField(__('Portrait'), 'portrait'),
             'portrait_id' => $this->imageSelectorField(__('Portrait')),
             'description' => [
                 'title' => __('Description'),

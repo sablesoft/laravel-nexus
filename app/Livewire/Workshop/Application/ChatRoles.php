@@ -187,10 +187,11 @@ class ChatRoles extends Component
             'name'              => ['string', 'required'],
             'code'              => [
                 'string',
-                'required',
-                Rule::unique('group_roles')
-                    ->where(fn ($query) => $query->where('application_id', $this->applicationId))
-                    ->ignore($this->chatRoleId),
+                // TODO
+//                'required',
+//                Rule::unique(ChatRole::class)
+//                    ->where(fn ($query) => $query->where('application_id', $this->applicationId))
+//                    ->ignore($this->chatRoleId),
             ],
             'description'       => ['nullable', 'string'],
             'allowed'           => ['nullable', 'string'], // todo - dsl-expression

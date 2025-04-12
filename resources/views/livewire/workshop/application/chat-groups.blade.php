@@ -118,11 +118,11 @@
                             </span>
                         </div>
                     @endif
-                    <livewire:workshop.application.group-roles
+                    <livewire:workshop.application.chat-roles
                         :application-id="$applicationId"
                         :roles="$roles"
                         :group-id="$group['id']"
-                        :key="'group-roles-'.$group['id']" />
+                        :key="'chat-roles-'.$group['id']" />
                 </div>
             </div>
 

@@ -36,12 +36,17 @@
                     options: this.multiSearchableOptions,
                     selected: this[this.selectedField()]
                 });
+                document.addEventListener('searchable-multi-select-' + this.field, this.multiSearchableInit.bind(this));
             },
 
             // searchables handlers:
             multiSearchableInit(e) {
                 if (e && e.detail.searchableId !== this.field) {
                     return;
+                }
+                if (e && e.detail.options) {
+                    this.debug('Update options', e.detail.options);
+                    this.multiSearchableOptions = e.detail.options;
                 }
                 this.debug('Send options to component', {options: this.availableMultiSearchables});
                 this.$dispatch( this.field + '-clear');
@@ -72,7 +77,7 @@
             },
 
             debug(message, data) {
-                Debug('crud-searchable-multi-select', field, {message, data});
+                Debug('searchable-multi-select', field, {message, data});
             },
 
             selectedField() {

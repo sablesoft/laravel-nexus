@@ -3,6 +3,7 @@ namespace App\Livewire;
 
 use App\Models\Application;
 use App\Models\Chat;
+use App\Models\ChatRole;
 use App\Models\Enums\ChatStatus;
 use App\Models\Mask;
 use App\Models\Member;
@@ -18,8 +19,16 @@ class Members extends Component
     public ?Chat $chat = null;
     #[Locked]
     public ?Application $application = null;
+    #[Locked]
     public ?Mask $mask = null;
+    #[Locked]
     public Collection $members;
+    #[Locked]
+    public ?int $memberId = null;
+    public array $state = [
+        'roles' => []
+    ];
+    public array $selectRoles = [];
 
     public function mount(?Application $application = null, ?Chat $chat = null): void
     {
@@ -29,7 +38,7 @@ class Members extends Component
         if (!$source) {
             throw new \DomainException('Members component required chat or application');
         }
-        $this->prepareMembers();
+        $this->prepare();
     }
 
     public function render(): mixed
@@ -38,8 +47,12 @@ class Members extends Component
     }
 
     #[On('refresh.chat')]
-    public function prepareMembers(): void
+    public function prepare(): void
     {
+        if ($this->application) {
+            $this->selectRoles = ChatRole::where('application_id', $this->application->id)
+                ->select(['id', 'name'])->get()->toArray();
+        }
         $members = $this->source()->members;
         if ($this->isStarted()) {
             $members = $members->where('is_confirmed', true)->whereNotNull('user_id');
@@ -168,6 +181,22 @@ class Members extends Component
         ] : [];
         $this->updateMember($member, $messages);
         $this->dispatch('flash', message: __('You joined this chat'));
+    }
+
+    public function manageRoles(int $memberId): void
+    {
+        $this->memberId = $memberId;
+        $member = Member::findOrFail($memberId);
+        $this->state['roles'] = $member->chatRoles->pluck('id')->toArray();
+        $this->dispatch('searchable-multi-select-roles', searchableId: 'roles', options: $this->selectRoles);
+        Flux::modal('form-chat-roles')->show();
+    }
+
+    public function submitRoles(): void
+    {
+        $member = Member::findOrFail($this->memberId);
+        $member->chatRoles()->sync($this->state['roles']);
+        Flux::modal('form-chat-roles')->close();
     }
 
     public function showMask(int $id): void
