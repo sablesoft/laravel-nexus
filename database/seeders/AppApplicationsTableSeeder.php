@@ -21,7 +21,7 @@ class AppApplicationsTableSeeder extends Seeder
         \DB::table('app.applications')->insert(array (
             0 => 
             array (
-                'id' => 4,
+                'id' => 1,
                 'user_id' => 1,
                 'image_id' => 51,
                 'title' => '{"en":"In The Dust","ru":"Пыльный Мир"}',

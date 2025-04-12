@@ -79,7 +79,7 @@
 
                     {{-- Column 3: Is Required --}}
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">
-                     {{ $group['is_required'] ? 'Yes' : 'No' }}
+                     {{ $group['is_required'] ? __('Yes') : __('No') }}
                     </span>
 
                     {{-- Column 3: Roles Per Member --}}

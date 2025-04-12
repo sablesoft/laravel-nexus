@@ -21,8 +21,8 @@ class AppControlsTableSeeder extends Seeder
         \DB::table('app.controls')->insert(array (
             0 => 
             array (
-                'id' => 4,
-                'screen_id' => 7,
+                'id' => 1,
+                'screen_id' => 1,
                 'scenario_id' => NULL,
                 'type' => 'action',
                 'title' => '{"en":"Continue","ru":"Далее"}',

@@ -18,6 +18,7 @@ class SequencesSeeder extends Seeder
         'members',
         'chat_groups',
         'chat_roles',
+        'chat_role_member',
         'screens',
         'transfers',
         'scenarios',

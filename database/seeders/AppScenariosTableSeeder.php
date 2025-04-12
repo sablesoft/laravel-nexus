@@ -21,7 +21,7 @@ class AppScenariosTableSeeder extends Seeder
         \DB::table('app.scenarios')->insert(array (
             0 => 
             array (
-                'id' => 5,
+                'id' => 1,
                 'user_id' => 1,
                 'title' => '{"en":"Ask Memory"}',
                 'description' => '{"en":"Just add member ask to screen memories"}',
@@ -32,18 +32,7 @@ class AppScenariosTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 7,
-                'user_id' => 1,
-                'title' => '{"en":"Completion Template","ru":"Шаблон генерации"}',
-                'description' => '{"ru":null}',
-            'before' => '[{"comment":">>Validate context required for chat completion"},{"validate":{"messages":"required|array|min:1","messages.*.role":"required|string|in:user,assistant,system,tool","messages.*.content":"required|string","content_handler":"sometimes|array","tool_choice":"sometimes|string","tools":"sometimes|array","calls_handlers":"sometimes|array","model":"sometimes|string"}},{"comment":">>Prepare context variables"},{"set":{"model":"model ?? \'gpt-4-turbo\'","tools":"tools ?? null","tool_choice":"tools ? (tool_choice ?? \'auto\') : null","calls_handlers":"calls_handlers ?? null","content_handler":"content_handler ?? null"}},{"comment":">>Run chat completion"},{"chat.completion":{"model":"model","messages":"messages","tool_choice":"tool_choice","tools":"tools","calls":"calls_handlers","content":"content_handler"}}]',
-                'after' => NULL,
-                'created_at' => '2025-04-02 04:23:13',
-                'updated_at' => '2025-04-12 00:41:11',
-            ),
-            2 => 
-            array (
-                'id' => 11,
+                'id' => 3,
                 'user_id' => 1,
                 'title' => '{"en":"Actions Classificator Tool","ru":"Инструмент - Классификатор действий"}',
                 'description' => '{"ru":null}',
@@ -51,6 +40,17 @@ class AppScenariosTableSeeder extends Seeder
                 'after' => NULL,
                 'created_at' => '2025-04-07 23:07:51',
                 'updated_at' => '2025-04-12 00:40:56',
+            ),
+            2 => 
+            array (
+                'id' => 2,
+                'user_id' => 1,
+                'title' => '{"en":"Completion Template","ru":"Шаблон генерации"}',
+                'description' => '{"ru":null}',
+            'before' => '[{"comment":">>Validate context required for chat completion"},{"validate":{"messages":"required|array|min:1","messages.*.role":"required|string|in:user,assistant,system,tool","messages.*.content":"required|string","content_handler":"sometimes|array","tool_choice":"sometimes|string","tools":"sometimes|array","calls_handlers":"sometimes|array","model":"sometimes|string"}},{"comment":">>Prepare context variables"},{"set":{"model":"model ?? \'gpt-4-turbo\'","tools":"tools ?? null","tool_choice":"tools ? (tool_choice ?? \'auto\') : null","calls_handlers":"calls_handlers ?? null","content_handler":"content_handler ?? null"}},{"comment":">>Run chat completion"},{"chat.completion":{"model":"model","messages":"messages","tool_choice":"tool_choice","tools":"tools","calls":"calls_handlers","content":"content_handler"}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-02 04:23:13',
+                'updated_at' => '2025-04-12 00:41:11',
             ),
         ));
         

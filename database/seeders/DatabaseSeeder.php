@@ -13,18 +13,19 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PublicUsersTableSeeder::class);
         $this->call(AppImagesTableSeeder::class);
-        $this->call(AppMasksTableSeeder::class);
         $this->call(AppGroupsTableSeeder::class);
         $this->call(AppRolesTableSeeder::class);
+        $this->call(AppMasksTableSeeder::class);
         $this->call(AppApplicationsTableSeeder::class);
+        $this->call(AppMembersTableSeeder::class);
+        $this->call(AppChatGroupsTableSeeder::class);
+        $this->call(AppChatRolesTableSeeder::class);
+        $this->call(AppChatRoleMemberTableSeeder::class);
         $this->call(AppScreensTableSeeder::class);
         $this->call(AppTransfersTableSeeder::class);
         $this->call(AppScenariosTableSeeder::class);
         $this->call(AppControlsTableSeeder::class);
         $this->call(AppStepsTableSeeder::class);
-        $this->call(AppChatGroupsTableSeeder::class);
-        $this->call(AppChatRolesTableSeeder::class);
-        $this->call(AppMembersTableSeeder::class);
         $this->call(SequencesSeeder::class);
     }
 }

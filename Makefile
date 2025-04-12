@@ -31,5 +31,8 @@ dev: ## npm run dev
 build: ## npm run build
 	./vendor/bin/sail npm run build
 
+backup: ## artisan backup
+	./vendor/bin/sail artisan backup
+
 locale: ## collect and merge locale string
 	./vendor/bin/sail artisan translation:scan --merge

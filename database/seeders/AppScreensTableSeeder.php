@@ -21,29 +21,9 @@ class AppScreensTableSeeder extends Seeder
         \DB::table('app.screens')->insert(array (
             0 => 
             array (
-                'id' => 8,
+                'id' => 1,
                 'user_id' => 1,
-                'application_id' => 4,
-                'image_id' => 53,
-                'title' => '{"en":"Porch","ru":"На пороге"}',
-                'code' => 'porch',
-                'description' => '{"ru":null}',
-                'is_start' => false,
-                'query' => '":type" == screen.code',
-                'template' => NULL,
-                'before' => NULL,
-                'after' => NULL,
-                'states' => NULL,
-                'visible_condition' => NULL,
-                'enabled_condition' => NULL,
-                'created_at' => '2025-04-08 19:54:06',
-                'updated_at' => '2025-04-12 00:39:01',
-            ),
-            1 => 
-            array (
-                'id' => 7,
-                'user_id' => 1,
-                'application_id' => 4,
+                'application_id' => 1,
                 'image_id' => 52,
                 'title' => '{"en":"Prologue","ru":"Пролог"}',
                 'code' => 'prologue',
@@ -58,6 +38,26 @@ class AppScreensTableSeeder extends Seeder
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:43:19',
                 'updated_at' => '2025-04-12 00:39:35',
+            ),
+            1 => 
+            array (
+                'id' => 2,
+                'user_id' => 1,
+                'application_id' => 1,
+                'image_id' => 53,
+                'title' => '{"en":"Porch","ru":"На пороге"}',
+                'code' => 'porch',
+                'description' => '{"ru":null}',
+                'is_start' => false,
+                'query' => '":type" == screen.code',
+                'template' => NULL,
+                'before' => NULL,
+                'after' => NULL,
+                'states' => NULL,
+                'visible_condition' => NULL,
+                'enabled_condition' => NULL,
+                'created_at' => '2025-04-08 19:54:06',
+                'updated_at' => '2025-04-12 00:39:01',
             ),
         ));
         

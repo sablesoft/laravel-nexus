@@ -21,9 +21,9 @@ class AppTransfersTableSeeder extends Seeder
         \DB::table('app.transfers')->insert(array (
             0 => 
             array (
-                'id' => 5,
-                'screen_from_id' => 7,
-                'screen_to_id' => 8,
+                'id' => 1,
+                'screen_from_id' => 1,
+                'screen_to_id' => 2,
                 'title' => '{"en":"Explore","ru":"Исследовать"}',
                 'tooltip' => '{"en":"What else is there to do?","ru":"А что еще остается делать?"}',
                 'description' => '{"en":"Transitions to the next screen once the prologue is fully completed. \\nAppears only after all parts of the prologue have been shown. Becomes the player’s first active choice to explore the world.","ru":"Переходит на следующий экран после полного завершения пролога.\\nПоявляется только после того, как показаны все части пролога. Становится первым активным выбором игрока для начала исследования мира."}',

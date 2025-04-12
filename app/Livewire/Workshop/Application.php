@@ -156,7 +156,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'collapsed' => true
             ],
             'groupsCrud' => [
-                'title' => __('Role Groups'),
+                'title' => __('Roles'),
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.application.chat-groups',

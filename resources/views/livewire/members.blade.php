@@ -1,12 +1,14 @@
 <div class="mb-4">
     @livewire('mask-selector', ['maskIds' => $this->maskIds(), 'isOwner' => $this->isOwner()])
     @if($this->canAddMember())
-        <flux:button wire:click="member" class="cursor-pointer">
-            {{ __('Add') }}
-        </flux:button>
+        <div class="flex justify-end">
+            <flux:button variant="primary" wire:click="member" class="cursor-pointer">
+                {{ __('Add') }}
+            </flux:button>
+        </div>
     @endif
 
-    <div class="mt-6 space-y-2">
+    <div class="mt-2 space-y-2">
         @php
             $cols = 4;
             if ($chat) $cols++;
@@ -53,8 +55,10 @@
                     <ul>
                     @foreach($member->chatRoles as $role)
                         <li>
-                            <flux:tooltip content="{{ $role->description }}">
-                                <span>{{ $role->name }}</span>
+                            <span>{{ $role->name }}</span>
+                            <flux:tooltip toggleable>
+                                <flux:button icon="information-circle" size="xs" variant="ghost" class="cursor-pointer" />
+                                <flux:tooltip.content class="max-w-[20rem] space-y-1 whitespace-pre-wrap">{!! nl2br(e($role->description)) !!}</flux:tooltip.content>
                             </flux:tooltip>
                         </li>
                     @endforeach
