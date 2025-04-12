@@ -80,7 +80,7 @@ class Application extends AbstractCrud implements ShouldHasMany
     protected function fieldsConfig(): array
     {
         $dslEditor = config('dsl.editor', 'json');
-        return [
+        return array_merge([
             'title' => [
                 'title' => __('Title'),
                 'action' => ['index', 'create', 'edit', 'view'],
@@ -150,6 +150,15 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'rules' => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
+            'groupsCrud' => [
+                'title' => __('Role Groups'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.application.chat-groups',
+                'showEmpty' => true,
+                'collapsed' => true
+            ],
+        ], $this->action === 'view' && $this->getResource()->startScreen ? [
             'membersCrud' => [
                 'title' => __('Members'),
                 'action' => ['view'],
@@ -158,15 +167,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'showEmpty' => true,
                 'collapsed' => true
             ],
-            'groupsCrud' => [
-                'title' => __('Groups'),
-                'action' => ['view'],
-                'type' => 'component',
-                'component' => 'workshop.application.chat-groups',
-                'showEmpty' => true,
-                'collapsed' => true
-            ],
-        ];
+        ]: []);
     }
 
     protected function modifyQuery(Builder $query): Builder

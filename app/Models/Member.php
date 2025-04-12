@@ -93,7 +93,9 @@ class Member extends Model implements HasDslAdapterContract, Stateful
     {
         parent::boot();
         static::creating(function (self $member) {
-            $startScreen = $member->chat?->application?->startScreen;
+            $startScreen = $member->application ?
+                $member->application->startScreen :
+                $member->chat?->application?->startScreen;
             if (!$startScreen) {
                 throw new LogicException('Cannot create member without starting screen!');
             }

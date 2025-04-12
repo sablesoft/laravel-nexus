@@ -2,94 +2,92 @@
     @livewire('mask-selector', ['maskIds' => $this->maskIds(), 'isOwner' => $this->isOwner()])
     @if($this->canAddMember())
         <flux:button wire:click="member" class="cursor-pointer">
-            {{ __('Member') }}
+            {{ __('Add') }}
         </flux:button>
     @endif
-    @if($members->count())
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-        <thead class="bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
-        <tr>
-            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
-                {{ __('Mask') }}
-            </th>
-            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
-                {{ __('Name') }}
-            </th>
-            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
-                {{ __('Description') }}
-            </th>
-            @if($chat)
-            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
-                {{ __('Player') }}
-            </th>
-            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
-                {{ __('Confirmed') }}
-            </th>
-            @endif
-            @if(!$this->isStarted())
-            <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">{{ __('Actions') }}</th>
-            @endif
-        </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-        @foreach($members as $member)
-            <tr>
-                <td class="px-4 py-2 cursor-pointer" wire:click="showMask({{ $member->mask_id }})">
-                    <img src="{{ Storage::url($member->mask->imagePath) }}" alt="{{ $member->mask->title }}">
-                </td>
-                <td class="px-4 py-2">{{ $member->mask->title }}</td>
-                <td class="px-4 py-2">
-                    <div class="max-h-26 overflow-hidden">
-                        {{ $member->mask->description }}
-                    </div>
-                </td>
+
+    <div class="mt-6 space-y-2">
+        @php
+            $cols = 3;
+            if ($chat) $cols++;
+            if (!$this->isStarted()) $cols++;
+        @endphp
+        @switch($cols)
+            @case(3) @php $grid = 'grid-cols-[8rem_8rem_1fr]'; @endphp @break
+            @case(4) @php $grid = 'grid-cols-[8rem_8rem_1fr_8rem]'; @endphp @break
+            @case(5) @php $grid = 'grid-cols-[8rem_8rem_1fr_10rem_8rem]'; @endphp @break
+        @endswitch
+        @if($members->isNotEmpty())
+            {{-- Header --}}
+            <div class="grid {{ $grid }} gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
+                <span>{{ __('Image') }}</span>
+                <span>{{ __('Name') }}</span>
+                <span>{{ __('Description') }}</span>
                 @if($chat)
-                <td class="px-4 py-2">
-                    {{ $member->user ? $member->user->name : '---' }}
-                </td>
-                <td class="px-4 py-2">
-                    {{ $member->is_confirmed ? 'Yes' : 'No' }}
-                </td>
+                    <span>{{ __('Player') }}</span>
                 @endif
                 @if(!$this->isStarted())
-                <td class="px-4 py-2 whitespace-nowrap">
-                    <flux:button.group>
-                    @if($chat)
-                        @if(!$member->user && !$this->isJoined())
-                            <flux:tooltip content="{{ __('Join') }}">
-                                <flux:button icon="arrow-left-end-on-rectangle" class="cursor-pointer"
-                                             wire:click="join({{ $member->id }})"></flux:button>
-                            </flux:tooltip>
-                        @endif
-                        @if($member->user_id === auth()->id())
-                            <flux:tooltip content="{{ __('Leave') }}">
-                                <flux:button icon="arrow-right-start-on-rectangle" class="cursor-pointer"
-                                             wire:click="leave({{ $member->id }})"></flux:button>
-                            </flux:tooltip>
-                        @endif
-                        @if(!$member->is_confirmed && $this->isOwner())
-                            <flux:tooltip content="{{ __('Confirm') }}">
-                                <flux:button icon="check" class="cursor-pointer"
-                                             wire:click="confirm({{ $member->id }})"></flux:button>
-                            </flux:tooltip>
-                        @endif
-                    @endif
-                    @if($this->isOwner())
-                        <flux:tooltip content="{{ __('Delete') }}">
-                            <flux:button icon="trash" class="cursor-pointer"
-                                         wire:click="deleteMember({{ $member->id }})"></flux:button>
-                        </flux:tooltip>
-                    @endif
-                    </flux:button.group>
-                </td>
+                    <span>{{ __('Actions') }}</span>
                 @endif
-            </tr>
+            </div>
+        @else
+            <p>{{ __('No members so far') }}</p>
+        @endif
+
+        @foreach($members as $member)
+            <div class="grid {{ $grid }} gap-4 items-center bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2 text-sm">
+                {{-- Image --}}
+                <div class="flex items-center">
+                    <img src="{{ Storage::url($member->mask->imagePath) }}" alt="{{ $member->mask->title }}"
+                         class="h-32 w-32 rounded object-cover border border-zinc-300 dark:border-zinc-600 cursor-pointer"
+                         wire:click="showMask({{ $member->mask_id }})">
+                </div>
+
+                {{-- Name --}}
+                <div>{{ $member->mask->title }}</div>
+
+                {{-- Description --}}
+                <div class="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">{!! nl2br(e($member->mask->description)) !!}</div>
+
+                {{-- Player --}}
+                @if($chat)
+                    <div>
+                        {{ $member->user ? $member->user->name : '—' }}
+                        <br>
+                        <span class="text-xs text-zinc-500">
+                        {{ $member->is_confirmed ? __('Confirmed') : __('Not Confirmed') }}
+                    </span>
+                </div>
+                @endif
+
+                {{-- Actions --}}
+                @if(!$this->isStarted())
+                    <div>
+                        <flux:button.group class="flex justify-end">
+                        @if($chat)
+                            @if(!$member->user && !$this->isJoined())
+                                <flux:button size="sm" icon="arrow-left-end-on-rectangle"
+                                             wire:click="join({{ $member->id }})" variant="ghost"/>
+                            @endif
+                            @if($member->user_id === auth()->id())
+                                <flux:button size="sm" icon="arrow-right-start-on-rectangle"
+                                             wire:click="leave({{ $member->id }})" variant="ghost"/>
+                            @endif
+                            @if(!$member->is_confirmed && $this->isOwner())
+                                <flux:button size="sm" icon="check"
+                                             wire:click="confirm({{ $member->id }})" variant="primary"/>
+                            @endif
+                        @endif
+                        @if($this->isOwner())
+                            <flux:button size="sm" icon="trash"
+                                         wire:click="deleteMember({{ $member->id }})" variant="danger"/>
+                        @endif
+                        </flux:button.group>
+                    </div>
+                @endif
+            </div>
         @endforeach
-        </tbody>
-    </table>
-    @else
-    <p>{{ __('No members so far') }}</p>
-    @endif
+    </div>
     <flux:modal name="show-mask" x-on:cancel="$wire.mask = null;">
         <div class="space-y-6">
             @if($mask?->imagePath)
