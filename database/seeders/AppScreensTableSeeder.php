@@ -25,7 +25,7 @@ class AppScreensTableSeeder extends Seeder
                 'user_id' => 1,
                 'application_id' => 4,
                 'image_id' => 53,
-                'title' => '{"en":"Porch","ru":"\\u041d\\u0430 \\u043f\\u043e\\u0440\\u043e\\u0433\\u0435"}',
+                'title' => '{"en":"Porch","ru":"На пороге"}',
                 'code' => 'porch',
                 'description' => '{"ru":null}',
                 'is_start' => false,
@@ -37,7 +37,7 @@ class AppScreensTableSeeder extends Seeder
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:54:06',
-                'updated_at' => '2025-04-10 05:26:11',
+                'updated_at' => '2025-04-12 00:39:01',
             ),
             1 => 
             array (
@@ -45,7 +45,7 @@ class AppScreensTableSeeder extends Seeder
                 'user_id' => 1,
                 'application_id' => 4,
                 'image_id' => 52,
-                'title' => '{"en":"Prologue","ru":"\\u041f\\u0440\\u043e\\u043b\\u043e\\u0433"}',
+                'title' => '{"en":"Prologue","ru":"Пролог"}',
                 'code' => 'prologue',
                 'description' => '{"ru":null}',
                 'is_start' => true,
@@ -57,7 +57,7 @@ class AppScreensTableSeeder extends Seeder
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 19:43:19',
-                'updated_at' => '2025-04-10 06:12:49',
+                'updated_at' => '2025-04-12 00:39:35',
             ),
         ));
         

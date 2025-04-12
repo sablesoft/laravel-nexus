@@ -21,6 +21,6 @@ class LocaleString implements CastsAttributes
         $data = json_decode($attributes[$key] ?? '{}', true);
         $data[$locale] = $value;
 
-        return [$key => json_encode($data)];
+        return [$key => json_encode($data, JSON_UNESCAPED_UNICODE)];
     }
 }

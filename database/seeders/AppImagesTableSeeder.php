@@ -21,6 +21,115 @@ class AppImagesTableSeeder extends Seeder
         \DB::table('app.images')->insert(array (
             0 => 
             array (
+                'id' => 54,
+                'user_id' => 1,
+                'title' => 'Ava - Lia',
+                'prompt' => 'Pupper body portrait of a pale, slender woman with short dark hair, wearing a black turtleneck and a worn military jacket, with an old ring pendant on her neck, centered with visible space above the head, gray eyes, slightly tilted head, neutral moody background, cinematic lighting, high detail, post-apocalyptic tone
+',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'square',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-C6xBF5PjZx7H8Qy69XnuXr4f.png',
+                'path_md' => 'images_md/img-C6xBF5PjZx7H8Qy69XnuXr4f.webp',
+                'path_sm' => 'images_sm/img-C6xBF5PjZx7H8Qy69XnuXr4f.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 19:25:50',
+                'updated_at' => '2025-04-11 19:33:22',
+            ),
+            1 => 
+            array (
+                'id' => 57,
+                'user_id' => 1,
+                'title' => 'Ava - Mara',
+                'prompt' => 'upper body portrait of a woman with short red hair, freckles, wearing a patched leather jacket and a neon wristband, playful smirk, bright eyes, centered in frame with space above her head, dusty graffiti-style background, high contrast, post-apocalyptic vibe',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'square',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-uOio5FrAxGONw1Us0Pgynmtt.png',
+                'path_md' => 'images_md/img-uOio5FrAxGONw1Us0Pgynmtt.webp',
+                'path_sm' => 'images_sm/img-uOio5FrAxGONw1Us0Pgynmtt.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 20:51:44',
+                'updated_at' => '2025-04-11 20:51:48',
+            ),
+            2 => 
+            array (
+                'id' => 61,
+                'user_id' => 1,
+                'title' => 'Ava - Nick',
+                'prompt' => 'upper body portrait of a man with long light brown hair tied back, fair skin, warm gentle smile, wearing a gray shirt and a wool scarf, copper whistle strap slightly visible on his chest, centered with space above the head, soft lighting, faded hopeful background, emotional atmosphere',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'square',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-LYdrx1Scq8vFVC19f6IxpCkG.png',
+                'path_md' => 'images_md/img-LYdrx1Scq8vFVC19f6IxpCkG.webp',
+                'path_sm' => 'images_sm/img-LYdrx1Scq8vFVC19f6IxpCkG.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 20:56:13',
+                'updated_at' => '2025-04-11 20:56:13',
+            ),
+            3 => 
+            array (
+                'id' => 55,
+                'user_id' => 1,
+                'title' => 'Portrait - Lia',
+                'prompt' => 'a pale, slender woman with short dark hair, wearing a black turtleneck, a worn military jacket, dark gray cargo pants, and visible sturdy combat boots, with an old ring pendant on her neck, walking alone down an abandoned, foggy post-apocalyptic street, cinematic photo, realistic lighting, full-body centered composition, only one person, no interface elements, no text, no overlays, no extra objects, with space above her head and below her boots',
+                'has_glitches' => false,
+                'attempts' => 18,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-xwDdjRagKNwZux3KV1CI7odO.png',
+                'path_md' => 'images_md/img-xwDdjRagKNwZux3KV1CI7odO.webp',
+                'path_sm' => 'images_sm/img-xwDdjRagKNwZux3KV1CI7odO.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 19:26:24',
+                'updated_at' => '2025-04-11 20:47:24',
+            ),
+            4 => 
+            array (
+                'id' => 58,
+                'user_id' => 1,
+                'title' => 'Ava - Tarek',
+                'prompt' => 'upper body portrait of a bald man with dark skin, metal-rimmed glasses, wearing a dark blue windbreaker, a utility backpack strap visible, calm and thoughtful expression, old wristwatch partly visible, centered with space above the head, clean post-apocalyptic background, neutral lighting',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'square',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-MKlfmtKUGYs38A3HkKs4mXK4.png',
+                'path_md' => 'images_md/img-MKlfmtKUGYs38A3HkKs4mXK4.webp',
+                'path_sm' => 'images_sm/img-MKlfmtKUGYs38A3HkKs4mXK4.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 20:54:13',
+                'updated_at' => '2025-04-11 20:54:13',
+            ),
+            5 => 
+            array (
+                'id' => 60,
+                'user_id' => 1,
+                'title' => 'Portrait - Nick',
+                'prompt' => 'a gentle man with long light brown hair tied back, fair skin, wearing a gray shirt, wool scarf, cargo pants, and visible leather boots, with a warm calm smile, a small copper whistle hanging from his belt, walking toward the viewer on a misty post-apocalyptic road with scattered greenery and broken structures, cinematic photo, realistic lighting, full-body centered composition, only one person, no duplicates, no interface elements, visible space above head and below boots',
+                'has_glitches' => false,
+                'attempts' => 2,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-lCplIEMpXkOhcoQCdX9M7jkX.png',
+                'path_md' => 'images_md/img-lCplIEMpXkOhcoQCdX9M7jkX.webp',
+                'path_sm' => 'images_sm/img-lCplIEMpXkOhcoQCdX9M7jkX.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 20:55:55',
+                'updated_at' => '2025-04-11 20:57:07',
+            ),
+            6 => 
+            array (
                 'id' => 51,
                 'user_id' => 1,
                 'title' => 'Cover - In The Dusk',
@@ -37,7 +146,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-08 18:16:50',
                 'updated_at' => '2025-04-08 19:28:22',
             ),
-            1 => 
+            7 => 
             array (
                 'id' => 52,
                 'user_id' => 1,
@@ -55,7 +164,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-08 19:41:40',
                 'updated_at' => '2025-04-08 19:41:42',
             ),
-            2 => 
+            8 => 
             array (
                 'id' => 53,
                 'user_id' => 1,
@@ -73,7 +182,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-08 19:48:41',
                 'updated_at' => '2025-04-08 19:52:54',
             ),
-            3 => 
+            9 => 
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -91,7 +200,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:34:51',
                 'updated_at' => '2025-03-23 04:37:19',
             ),
-            4 => 
+            10 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -109,7 +218,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:46:49',
                 'updated_at' => '2025-03-23 04:38:53',
             ),
-            5 => 
+            11 => 
             array (
                 'id' => 26,
                 'user_id' => 1,
@@ -127,7 +236,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:11',
                 'updated_at' => '2025-03-23 05:09:46',
             ),
-            6 => 
+            12 => 
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -145,7 +254,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:25',
                 'updated_at' => '2025-03-23 05:17:46',
             ),
-            7 => 
+            13 => 
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -163,7 +272,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:05',
                 'updated_at' => '2025-03-23 04:25:46',
             ),
-            8 => 
+            14 => 
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -181,7 +290,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:22',
                 'updated_at' => '2025-03-23 04:32:10',
             ),
-            9 => 
+            15 => 
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -199,7 +308,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:48:57',
                 'updated_at' => '2025-03-23 04:32:26',
             ),
-            10 => 
+            16 => 
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -217,7 +326,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:08:46',
                 'updated_at' => '2025-03-23 04:32:51',
             ),
-            11 => 
+            17 => 
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -235,7 +344,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:46',
                 'updated_at' => '2025-03-23 04:33:03',
             ),
-            12 => 
+            18 => 
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -253,7 +362,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:49',
                 'updated_at' => '2025-03-23 04:33:16',
             ),
-            13 => 
+            19 => 
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -271,7 +380,43 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:02',
                 'updated_at' => '2025-03-23 04:33:34',
             ),
-            14 => 
+            20 => 
+            array (
+                'id' => 56,
+                'user_id' => 1,
+                'title' => 'Portrait - Mara',
+                'prompt' => 'a freckled woman with short red hair, wearing a patched and studded leather jacket, torn dark jeans, a neon wristband, and visible lace-up boots, with a playful expression, walking toward the viewer down a dusty post-apocalyptic alley filled with graffiti and debris, cinematic photo, realistic lighting, full-body centered composition, only one person, no duplicates, no interface elements, visible space above head and below boots',
+                'has_glitches' => false,
+                'attempts' => 2,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-xEZE0I6UA41UbbSzs1OeUZJV.png',
+                'path_md' => 'images_md/img-xEZE0I6UA41UbbSzs1OeUZJV.webp',
+                'path_sm' => 'images_sm/img-xEZE0I6UA41UbbSzs1OeUZJV.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 20:51:28',
+                'updated_at' => '2025-04-11 20:52:55',
+            ),
+            21 => 
+            array (
+                'id' => 59,
+                'user_id' => 1,
+                'title' => 'Portrait - Tarek',
+                'prompt' => 'a bald man with dark skin and metal-rimmed glasses, wearing a dark blue windbreaker, dark tactical pants, a utility backpack with antennas, and sturdy boots, with a calm focused expression, walking toward the viewer down a ruined street with scattered electronics and wires, cinematic photo, realistic lighting, full-body centered composition, only one person, no duplicates, no interface elements, visible space above head and below boots',
+                'has_glitches' => false,
+                'attempts' => 1,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-kmhxGF7RKe9o9bvWcffQU6dV.png',
+                'path_md' => 'images_md/img-kmhxGF7RKe9o9bvWcffQU6dV.webp',
+                'path_sm' => 'images_sm/img-kmhxGF7RKe9o9bvWcffQU6dV.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-11 20:54:50',
+                'updated_at' => '2025-04-11 20:54:51',
+            ),
+            22 => 
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -289,7 +434,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:07',
                 'updated_at' => '2025-03-23 04:34:05',
             ),
-            15 => 
+            23 => 
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -307,7 +452,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:02:13',
                 'updated_at' => '2025-03-23 04:34:19',
             ),
-            16 => 
+            24 => 
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -325,7 +470,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:00:33',
                 'updated_at' => '2025-03-23 04:34:31',
             ),
-            17 => 
+            25 => 
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -343,7 +488,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 05:02:09',
                 'updated_at' => '2025-03-23 04:34:44',
             ),
-            18 => 
+            26 => 
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -361,7 +506,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:59:55',
                 'updated_at' => '2025-03-23 04:34:56',
             ),
-            19 => 
+            27 => 
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -379,7 +524,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:58:19',
                 'updated_at' => '2025-03-23 04:35:21',
             ),
-            20 => 
+            28 => 
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -397,7 +542,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:46:07',
                 'updated_at' => '2025-03-23 04:35:32',
             ),
-            21 => 
+            29 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -415,7 +560,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 02:26:26',
                 'updated_at' => '2025-03-23 04:38:20',
             ),
-            22 => 
+            30 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -433,7 +578,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:14:48',
                 'updated_at' => '2025-03-23 04:39:44',
             ),
-            23 => 
+            31 => 
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -451,7 +596,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:28',
                 'updated_at' => '2025-03-23 05:10:14',
             ),
-            24 => 
+            32 => 
             array (
                 'id' => 44,
                 'user_id' => 1,
@@ -469,7 +614,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-19 22:29:03',
                 'updated_at' => '2025-03-23 04:13:00',
             ),
-            25 => 
+            33 => 
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -487,7 +632,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:01:26',
                 'updated_at' => '2025-03-23 04:17:02',
             ),
-            26 => 
+            34 => 
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -505,7 +650,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:00:22',
                 'updated_at' => '2025-03-23 04:18:24',
             ),
-            27 => 
+            35 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -523,7 +668,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:58:46',
                 'updated_at' => '2025-03-23 04:19:44',
             ),
-            28 => 
+            36 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -541,7 +686,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:47',
                 'updated_at' => '2025-03-23 04:31:51',
             ),
-            29 => 
+            37 => 
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -559,7 +704,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-23 04:33:47',
             ),
-            30 => 
+            38 => 
             array (
                 'id' => 45,
                 'user_id' => 1,
