@@ -1,5 +1,10 @@
 <div class="mb-4">
-    <h3>{{ __('Members') }}</h3>
+    @livewire('mask-selector', ['maskIds' => $this->maskIds(), 'isOwner' => $this->isOwner()])
+    @if($this->canAddMember())
+        <flux:button wire:click="member" class="cursor-pointer">
+            {{ __('Member') }}
+        </flux:button>
+    @endif
     @if($members->count())
     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
         <thead class="bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
@@ -13,13 +18,15 @@
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
                 {{ __('Description') }}
             </th>
+            @if($chat)
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
                 {{ __('Player') }}
             </th>
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">
                 {{ __('Confirmed') }}
             </th>
-            @if(!$isStarted)
+            @endif
+            @if(!$this->isStarted())
             <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">{{ __('Actions') }}</th>
             @endif
         </tr>
@@ -36,34 +43,38 @@
                         {{ $member->mask->description }}
                     </div>
                 </td>
+                @if($chat)
                 <td class="px-4 py-2">
                     {{ $member->user ? $member->user->name : '---' }}
                 </td>
                 <td class="px-4 py-2">
                     {{ $member->is_confirmed ? 'Yes' : 'No' }}
                 </td>
-                @if(!$isStarted)
+                @endif
+                @if(!$this->isStarted())
                 <td class="px-4 py-2 whitespace-nowrap">
                     <flux:button.group>
-                    @if(!$member->user && !$isJoined)
-                        <flux:tooltip content="{{ __('Join') }}">
-                            <flux:button icon="arrow-left-end-on-rectangle" class="cursor-pointer"
-                                         wire:click="join({{ $member->id }})"></flux:button>
-                        </flux:tooltip>
+                    @if($chat)
+                        @if(!$member->user && !$this->isJoined())
+                            <flux:tooltip content="{{ __('Join') }}">
+                                <flux:button icon="arrow-left-end-on-rectangle" class="cursor-pointer"
+                                             wire:click="join({{ $member->id }})"></flux:button>
+                            </flux:tooltip>
+                        @endif
+                        @if($member->user_id === auth()->id())
+                            <flux:tooltip content="{{ __('Leave') }}">
+                                <flux:button icon="arrow-right-start-on-rectangle" class="cursor-pointer"
+                                             wire:click="leave({{ $member->id }})"></flux:button>
+                            </flux:tooltip>
+                        @endif
+                        @if(!$member->is_confirmed && $this->isOwner())
+                            <flux:tooltip content="{{ __('Confirm') }}">
+                                <flux:button icon="check" class="cursor-pointer"
+                                             wire:click="confirm({{ $member->id }})"></flux:button>
+                            </flux:tooltip>
+                        @endif
                     @endif
-                    @if($member->user_id === auth()->id())
-                        <flux:tooltip content="{{ __('Leave') }}">
-                            <flux:button icon="arrow-right-start-on-rectangle" class="cursor-pointer"
-                                         wire:click="leave({{ $member->id }})"></flux:button>
-                        </flux:tooltip>
-                    @endif
-                    @if(!$member->is_confirmed && $isOwner)
-                        <flux:tooltip content="{{ __('Confirm') }}">
-                            <flux:button icon="check" class="cursor-pointer"
-                                         wire:click="confirm({{ $member->id }})"></flux:button>
-                        </flux:tooltip>
-                    @endif
-                    @if($isOwner)
+                    @if($this->isOwner())
                         <flux:tooltip content="{{ __('Delete') }}">
                             <flux:button icon="trash" class="cursor-pointer"
                                          wire:click="deleteMember({{ $member->id }})"></flux:button>

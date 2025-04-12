@@ -18,11 +18,6 @@
                         {{ __('Publish') }}
                     </flux:button>
                 @endif
-                @if($this->canAddMember())
-                    <flux:button wire:click="member" class="cursor-pointer">
-                        {{ __('Member') }}
-                    </flux:button>
-                @endif
                 @if($this->canStart())
                     <flux:button wire:click="start" class="cursor-pointer">
                         {{ __('Start') }}
@@ -66,15 +61,8 @@
             {{-- todo - status name format --}}
             <p>{{ __('Status') }}: {{ ucfirst($chat->status->value) }}</p>
         </div>
-        <x-chat.members
-                :members="$chat->members"
-                :masks="$masks"
-                :mask="$mask"
-                :is-started="$this->isStarted()"
-                :is-owner="$this->isOwner()"
-                :is-joined="$this->isJoined()"/>
 
-        @livewire('mask-selector', ['chat' => $chat])
+        @livewire('members', ['chat' => $chat])
 
     </div>
     <div class="py-3 flex justify-end space-x-2">
@@ -88,11 +76,6 @@
                 </flux:button>
                 <flux:button wire:click="publish" class="cursor-pointer">
                     {{ __('Publish') }}
-                </flux:button>
-            @endif
-            @if($this->canAddMember())
-                <flux:button wire:click="member" class="cursor-pointer">
-                    {{ __('Member') }}
                 </flux:button>
             @endif
             @if($this->canStart())

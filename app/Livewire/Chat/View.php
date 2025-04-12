@@ -20,7 +20,6 @@ class View extends Component
 
     public Chat $chat;
     public ?Mask $mask = null;
-    public Collection $masks;
 
     protected function getListeners(): array
     {
@@ -34,7 +33,6 @@ class View extends Component
 
     public function mount(int $id): void
     {
-        $this->masks = new Collection();
         $this->chat = Chat::with(['user', 'application', 'members.mask', 'members.user'])->findOrFail($id);
     }
 
@@ -95,128 +93,6 @@ class View extends Component
         $this->dispatch('flash', message: __('Your chat was published'));
     }
 
-    // member flow
-
-    public function canAddMember(): bool
-    {
-        if (!$this->isOwner() &&
-            $this->chat->members->where('user_id', auth()->id())->count()) {
-            return false;
-        }
-        $hasSlots = $this->chat->seats - $this->chat->members->count() > 0;
-        if (!$hasSlots) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function member(): void
-    {
-        if (!$this->canAddMember()) {
-            return;
-        }
-        $this->dispatch('maskSelector');
-    }
-
-    #[On('maskSelected')]
-    public function addMember(int $maskId): void
-    {
-        if (!$this->canAddMember()) {
-            return;
-        }
-        $userId = $this->isOwner() ? null : auth()->id();
-        Member::create([
-            'chat_id' => $this->chat->id,
-            'mask_id' => $maskId,
-            'user_id' => $userId,
-            'is_confirmed' => $this->isOwner()
-        ]);
-        $this->reloadChat();
-        $messages = $userId ? [
-            'owner' => __('Member added to your chat') .': '. $this->chat->title
-        ] : [];
-        $this->notify($messages);
-        $this->dispatch('flash', message: __('Member added to chat'));
-    }
-
-    public function deleteMember(int $id): void
-    {
-        $member = $this->findMember($id);
-        if (!$member || !$this->isOwner()) {
-            return;
-        }
-        $userId = $member->user_id;
-        $messages = $userId && $userId !== auth()->id() ? [
-            $userId => __('Your seat was deleted from chat') .': '. $this->chat->title
-        ] : [];
-        $this->notify($messages);
-        $member->delete();
-        $this->reloadChat();
-        $this->dispatch('maskRemoved', maskId: $member->mask_id);
-        $this->dispatch('flash', message: __('Member deleted from chat'));
-    }
-
-    public function isJoined(): bool
-    {
-        return !!$this->chat->members->where('user_id', auth()->id())->count();
-    }
-
-    public function join(int $id): void
-    {
-        $member = $this->findMember($id);
-        if (!$member || $member->user_id) {
-            return;
-        }
-        $member->update(['user_id' => auth()->id()]);
-        $this->reloadChat();
-        $messages = $member->user_id !== $this->chat->user_id ? [
-            'owner' => __('User joined your chat') . ': ' . $this->chat->title
-        ] : [];
-        $this->notify($messages);
-        $this->dispatch('flash', message: __('You joined this chat'));
-    }
-
-    public function leave(int $id): void
-    {
-        $member = $this->findMember($id);
-        if (!$member || $member->user_id !== auth()->id()) {
-            return;
-        }
-        if (!$member->is_confirmed) {
-            $member->delete();
-        } else {
-            $member->update(['user_id' => null]);
-        }
-        $this->reloadChat();
-        $messages = $member->user_id !== $this->chat->user_id ? [
-            'owner' => __('User leaved your chat') . ': ' . $this->chat->title
-        ] : [];
-        $this->notify($messages);
-        $this->dispatch('flash', message: __('You leaved this chat'));
-    }
-
-    public function confirm(int $id): void
-    {
-        $member = $this->findMember($id);
-        if (!$member || !$this->isOwner() || $member->is_confirmed) {
-            return;
-        }
-        $member->update(['is_confirmed' => true]);
-        $this->reloadChat();
-        $messages = $member->user_id ? [
-            $member->user_id => __('Your seat was confirmed in the chat') . ': ' . $this->chat->title
-        ] : [];
-        $this->notify($messages);
-        $this->dispatch('flash', message: __('Member confirmed'));
-    }
-
-    public function showMask(int $id): void
-    {
-        $this->mask = Mask::findOrFail($id);
-        Flux::modal('show-mask')->show();
-    }
-
     // start flow
 
     public function canStart(): bool
@@ -245,15 +121,15 @@ class View extends Component
 
         $this->chat->update(['status' => ChatStatus::Started]);
         $this->dispatch('flash', message: __('Your chat was started!'));
-        $this->notify(['others' => __('Chat is ready to play') . ': ' . $this->chat->title]);
-    }
-
-    public function isStarted(): bool
-    {
-        return !in_array($this->chat->status, [ChatStatus::Created, ChatStatus::Published]);
+        $this->updateMembers(['others' => __('Chat is ready to play') . ': ' . $this->chat->title]);
     }
 
     // play flow
+
+    public function isJoined(): bool
+    {
+        return !!$this->chat->members->where('user_id', auth()->id())->count();
+    }
 
     public function canPlay(): bool
     {
@@ -271,18 +147,10 @@ class View extends Component
         return $this->chat->user_id === auth()->id();
     }
 
-    protected function findMember(int $id): ?Member
-    {
-        return $this->chat->members->where('id', $id)->first();
-    }
-
-    protected function reloadChat(): void
+    #[On('updateMembers')]
+    public function updateMembers(array $messages): void
     {
         $this->chat->refresh()->load(['user', 'application', 'members.mask', 'members.user']);
-    }
-
-    protected function notify(array $messages = []): void
-    {
         $link = route('chats.view', ['id' => $this->chat->id]);
         $handledIds = [];
         // handle seats users:

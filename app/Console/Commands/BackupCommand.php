@@ -29,6 +29,7 @@ class BackupCommand extends Command
         'app.roles',
         'app.masks',
         'app.applications',
+        'app.members',
         'app.chat_groups',
         'app.chat_roles',
         'app.screens',

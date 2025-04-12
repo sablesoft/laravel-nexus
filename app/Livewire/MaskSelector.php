@@ -21,11 +21,10 @@ class MaskSelector extends Component
     #[Locked]
     public bool $isOwner;
 
-    public function mount(Chat $chat): void
+    public function mount(array $maskIds, bool $isOwner = false): void
     {
-        $values = $chat->members->pluck('mask_id')->toArray();
-        $this->excludedIds = $values;
-        $this->isOwner = $chat->user_id === auth()->id();
+        $this->excludedIds = $maskIds;
+        $this->isOwner = $isOwner;
         $this->orderBy = 'id';
     }
 

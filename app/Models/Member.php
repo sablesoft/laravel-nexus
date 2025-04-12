@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Models\Enums\Gender;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
@@ -19,15 +20,18 @@ use Symfony\Component\Intl\Languages;
 
 /**
  * @property null|int $id
+ * @property null|int $application_id
  * @property null|int $chat_id
  * @property null|int $mask_id
  * @property null|int $screen_id
  * @property null|string $language
+ * @property null|Gender $gender
  * @property null|bool $is_confirmed
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
  * @property-read null|string $languageName
+ * @property-read null|Application $application
  * @property-read null|Chat $chat
  * @property-read null|Screen $screen
  * @property-read null|Mask $mask
@@ -40,14 +44,20 @@ class Member extends Model implements HasDslAdapterContract, Stateful
     use HasOwner, HasStates, HasFactory, HasDslAdapter;
 
     protected $fillable = [
-        'chat_id', 'mask_id', 'screen_id', 'user_id',
-        'is_confirmed', 'states', 'language'
+        'chat_id', 'application_id', 'mask_id', 'screen_id', 'user_id',
+        'is_confirmed', 'states', 'language', 'gender'
     ];
 
     protected $casts = [
         'is_confirmed' => 'bool',
-        'states' => 'array'
+        'states' => 'array',
+        'gender' => Gender::class
     ];
+
+    public function application(): BelongsTo
+    {
+        return $this->belongsTo(Application::class);
+    }
 
     public function chat(): BelongsTo
     {

@@ -41,6 +41,7 @@ use JsonException;
  * @property null|string $memberStatesString
  * @property null|string $memberBehaviorsString
  *
+ * @property-read Collection<int, Member> $members     - All members that belong to the application
  * @property-read Collection<int, Screen> $screens     - All screens that belong to the application
  * @property-read Collection<int, Chat> $chats         - All chats created from this application
  * @property-read Collection<int, ChatGroup> $chatGroups  - All chat-groups that belong to this application
@@ -67,6 +68,11 @@ class Application extends Model implements HasOwnerInterface, Stateful
         'title' => LocaleString::class,
         'description' => LocaleString::class,
     ];
+
+    public function members(): HasMany
+    {
+        return $this->hasMany(Member::class);
+    }
 
     public function screens(): HasMany
     {

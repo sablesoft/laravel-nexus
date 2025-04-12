@@ -68,6 +68,12 @@ class Application extends AbstractCrud implements ShouldHasMany
             ];
         }
 
+        if ($action === 'view' && $field === 'membersCrud') {
+            return [
+                'application' => $this->getResource()
+            ];
+        }
+
         return [];
     }
 
@@ -142,6 +148,14 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
+            'membersCrud' => [
+                'title' => __('Members'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'members',
+                'showEmpty' => true,
                 'collapsed' => true
             ],
             'groupsCrud' => [

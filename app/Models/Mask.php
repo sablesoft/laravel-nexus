@@ -35,7 +35,8 @@ class Mask extends Model implements HasOwnerInterface
     use HasOwner, HasFactory, HasImage, HasPortrait;
 
     protected $fillable = [
-        'user_id', 'image_id', 'portrait_id', 'name', 'description', 'is_public'
+        'user_id', 'image_id', 'portrait_id',
+        'name', 'description', 'is_public', 'gender'
     ];
 
     protected $casts = [
