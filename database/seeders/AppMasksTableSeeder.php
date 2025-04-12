@@ -14,12 +14,12 @@ class AppMasksTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.masks')->delete();
-
+        
         \DB::table('app.masks')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -32,7 +32,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-04-11 21:00:34',
                 'updated_at' => '2025-04-12 00:36:29',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -45,7 +45,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-04-11 21:01:23',
                 'updated_at' => '2025-04-12 00:36:05',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -58,7 +58,7 @@ class AppMasksTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:59:39',
                 'updated_at' => '2025-04-12 00:36:51',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -72,7 +72,7 @@ class AppMasksTableSeeder extends Seeder
                 'updated_at' => '2025-04-12 00:35:42',
             ),
         ));
-
-
+        
+        
     }
 }
