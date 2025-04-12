@@ -20,6 +20,7 @@ return new class extends Migration
             $table->json('title')->nullable(false);
             $table->json('description')->nullable();
             $table->boolean('is_public')->nullable(false)->default(false);
+            $table->unsignedSmallInteger('seats')->nullable(false)->default(1);
 
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_applications_states_index', 'gin');

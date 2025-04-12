@@ -98,7 +98,7 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'title' => __('Public'),
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
-                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No',
+                'callback' => fn($model) => $model->is_public ? __('Yes') : __('No'),
                 'rules' => [
                     'bool',
                     function ($attribute, $value, $fail) {
@@ -112,6 +112,11 @@ class Application extends AbstractCrud implements ShouldHasMany
                         }
                     },
                 ],
+            ],
+            'seats' => [
+                'title' => __('Seats Count'),
+                'action' => ['index', 'view', 'edit', 'create'],
+                'type' => 'number'
             ],
             'statesString' => [
                 'title' => __('Global States'),

@@ -111,6 +111,7 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
         static::creating(function(self $model) {
             self::assignCurrentUser($model);
             $model->states = $model->application->states;
+            $model->seats = $model->application->seats;
         });
         static::created(function(self $model) {
             $application = $model->application;

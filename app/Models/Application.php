@@ -33,6 +33,7 @@ use JsonException;
  * @property null|string $title         - Application title, visible in UI
  * @property null|string $description   - Description or notes about the application
  * @property null|bool $is_public       - Visibility flag (public or private) TODO - change to status
+ * @property null|int $seats             - Total number of participant slots
  * @property null|array $member_states
  * @property null|array $member_behaviors
  * @property null|Carbon $created_at
@@ -54,7 +55,7 @@ class Application extends Model implements HasOwnerInterface, Stateful
     use HasOwner, HasStates, HasFactory, HasImage, HasEffects;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public',
+        'user_id', 'title', 'description', 'is_public', 'seats',
         'states', 'member_states', 'member_behaviors', 'before', 'after'
     ];
 
