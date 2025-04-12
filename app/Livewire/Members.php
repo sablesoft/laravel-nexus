@@ -29,12 +29,22 @@ class Members extends Component
         if (!$source) {
             throw new \DomainException('Members component required chat or application');
         }
-        $this->members = $source->members->keyBy('id');
+        $this->prepareMembers();
     }
 
     public function render(): mixed
     {
         return view('livewire.members');
+    }
+
+    #[On('refresh.chat')]
+    public function prepareMembers(): void
+    {
+        $members = $this->source()->members;
+        if ($this->isStarted()) {
+            $members = $members->where('is_confirmed', true)->whereNotNull('user_id');
+        }
+        $this->members = $members->keyBy('id');
     }
 
     public function isOwner(): bool

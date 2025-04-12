@@ -66,21 +66,29 @@
                         <flux:button.group class="flex justify-end">
                         @if($chat)
                             @if(!$member->user && !$this->isJoined())
-                                <flux:button size="sm" icon="arrow-left-end-on-rectangle"
+                            <flux:tooltip content="{{ __('Join') }}">
+                                <flux:button class="cursor-pointer" size="sm" icon="arrow-left-end-on-rectangle"
                                              wire:click="join({{ $member->id }})" variant="ghost"/>
+                            </flux:tooltip>
                             @endif
-                            @if($member->user_id === auth()->id())
-                                <flux:button size="sm" icon="arrow-right-start-on-rectangle"
+                            @if($member->user_id === auth()->id() && !$this->isStarted())
+                            <flux:tooltip content="{{ __('Leave') }}">
+                                <flux:button class="cursor-pointer" size="sm" icon="arrow-right-start-on-rectangle"
                                              wire:click="leave({{ $member->id }})" variant="ghost"/>
+                            </flux:tooltip>
                             @endif
                             @if(!$member->is_confirmed && $this->isOwner())
-                                <flux:button size="sm" icon="check"
+                            <flux:tooltip content="{{ __('Confirm') }}">
+                                <flux:button class="cursor-pointer" size="sm" icon="check"
                                              wire:click="confirm({{ $member->id }})" variant="primary"/>
+                            </flux:tooltip>
                             @endif
                         @endif
                         @if($this->isOwner())
-                            <flux:button size="sm" icon="trash"
-                                         wire:click="deleteMember({{ $member->id }})" variant="danger"/>
+                            <flux:tooltip content="{{ __('Delete') }}">
+                                <flux:button class="cursor-pointer" size="sm" icon="trash"
+                                             wire:click="deleteMember({{ $member->id }})" variant="danger"/>
+                            </flux:tooltip>
                         @endif
                         </flux:button.group>
                     </div>

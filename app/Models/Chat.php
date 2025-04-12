@@ -125,6 +125,11 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
                     'states'    => $screen->states ?? [],
                 ]);
             }
+            foreach ($application->members as $member) {
+                $copy = $member->replicate(['id', 'application_id', 'created_at', 'updated_at']);
+                $copy->chat_id = $model->getKey();
+                $copy->save();
+            }
             if ($application->before) {
                 EffectRunner::run($application->before, new Process([
                     'chat' => $model,
