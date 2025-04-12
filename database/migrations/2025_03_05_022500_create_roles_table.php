@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->foreignId('user_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
+            $table->foreignId('group_id')->nullable()->index()
+                ->constrained()->nullOnDelete();
 
             $table->json('name')->nullable(false);
             $table->json('description')->nullable();

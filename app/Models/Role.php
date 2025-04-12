@@ -11,21 +11,25 @@ use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property null|int $id
+ * @property null|int $group_id
  * @property null|string $name
  * @property null|string $description
  * @property null|bool $is_public
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
+ *
+ * @property-read null|Group $group
  */
 class Role extends Model implements HasOwnerInterface, Stateful
 {
     use HasOwner, HasBehaviors, HasStates, HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'description', 'is_public', 'behaviors', 'states'
+        'user_id', 'group_id', 'name', 'description', 'is_public', 'behaviors', 'states'
     ];
 
     protected $casts = [
@@ -35,6 +39,12 @@ class Role extends Model implements HasOwnerInterface, Stateful
         'name' => LocaleString::class,
         'description' => LocaleString::class,
     ];
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public static function boot(): void
     {
         parent::boot();
