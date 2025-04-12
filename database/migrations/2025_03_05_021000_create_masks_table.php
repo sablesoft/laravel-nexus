@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Gender;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,7 @@ return new class extends Migration
                 ->constrained('app.images')->nullOnDelete();
             $table->json('name')->nullable(false);
             $table->json('description')->nullable();
+            $table->enum('gender', Gender::values())->nullable(false);
             $table->boolean('is_public')->nullable(false)->default(false);
 
             $table->timestamp('created_at')->useCurrent();
