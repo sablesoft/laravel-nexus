@@ -3,6 +3,7 @@
 namespace App\Livewire\Workshop;
 
 use App\Crud\AbstractCrud;
+use App\Crud\Traits\HandleLinks;
 use App\Crud\Traits\HandleUnique;
 use App\Livewire\Filters\FilterIsPublic;
 use App\Logic\Rules\DslRule;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Role extends AbstractCrud
 {
-    use HandleUnique, FilterIsPublic;
+    use HandleUnique, FilterIsPublic, HandleLinks;
 
     /**
      * @return string
@@ -34,7 +35,7 @@ class Role extends AbstractCrud
     {
         return [
             'id' => 'ID',
-            'name' => __('Name'),
+//            'name' => __('Name'), todo
             'is_public' => __('Public')
         ];
     }
@@ -49,7 +50,7 @@ class Role extends AbstractCrud
             'name' => [
                 'title' => __('Name'),
                 'action' => ['index', 'edit', 'create', 'view'],
-                'rules'  => ['required', 'string', $this->uniqueRule('roles', 'name')],
+                'rules'  => ['required', 'string'],
             ],
             'description' => [
                 'title' => __('Description'),
@@ -57,12 +58,21 @@ class Role extends AbstractCrud
                 'type' => 'textarea',
                 'rules' => 'nullable|string'
             ],
+            'group_id' => [
+                'title' => __('Group'),
+                'action' => ['edit', 'create'],
+                'type' => 'select',
+                'rules' => ['nullable', 'int'],
+                'options' => $this->getGroupOptions(),
+                'callback' => fn(\App\Models\Role $model) => $model->group?->name,
+            ],
+            'groupLink' => $this->linkField(__('Group'), ['index', 'view']),
             'is_public' => [
                 'title' => __('Public'),
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'rules' => ['boolean'],
-                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
+                'callback' => fn($model) => $model->is_public ? __('Yes') : __('No')
             ],
             'statesString' => [
                 'title' => __('States'),
@@ -81,6 +91,12 @@ class Role extends AbstractCrud
         ];
     }
 
+    protected function getGroupOptions(): array
+    {
+        $result = \App\Models\Group::where('user_id', auth()->id())->pluck('name', 'id')->toArray();
+        return [null => __('None')] + $result;
+    }
+
     protected function modifyQuery(Builder $query): Builder
     {
         return $this->applyFilterIsPublic($query);
@@ -94,5 +110,13 @@ class Role extends AbstractCrud
     public function filterTemplates(): array
     {
         return $this->filterIsPublicTemplates();
+    }
+
+    public function templateParams(string $action, ?string $field = null): array|callable
+    {
+            return match($field) {
+            'groupLink' => $this->linkTemplateParams(Group::routeName(), 'group'),
+            default => []
+        };
     }
 }

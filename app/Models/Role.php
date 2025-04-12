@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
+ * @property-read null|string $title
  * @property-read null|Group $group
  */
 class Role extends Model implements HasOwnerInterface, Stateful
@@ -39,6 +40,11 @@ class Role extends Model implements HasOwnerInterface, Stateful
         'name' => LocaleString::class,
         'description' => LocaleString::class,
     ];
+
+    public function getTitleAttribute(): ?string
+    {
+        return $this->name;
+    }
 
     public function group(): BelongsTo
     {

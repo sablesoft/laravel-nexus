@@ -26,6 +26,7 @@ class BackupCommand extends Command
     protected array $tables = [
         'public.users',
         'app.images',
+        'app.groups',
         'app.roles',
         'app.masks',
         'app.applications',

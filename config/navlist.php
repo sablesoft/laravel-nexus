@@ -80,6 +80,14 @@ return [
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Manage your roles'
             ],
+            'groups' => [
+                'icon' => 'user-group',
+                'title' => 'Role Groups',
+                'is_crud' => true,
+                'action' => \App\Livewire\Workshop\Group::class,
+                'middleware' => ['auth', 'verified'],
+                'tooltip' => 'Manage your role groups'
+            ],
             'applications' => [
                 'icon' => 'server-stack',
                 'title' => 'Applications',

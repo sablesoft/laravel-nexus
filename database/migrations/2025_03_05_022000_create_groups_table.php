@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('app.groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable(false)->index()
+                ->constrained()->cascadeOnDelete();
 
             $table->json('name')->nullable(false);
             $table->json('description')->nullable();
-
-            $table->timestamp('created_at')->useCurrent();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

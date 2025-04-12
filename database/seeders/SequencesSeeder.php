@@ -11,9 +11,11 @@ class SequencesSeeder extends Seeder
     protected array $tables = [
         'users',
         'images',
+        'groups',
         'roles',
         'masks',
         'applications',
+        'members',
         'chat_groups',
         'chat_roles',
         'screens',
