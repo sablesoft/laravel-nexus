@@ -81,6 +81,7 @@ class RegenerateImage implements ShouldQueue
         $this->image->update([
             'path' => $result->get('path'),
             'prompt' => $this->prompt,
+            'attempts' => $this->image->attempts + 1
         ]);
         ScaleImage::dispatch($this->image);
         $result->add('image', $this->image);
