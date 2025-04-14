@@ -34,7 +34,7 @@ class AppApplicationsTableSeeder extends Seeder
             'before' => '[{"comment":">>Prepare weather and time"},{"chat.state":{"weather":"chat.randomState(\'weather\')","time":"chat.randomState(\'time\')"}}]',
                 'after' => NULL,
                 'created_at' => '2025-04-08 19:35:33',
-                'updated_at' => '2025-04-12 00:38:03',
+                'updated_at' => '2025-04-14 03:10:03',
             ),
         ));
         

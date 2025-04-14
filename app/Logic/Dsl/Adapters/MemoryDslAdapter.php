@@ -14,13 +14,21 @@ class MemoryDslAdapter extends ModelDslAdapter
         parent::__construct($process, $model ?? new Memory());
     }
 
-    public function loadByExpr(string $expression): bool
+    public function messages(string $expression): array
     {
         $query = Dsl::apply(Memory::query(), $expression, $this->process->toContext());
         $query->where('chat_id', $this->process->chat->getKey());
-        // todo - hande collection:
-        $this->model = $query->first();
-        return !!$this->model;
+        $messages = [];
+        /** @var Memory $memory */
+        foreach($query->get() as $memory) {
+            $data[] = $memory->content;
+            $data[] = $memory->meta ? 'Meta: ' . json_encode($memory->meta) : '';
+            $messages[] = [
+                'role' => $memory->author_id ? 'user' : 'assistant',
+                'content' => implode(' ', $data)
+            ];
+        }
+        return $messages;
     }
 
     public function meta(string $path, mixed $default = null): mixed

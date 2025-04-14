@@ -76,7 +76,7 @@ class SetDefinition implements EffectDefinitionContract
      */
     public static function rules(): array
     {
-        return ['*' => 'required|nullable'];
+        return ['*' => 'nullable'];
     }
 
     /**

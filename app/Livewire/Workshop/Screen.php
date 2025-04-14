@@ -172,20 +172,6 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
-            'beforeString' => [
-                'title' => __('Effects'),
-                'action' => ['edit', 'view'],
-                'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
-                'collapsed' => true
-            ],
-            'afterString' => [
-                'title' => __('Effects After'),
-                'action' => ['edit', 'view'],
-                'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
-                'collapsed' => true
-            ],
             'enabled_condition' => [
                 'title' => __('Enabled Condition'),
                 'action' => ['edit', 'view'],
@@ -206,6 +192,13 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                     new DslRule(QueryExpressionValidator::class, 'raw')
                 ]
             ],
+            'beforeString' => [
+                'title' => __('Effects'),
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
             'applicationLink' => $this->linkField(__('Application'), ['index', 'view']),
             'transfersToList' => $this->linkListField(__('Transfers To'), ['index']),
             'transfersFromList' => $this->linkListField(__('Transfers From'), ['index', 'view']),
@@ -224,6 +217,13 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'component' => 'workshop.screen.controls',
                 'showEmpty' => true,
                 'collapsed' => true,
+            ],
+            'afterString' => [
+                'title' => __('Effects After'),
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+                'collapsed' => true
             ],
         ];
     }

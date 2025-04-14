@@ -154,7 +154,7 @@ class Play extends Component
     #[On('refresh.play')]
     public function refresh(): void
     {
-        $this->chat->load('memories.member');
+        $this->chat->load(['memories.author']);
         $this->prepareMemories();
         $this->prepareControls();
     }

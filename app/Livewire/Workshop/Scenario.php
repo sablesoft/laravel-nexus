@@ -66,19 +66,19 @@ class Scenario extends AbstractCrud
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
-            'afterString' => [
-                'title' => __('Effects After'),
-                'action' => ['edit', 'view'],
-                'type' => 'codemirror',
-                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
-                'collapsed' => true
-            ],
             'stepsCrud' => [
                 'title' => __('Steps'),
                 'action' => ['view'],
                 'type' => 'component',
                 'component' => 'workshop.scenario.steps',
                 'showEmpty' => true,
+                'collapsed' => true
+            ],
+            'afterString' => [
+                'title' => __('Effects After'),
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'inStepsList' => $this->linkListField(__('In Steps Of'), ['index', 'view']),
