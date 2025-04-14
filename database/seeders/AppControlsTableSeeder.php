@@ -35,6 +35,22 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-08 20:05:14',
                 'updated_at' => '2025-04-14 04:50:15',
             ),
+            1 => 
+            array (
+                'id' => 5,
+                'screen_id' => 9,
+                'scenario_id' => NULL,
+                'type' => 'action',
+                'title' => '{"en":"Back","ru":"Назад"}',
+                'tooltip' => '{"en":"Return to previous screen","ru":"Вернуться на предыдущий экран"}',
+                'description' => '{"en":null,"ru":null}',
+                'before' => '[{"screen.back":null}]',
+                'after' => NULL,
+                'visible_condition' => NULL,
+                'enabled_condition' => NULL,
+                'created_at' => '2025-04-14 21:54:16',
+                'updated_at' => '2025-04-14 21:55:37',
+            ),
         ));
         
         

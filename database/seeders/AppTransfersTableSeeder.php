@@ -34,6 +34,36 @@ class AppTransfersTableSeeder extends Seeder
                 'created_at' => '2025-04-08 20:06:27',
                 'updated_at' => '2025-04-12 00:40:01',
             ),
+            1 => 
+            array (
+                'id' => 7,
+                'screen_from_id' => 2,
+                'screen_to_id' => 9,
+                'title' => '{"en":"Recorder","ru":"Диктофон"}',
+                'tooltip' => '{"en":"Check your audio records","ru":"Проверить аудио записи"}',
+                'description' => '{"en":null,"ru":null}',
+                'before' => NULL,
+                'after' => NULL,
+                'visible_condition' => NULL,
+                'enabled_condition' => NULL,
+                'created_at' => '2025-04-14 20:59:21',
+                'updated_at' => '2025-04-14 22:25:52',
+            ),
+            2 => 
+            array (
+                'id' => 6,
+                'screen_from_id' => 1,
+                'screen_to_id' => 9,
+                'title' => '{"en":"Recorder","ru":"Диктофон"}',
+                'tooltip' => '{"en":"Check your audio records","ru":"Проверить аудио записи"}',
+                'description' => '{"en":null,"ru":null}',
+                'before' => NULL,
+                'after' => NULL,
+            'visible_condition' => 'screen.state(\'step\') >= 3',
+                'enabled_condition' => NULL,
+                'created_at' => '2025-04-14 20:58:46',
+                'updated_at' => '2025-04-14 22:29:11',
+            ),
         ));
         
         

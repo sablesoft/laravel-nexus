@@ -21,6 +21,24 @@ class AppImagesTableSeeder extends Seeder
         \DB::table('app.images')->insert(array (
             0 => 
             array (
+                'id' => 62,
+                'user_id' => 1,
+                'title' => 'Screen - Recorder',
+                'prompt' => 'A close-up portrait-oriented image of a small, handheld portable voice recorder lying on a dusty car hood in a post-apocalyptic setting. The recorder is compact and worn, with scuffed plastic casing, faded buttons, and a small label marked “REC.” It looks like a personal device used for voice memos. Surrounding it are faint traces of dust, dried leaves, and rust. In the softly blurred background, a broken windshield and overgrown forest are visible. Light falls dramatically on the recorder, highlighting its texture and loneliness — as if it’s the last witness to a lost world. Cinematic atmosphere, soft contrast, realistic details, no people.',
+                'has_glitches' => false,
+                'attempts' => 2,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-UTSY50UcQG3siM0XN0Dv9JGk.png',
+                'path_md' => 'images_md/img-UTSY50UcQG3siM0XN0Dv9JGk.webp',
+                'path_sm' => 'images_sm/img-UTSY50UcQG3siM0XN0Dv9JGk.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-14 20:44:11',
+                'updated_at' => '2025-04-14 20:52:03',
+            ),
+            1 => 
+            array (
                 'id' => 59,
                 'user_id' => 1,
                 'title' => 'Portrait - Tarek',
@@ -37,7 +55,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:54:50',
                 'updated_at' => '2025-04-11 20:54:51',
             ),
-            1 => 
+            2 => 
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -55,7 +73,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:07',
                 'updated_at' => '2025-03-23 04:34:05',
             ),
-            2 => 
+            3 => 
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -73,7 +91,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:02:13',
                 'updated_at' => '2025-03-23 04:34:19',
             ),
-            3 => 
+            4 => 
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -91,7 +109,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:00:33',
                 'updated_at' => '2025-03-23 04:34:31',
             ),
-            4 => 
+            5 => 
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -109,7 +127,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 05:02:09',
                 'updated_at' => '2025-03-23 04:34:44',
             ),
-            5 => 
+            6 => 
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -127,7 +145,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:59:55',
                 'updated_at' => '2025-03-23 04:34:56',
             ),
-            6 => 
+            7 => 
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -145,7 +163,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:58:19',
                 'updated_at' => '2025-03-23 04:35:21',
             ),
-            7 => 
+            8 => 
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -163,7 +181,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:46:07',
                 'updated_at' => '2025-03-23 04:35:32',
             ),
-            8 => 
+            9 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -181,7 +199,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 02:26:26',
                 'updated_at' => '2025-03-23 04:38:20',
             ),
-            9 => 
+            10 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -199,7 +217,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:14:48',
                 'updated_at' => '2025-03-23 04:39:44',
             ),
-            10 => 
+            11 => 
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -217,7 +235,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:28',
                 'updated_at' => '2025-03-23 05:10:14',
             ),
-            11 => 
+            12 => 
             array (
                 'id' => 44,
                 'user_id' => 1,
@@ -235,7 +253,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-19 22:29:03',
                 'updated_at' => '2025-03-23 04:13:00',
             ),
-            12 => 
+            13 => 
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -253,7 +271,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:01:26',
                 'updated_at' => '2025-03-23 04:17:02',
             ),
-            13 => 
+            14 => 
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -271,7 +289,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:00:22',
                 'updated_at' => '2025-03-23 04:18:24',
             ),
-            14 => 
+            15 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -289,7 +307,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:58:46',
                 'updated_at' => '2025-03-23 04:19:44',
             ),
-            15 => 
+            16 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -307,7 +325,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:47',
                 'updated_at' => '2025-03-23 04:31:51',
             ),
-            16 => 
+            17 => 
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -325,7 +343,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-23 04:33:47',
             ),
-            17 => 
+            18 => 
             array (
                 'id' => 45,
                 'user_id' => 1,
@@ -343,7 +361,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-28 05:30:25',
                 'updated_at' => '2025-03-28 05:30:27',
             ),
-            18 => 
+            19 => 
             array (
                 'id' => 54,
                 'user_id' => 1,
@@ -362,7 +380,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 19:25:50',
                 'updated_at' => '2025-04-11 19:33:22',
             ),
-            19 => 
+            20 => 
             array (
                 'id' => 57,
                 'user_id' => 1,
@@ -380,7 +398,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:51:44',
                 'updated_at' => '2025-04-11 20:51:48',
             ),
-            20 => 
+            21 => 
             array (
                 'id' => 61,
                 'user_id' => 1,
@@ -398,7 +416,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:56:13',
                 'updated_at' => '2025-04-11 20:56:13',
             ),
-            21 => 
+            22 => 
             array (
                 'id' => 55,
                 'user_id' => 1,
@@ -416,7 +434,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 19:26:24',
                 'updated_at' => '2025-04-11 20:47:24',
             ),
-            22 => 
+            23 => 
             array (
                 'id' => 58,
                 'user_id' => 1,
@@ -434,7 +452,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:54:13',
                 'updated_at' => '2025-04-11 20:54:13',
             ),
-            23 => 
+            24 => 
             array (
                 'id' => 60,
                 'user_id' => 1,
@@ -452,7 +470,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:55:55',
                 'updated_at' => '2025-04-11 20:57:07',
             ),
-            24 => 
+            25 => 
             array (
                 'id' => 51,
                 'user_id' => 1,
@@ -470,7 +488,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-08 18:16:50',
                 'updated_at' => '2025-04-08 19:28:22',
             ),
-            25 => 
+            26 => 
             array (
                 'id' => 52,
                 'user_id' => 1,
@@ -488,7 +506,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-08 19:41:40',
                 'updated_at' => '2025-04-08 19:41:42',
             ),
-            26 => 
+            27 => 
             array (
                 'id' => 53,
                 'user_id' => 1,
@@ -506,7 +524,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-08 19:48:41',
                 'updated_at' => '2025-04-08 19:52:54',
             ),
-            27 => 
+            28 => 
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -524,7 +542,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:34:51',
                 'updated_at' => '2025-03-23 04:37:19',
             ),
-            28 => 
+            29 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -542,7 +560,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:46:49',
                 'updated_at' => '2025-03-23 04:38:53',
             ),
-            29 => 
+            30 => 
             array (
                 'id' => 26,
                 'user_id' => 1,
@@ -560,7 +578,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:11',
                 'updated_at' => '2025-03-23 05:09:46',
             ),
-            30 => 
+            31 => 
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -578,7 +596,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:25',
                 'updated_at' => '2025-03-23 05:17:46',
             ),
-            31 => 
+            32 => 
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -596,7 +614,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:57:05',
                 'updated_at' => '2025-03-23 04:25:46',
             ),
-            32 => 
+            33 => 
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -614,7 +632,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:22',
                 'updated_at' => '2025-03-23 04:32:10',
             ),
-            33 => 
+            34 => 
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -632,7 +650,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:48:57',
                 'updated_at' => '2025-03-23 04:32:26',
             ),
-            34 => 
+            35 => 
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -650,7 +668,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:08:46',
                 'updated_at' => '2025-03-23 04:32:51',
             ),
-            35 => 
+            36 => 
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -668,7 +686,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:06:46',
                 'updated_at' => '2025-03-23 04:33:03',
             ),
-            36 => 
+            37 => 
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -686,7 +704,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:49',
                 'updated_at' => '2025-03-23 04:33:16',
             ),
-            37 => 
+            38 => 
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -704,7 +722,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:02',
                 'updated_at' => '2025-03-23 04:33:34',
             ),
-            38 => 
+            39 => 
             array (
                 'id' => 56,
                 'user_id' => 1,
