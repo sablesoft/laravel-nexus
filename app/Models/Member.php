@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Logic\Dsl\Adapters\MemberDslAdapter;
+use App\Logic\Process;
 use App\Models\Enums\Gender;
 use App\Models\Interfaces\Stateful;
-use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Database\Factories\MaskFactory;
@@ -43,7 +45,7 @@ use Symfony\Component\Intl\Languages;
 class Member extends Model implements HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<MaskFactory> */
-    use HasOwner, HasStates, HasFactory, HasDslAdapter;
+    use HasOwner, HasStates, HasFactory;
 
     protected $fillable = [
         'chat_id', 'application_id', 'mask_id', 'screen_id', 'user_id',
@@ -94,6 +96,11 @@ class Member extends Model implements HasDslAdapterContract, Stateful
     public function getLanguageNameAttribute(): string
     {
         return Languages::getName($this->language);
+    }
+
+    public function getDslAdapter(Process $process): DslAdapterContract
+    {
+        return new MemberDslAdapter($process, $this);
     }
 
     public static function boot(): void
