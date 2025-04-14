@@ -120,6 +120,9 @@ class View extends Component
         }
 
         $this->chat->update(['status' => ChatStatus::Started]);
+        foreach ($this->chat->members()->whereNull('user_id')->orWhere('is_confirmed', false)->get() as $member) {
+            $member->delete();
+        }
         $this->dispatch('flash', message: __('Your chat was started!'));
         $this->updateMembers(['others' => __('Chat is ready to play') . ': ' . $this->chat->title]);
     }

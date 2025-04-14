@@ -40,6 +40,9 @@ class Process
     public bool $inQueue = false; // Whether the process is currently running via queue
     public bool $skipQueue = false; // Whether to explicitly skip queueing
 
+    public bool $screenBack = false;
+    public ?int $screenTransfer = null;
+
     /**
      * DSL adapters for core models. Used to expose model data to DSL expressions
      * while protecting the models from invalid access.

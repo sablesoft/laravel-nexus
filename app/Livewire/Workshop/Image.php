@@ -86,6 +86,7 @@ class Image extends AbstractCrud
                 'title' => __('Aspect Ratio'),
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
+                'options' => ImageAspect::options(),
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->aspect->value
             ],
@@ -93,6 +94,7 @@ class Image extends AbstractCrud
                 'title' => __('Style'),
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
+                'options' => ImageStyle::options(),
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->style->value
             ],
@@ -100,6 +102,7 @@ class Image extends AbstractCrud
                 'title' => __('Quality'),
                 'action' => ['generate', 'view', 'index', 'edit'],
                 'type' => 'select',
+                'options' => ImageQuality::options(),
                 'rules' => 'required|string',
                 'callback' => fn(\App\Models\Image $model) => $model->quality->value
             ],
@@ -159,16 +162,6 @@ class Image extends AbstractCrud
                 'title' => __('Regenerate'),
             ],
         ];
-    }
-
-    public function selectOptions(string $field): array
-    {
-        return match ($field) {
-            'aspect' => ImageAspect::options(),
-            'quality' => ImageQuality::options(),
-            'style' => ImageStyle::options(),
-            default => [],
-        };
     }
 
     public function regenerateForm(): void

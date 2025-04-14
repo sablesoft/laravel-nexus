@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 use App\Models\Enums\StateType;
 use App\Models\Interfaces\Stateful;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use JsonException;
 
 /**
@@ -14,6 +15,20 @@ use JsonException;
 trait HasStates
 {
     use HasJson;
+
+    public function getSystem(string $key): mixed
+    {
+        $states = $this->states;
+        return Arr::get($states, "system.$key");
+    }
+
+    public function setSystem(string $key, mixed $value): void
+    {
+        $states = $this->states;
+        Arr::set($states, "system.$key", $value);
+        $this->states = $states;
+        $this->save();
+    }
 
     public function getStatesStringAttribute(): ?string
     {
@@ -53,7 +68,7 @@ trait HasStates
 
         $this->validateState($key, $state);
         $states = $this->states;
-        $states['has'][$key]['value'] = $value;
+        $states['has'][$key] = $state;
         $this->states = $states;
         $this->save();
     }
@@ -155,7 +170,7 @@ trait HasStates
 
     public static function savingAllStates(Model|Stateful $model): void
     {
-        if ($model->isDirty('states') && !empty($model->states)) {
+        if ($model->isDirty('states') && !empty($model->states['has'])) {
             foreach ($model->states['has'] as $key => $state) {
                 $model->validateState($key, $state);
             }

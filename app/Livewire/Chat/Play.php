@@ -17,7 +17,6 @@ use App\Models\Memory;
 use App\Models\Screen;
 use App\Models\Transfer;
 use App\Notifications\ChatPlaying;
-use App\Notifications\ScreenUpdated;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -45,6 +44,7 @@ class Play extends Component
     use PresenceTrait;
 
     const CHANNELS_PREFIX = 'play';
+    const SCREEN_STATE_PREVIOUS = '__previous';
 
     #[Locked]
     public string $channelsPrefix = self::CHANNELS_PREFIX;
@@ -61,11 +61,7 @@ class Play extends Component
 
     /** The currently active screen (defines transfers, controls, inputs) */
     #[Locked]
-    public Screen $screen;
-
-    /** Stack of screen IDs visited by the user (used for navigation) */
-    #[Locked]
-    public array $screenHistory = [];
+    public ?Screen $screen = null;
 
     #[Locked]
     public array $rawTransfers = [];
@@ -172,7 +168,7 @@ class Play extends Component
     protected function initScreen(Screen $screen, bool $withHistory = true): void
     {
         if ($withHistory) {
-            $this->screenHistory[] = $screen->id;
+            $screen->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen?->getKey());
         }
         $this->screen = $screen;
         $this->rawTransfers = $screen->transfers->map(fn (Transfer $transfer) => [
@@ -245,7 +241,8 @@ class Play extends Component
     protected function getMemories(): array
     {
         $query = Dsl::apply(Memory::query(), $this->screen->query, $this->getProcess()->toContext());
-        return $query->with('author')->where('chat_id', $this->chat->id)->get()
+        return $query->with('author')->where('chat_id', $this->chat->id)
+            ->orderBy('created_at')->get()
             ->map(fn(Memory $memory) => [
                 'id' => $memory->id,
                 'author_id' => $memory->author_id,
@@ -272,14 +269,20 @@ class Play extends Component
     public function transfer(int $transferId): void
     {
         $transfer = $this->getTransfer($transferId);
-        NodeRunner::run($transfer, $this->getProcess());
-        // todo - remove after completing transfer effect:
+        $process = $this->getProcess();
+        $process->screenTransfer = $transfer->screen_to_id;
+        $process = NodeRunner::run($transfer, $process);
+        $this->after($process);
+    }
+
+    public function changeScreen(Screen $screen, bool $withHistory = true): void
+    {
         if ($this->screen->after) {
             EffectRunner::run($this->screen->after, $this->getProcess());
         }
-        $this->member->update(['screen_id' => $transfer->screen_to_id]);
+        $this->member->update(['screen_id' => $screen->getKey()]);
         $fromChannel = $this->screenChannel();
-        $this->initScreen($transfer->screenTo);
+        $this->initScreen($screen, $withHistory);
         $toChannel = $this->screenChannel();
         $this->dispatch(
             'swap-presence',
@@ -305,11 +308,7 @@ class Play extends Component
             'ask' => $this->ask
         ]));
         $this->ask = '';
-
-        // todo - remove after completing effects feature:
-        if ($process->get('$refresh', false)) {
-            $this->refresh();
-        }
+        $this->after($process);
     }
 
     /**
@@ -321,7 +320,10 @@ class Play extends Component
     public function action(int $controlId): void
     {
         $control = $this->getControl($controlId);
-        NodeRunner::run($control, $this->getProcess());
+        $process = $this->getProcess();
+//        $process->skipQueue = true;
+        $process = NodeRunner::run($control, $process);
+        $this->after($process);
     }
 
     /**
@@ -363,24 +365,6 @@ class Play extends Component
         $this->redirectRoute('chats.view', ['id' => $this->chat->id], true, true);
     }
 
-    protected function createMemory(string $type, string $content, ?int $memberId = null): void
-    {
-        Memory::create([
-            'chat_id' => $this->chat->id,
-            'member_id' => $memberId,
-            'content' => $content,
-            'type' => $type
-        ]);
-        /** @var Member $member */
-        foreach ($this->onlineMembers as $member) {
-            if ($member->id !== $this->member->id) {
-                $member->user->notifyNow(new ScreenUpdated());
-            }
-        }
-
-        $this->refresh();
-    }
-
     protected function canPlay(): bool
     {
         return $this->chat->status === ChatStatus::Started &&
@@ -396,6 +380,23 @@ class Play extends Component
     protected function getControl(int $id): Control
     {
         return $this->screen->controls->findOrFail($id);
+    }
+
+    protected function after(Process $process): void
+    {
+        if ($process->screenTransfer) {
+            $this->changeScreen(Screen::findOrFail($process->screenTransfer));
+            return;
+        }
+        if ($process->screenBack) {
+            $id = $this->screen->getSystem(static::SCREEN_STATE_PREVIOUS);
+            if ($id) {
+                $this->screen->setSystem(static::SCREEN_STATE_PREVIOUS, null);
+                $this->changeScreen(Screen::findOrFail($id), false);
+                return;
+            }
+        }
+        $this->prepareControls();
     }
 
     protected function getProcess(array $data = []): Process
