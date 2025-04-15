@@ -36,3 +36,4 @@ backup: ## artisan backup
 
 locale: ## collect and merge locale string
 	./vendor/bin/sail artisan translation:scan --merge
+	./vendor/bin/sail artisan locale:sync

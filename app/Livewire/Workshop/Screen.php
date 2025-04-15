@@ -193,8 +193,17 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                     new DslRule(QueryExpressionValidator::class, 'raw')
                 ]
             ],
+            'initString' => [
+                'title' => __('Init'),
+                'hint' => __('screen.effects.init'),
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
             'beforeString' => [
                 'title' => __('Effects'),
+                'hint' => __("screen.effects.before"),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
@@ -210,6 +219,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             ],
             'afterString' => [
                 'title' => __('Effects After'),
+                'hint' => __("screen.effects.after"),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],

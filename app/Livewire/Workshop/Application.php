@@ -10,6 +10,7 @@ use App\Crud\Traits\HandleLinks;
 use App\Livewire\Filters\FilterIsPublic;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\BehaviorsValidator;
+use App\Logic\Validators\EffectsValidator;
 use App\Logic\Validators\StatesValidator;
 use App\Services\OpenAI\Enums\ImageAspect;
 use Illuminate\Database\Eloquent\Builder;
@@ -127,18 +128,28 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
-            'beforeString' => [
-                'title' => __('Initial Effects'),
+            'initString' => [
+                'title' => __('Init'),
+                'hint' => __('application.effects.init'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => "nullable|$dslEditor",
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
+                'collapsed' => true
+            ],
+            'beforeString' => [
+                'title' => __('Before Effects'),
+                'hint' => __('application.effects.before'),
+                'action' => ['edit', 'view'],
+                'type' => 'codemirror',
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'afterString' => [
-                'title' => __('Ending Effects'),
+                'title' => __('After Effects'),
+                'hint' => __('application.effects.after'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
-                'rules' => "nullable|$dslEditor",
+                'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
             'screenLink' => $this->linkField(__('Start Screen'), ['index', 'view']),
