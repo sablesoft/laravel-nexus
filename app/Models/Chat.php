@@ -132,8 +132,8 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
                 $copy->save();
                 $copy->chatRoles()->sync($member->chatRoles);
             }
-            if ($application->before) {
-                EffectRunner::run($application->before, new Process([
+            if ($application->init) {
+                EffectRunner::run($application->init, new Process([
                     'chat' => $model,
                 ]));
             }
