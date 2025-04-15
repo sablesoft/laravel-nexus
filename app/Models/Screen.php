@@ -11,6 +11,7 @@ use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasImage;
+use App\Models\Traits\HasInit;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\HasStates;
@@ -61,19 +62,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasEffects, HasStates, UI;
+    use HasOwner, HasFactory, HasImage, HasEffects, HasInit, HasStates, UI;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
     protected $fillable = [
         'user_id', 'application_id', 'code', 'title', 'description',
         'visible_condition', 'enabled_condition', 'states',
-        'is_start', 'query', 'before', 'after', 'template',
+        'is_start', 'query', 'init', 'before', 'after', 'template',
     ];
 
     protected $casts = [
         'is_start' => 'boolean',
         'states' => 'array',
+        'init' => 'array',
         'before' => 'array',
         'after' => 'array',
         'title' => LocaleString::class,

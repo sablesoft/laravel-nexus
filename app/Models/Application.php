@@ -7,6 +7,7 @@ use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\HasImage;
+use App\Models\Traits\HasInit;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
@@ -52,10 +53,10 @@ use JsonException;
 class Application extends Model implements HasOwnerInterface, Stateful
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasStates, HasFactory, HasImage, HasEffects;
+    use HasOwner, HasStates, HasFactory, HasImage, HasEffects, HasInit;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public', 'seats',
+        'user_id', 'title', 'description', 'is_public', 'seats', 'init',
         'states', 'member_states', 'member_behaviors', 'before', 'after'
     ];
 
@@ -64,6 +65,7 @@ class Application extends Model implements HasOwnerInterface, Stateful
         'states' => 'array',
         'member_states' => 'array',
         'member_behaviors' => 'array',
+        'init' => 'array',
         'before' => 'array',
         'after' => 'array',
         'title' => LocaleString::class,

@@ -28,14 +28,15 @@ return new class extends Migration
             $table->string('query')->nullable();
             $table->text('template')->nullable();
 
-            $table->json('before')->nullable();
-            $table->json('after')->nullable();
+            $table->text('visible_condition')->nullable();
+            $table->text('enabled_condition')->nullable();
 
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_screens_states_index', 'gin');
 
-            $table->text('visible_condition')->nullable();
-            $table->text('enabled_condition')->nullable();
+            $table->json('init')->nullable();
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

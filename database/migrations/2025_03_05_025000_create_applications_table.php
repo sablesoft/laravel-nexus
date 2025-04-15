@@ -31,6 +31,7 @@ return new class extends Migration
             $table->jsonb('member_behaviors')->nullable();
             $table->index('member_behaviors', 'app_applications_member_behaviors_index', 'gin');
 
+            $table->json('init')->nullable();
             $table->json('before')->nullable();
             $table->json('after')->nullable();
 

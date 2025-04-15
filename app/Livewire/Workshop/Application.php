@@ -96,6 +96,7 @@ class Application extends AbstractCrud implements ShouldHasMany
             ],
             'is_public' => [
                 'title' => __('Public'),
+                'hint' => __('Is application visible in catalog'),
                 'action' => ['index', 'edit', 'view'],
                 'type' => 'checkbox',
                 'callback' => fn($model) => $model->is_public ? __('Yes') : __('No'),
@@ -114,12 +115,13 @@ class Application extends AbstractCrud implements ShouldHasMany
                 ],
             ],
             'seats' => [
-                'title' => __('Seats Count'),
+                'title' => __('Players Count'),
                 'action' => ['index', 'view', 'edit', 'create'],
                 'type' => 'number'
             ],
             'statesString' => [
                 'title' => __('Global States'),
+                'hint' => __('This states can be used around all screens'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],

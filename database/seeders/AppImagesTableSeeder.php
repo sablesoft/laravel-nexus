@@ -39,6 +39,44 @@ class AppImagesTableSeeder extends Seeder
             ),
             1 => 
             array (
+                'id' => 51,
+                'user_id' => 1,
+                'title' => 'Cover - After People',
+            'prompt' => 'A cinematic, wide-angle landscape of a world after human extinction. A once-bustling city now overgrown with nature: crumbling buildings wrapped in vines, trees sprouting from rooftops, rusted vehicles half-buried in tall grass. A broken billboard in the distance, faded and unreadable. Animals wander freely — a deer stands near an abandoned bus, birds fly over shattered windows. The sky is overcast with scattered sunbeams breaking through. The mood is quiet, melancholic, and awe-inspiring. No people. Horizontal (landscape) format, realistic and atmospheric style, inspired by Life After People.',
+                'has_glitches' => false,
+                'attempts' => 2,
+                'aspect' => 'landscape',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-tlRu8A3DoZmaHHcmXOVvg0MV.png',
+                'path_md' => 'images_md/img-tlRu8A3DoZmaHHcmXOVvg0MV.webp',
+                'path_sm' => 'images_sm/img-tlRu8A3DoZmaHHcmXOVvg0MV.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-08 18:16:50',
+                'updated_at' => '2025-04-15 15:39:19',
+            ),
+            2 => 
+            array (
+                'id' => 52,
+                'user_id' => 1,
+                'title' => 'Screen - Prologue',
+                'prompt' => 'A scenic post-apocalyptic forest road. A narrow dirt road winds through a lush, overgrown forest filled with tall grass, moss-covered stones, and thick trees. The sky is softly overcast, casting diffused daylight across the greenery. Birds are flying between branches, and a small fox is running across the road in the distance. Nature has fully reclaimed the area — wildflowers bloom, vines hang from trees, and roots crack the edges of the broken road.
+
+Half-buried rusted road signs and metal debris are partially hidden in the undergrowth, hinting at the past. The scene feels quiet, alive, and vibrant — not desolate, but wild and untamed. No people or vehicles. Realistic, cinematic detail. Horizontal landscape format.',
+                'has_glitches' => false,
+                'attempts' => 2,
+                'aspect' => 'portrait',
+                'quality' => 'standard',
+                'style' => 'vivid',
+                'path' => 'images/img-sVZLe5vIaUSBuzJGc9cperfX.png',
+                'path_md' => 'images_md/img-sVZLe5vIaUSBuzJGc9cperfX.webp',
+                'path_sm' => 'images_sm/img-sVZLe5vIaUSBuzJGc9cperfX.webp',
+                'is_public' => false,
+                'created_at' => '2025-04-08 19:41:40',
+                'updated_at' => '2025-04-15 16:28:03',
+            ),
+            3 => 
+            array (
                 'id' => 59,
                 'user_id' => 1,
                 'title' => 'Portrait - Tarek',
@@ -55,7 +93,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:54:50',
                 'updated_at' => '2025-04-11 20:54:51',
             ),
-            2 => 
+            4 => 
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -73,7 +111,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:07',
                 'updated_at' => '2025-03-23 04:34:05',
             ),
-            3 => 
+            5 => 
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -91,7 +129,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:02:13',
                 'updated_at' => '2025-03-23 04:34:19',
             ),
-            4 => 
+            6 => 
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -109,7 +147,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:00:33',
                 'updated_at' => '2025-03-23 04:34:31',
             ),
-            5 => 
+            7 => 
             array (
                 'id' => 18,
                 'user_id' => 1,
@@ -127,7 +165,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 05:02:09',
                 'updated_at' => '2025-03-23 04:34:44',
             ),
-            6 => 
+            8 => 
             array (
                 'id' => 17,
                 'user_id' => 1,
@@ -145,7 +183,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:59:55',
                 'updated_at' => '2025-03-23 04:34:56',
             ),
-            7 => 
+            9 => 
             array (
                 'id' => 16,
                 'user_id' => 1,
@@ -163,7 +201,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-12 04:58:19',
                 'updated_at' => '2025-03-23 04:35:21',
             ),
-            8 => 
+            10 => 
             array (
                 'id' => 15,
                 'user_id' => 1,
@@ -181,7 +219,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 03:46:07',
                 'updated_at' => '2025-03-23 04:35:32',
             ),
-            9 => 
+            11 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -199,7 +237,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-08 02:26:26',
                 'updated_at' => '2025-03-23 04:38:20',
             ),
-            10 => 
+            12 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -217,7 +255,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-07 05:14:48',
                 'updated_at' => '2025-03-23 04:39:44',
             ),
-            11 => 
+            13 => 
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -235,7 +273,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:05:28',
                 'updated_at' => '2025-03-23 05:10:14',
             ),
-            12 => 
+            14 => 
             array (
                 'id' => 44,
                 'user_id' => 1,
@@ -253,7 +291,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-19 22:29:03',
                 'updated_at' => '2025-03-23 04:13:00',
             ),
-            13 => 
+            15 => 
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -271,7 +309,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:01:26',
                 'updated_at' => '2025-03-23 04:17:02',
             ),
-            14 => 
+            16 => 
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -289,7 +327,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 19:00:22',
                 'updated_at' => '2025-03-23 04:18:24',
             ),
-            15 => 
+            17 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -307,7 +345,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:58:46',
                 'updated_at' => '2025-03-23 04:19:44',
             ),
-            16 => 
+            18 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -325,7 +363,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 18:51:47',
                 'updated_at' => '2025-03-23 04:31:51',
             ),
-            17 => 
+            19 => 
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -343,7 +381,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-16 17:04:40',
                 'updated_at' => '2025-03-23 04:33:47',
             ),
-            18 => 
+            20 => 
             array (
                 'id' => 45,
                 'user_id' => 1,
@@ -361,7 +399,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-03-28 05:30:25',
                 'updated_at' => '2025-03-28 05:30:27',
             ),
-            19 => 
+            21 => 
             array (
                 'id' => 54,
                 'user_id' => 1,
@@ -380,7 +418,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 19:25:50',
                 'updated_at' => '2025-04-11 19:33:22',
             ),
-            20 => 
+            22 => 
             array (
                 'id' => 57,
                 'user_id' => 1,
@@ -398,7 +436,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:51:44',
                 'updated_at' => '2025-04-11 20:51:48',
             ),
-            21 => 
+            23 => 
             array (
                 'id' => 61,
                 'user_id' => 1,
@@ -416,7 +454,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:56:13',
                 'updated_at' => '2025-04-11 20:56:13',
             ),
-            22 => 
+            24 => 
             array (
                 'id' => 55,
                 'user_id' => 1,
@@ -434,7 +472,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 19:26:24',
                 'updated_at' => '2025-04-11 20:47:24',
             ),
-            23 => 
+            25 => 
             array (
                 'id' => 58,
                 'user_id' => 1,
@@ -452,7 +490,7 @@ class AppImagesTableSeeder extends Seeder
                 'created_at' => '2025-04-11 20:54:13',
                 'updated_at' => '2025-04-11 20:54:13',
             ),
-            24 => 
+            26 => 
             array (
                 'id' => 60,
                 'user_id' => 1,
@@ -469,42 +507,6 @@ class AppImagesTableSeeder extends Seeder
                 'is_public' => false,
                 'created_at' => '2025-04-11 20:55:55',
                 'updated_at' => '2025-04-11 20:57:07',
-            ),
-            25 => 
-            array (
-                'id' => 51,
-                'user_id' => 1,
-                'title' => 'Cover - In The Dusk',
-                'prompt' => 'A dirt road runs through a dense forest. In the upper left corner, taking up much of the space, stands an old cabin, partially hidden by trees and mist. Near it, roughly in the center of the image, is a worn but sturdy sedan parked beside the road. The sky is covered with a dusty grey tone. The overall color palette is reddish and earthy. The composition draws the viewer’s eye from the car in the foreground to the looming cabin in the background, evoking a sense of unease but also a faint hope. Cinematic, slightly grim, and atmospheric. Landscape format.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'landscape',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-UcFE0qLYFoIE7f76Gpp7CaAG.png',
-                'path_md' => 'images_md/img-UcFE0qLYFoIE7f76Gpp7CaAG.webp',
-                'path_sm' => 'images_sm/img-UcFE0qLYFoIE7f76Gpp7CaAG.webp',
-                'is_public' => false,
-                'created_at' => '2025-04-08 18:16:50',
-                'updated_at' => '2025-04-08 19:28:22',
-            ),
-            26 => 
-            array (
-                'id' => 52,
-                'user_id' => 1,
-                'title' => 'Screen - Prologue',
-                'prompt' => 'A dirt road runs through a dense forest. The sky is covered with a dusty grey tone, casting a muted light over the landscape. The overall color palette is reddish and earthy — faded rust, dried clay, and muted browns dominate the scene. The road winds into the distance, drawing the eye along its curve as it disappears into the trees, suggesting both journey and uncertainty. The foliage is overgrown and tangled, encroaching on the road like nature reclaiming what’s left behind. A few broken road signs and remnants of a forgotten world lie half-buried near the edges. The atmosphere is cinematic, slightly grim, and heavy with silence — the kind that feels loud. Dust floats in the air.',
-                'has_glitches' => false,
-                'attempts' => 1,
-                'aspect' => 'portrait',
-                'quality' => 'standard',
-                'style' => 'vivid',
-                'path' => 'images/img-u77KT9O9YppePJY5n7Q8hu0t.png',
-                'path_md' => 'images_md/img-u77KT9O9YppePJY5n7Q8hu0t.webp',
-                'path_sm' => 'images_sm/img-u77KT9O9YppePJY5n7Q8hu0t.webp',
-                'is_public' => false,
-                'created_at' => '2025-04-08 19:41:40',
-                'updated_at' => '2025-04-08 19:41:42',
             ),
             27 => 
             array (
