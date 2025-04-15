@@ -14,25 +14,17 @@
                         {{ $model->title }}
                     </flux:heading>
                     <flux:subheading class="h-[5rem] overflow-hidden">
-                        {{ $model->description }}
+                        {!! nl2br($model->description) !!}
                     </flux:subheading>
                 </div>
             </div>
         @endforeach
     </div>
-    <flux:modal name="details" x-on:cancel="$wire.application = null;">
+    <flux:modal name="details" class="!max-w-800" x-on:cancel="$wire.application = null;">
         <div class="space-y-6">
             @if($application)
             <img src="{{ Storage::url($application->imagePath) }}" alt="{{ $application->title }}" class="w-full object-cover">
             @endif
-            <div>
-                <flux:heading size="lg">
-                    {{ $application?->title }}
-                </flux:heading>
-                <flux:subheading>
-                    {{ $application?->description }}
-                </flux:subheading>
-            </div>
             <div class="flex gap-2">
                 <flux:spacer />
                 <flux:modal.close>
@@ -40,12 +32,17 @@
                         {{ __('Close') }}
                     </flux:button>
                 </flux:modal.close>
-                <flux:button class="cursor-pointer">
-                    {{ __('Subscribe') }}
-                </flux:button>
                 <flux:button class="cursor-pointer" wire:click="play">
                     {{ __('Play') }}
                 </flux:button>
+            </div>
+            <div>
+                <flux:heading size="lg">
+                    {{ $application?->title }}
+                </flux:heading>
+                <flux:subheading>
+                    {!! nl2br($application?->description) !!}
+                </flux:subheading>
             </div>
         </div>
     </flux:modal>

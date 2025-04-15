@@ -37,6 +37,7 @@
                 @php
                     $hasError = $errors->has('state.' . $field);
                     $collapsed = $this->config($field, 'collapsed', false);
+                    $hint = $this->config($field, 'hint');
                 @endphp
 
                 <div x-data="{ open: {{ $collapsed ? 'false' : 'true' }} }"
@@ -47,6 +48,12 @@
                          class="flex items-center justify-between px-3 py-2 cursor-pointer bg-zinc-50 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                         <h3 class="text-base font-bold {{ $hasError ? 'text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-100' }}">
                             {{ $title }}
+                            @if($hint)
+                                <flux:tooltip toggleable x-on:click.stop>
+                                    <flux:button icon="information-circle" size="xs" variant="ghost" class="cursor-pointer" />
+                                    <flux:tooltip.content class="max-w-[20rem] space-y-1 whitespace-pre-wrap">{!! nl2br(e($hint)) !!}</flux:tooltip.content>
+                                </flux:tooltip>
+                            @endif
                         </h3>
                         <span class="text-sm text-zinc-500 dark:text-zinc-400" x-text="open ? '▲' : '▼'"></span>
                     </div>

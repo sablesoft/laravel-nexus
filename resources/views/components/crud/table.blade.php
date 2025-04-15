@@ -17,7 +17,16 @@
             ID
         </th>
         @foreach($fields as $field => $title)
-            <th class="px-4 py-4 text-left font-bold uppercase tracking-wider">{{ $title }}</th>
+            @php  $hint = $this->config($field, 'hint'); @endphp
+            <th class="px-4 py-4 text-left font-bold uppercase tracking-wider">
+                {{ $title }}
+                @if($hint)
+                    <flux:tooltip toggleable x-on:click.stop>
+                        <flux:button icon="information-circle" size="xs" variant="ghost" class="cursor-pointer" />
+                        <flux:tooltip.content class="max-w-[20rem] space-y-1 whitespace-pre-wrap">{!! nl2br(e($hint)) !!}</flux:tooltip.content>
+                    </flux:tooltip>
+                @endif
+            </th>
         @endforeach
         <th class="px-4 py-4 w-20 text-left font-bold uppercase tracking-wider">{{ __('Actions') }}</th>
     </tr>
