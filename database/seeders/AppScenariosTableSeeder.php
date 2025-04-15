@@ -56,12 +56,12 @@ class AppScenariosTableSeeder extends Seeder
             array (
                 'id' => 12,
                 'user_id' => 1,
-                'title' => '{"en":"Control - Continue","ru":"Control - Continue"}',
+                'title' => '{"en":"Prologue - Continue","ru":"Prologue - Continue"}',
                 'description' => '{"en":null,"ru":null}',
-            'before' => '[{"set":{"meta":null,"author":null,"messages":[{"role":">>system","content":">>User plays a text-based survival game in a post-apocalyptic world. Always consider the following information when preparing your response: time of day: {{ chat.state(\'time\') }}; weather: {{ chat.state(\'weather\')}}; user\'\'s character: {{ member.asString }}"},{"role":">>system","content":">>The user\'s character speaks {{ member.language }} and identifies as {{ member.gender }}. Always respond in this language unless instructed otherwise and always use grammatical forms that match the character\'s gender. This includes correct verb conjugations, adjectives, and pronouns where applicable. Always adapt second-person and first-person grammar, vocabulary, and tone to match the gender and personality of the character. If the language has no gendered forms (like English), maintain consistency in character tone and avoid gender assumptions unless instructed."}]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}}]',
+            'before' => '[{"set":{"meta":null,"author":null,"messages":[{"role":">>system","content":">>User plays a text-based survival game in a post-apocalyptic world. Always consider (and explain as much as possible) the following information when preparing your response: time of day: {{ chat.state(\'time\') }}; weather: {{ chat.state(\'weather\')}}; user\'\'s character: {{ member.asString }}"},{"role":">>system","content":">>The user\'s character speaks {{ member.language }} and identifies as {{ member.gender }}. Always respond in this language unless instructed otherwise and always use grammatical forms that match the character\'s gender. This includes correct verb conjugations, adjectives, and pronouns where applicable. Always adapt second-person and first-person grammar, vocabulary, and tone to match the gender and personality of the character. If the language has no gendered forms (like English), maintain consistency in character tone and avoid gender assumptions unless instructed. Always narrate in second person (\'you\') as if speaking directly to the player-character."}]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}}]',
             'after' => '[{"chat.completion":{"model":">>gpt-4o","messages":"messages","content":[{"memory.create":{"author_id":"author","content":"content","meta":"meta"}},{"screen.state":{"values":{"waiting":false,"step":"screen.nextState(\'step\')","isDone":"screen.state(\'step\') == screen.state(\'steps\')"}}},{"chat.refresh":null}]}}]',
                 'created_at' => '2025-04-14 03:12:20',
-                'updated_at' => '2025-04-14 20:11:03',
+                'updated_at' => '2025-04-15 02:03:58',
             ),
         ));
         

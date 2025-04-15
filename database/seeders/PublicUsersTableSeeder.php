@@ -40,7 +40,7 @@ class PublicUsersTableSeeder extends Seeder
                 'password' => '$2y$12$gqzTj4axfOb/CiY4Ft5Ai.JC.P31L.einegDgA/DaKA.rTB.rCL.y',
                 'remember_token' => 'jWes7vm78i10mYUMyunjPs4iHXWm3ojdhUMjq1tZg3Kf6dn2atWt90K5uCWF',
                 'created_at' => '2025-03-04 21:17:48',
-                'updated_at' => '2025-04-14 21:55:06',
+                'updated_at' => '2025-04-15 00:39:07',
                 'language' => 'ru',
             ),
         ));
