@@ -93,6 +93,9 @@ class Play extends Component
     /** The user input entered through the active input field */
     public string $ask = '';
 
+    #[Locked]
+    public bool $writing = false;
+
     /** List of online members (calculated via PresenceTrait) */
     #[Locked]
     public Collection $onlineMembers;
@@ -152,6 +155,7 @@ class Play extends Component
     public function refresh(): void
     {
         $this->chat->load(['memories.author']);
+        $this->writing = false;
         $this->prepareMemories();
         $this->prepareControls();
     }
@@ -168,6 +172,7 @@ class Play extends Component
 
     protected function initScreen(Screen $screen, bool $withHistory = true): void
     {
+        $this->writing = false;
         if ($withHistory) {
             $this->screenState($screen->getKey())->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen?->getKey());
         }
@@ -385,6 +390,9 @@ class Play extends Component
 
     protected function after(Process $process): void
     {
+        if ($process->screenWriting) {
+            $this->writing = true;
+        }
         if ($process->screenTransfer) {
             $this->changeScreen(Screen::findOrFail($process->screenTransfer));
             return;

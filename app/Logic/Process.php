@@ -41,6 +41,7 @@ class Process
     public bool $skipQueue = false; // Whether to explicitly skip queueing
 
     public bool $screenBack = false;
+    public bool $screenWriting = false;
     public ?int $screenTransfer = null;
 
     /**

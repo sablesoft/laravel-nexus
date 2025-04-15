@@ -5,9 +5,9 @@ namespace App\Logic\Effect\Definitions;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Rules\VariableOrBoolRule;
 
-class ScreenBackDefinition implements EffectDefinitionContract
+class ScreenWritingDefinition implements EffectDefinitionContract
 {
-    public const KEY = 'screen.back';
+    public const KEY = 'screen.writing';
 
     /**
      * Returns the DSL key that identifies this effect.
@@ -23,14 +23,14 @@ class ScreenBackDefinition implements EffectDefinitionContract
     public static function describe(): array
     {
         return [
-            'title' => 'Screen Back',
-            'description' => 'Triggers a back transfer for current screen and member.',
+            'title' => 'Screen Writing',
+            'description' => 'Shows or hide a writing pulse box under the screen messages.',
             'fields' => [],
             'examples' => [
-                ['screen.back' => 'flag'],
-                ['screen.back' => "screen.state('something') == 3"],
-                ['screen.back' => true],
-                ['screen.back' => false],
+                ['screen.writing' => 'flag'],
+                ['screen.writing' => "screen.state('something') == 3"],
+                ['screen.writing' => true],
+                ['screen.writing' => false],
             ],
         ];
     }

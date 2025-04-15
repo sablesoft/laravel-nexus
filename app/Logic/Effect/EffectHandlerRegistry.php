@@ -16,6 +16,7 @@ use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\RunDefinition;
 use App\Logic\Effect\Definitions\ScreenBackDefinition;
 use App\Logic\Effect\Definitions\ScreenStateDefinition;
+use App\Logic\Effect\Definitions\ScreenWritingDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -32,6 +33,7 @@ use App\Logic\Effect\Handlers\ReturnHandler;
 use App\Logic\Effect\Handlers\RunHandler;
 use App\Logic\Effect\Handlers\ScreenBackHandler;
 use App\Logic\Effect\Handlers\ScreenStateHandler;
+use App\Logic\Effect\Handlers\ScreenWritingHandler;
 use App\Logic\Effect\Handlers\SetHandler;
 use App\Logic\Effect\Handlers\UnsetHandler;
 use App\Logic\Effect\Handlers\ValidateHandler;
@@ -95,6 +97,7 @@ class EffectHandlerRegistry
         EffectHandlerRegistry::register(ChatRefreshDefinition::KEY, ChatRefreshHandler::class);
         EffectHandlerRegistry::register(MemberStateDefinition::KEY, MemberStateHandler::class);
         EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);
+        EffectHandlerRegistry::register(ScreenWritingDefinition::KEY, ScreenWritingHandler::class);
         EffectHandlerRegistry::register(ChatCompletionDefinition::KEY, ChatCompletionHandler::class);
     }
 }
