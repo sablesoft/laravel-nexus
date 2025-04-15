@@ -9,6 +9,7 @@ use App\Logic\Facades\NodeRunner;
 use App\Logic\Process;
 use App\Models\Application;
 use App\Models\Chat;
+use App\Models\ChatScreenState;
 use App\Models\Control;
 use App\Models\Enums\ChatStatus;
 use App\Models\Enums\ControlType;
@@ -168,7 +169,7 @@ class Play extends Component
     protected function initScreen(Screen $screen, bool $withHistory = true): void
     {
         if ($withHistory) {
-            $screen->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen?->getKey());
+            $this->screenState($screen->getKey())->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen?->getKey());
         }
         $this->screen = $screen;
         $this->rawTransfers = $screen->transfers->map(fn (Transfer $transfer) => [
@@ -389,9 +390,9 @@ class Play extends Component
             return;
         }
         if ($process->screenBack) {
-            $id = $this->screen->getSystem(static::SCREEN_STATE_PREVIOUS);
+            $id = $this->screenState()->getSystem(static::SCREEN_STATE_PREVIOUS);
             if ($id) {
-                $this->screen->setSystem(static::SCREEN_STATE_PREVIOUS, null);
+                $this->screenState()->setSystem(static::SCREEN_STATE_PREVIOUS, null);
                 $this->changeScreen(Screen::findOrFail($id), false);
                 return;
             }
@@ -406,5 +407,11 @@ class Play extends Component
             'screen' => $this->screen,
             'member' => $this->member,
         ], $data));
+    }
+
+    protected function screenState(int $screenId = null): ChatScreenState
+    {
+        $screenId = $screenId ?: $this->screen->getKey();
+        return $this->chat->screenStates->where('screen_id', $screenId)->firstOrFail();
     }
 }

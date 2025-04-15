@@ -141,6 +141,7 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
             ],
             'application_id' =>
                 $this->belongsToField(__('Application'), 'application', ['create', 'edit'], 'required|int'),
+            'applicationLink' => $this->linkField(__('Application'), ['index', 'view']),
             'is_start' => [
                 'title' => __('Is Start'),
                 'action' => ['index', 'edit', 'view'],
@@ -199,17 +200,6 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
-            'applicationLink' => $this->linkField(__('Application'), ['index', 'view']),
-            'transfersToList' => $this->linkListField(__('Transfers To'), ['index']),
-            'transfersFromList' => $this->linkListField(__('Transfers From'), ['index', 'view']),
-            'transfersCrud' => [
-                'title' => __('Transfers To'),
-                'action' => ['view'],
-                'type' => 'component',
-                'component' => 'workshop.screen.transfers',
-                'showEmpty' => true,
-                'collapsed' => true,
-            ],
             'controlsCrud' => [
                 'title' => __('Controls'),
                 'action' => ['view'],
@@ -225,6 +215,16 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
+            'transfersToList' => $this->linkListField(__('Transfers To'), ['index']),
+            'transfersCrud' => [
+                'title' => __('Transfers To'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.screen.transfers',
+                'showEmpty' => true,
+                'collapsed' => true,
+            ],
+            'transfersFromList' => $this->linkListField(__('Transfers From'), ['index', 'view']),
         ];
     }
 

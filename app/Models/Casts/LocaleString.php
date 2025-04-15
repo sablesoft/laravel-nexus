@@ -20,6 +20,9 @@ class LocaleString implements CastsAttributes
         $locale = app()->getLocale();
         $data = json_decode($attributes[$key] ?? '{}', true);
         $data[$locale] = $value;
+        if (empty($data[Language::defaultCode()])) {
+            $data[Language::defaultCode()] = $value;
+        }
 
         return [$key => json_encode($data, JSON_UNESCAPED_UNICODE)];
     }
