@@ -277,14 +277,16 @@ class Play extends Component
         $transfer = $this->getTransfer($transferId);
         $process = $this->getProcess();
         $process->screenTransfer = $transfer->screen_to_id;
-        $process = NodeRunner::run($transfer, $process);
+
+        $this->before($process);
+        NodeRunner::run($transfer, $process);
         $this->after($process);
     }
 
     public function changeScreen(Screen $screen, bool $withHistory = true): void
     {
-        if ($this->screen->after) {
-            EffectRunner::run($this->screen->after, $this->getProcess());
+        if ($this->screen->init) {
+            EffectRunner::run($this->screen->init, $this->getProcess());
         }
         $this->member->update(['screen_id' => $screen->getKey()]);
         $fromChannel = $this->screenChannel();
@@ -310,10 +312,13 @@ class Play extends Component
     public function input(): void
     {
         $control = $this->getControl($this->activeInput['id']);
-        $process = NodeRunner::run($control, $this->getProcess([
+        $process = $this->getProcess([
             'ask' => $this->ask
-        ]));
+        ]);
         $this->ask = '';
+
+        $this->before($process);
+        NodeRunner::run($control, $process);
         $this->after($process);
     }
 
@@ -327,8 +332,9 @@ class Play extends Component
     {
         $control = $this->getControl($controlId);
         $process = $this->getProcess();
-//        $process->skipQueue = true;
-        $process = NodeRunner::run($control, $process);
+
+        $this->before($process);
+        NodeRunner::run($control, $process);
         $this->after($process);
     }
 
@@ -388,8 +394,19 @@ class Play extends Component
         return $this->screen->controls->findOrFail($id);
     }
 
+    protected function before(Process $process): Process
+    {
+        EffectRunner::run($this->application->getBefore(), $process);
+        EffectRunner::run($this->screen->getBefore(), $process);
+
+        return $process;
+    }
+
     protected function after(Process $process): void
     {
+        EffectRunner::run($this->screen->getAfter(), $process);
+        EffectRunner::run($this->application->getAfter(), $process);
+
         if ($process->screenWriting) {
             $this->writing = true;
         }

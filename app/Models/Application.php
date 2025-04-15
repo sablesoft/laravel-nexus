@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Logic\Contracts\HasEffectsContract;
 use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
@@ -50,7 +51,7 @@ use JsonException;
  * @property-read Collection<int, ChatRole> $chatRoles - All chat-roles that belong to this application
  * @property-read null|Screen $startScreen             - Default starting screen of the application
  */
-class Application extends Model implements HasOwnerInterface, Stateful
+class Application extends Model implements HasOwnerInterface, HasEffectsContract, Stateful
 {
     /** @use HasFactory<ApplicationFactory> */
     use HasOwner, HasStates, HasFactory, HasImage, HasEffects, HasInit;

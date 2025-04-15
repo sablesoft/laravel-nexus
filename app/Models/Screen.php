@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
+use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Dsl\Adapters\ScreenDslAdapter;
 use App\Logic\Process;
 use App\Logic\Validators\QueryExpressionValidator;
@@ -59,7 +60,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Transfer> $transfersFrom - Incoming screen transitions (screen_to_id)
  * @property-read Collection<int, Control> $controls       - Controls placed on this screen
  */
-class Screen extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
+class Screen extends Model implements HasOwnerInterface, HasEffectsContract, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ScreenFactory> */
     use HasOwner, HasFactory, HasImage, HasEffects, HasInit, HasStates, UI;
