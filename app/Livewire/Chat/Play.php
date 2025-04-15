@@ -195,9 +195,13 @@ class Play extends Component
             'enabled_condition' => $control->enabled_condition,
         ])->toArray();
 
-        if ($screen->before) {
-            EffectRunner::run($screen->before, $this->getProcess());
+        if ($screen->init) {
+            $process = $this->getProcess();
+            $this->before($process);
+            EffectRunner::run($screen->init, $process);
+            $this->after($process);
         }
+
         $this->prepareControls();
         $this->prepareMemories();
     }
@@ -285,9 +289,6 @@ class Play extends Component
 
     public function changeScreen(Screen $screen, bool $withHistory = true): void
     {
-        if ($this->screen->init) {
-            EffectRunner::run($this->screen->init, $this->getProcess());
-        }
         $this->member->update(['screen_id' => $screen->getKey()]);
         $fromChannel = $this->screenChannel();
         $this->initScreen($screen, $withHistory);
@@ -396,16 +397,24 @@ class Play extends Component
 
     protected function before(Process $process): Process
     {
-        EffectRunner::run($this->application->getBefore(), $process);
-        EffectRunner::run($this->screen->getBefore(), $process);
+        if ($appBefore = $this->application->getBefore()) {
+            EffectRunner::run($appBefore, $process);
+        }
+        if ($screenBefore = $this->screen->getBefore()) {
+            EffectRunner::run($screenBefore, $process);
+        }
 
         return $process;
     }
 
     protected function after(Process $process): void
     {
-        EffectRunner::run($this->screen->getAfter(), $process);
-        EffectRunner::run($this->application->getAfter(), $process);
+        if ($screenAfter = $this->screen->getAfter()) {
+            EffectRunner::run($screenAfter, $process);
+        }
+        if ($appAfter = $this->application->getAfter()) {
+            EffectRunner::run($appAfter, $process);
+        }
 
         if ($process->screenWriting) {
             $this->writing = true;

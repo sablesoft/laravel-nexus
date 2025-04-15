@@ -55,7 +55,7 @@ class Transfers extends Component
 
     protected function codeMirrorFields(): array
     {
-        return ['beforeString', 'afterString'];
+        return ['beforeString'];
     }
 
     public function orderByFields(): array
@@ -75,7 +75,6 @@ class Transfers extends Component
             'tooltip' => null,
             'description' => null,
             'beforeString' => null,
-            'afterString' => null,
             'screenTitle' => $screen->title,
             'imageUrlSm' => $screen->imageUrlSm,
         ];
@@ -139,7 +138,6 @@ class Transfers extends Component
             'tooltip' => $transfer->tooltip,
             'description' => $transfer->description,
             'beforeString' => $transfer->beforeString,
-            'afterString' => $transfer->afterString,
             'enabled_condition' => $transfer->enabled_condition,
             'visible_condition' => $transfer->visible_condition,
             'screenTitle' => $transfer->screenTo->title,
@@ -172,7 +170,6 @@ class Transfers extends Component
             'tooltip'           => ['nullable', 'string'],
             'description'       => ['nullable', 'string'],
             'beforeString'      => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
-            'afterString'       => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'enabled_condition' => ['nullable', 'string', new DslRule(QueryExpressionValidator::class, 'raw')],
             'visible_condition' => ['nullable', 'string', new DslRule(QueryExpressionValidator::class, 'raw')],
         ];

@@ -77,13 +77,6 @@
                                wire:model.defer="state.beforeString" class="w-full" />
                 <flux:error name="state.beforeString"/>
             </flux:field>
-            <flux:field class="mb-3">
-                <flux:label>{{ __('Effects After') }} ({{ config('dsl.editor', 'yaml') }})</flux:label>
-                <x-code-mirror wire:key="{{ $codeMirrorPrefix }}.afterString"
-                               :lang="config('dsl.editor', 'yaml')"
-                               wire:model.defer="state.afterString" class="w-full" />
-                <flux:error name="state.afterString"/>
-            </flux:field>
             <div class="flex gap-2">
                 <flux:spacer />
                 <flux:modal.close>
@@ -155,7 +148,7 @@
                         <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($transfer['enabled_condition']) !!}</pre>
                     </div>
                     @endif
-                    <x-effects-view :before-string="$transfer['beforeString']" :after-string="$transfer['afterString']"/>
+                    <x-effects-view :before-string="$transfer['beforeString']"/>
                 </div>
             </div>
         @endforeach
