@@ -61,7 +61,7 @@
             <p>{{ __('Status') }}: {{ ucfirst($chat->status->value) }}</p>
         </div>
 
-        @livewire('members', ['chat' => $chat])
+        @livewire('characters', ['chat' => $chat])
 
     </div>
     <div class="py-3 flex justify-end space-x-2">

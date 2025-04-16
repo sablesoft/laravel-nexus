@@ -23,7 +23,7 @@ return new class extends Migration
             $table->json('description')->nullable();
 
             $table->unsignedSmallInteger('number')->nullable(false);
-            $table->unsignedSmallInteger('roles_per_member')->nullable(false)->default(1);
+            $table->unsignedSmallInteger('roles_per_character')->nullable(false)->default(1);
             $table->boolean('is_required')->nullable(false)->default(true);
             $table->string('allowed')->nullable();
 

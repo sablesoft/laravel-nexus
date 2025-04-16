@@ -38,9 +38,9 @@ class QueryExpressionCommand extends Command
 
         $results = $query->limit($limit)->get();
         $this->table(
-            ['id', 'chat_id', 'member_id', 'type', 'title', 'content'],
+            ['id', 'chat_id', 'character_id', 'type', 'title', 'content'],
             $results->map(fn ($m) => [
-                $m->id, $m->chat_id, $m->member_id, $m->type, $m->title, str($m->content)->limit(40),
+                $m->id, $m->chat_id, $m->character_id, $m->type, $m->title, str($m->content)->limit(40),
             ])
         );
 

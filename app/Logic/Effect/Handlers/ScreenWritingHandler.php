@@ -8,7 +8,7 @@ use App\Logic\Process;
 
 /**
  * TODO - add parameter useJob and realize job for async scenarios
- * TODO - realize screen.writing for selected members or screens
+ * TODO - realize screen.writing for selected characters or screens
  */
 class ScreenWritingHandler implements EffectHandlerContract
 {

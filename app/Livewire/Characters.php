@@ -6,14 +6,14 @@ use App\Models\Chat;
 use App\Models\ChatRole;
 use App\Models\Enums\ChatStatus;
 use App\Models\Mask;
-use App\Models\Member;
+use App\Models\Character;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Members extends Component
+class Characters extends Component
 {
     #[Locked]
     public ?Chat $chat = null;
@@ -21,10 +21,11 @@ class Members extends Component
     public ?Application $application = null;
     #[Locked]
     public ?Mask $mask = null;
+    /** @var Collection<int, Character> $characters **/
     #[Locked]
-    public Collection $members;
+    public Collection $characters;
     #[Locked]
-    public ?int $memberId = null;
+    public ?int $characterId = null;
     public array $state = [
         'roles' => []
     ];
@@ -36,14 +37,14 @@ class Members extends Component
         $this->chat = $chat?->exists ? $chat : null;
         $source = $this->chat ?: $this->application;
         if (!$source) {
-            throw new \DomainException('Members component required chat or application');
+            throw new \DomainException('Characters component required chat or application');
         }
         $this->prepare();
     }
 
     public function render(): mixed
     {
-        return view('livewire.members');
+        return view('livewire.characters');
     }
 
     #[On('refresh.chat')]
@@ -53,11 +54,11 @@ class Members extends Component
             $this->selectRoles = ChatRole::where('application_id', $this->application->id)
                 ->select(['id', 'name'])->get()->toArray();
         }
-        $members = $this->source()->members;
+        $characters = $this->source()->characters;
         if ($this->isStarted()) {
-            $members = $members->where('is_confirmed', true)->whereNotNull('user_id');
+            $characters = $characters->where('is_confirmed', true)->whereNotNull('user_id');
         }
-        $this->members = $members->keyBy('id');
+        $this->characters = $characters->keyBy('id');
     }
 
     public function isOwner(): bool
@@ -72,40 +73,40 @@ class Members extends Component
 
     public function leave(int $id): void
     {
-        $member = $this->findMember($id);
-        if (!$member || $member->user_id !== auth()->id()) {
+        $character = $this->findCharacter($id);
+        if (!$character || $character->user_id !== auth()->id()) {
             return;
         }
-        if (!$member->is_confirmed) {
-            $member->delete();
+        if (!$character->is_confirmed) {
+            $character->delete();
         } else {
-            $member->update(['user_id' => null]);
+            $character->update(['user_id' => null]);
         }
-        $messages = $member->user_id !== $this->chat->user_id ? [
+        $messages = $character->user_id !== $this->chat->user_id ? [
             'owner' => __('User leaved your chat') . ': ' . $this->chat->title
         ] : [];
-        $this->updateMember($member, $messages);
+        $this->updateCharacter($character, $messages);
         $this->dispatch('flash', message: __('You leaved this chat'));
     }
 
     public function confirm(int $id): void
     {
-        $member = $this->findMember($id);
-        if (!$member || !$this->isOwner() || $member->is_confirmed) {
+        $character = $this->findCharacter($id);
+        if (!$character || !$this->isOwner() || $character->is_confirmed) {
             return;
         }
-        $member->update(['is_confirmed' => true]);
-        $messages = $member->user_id ? [
-            $member->user_id => __('Your seat was confirmed in the chat') . ': ' . $this->chat->title
+        $character->update(['is_confirmed' => true]);
+        $messages = $character->user_id ? [
+            $character->user_id => __('Your seat was confirmed in the chat') . ': ' . $this->chat->title
         ] : [];
-        $this->updateMember($member, $messages);
-        $this->dispatch('flash', message: __('Member confirmed'));
+        $this->updateCharacter($character, $messages);
+        $this->dispatch('flash', message: __('Character confirmed'));
     }
 
-    public function canAddMember(): bool
+    public function canAddCharacter(): bool
     {
         if (!$this->isOwner() &&
-            $this->members->where('user_id', auth()->id())->count()) {
+            $this->characters->where('user_id', auth()->id())->count()) {
             return false;
         }
 
@@ -113,26 +114,26 @@ class Members extends Component
             return true;
         }
 
-        return ($this->chat->seats - $this->members->count()) > 0;
+        return ($this->chat->seats - $this->characters->count()) > 0;
     }
 
-    public function member(): void
+    public function character(): void
     {
-        if (!$this->canAddMember()) {
+        if (!$this->canAddCharacter()) {
             return;
         }
         $this->dispatch('maskSelector');
     }
 
     #[On('maskSelected')]
-    public function addMember(int $maskId): void
+    public function addCharacter(int $maskId): void
     {
-        if (!$this->canAddMember()) {
+        if (!$this->canAddCharacter()) {
             return;
         }
         $mask = Mask::findOrFail($maskId);
         $userId = $this->isOwner() ? null : auth()->id();
-        $member = Member::create([
+        $character = Character::create([
             'chat_id' => $this->chat?->id,
             'application_id' => $this->application?->id,
             'user_id' => $userId,
@@ -140,62 +141,62 @@ class Members extends Component
             'gender' => $mask->gender,
             'is_confirmed' => $this->isOwner()
         ]);
-        // reload members
+        // reload characters
         $messages = $userId ? [
-            'owner' => __('Member added to your chat') .': '. $this->chat->title
+            'owner' => __('Character added to your chat') .': '. $this->chat->title
         ] : [];
-        $this->updateMember($member, $messages);
-        $this->dispatch('flash', message: __('Member added to chat'));
+        $this->updateCharacter($character, $messages);
+        $this->dispatch('flash', message: __('Character added to chat'));
     }
 
-    public function deleteMember(int $id): void
+    public function deleteCharacter(int $id): void
     {
-        $member = $this->findMember($id);
-        if (!$member || !$this->isOwner()) {
+        $character = $this->findCharacter($id);
+        if (!$character || !$this->isOwner()) {
             return;
         }
-        $userId = $member->user_id;
+        $userId = $character->user_id;
         $messages = $userId && $userId !== auth()->id() ? [
             $userId => __('Your seat was deleted from chat') .': '. $this->chat->title
         ] : [];
-        $member->delete();
-        $this->updateMember($member, $messages);
-        $this->dispatch('maskRemoved', maskId: $member->mask_id);
-        $this->dispatch('flash', message: __('Member deleted from chat'));
+        $character->delete();
+        $this->updateCharacter($character, $messages);
+        $this->dispatch('maskRemoved', maskId: $character->mask_id);
+        $this->dispatch('flash', message: __('Character deleted from chat'));
     }
 
     public function isJoined(): bool
     {
-        return !!$this->source()->members->where('user_id', auth()->id())->count();
+        return !!$this->source()->characters->where('user_id', auth()->id())->count();
     }
 
     public function join(int $id): void
     {
-        $member = $this->findMember($id);
-        if (!$member || $member->user_id) {
+        $character = $this->findCharacter($id);
+        if (!$character || $character->user_id) {
             return;
         }
-        $member->update(['user_id' => auth()->id()]);
-        $messages = $member->user_id !== $this->chat->user_id ? [
+        $character->update(['user_id' => auth()->id()]);
+        $messages = $character->user_id !== $this->chat->user_id ? [
             'owner' => __('User joined your chat') . ': ' . $this->chat->title
         ] : [];
-        $this->updateMember($member, $messages);
+        $this->updateCharacter($character, $messages);
         $this->dispatch('flash', message: __('You joined this chat'));
     }
 
-    public function manageRoles(int $memberId): void
+    public function manageRoles(int $characterId): void
     {
-        $this->memberId = $memberId;
-        $member = Member::findOrFail($memberId);
-        $this->state['roles'] = $member->roles->pluck('id')->toArray();
+        $this->characterId = $characterId;
+        $character = Character::findOrFail($characterId);
+        $this->state['roles'] = $character->roles->pluck('id')->toArray();
         $this->dispatch('searchable-multi-select-roles', searchableId: 'roles', options: $this->selectRoles);
         Flux::modal('form-chat-roles')->show();
     }
 
     public function submitRoles(): void
     {
-        $member = Member::findOrFail($this->memberId);
-        $member->roles()->sync($this->state['roles']);
+        $character = Character::findOrFail($this->characterId);
+        $character->roles()->sync($this->state['roles']);
         Flux::modal('form-chat-roles')->close();
     }
 
@@ -207,12 +208,12 @@ class Members extends Component
 
     public function maskIds(): array
     {
-        return $this->source()->members->pluck('mask_id')->toArray();
+        return $this->source()->characters->pluck('mask_id')->toArray();
     }
 
-    protected function findMember(int $id): ?Member
+    protected function findCharacter(int $id): ?Character
     {
-        return $this->chat->members->where('id', $id)->first();
+        return $this->chat->characters->where('id', $id)->first();
     }
 
     protected function source(): Chat|Application
@@ -220,16 +221,16 @@ class Members extends Component
         return $this->chat ?: $this->application;
     }
 
-    protected function updateMember(Member $member, array $messages = []): void
+    protected function updateCharacter(Character $character, array $messages = []): void
     {
-        if (!$member->exists) {
-            $this->members->forget($member->id);
-        } elseif (! $this->members->has($member->id)) {
-            $this->members->put($member->id, $member);
+        if (!$character->exists) {
+            $this->characters->forget($character->id);
+        } elseif (! $this->characters->has($character->id)) {
+            $this->characters->put($character->id, $character);
         } else {
-            $this->members->put($member->id, $member);
+            $this->characters->put($character->id, $character);
         }
 
-        $this->dispatch('updateMembers', messages: $messages);
+        $this->dispatch('updateCharacters', messages: $messages);
     }
 }

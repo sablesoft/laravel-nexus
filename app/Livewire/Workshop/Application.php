@@ -69,7 +69,7 @@ class Application extends AbstractCrud implements ShouldHasMany
             ];
         }
 
-        if ($action === 'view' && $field === 'membersCrud') {
+        if ($action === 'view' && $field === 'charactersCrud') {
             return [
                 'application' => $this->getResource()
             ];
@@ -154,8 +154,8 @@ class Application extends AbstractCrud implements ShouldHasMany
             ],
             'screenLink' => $this->linkField(__('Start Screen'), ['index', 'view']),
             'screensList' => $this->linkListField(__('Screens'), ['index', 'view']),
-            'memberStatesString' => [
-                'title' => __('Member States'),
+            'characterStatesString' => [
+                'title' => __('Character States'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
@@ -177,11 +177,11 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'collapsed' => true
             ],
         ], $this->action === 'view' && $this->getResource()->startScreen ? [
-            'membersCrud' => [
-                'title' => __('Members'),
+            'charactersCrud' => [
+                'title' => __('Characters'),
                 'action' => ['view'],
                 'type' => 'component',
-                'component' => 'members',
+                'component' => 'characters',
                 'showEmpty' => true,
                 'collapsed' => true
             ],

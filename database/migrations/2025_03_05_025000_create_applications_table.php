@@ -25,8 +25,8 @@ return new class extends Migration
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_applications_states_index', 'gin');
 
-            $table->jsonb('member_states')->nullable();
-            $table->index('member_states', 'app_applications_member_states_index', 'gin');
+            $table->jsonb('character_states')->nullable();
+            $table->index('character_states', 'app_applications_character_states_index', 'gin');
 
             $table->jsonb('behaviors')->nullable();
             $table->index('behaviors', 'app_applications_behaviors_index', 'gin');

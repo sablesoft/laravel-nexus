@@ -6,7 +6,7 @@ use App\Livewire\PresenceTrait;
 use App\Models\Chat;
 use App\Models\Enums\ChatStatus;
 use App\Models\Mask;
-use App\Models\Member;
+use App\Models\Character;
 use App\Models\User;
 use App\Notifications\ChatUpdated;
 use Flux\Flux;
@@ -33,7 +33,7 @@ class View extends Component
 
     public function mount(int $id): void
     {
-        $this->chat = Chat::with(['user', 'application', 'members.mask', 'members.user'])->findOrFail($id);
+        $this->chat = Chat::with(['user', 'application', 'characters.mask', 'characters.user'])->findOrFail($id);
     }
 
     public function render(): mixed
@@ -99,7 +99,7 @@ class View extends Component
     {
         return $this->isOwner() &&
             $this->chat->status === ChatStatus::Published &&
-            !!$this->chat->members->whereNotNull('user_id')
+            !!$this->chat->characters->whereNotNull('user_id')
                 ->where('is_confirmed', true)->count();
     }
 
@@ -120,18 +120,18 @@ class View extends Component
         }
 
         $this->chat->update(['status' => ChatStatus::Started]);
-        foreach ($this->chat->members()->whereNull('user_id')->orWhere('is_confirmed', false)->get() as $member) {
-            $member->delete();
+        foreach ($this->chat->characters()->whereNull('user_id')->orWhere('is_confirmed', false)->get() as $character) {
+            $character->delete();
         }
         $this->dispatch('flash', message: __('Your chat was started!'));
-        $this->updateMembers(['others' => __('Chat is ready to play') . ': ' . $this->chat->title]);
+        $this->updateCharacters(['others' => __('Chat is ready to play') . ': ' . $this->chat->title]);
     }
 
     // play flow
 
     public function isJoined(): bool
     {
-        return !!$this->chat->members->where('user_id', auth()->id())->count();
+        return !!$this->chat->characters->where('user_id', auth()->id())->count();
     }
 
     public function canPlay(): bool
@@ -150,19 +150,19 @@ class View extends Component
         return $this->chat->user_id === auth()->id();
     }
 
-    #[On('updateMembers')]
-    public function updateMembers(array $messages): void
+    #[On('updateCharacters')]
+    public function updateCharacters(array $messages): void
     {
-        $this->chat->refresh()->load(['user', 'application', 'members.mask', 'members.user']);
+        $this->chat->refresh()->load(['user', 'application', 'characters.mask', 'characters.user']);
         $link = route('chats.view', ['id' => $this->chat->id]);
         $handledIds = [];
         // handle seats users:
-        foreach ($this->chat->takenSeats as $member) {
+        foreach ($this->chat->takenSeats as $character) {
             $flash = $messages['others'] ?? null;
-            $flash = $messages[$member->user_id] ?? $flash;
-            if ($flash && $member->user_id !== auth()->id()) {
-                $member->user->notifyNow(new ChatUpdated($flash, $link));
-                $handledIds[] = $member->user_id;
+            $flash = $messages[$character->user_id] ?? $flash;
+            if ($flash && $character->user_id !== auth()->id()) {
+                $character->user->notifyNow(new ChatUpdated($flash, $link));
+                $handledIds[] = $character->user_id;
             }
         }
         // handle chat owner:

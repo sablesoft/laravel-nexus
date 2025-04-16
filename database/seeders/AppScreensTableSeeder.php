@@ -14,12 +14,12 @@ class AppScreensTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.screens')->delete();
-        
+
         \DB::table('app.screens')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -40,7 +40,7 @@ class AppScreensTableSeeder extends Seeder
                 'created_at' => '2025-04-14 20:55:10',
                 'updated_at' => '2025-04-15 16:31:22',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -61,7 +61,7 @@ class AppScreensTableSeeder extends Seeder
                 'created_at' => '2025-04-08 19:54:06',
                 'updated_at' => '2025-04-16 00:52:53',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -76,14 +76,14 @@ class AppScreensTableSeeder extends Seeder
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
                 'states' => '{"has": {"step": {"type": "int", "value": 0}, "steps": {"type": "int", "value": 3, "constant": true}, "isDone": {"type": "bool", "value": false}, "waiting": {"type": "bool", "value": false}}}',
-            'init' => '[{"if":{"condition":"screen.state(\'step\') == 0","then":[{"comment":">>Greeting"},{"set":{"messages":"member_info"}},{"merge":{"messages":[{"role":">>system","content":">>Greet the player in the voice of an AI narrator for an interactive post-apocalyptic story. Set a somber, reflective tone suitable for a post-apocalyptic world of Doomsday Virus ({{ doomsday_virus}}). Welcome them quietly, as if the story is waiting to begin. Use 3\\u20134 sentences. Focus on mood and restraint."}]}},{"chat.completion":{"model":">>gpt-4o","messages":"messages","content":[{"memory.create":{"content":"content"}}]}},{"screen.state":{"values":{"step":"screen.nextState(\'step\')"}}}]}}]',
+            'init' => '[{"if":{"condition":"screen.state(\'step\') == 0","then":[{"comment":">>Greeting"},{"set":{"messages":"character_info"}},{"merge":{"messages":[{"role":">>system","content":">>Greet the player in the voice of an AI narrator for an interactive post-apocalyptic story. Set a somber, reflective tone suitable for a post-apocalyptic world of Doomsday Virus ({{ doomsday_virus}}). Welcome them quietly, as if the story is waiting to begin. Use 3\\u20134 sentences. Focus on mood and restraint."}]}},{"chat.completion":{"model":">>gpt-4o","messages":"messages","content":[{"memory.create":{"content":"content"}}]}},{"screen.state":{"values":{"step":"screen.nextState(\'step\')"}}}]}}]',
                 'before' => NULL,
                 'after' => NULL,
                 'created_at' => '2025-04-08 19:43:19',
                 'updated_at' => '2025-04-16 03:05:43',
             ),
         ));
-        
-        
+
+
     }
 }

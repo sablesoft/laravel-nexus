@@ -6,7 +6,7 @@ use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Rules\VariableOrArrayRule;
 use App\Logic\Rules\VariableOrIntRule;
 use App\Models\Image;
-use App\Models\Member;
+use App\Models\Character;
 use Illuminate\Validation\Rules\Exists;
 
 /**
@@ -29,7 +29,7 @@ use Illuminate\Validation\Rules\Exists;
  *   - memory.create:
  *       type: '>>message'
  *       content: 'ask'
- *       member_id: member.id
+ *       author_id: character.id()
  *   ```
  *
  * - Using a variable to hold the memory payload:
@@ -88,9 +88,9 @@ class MemoryCreateDefinition implements EffectDefinitionContract
                     'type' => 'expression',
                     'description' => 'Optional author_id of memory (defaults to null)',
                 ],
-                'member_id' => [
+                'character_id' => [
                     'type' => 'expression',
-                    'description' => 'Optional member_id of memory (defaults to null)',
+                    'description' => 'Optional character_id of memory (defaults to null)',
                 ],
                 'image_id' => [
                     'type' => 'expression',
@@ -102,7 +102,7 @@ class MemoryCreateDefinition implements EffectDefinitionContract
                     'memory.create' => [
                         'type' => '>>message',
                         'content' => 'ask',
-                        'member_id' => 'member.id'
+                        'character_id' => 'character.id'
                     ],
                 ],
                 [
@@ -126,11 +126,11 @@ class MemoryCreateDefinition implements EffectDefinitionContract
             'meta' => ['sometimes', 'nullable', new VariableOrArrayRule([])],
             'author_id' => [
                 'sometimes', 'nullable',
-                new VariableOrIntRule(['value' => new Exists(Member::class, 'id')])
+                new VariableOrIntRule(['value' => new Exists(Character::class, 'id')])
             ],
-            'member_id' => [
+            'character_id' => [
                 'sometimes', 'nullable',
-                new VariableOrIntRule(['value' => new Exists(Member::class, 'id')])
+                new VariableOrIntRule(['value' => new Exists(Character::class, 'id')])
             ],
             'image_id' => [
                 'sometimes', 'nullable',

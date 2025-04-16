@@ -2,14 +2,14 @@
 
 namespace App\Models\Services;
 
-use App\Models\Member;
+use App\Models\Character;
 use InvalidArgumentException;
 
 class BehaviorsCompiler
 {
-    public function compile(Member $member): array
+    public function compile(Character $character): array
     {
-        $chat = $member->chat;
+        $chat = $character->chat;
         $compiled = [];
 
         $base = $chat->behaviors['can'] ?? [];
@@ -18,7 +18,7 @@ class BehaviorsCompiler
         }
 
         $roleBehaviors = [];
-        foreach ($member->roles as $role) {
+        foreach ($character->roles as $role) {
             foreach ($role->behaviors['can'] ?? [] as $verb => $config) {
                 $roleBehaviors[$verb][] = $config;
             }
@@ -40,10 +40,10 @@ class BehaviorsCompiler
         return ['can' => $compiled];
     }
 
-    public function save(Member $member): void
+    public function save(Character $character): void
     {
-        $member->behaviors = $this->compile($member);
-        $member->save();
+        $character->behaviors = $this->compile($character);
+        $character->save();
     }
 
     protected function mergeRoleVariants(array $configs, string $verb): array

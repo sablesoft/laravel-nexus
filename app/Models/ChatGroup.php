@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|string $name
  * @property null|string $description
  * @property null|int $number
- * @property null|int $roles_per_member
+ * @property null|int $roles_per_character
  * @property null|bool $is_required
  * @property null|string $allowed
  * @property null|Carbon $created_at
@@ -30,7 +30,7 @@ class ChatGroup extends Model
 {
     protected $fillable = [
         'application_id', 'chat_id', 'name', 'description',
-        'number', 'roles_per_member', 'is_required', 'allowed'
+        'number', 'roles_per_character', 'is_required', 'allowed'
     ];
 
     protected $casts = [

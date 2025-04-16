@@ -3,13 +3,13 @@
 namespace App\Logic\Dsl\Adapters;
 
 use App\Models\ChatRole;
-use App\Models\Member;
+use App\Models\Character;
 
 /**
- * @property Member $model
+ * @property Character $model
  * @property-read string $asString
  */
-class MemberDslAdapter extends ModelDslAdapter
+class CharacterDslAdapter extends ModelDslAdapter
 {
     public function getAsStringAttribute(): string
     {

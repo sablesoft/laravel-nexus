@@ -14,12 +14,12 @@ class AppApplicationsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.applications')->delete();
-        
+
         \DB::table('app.applications')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -29,16 +29,16 @@ class AppApplicationsTableSeeder extends Seeder
                 'is_public' => true,
                 'seats' => 1,
                 'states' => '{"has": {"time": {"type": "enum", "value": "dawn", "options": ["dawn", "morning", "late_morning", "noon", "afternoon", "sunset", "evening", "night", "midnight", "late_night", "pre_dawn"]}, "weather": {"type": "enum", "value": "clear", "options": ["clear", "warm_breeze", "hazy", "cloudy", "overcast", "light_rain", "heavy_rain", "storm", "fog", "humid", "cold_drizzle", "frost", "snow", "blizzard"]}}}',
-                'member_states' => NULL,
+                'character_states' => NULL,
                 'behaviors' => NULL,
             'init' => '[{"comment":">>Prepare weather and time"},{"chat.state":{"weather":"chat.randomState(\'weather\')","time":"chat.randomState(\'time\')"}}]',
-            'before' => '[{"set":{"doomsday_virus":">>Doomsday Virus \\u2014 a fast-spreading anomaly that wiped out most of humanity within weeks. Scientists never found a cure, or even an explanation. It affects only humans; animals and plants were untouched. That alone gave rise to hundreds of theories: from divine reset to elite-engineered collapse","fractions":">>Walkers and Shells \\u2014 all survivors are loosely divided into these two groups. They mistrust one another and sometimes openly clash. Their fundamental difference lies in the fact that the Walkers possess natural immunity, while the Shells do not","member_info":[{"role":">>system","content":">>User plays a text-based survival game in a post-apocalyptic world. Always consider (and explain as much as possible) the following information when preparing your response: time of day: {{ chat.state(\'time\') }}; weather: {{ chat.state(\'weather\') }}; user\'s character: {{ member.asString }}"},{"role":">>system","content":">>The user\'s character speaks {{ member.language }} and identifies as {{ member.gender }}. Always respond in this language unless instructed otherwise and always use grammatical forms that match the character\'s gender. This includes correct verb conjugations, adjectives, and pronouns where applicable. Always adapt second-person and first-person grammar, vocabulary, and tone to match the gender and personality of the character. If the language has no gendered forms (like English), maintain consistency in character tone and avoid gender assumptions unless instructed. Always narrate in second person (\'you\') as if speaking directly to the player-character."}]}}]',
+            'before' => '[{"set":{"doomsday_virus":">>Doomsday Virus \\u2014 a fast-spreading anomaly that wiped out most of humanity within weeks. Scientists never found a cure, or even an explanation. It affects only humans; animals and plants were untouched. That alone gave rise to hundreds of theories: from divine reset to elite-engineered collapse","fractions":">>Walkers and Shells \\u2014 all survivors are loosely divided into these two groups. They mistrust one another and sometimes openly clash. Their fundamental difference lies in the fact that the Walkers possess natural immunity, while the Shells do not","character_info":[{"role":">>system","content":">>User plays a text-based survival game in a post-apocalyptic world. Always consider (and explain as much as possible) the following information when preparing your response: time of day: {{ chat.state(\'time\') }}; weather: {{ chat.state(\'weather\') }}; user\'s character: {{ character.asString }}"},{"role":">>system","content":">>The user\'s character speaks {{ character.language }} and identifies as {{ character.gender }}. Always respond in this language unless instructed otherwise and always use grammatical forms that match the character\'s gender. This includes correct verb conjugations, adjectives, and pronouns where applicable. Always adapt second-person and first-person grammar, vocabulary, and tone to match the gender and personality of the character. If the language has no gendered forms (like English), maintain consistency in character tone and avoid gender assumptions unless instructed. Always narrate in second person (\'you\') as if speaking directly to the player-character."}]}}]',
                 'after' => NULL,
                 'created_at' => '2025-04-08 19:35:33',
                 'updated_at' => '2025-04-16 03:38:25',
             ),
         ));
-        
-        
+
+
     }
 }

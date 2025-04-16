@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
  *
  * Context:
  * - Commonly used in effect definitions where a parameter can be either a literal (e.g. ID)
- *   or a dynamic expression (e.g. `member.id`, `input.value`).
+ *   or a dynamic expression (e.g. `character.id`, `input.value`).
  * - Integrated with YAML/JSON DSL editors where both forms may occur.
  */
 class VariableOrIntRule implements ValidationRule

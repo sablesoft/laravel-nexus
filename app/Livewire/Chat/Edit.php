@@ -14,7 +14,7 @@ class Edit extends Component
 
     public function mount(int $id): void
     {
-        $this->chat = Chat::with('application', 'members.mask')->findOrFail($id);
+        $this->chat = Chat::with('application', 'characters.mask')->findOrFail($id);
         if (!$this->canEdit()) {
             $this->redirectRoute('chats.view', ['id' => $id], true, true);
         }

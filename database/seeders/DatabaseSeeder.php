@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AppChatGroupsTableSeeder::class);
         $this->call(AppChatRolesTableSeeder::class);
         $this->call(AppScreensTableSeeder::class);
-        $this->call(AppMembersTableSeeder::class);
-        $this->call(AppChatRoleMemberTableSeeder::class);
+        $this->call(AppCharactersTableSeeder::class);
+        $this->call(AppCharacterChatRoleTableSeeder::class);
         $this->call(AppTransfersTableSeeder::class);
         $this->call(AppScenariosTableSeeder::class);
         $this->call(AppControlsTableSeeder::class);

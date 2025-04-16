@@ -15,7 +15,7 @@ class SequencesSeeder extends Seeder
         'roles',
         'masks',
         'applications',
-        'members',
+        'characters',
         'chat_groups',
         'chat_roles',
         'screens',

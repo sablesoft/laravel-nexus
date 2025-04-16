@@ -22,9 +22,9 @@
                 <flux:error name="state.description"/>
             </flux:field>
             <flux:field class="mb-3">
-                <flux:label>{{ __('Roles Per Member') }}</flux:label>
-                <flux:input type="number" min="0" step="1" wire:model="state.roles_per_member"></flux:input>
-                <flux:error name="state.roles_per_member"/>
+                <flux:label>{{ __('Roles Per Character') }}</flux:label>
+                <flux:input type="number" min="0" step="1" wire:model="state.roles_per_character"></flux:input>
+                <flux:error name="state.roles_per_character"/>
             </flux:field>
             <flux:field class="mb-3">
                 <flux:switch label="{{ __('Is Required') }}" class="cursor-pointer" wire:model="state.is_required"/>
@@ -58,7 +58,7 @@
                 <span>{{ __('Number') }}</span>
                 <span>{{ __('Name') }}</span>
                 <span>{{ __('Is Required') }}</span>
-                <span>{{ __('Roles Per Member') }}</span>
+                <span>{{ __('Roles Per Character') }}</span>
                 <span class="text-right">{{ __('Details') }}</span>
             </div>
         @endif
@@ -82,9 +82,9 @@
                      {{ $group['is_required'] ? __('Yes') : __('No') }}
                     </span>
 
-                    {{-- Column 3: Roles Per Member --}}
+                    {{-- Column 3: Roles Per Character --}}
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">
-                     {{ $group['roles_per_member'] }}
+                     {{ $group['roles_per_character'] }}
                     </span>
 
                     {{-- Column 3: Controls --}}

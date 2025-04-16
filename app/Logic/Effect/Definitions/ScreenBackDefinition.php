@@ -24,7 +24,7 @@ class ScreenBackDefinition implements EffectDefinitionContract
     {
         return [
             'title' => 'Screen Back',
-            'description' => 'Triggers a back transfer for current screen and member.',
+            'description' => 'Triggers a back transfer for current screen and character.',
             'fields' => [],
             'examples' => [
                 ['screen.back' => 'flag'],

@@ -13,7 +13,7 @@ use App\Models\ChatScreenState;
 use App\Models\Control;
 use App\Models\Enums\ChatStatus;
 use App\Models\Enums\ControlType;
-use App\Models\Member;
+use App\Models\Character;
 use App\Models\Memory;
 use App\Models\Screen;
 use App\Models\Transfer;
@@ -55,7 +55,7 @@ class Play extends Component
     public Chat $chat;
 
     #[Locked]
-    public Member $member;
+    public Character $character;
 
     #[Locked]
     public Application $application;
@@ -96,13 +96,13 @@ class Play extends Component
     #[Locked]
     public bool $writing = false;
 
-    /** List of online members (calculated via PresenceTrait) */
+    /** List of online characters (calculated via PresenceTrait) */
     #[Locked]
-    public Collection $onlineMembers;
+    public Collection $onlineCharacters;
 
-    /** List of offline members (calculated via PresenceTrait) */
+    /** List of offline characters (calculated via PresenceTrait) */
     #[Locked]
-    public Collection $offlineMembers;
+    public Collection $offlineCharacters;
 
     protected function getListeners(): array
     {
@@ -118,16 +118,16 @@ class Play extends Component
         $this->chat = Chat::with([
             'application.screens.controls.scenario',
             'application.screens.transfers',
-            'members.mask',
-            'memories.member'
+            'characters.mask',
+            'memories.character'
         ])->findOrFail($id);
         if (!$this->canPlay()) {
             $this->redirectRoute('chats.view', ['id' => $id], true, true);
         }
         $this->application = $this->chat->application;
-        $this->member = $this->chat->takenSeats->where('user_id', auth()->id())->firstOrFail();
-        $this->initMembers();
-        $this->initScreen($this->member->screen);
+        $this->character = $this->chat->takenSeats->where('user_id', auth()->id())->firstOrFail();
+        $this->initCharacters();
+        $this->initScreen($this->character->screen);
     }
 
     public function render(): mixed
@@ -160,13 +160,13 @@ class Play extends Component
         $this->prepareControls();
     }
 
-    protected function initMembers(): void
+    protected function initCharacters(): void
     {
-        $this->offlineMembers = $this->chat->takenSeats->filter(
-            fn($member) => !in_array($member->user_id, $this->userIds[$this->chatChannel()] ?? [])
+        $this->offlineCharacters = $this->chat->takenSeats->filter(
+            fn($character) => !in_array($character->user_id, $this->userIds[$this->chatChannel()] ?? [])
         );
-        $this->onlineMembers = $this->chat->takenSeats->filter(
-            fn($member) => in_array($member->user_id,$this->userIds[$this->chatChannel()] ?? [])
+        $this->onlineCharacters = $this->chat->takenSeats->filter(
+            fn($character) => in_array($character->user_id,$this->userIds[$this->chatChannel()] ?? [])
         );
     }
 
@@ -256,7 +256,7 @@ class Play extends Component
             ->map(fn(Memory $memory) => [
                 'id' => $memory->id,
                 'author_id' => $memory->author_id,
-                'member_id' => $memory->member_id,
+                'character_id' => $memory->character_id,
                 'user_id' => $memory->author?->user_id,
                 'mask_name' => $memory->author?->maskName,
                 'image_id' => $memory->image_id,
@@ -289,7 +289,7 @@ class Play extends Component
 
     public function changeScreen(Screen $screen, bool $withHistory = true): void
     {
-        $this->member->update(['screen_id' => $screen->getKey()]);
+        $this->character->update(['screen_id' => $screen->getKey()]);
         $fromChannel = $this->screenChannel();
         $this->initScreen($screen, $withHistory);
         $toChannel = $this->screenChannel();
@@ -353,24 +353,24 @@ class Play extends Component
 
     protected function handleHere(string $channel): void
     {
-        $this->initMembers();
+        $this->initCharacters();
 
-        $message = $this->member->maskName . __(' is playing ') .'"' . $this->chat->title . '"';
+        $message = $this->character->maskName . __(' is playing ') .'"' . $this->chat->title . '"';
         $link = route('chats.play', ['id' => $this->chat->id]);
-        /** @var Member $member */
-        foreach ($this->offlineMembers as $member) {
-            $member->user->notifyNow(new ChatPlaying($message, $link));
+        /** @var Character $character */
+        foreach ($this->offlineCharacters as $character) {
+            $character->user->notifyNow(new ChatPlaying($message, $link));
         }
     }
 
     protected function handleJoining(string $channel, int $id): void
     {
-        $this->initMembers();
+        $this->initCharacters();
     }
 
     protected function handleLeaving(string $channel, int $id): void
     {
-        $this->initMembers();
+        $this->initCharacters();
     }
 
     public function close(): void
@@ -381,7 +381,7 @@ class Play extends Component
     protected function canPlay(): bool
     {
         return $this->chat->status === ChatStatus::Started &&
-            !!$this->chat->members->where('user_id', auth()->id())
+            !!$this->chat->characters->where('user_id', auth()->id())
                 ->where('is_confirmed', true)->count();
     }
 
@@ -439,7 +439,7 @@ class Play extends Component
         return new Process(array_merge([
             'chat' => $this->chat,
             'screen' => $this->screen,
-            'member' => $this->member,
+            'character' => $this->character,
         ], $data));
     }
 

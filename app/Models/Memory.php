@@ -35,8 +35,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property null|int $id
  * @property null|int $chat_id      - ID of the chat to which this record belongs
- * @property null|int $author_id    - ID of the member who created this record
- * @property null|int $member_id    - ID of the member this record is addressed to
+ * @property null|int $author_id    - ID of the character who created this record
+ * @property null|int $character_id - ID of the character this record is addressed to
  * @property null|int $image_id     - ID of the image attached to this record
  * @property null|string $title     - Optional title of the record
  * @property null|string $content   - Main textual content
@@ -46,10 +46,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read null|Chat $chat       - Associated chat
- * @property-read null|Member $author   - Member who created the record
- * @property-read null|Member $member   - Member the record is addressed to
- * @property-read null|Image $image     - Attached image (if any)
+ * @property-read null|Chat $chat           - Associated chat
+ * @property-read null|Character $author    - Character who created the record
+ * @property-read null|Character $character - Character the record is addressed to
+ * @property-read null|Image $image         - Attached image (if any)
  */
 class Memory extends Model implements HasDslAdapterContract
 {
@@ -57,7 +57,7 @@ class Memory extends Model implements HasDslAdapterContract
     use HasFactory;
 
     protected $fillable = [
-        'author_id', 'member_id', 'chat_id', 'image_id', 'title', 'content', 'type', 'meta'
+        'author_id', 'character_id', 'chat_id', 'image_id', 'title', 'content', 'type', 'meta'
     ];
 
     protected $casts = [
@@ -71,12 +71,12 @@ class Memory extends Model implements HasDslAdapterContract
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(Member::class, 'author_id');
+        return $this->belongsTo(Character::class, 'author_id');
     }
 
-    public function member(): BelongsTo
+    public function character(): BelongsTo
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Character::class);
     }
 
     public function image(): BelongsTo

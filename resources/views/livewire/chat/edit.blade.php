@@ -29,14 +29,14 @@
             <flux:error name="state.seats"/>
         </flux:field>
 
-        @if($chat->members->count())
+        @if($chat->characters->count())
             <div class="mb-4">
-                <h3>{{ __('Members') }}</h3>
-                @foreach($chat->members as $i => $member)
+                <h3>{{ __('Characters') }}</h3>
+                @foreach($chat->characters as $i => $character)
                     <p>
                         <span>{{ $i }}) </span>
-                        <span>{{ $member->mask->title }} - {{ $member->user_id ? 'Taken' : 'Free' }}</span>
-                        <span> ({{ $member->is_confirmed ? 'Confirmed' : 'Not confirmed' }})</span>
+                        <span>{{ $character->mask->title }} - {{ $character->user_id ? 'Taken' : 'Free' }}</span>
+                        <span> ({{ $character->is_confirmed ? 'Confirmed' : 'Not confirmed' }})</span>
                     </p>
                 @endforeach
             </div>

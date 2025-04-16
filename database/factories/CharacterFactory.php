@@ -4,16 +4,16 @@ namespace Database\Factories;
 
 use App\Models\Chat;
 use App\Models\Mask;
-use App\Models\Member;
+use App\Models\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Member>
+ * @extends Factory<Character>
  */
-class MemberFactory extends Factory
+class CharacterFactory extends Factory
 {
-    protected $model = Member::class;
+    protected $model = Character::class;
 
     public function definition(): array
     {

@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * - Executed via NodeRunner when the user clicks a button or submits input
  * - Can contain an associated Scenario executed as a LogicContract
  * - Used by the Chat\Play component to render footer controls (actions, inputs)
- * - Executed within a Process that holds chat, screen, member, ask, etc., in context
+ * - Executed within a Process that holds chat, screen, character, ask, etc., in context
  *
  * @property null|int $id
  * @property null|int $screen_id       - ID of the screen this control belongs to

@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read null|string $title
  * @property-read null|User $user
- * @property-read Collection<int, Member>|Member[] $members
+ * @property-read Collection<int, Character>|Character[] $characters
  */
 class Mask extends Model implements HasOwnerInterface
 {
@@ -50,9 +50,9 @@ class Mask extends Model implements HasOwnerInterface
         return $this->name;
     }
 
-    public function members(): HasMany
+    public function characters(): HasMany
     {
-        return $this->hasMany(Member::class);
+        return $this->hasMany(Character::class);
     }
 
     public static function boot(): void

@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
  * It can be used directly or accessed via the Dsl facade.
  *
  * Main responsibilities:
- * - Interpret expressions like: "member.id == 5 and memory.type == 'idea'"
+ * - Interpret expressions like: "character.id == 5 and memory.type == 'idea'"
  * - Apply such expressions to Laravel model queries (via Dsl::apply)
  * - Evaluate runtime values from expressions (via Dsl::evaluate)
  *

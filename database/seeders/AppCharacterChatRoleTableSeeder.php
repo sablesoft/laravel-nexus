@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class AppChatRoleMemberTableSeeder extends Seeder
+class AppCharacterChatRoleTableSeeder extends Seeder
 {
 
     /**
@@ -14,97 +14,97 @@ class AppChatRoleMemberTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-
-        \DB::table('app.chat_role_member')->delete();
-
-        \DB::table('app.chat_role_member')->insert(array (
-            0 =>
+        \DB::table('app.character_chat_role')->delete();
+        
+        \DB::table('app.character_chat_role')->insert(array (
+            0 => 
             array (
+                'character_id' => 4,
                 'chat_role_id' => 2,
-                'member_id' => 4,
                 'created_at' => '2025-04-12 07:54:04',
                 'updated_at' => '2025-04-12 07:54:04',
             ),
-            1 =>
+            1 => 
             array (
+                'character_id' => 4,
                 'chat_role_id' => 7,
-                'member_id' => 4,
                 'created_at' => '2025-04-12 07:54:04',
                 'updated_at' => '2025-04-12 07:54:04',
             ),
-            2 =>
+            2 => 
             array (
+                'character_id' => 2,
                 'chat_role_id' => 8,
-                'member_id' => 2,
                 'created_at' => '2025-04-12 07:54:16',
                 'updated_at' => '2025-04-12 07:54:16',
             ),
-            3 =>
+            3 => 
             array (
+                'character_id' => 2,
                 'chat_role_id' => 4,
-                'member_id' => 2,
                 'created_at' => '2025-04-12 07:54:16',
                 'updated_at' => '2025-04-12 07:54:16',
             ),
-            4 =>
+            4 => 
             array (
+                'character_id' => 3,
                 'chat_role_id' => 1,
-                'member_id' => 3,
                 'created_at' => '2025-04-12 07:54:31',
                 'updated_at' => '2025-04-12 07:54:31',
             ),
-            5 =>
+            5 => 
             array (
+                'character_id' => 3,
                 'chat_role_id' => 6,
-                'member_id' => 3,
                 'created_at' => '2025-04-12 07:54:31',
                 'updated_at' => '2025-04-12 07:54:31',
             ),
-            6 =>
+            6 => 
             array (
+                'character_id' => 1,
                 'chat_role_id' => 3,
-                'member_id' => 1,
                 'created_at' => '2025-04-12 07:54:42',
                 'updated_at' => '2025-04-12 07:54:42',
             ),
-            7 =>
+            7 => 
             array (
+                'character_id' => 1,
                 'chat_role_id' => 5,
-                'member_id' => 1,
                 'created_at' => '2025-04-12 07:54:42',
                 'updated_at' => '2025-04-12 07:54:42',
             ),
-            8 =>
+            8 => 
             array (
+                'character_id' => 1,
                 'chat_role_id' => 10,
-                'member_id' => 1,
                 'created_at' => '2025-04-16 01:18:10',
                 'updated_at' => '2025-04-16 01:18:10',
             ),
-            9 =>
+            9 => 
             array (
+                'character_id' => 3,
                 'chat_role_id' => 10,
-                'member_id' => 3,
                 'created_at' => '2025-04-16 01:18:57',
                 'updated_at' => '2025-04-16 01:18:57',
             ),
-            10 =>
+            10 => 
             array (
+                'character_id' => 2,
                 'chat_role_id' => 9,
-                'member_id' => 2,
                 'created_at' => '2025-04-16 01:19:07',
                 'updated_at' => '2025-04-16 01:19:07',
             ),
-            11 =>
+            11 => 
             array (
+                'character_id' => 4,
                 'chat_role_id' => 9,
-                'member_id' => 4,
                 'created_at' => '2025-04-16 01:19:28',
                 'updated_at' => '2025-04-16 01:19:28',
             ),
         ));
-
-
+        
+        
     }
 }

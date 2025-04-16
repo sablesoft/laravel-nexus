@@ -1,8 +1,8 @@
 <div class="mb-4">
     @livewire('mask-selector', ['maskIds' => $this->maskIds(), 'isOwner' => $this->isOwner()])
-    @if($this->canAddMember())
+    @if($this->canAddCharacter())
         <div class="flex justify-end">
-            <flux:button variant="primary" wire:click="member" class="cursor-pointer">
+            <flux:button variant="primary" wire:click="character" class="cursor-pointer">
                 {{ __('Add') }}
             </flux:button>
         </div>
@@ -19,7 +19,7 @@
             @case(5) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_8rem]'; @endphp @break
             @case(6) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_10rem_8rem]'; @endphp @break
         @endswitch
-        @if($members->isNotEmpty())
+        @if($characters->isNotEmpty())
             {{-- Header --}}
             <div class="grid {{ $grid }} gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
                 <span>{{ __('Image') }}</span>
@@ -34,26 +34,26 @@
                 @endif
             </div>
         @else
-            <p>{{ __('No members so far') }}</p>
+            <p>{{ __('No characters so far') }}</p>
         @endif
 
-        @foreach($members as $member)
+        @foreach($characters as $character)
             <div class="grid {{ $grid }} gap-4 items-center bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2 text-sm">
                 {{-- Image --}}
                 <div class="flex items-center">
-                    <img src="{{ Storage::url($member->mask->imagePath) }}" alt="{{ $member->mask->title }}"
+                    <img src="{{ Storage::url($character->mask->imagePath) }}" alt="{{ $character->mask->title }}"
                          class="h-32 w-32 rounded object-cover border border-zinc-300 dark:border-zinc-600 cursor-pointer"
-                         wire:click="showMask({{ $member->mask_id }})">
+                         wire:click="showMask({{ $character->mask_id }})">
                 </div>
 
                 {{-- Name --}}
-                <div>{{ $member->mask->title }}</div>
+                <div>{{ $character->mask->title }}</div>
 
                 {{-- Roles --}}
                 <div>
-                    @if($member->chatRoles->isNotEmpty())
+                    @if($character->roles->isNotEmpty())
                     <ul>
-                    @foreach($member->chatRoles as $role)
+                    @foreach($character->roles as $role)
                         <li>
                             <span>{{ $role->name }}</span>
                             <flux:tooltip toggleable>
@@ -69,15 +69,15 @@
                 </div>
 
                 {{-- Description --}}
-                <div class="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">{!! nl2br(e($member->mask->description)) !!}</div>
+                <div class="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">{!! nl2br(e($character->mask->description)) !!}</div>
 
                 {{-- Player --}}
                 @if($chat)
                     <div>
-                        {{ $member->user ? $member->user->name : '—' }}
+                        {{ $character->user ? $character->user->name : '—' }}
                         <br>
                         <span class="text-xs text-zinc-500">
-                        {{ $member->is_confirmed ? __('Confirmed') : __('Not Confirmed') }}
+                        {{ $character->is_confirmed ? __('Confirmed') : __('Not Confirmed') }}
                     </span>
                 </div>
                 @endif
@@ -87,22 +87,22 @@
                     <div>
                         <flux:button.group class="flex justify-end">
                         @if($chat)
-                            @if(!$member->user && !$this->isJoined())
+                            @if(!$character->user && !$this->isJoined())
                             <flux:tooltip content="{{ __('Join') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="arrow-left-end-on-rectangle"
-                                             wire:click="join({{ $member->id }})" variant="ghost"/>
+                                             wire:click="join({{ $character->id }})" variant="ghost"/>
                             </flux:tooltip>
                             @endif
-                            @if($member->user_id === auth()->id() && !$this->isStarted())
+                            @if($character->user_id === auth()->id() && !$this->isStarted())
                             <flux:tooltip content="{{ __('Leave') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="arrow-right-start-on-rectangle"
-                                             wire:click="leave({{ $member->id }})" variant="ghost"/>
+                                             wire:click="leave({{ $character->id }})" variant="ghost"/>
                             </flux:tooltip>
                             @endif
-                            @if(!$member->is_confirmed && $this->isOwner())
+                            @if(!$character->is_confirmed && $this->isOwner())
                             <flux:tooltip content="{{ __('Confirm') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="check"
-                                             wire:click="confirm({{ $member->id }})" variant="primary"/>
+                                             wire:click="confirm({{ $character->id }})" variant="primary"/>
                             </flux:tooltip>
                             @endif
                         @endif
@@ -110,12 +110,12 @@
                             @if($application)
                             <flux:tooltip content="{{ __('Manage Roles') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="user-group"
-                                             wire:click="manageRoles({{ $member->id }})"/>
+                                             wire:click="manageRoles({{ $character->id }})"/>
                             </flux:tooltip>
                             @endif
                             <flux:tooltip content="{{ __('Delete') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="trash"
-                                             wire:click="deleteMember({{ $member->id }})" variant="danger"/>
+                                             wire:click="deleteCharacter({{ $character->id }})" variant="danger"/>
                             </flux:tooltip>
                         @endif
                         </flux:button.group>

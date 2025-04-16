@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property null|int $id
  * @property null|int $chat_id
- * @property null|int $member_id
+ * @property null|int $character_id
  * @property null|string $effect_key
  * @property null|string $message
  * @property null|array $context
@@ -17,12 +17,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|Carbon $updated_at
  *
  * @property-read null|Chat $chat
- * @property-read null|Member $member
+ * @property-read null|Character $character
  */
 class ChatLog extends Model
 {
     protected $fillable = [
-        'chat_id', 'member_id', 'effect_key', 'message', 'context'
+        'chat_id', 'character_id', 'effect_key', 'message', 'context'
     ];
 
     protected $casts = [
@@ -34,8 +34,8 @@ class ChatLog extends Model
         return $this->belongsTo(Chat::class);
     }
 
-    public function member(): BelongsTo
+    public function character(): BelongsTo
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Character::class);
     }
 }

@@ -14,12 +14,12 @@ class AppStepsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('app.steps')->delete();
-        
+
         \DB::table('app.steps')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 4,
                 'parent_id' => 12,
@@ -32,7 +32,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 16:51:43',
                 'updated_at' => '2025-04-16 03:55:17',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 3,
                 'parent_id' => 12,
@@ -45,7 +45,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 05:45:45',
                 'updated_at' => '2025-04-16 03:17:19',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 2,
                 'parent_id' => 12,
@@ -53,13 +53,13 @@ class AppStepsTableSeeder extends Seeder
                 'scenario_id' => NULL,
                 'name' => '{"en":"Audio Log - Apocalipsys","ru":"Audio Log - Doomsday"}',
                 'description' => '{"en":null,"ru":null}',
-            'before' => '[{"if":{"condition":"screen.state(\'step\') == 2","then":[{"set":{"meta.tags":[">>audio-log"],"author":"member.id()"}},{"merge":{"messages":[{"role":">>system","content":">>Lore: {{ doomsday_virus}}. {{ fractions }}."},{"role":">>system","content":">>You are now the player\'s character speaking into a voice recorder. This is their personal audio log. Write a short monologue (8\\u201310 sentences) in the first person, in the voice of the character. The first sentence must begin with: \\u201cIt\\u2019s been [number] years since it happened.\\u201d The event refers to the outbreak of Doomsday Virus. So, let\'s character describe it from his point of view. Also the character should express their attitude toward Walkers and Shells \\u2014 with empathy, resentment, irony, distrust, or however it fits their personality. Let it feel personal and grounded, not ideological. Remember about character\'s fraction. Then, describe how the character survived, what they\\u2019ve been through, and finally \\u2014 articulate their current purpose. Where are they headed, and why? What are they looking for \\u2014 a person, a place, an answer? This is their personal quest \\u2014 make it clear and specific. At the end of the message, the character suddenly notices a small structure by the side of the road \\u2014 just as they\'re finishing their thought. They interrupt the recording mid-sentence or immediately after, reacting briefly and spontaneously. You may include a quick, emotionally honest reaction \\u2014 a whisper, a fragment, or even an expletive \\u2014 but do not describe the structure itself."}]}}]}}]',
+            'before' => '[{"if":{"condition":"screen.state(\'step\') == 2","then":[{"set":{"meta.tags":[">>audio-log"],"author":"character.id()"}},{"merge":{"messages":[{"role":">>system","content":">>Lore: {{ doomsday_virus}}. {{ fractions }}."},{"role":">>system","content":">>You are now the player\'s character speaking into a voice recorder. This is their personal audio log. Write a short monologue (8\\u201310 sentences) in the first person, in the voice of the character. The first sentence must begin with: \\u201cIt\\u2019s been [number] years since it happened.\\u201d The event refers to the outbreak of Doomsday Virus. So, let\'s character describe it from his point of view. Also the character should express their attitude toward Walkers and Shells \\u2014 with empathy, resentment, irony, distrust, or however it fits their personality. Let it feel personal and grounded, not ideological. Remember about character\'s fraction. Then, describe how the character survived, what they\\u2019ve been through, and finally \\u2014 articulate their current purpose. Where are they headed, and why? What are they looking for \\u2014 a person, a place, an answer? This is their personal quest \\u2014 make it clear and specific. At the end of the message, the character suddenly notices a small structure by the side of the road \\u2014 just as they\'re finishing their thought. They interrupt the recording mid-sentence or immediately after, reacting briefly and spontaneously. You may include a quick, emotionally honest reaction \\u2014 a whisper, a fragment, or even an expletive \\u2014 but do not describe the structure itself."}]}}]}}]',
                 'after' => NULL,
                 'created_at' => '2025-04-14 03:24:01',
                 'updated_at' => '2025-04-16 03:47:14',
             ),
         ));
-        
-        
+
+
     }
 }

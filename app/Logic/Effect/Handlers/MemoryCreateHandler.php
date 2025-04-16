@@ -54,7 +54,7 @@ class MemoryCreateHandler implements EffectHandlerContract
         $params = ValueResolver::resolve($this->data, $process);
         $params = Arr::only($params, [
             'type', 'title', 'content', 'author_id',
-            'member_id', 'image_id', 'meta'
+            'character_id', 'image_id', 'meta'
         ]);
 
         // Determine memory type

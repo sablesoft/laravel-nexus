@@ -28,7 +28,7 @@ use Throwable;
  * Context:
  * - Triggered from LogicRunner::runLogic if logic needs to be deferred (shouldQueue = true)
  * - Serializes and deserializes the Process object while preserving DSL context and timing
- * - In the future, will dispatch a logic failure event so subscribers can notify relevant users (members, authors, admins) or take other actions
+ * - In the future, will dispatch a logic failure event so subscribers can notify relevant users (characters, authors, admins) or take other actions
  */
 class LogicJob implements ShouldQueue
 {
@@ -125,7 +125,7 @@ class LogicJob implements ShouldQueue
             'logic' => $this->logicDescriptor
         ]);
 
-        // todo - dispatch event, notify member, chat, author, admins, etc.
+        // todo - dispatch event, notify character, chat, author, admins, etc.
         // LogicProcessFailed::dispatch
     }
 }

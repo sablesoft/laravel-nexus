@@ -8,7 +8,7 @@ use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\ChatStateDefinition;
 use App\Logic\Effect\Definitions\CommentDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
-use App\Logic\Effect\Definitions\MemberStateDefinition;
+use App\Logic\Effect\Definitions\CharacterStateDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
@@ -90,7 +90,7 @@ class EffectDefinitionRegistry
         static::register(ScreenBackDefinition::KEY, new ScreenBackDefinition());
         static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
-        static::register(MemberStateDefinition::KEY, new MemberStateDefinition());
+        static::register(CharacterStateDefinition::KEY, new CharacterStateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
         static::register(ScreenWritingDefinition::KEY, new ScreenWritingDefinition());
         static::register(ChatCompletionDefinition::KEY, new ChatCompletionDefinition());

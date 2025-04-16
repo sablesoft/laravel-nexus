@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
-use App\Logic\Dsl\Adapters\MemberDslAdapter;
+use App\Logic\Dsl\Adapters\CharacterDslAdapter;
 use App\Logic\Process;
 use App\Models\Casts\Behaviors;
 use App\Models\Enums\Gender;
@@ -26,9 +26,9 @@ use Symfony\Component\Intl\Languages;
 
 /**
  * @property null|int $id
+ * @property null|int $mask_id
  * @property null|int $application_id
  * @property null|int $chat_id
- * @property null|int $mask_id
  * @property null|int $screen_id
  * @property null|string $language
  * @property null|Gender $gender
@@ -45,7 +45,7 @@ use Symfony\Component\Intl\Languages;
  * @property-read Collection<int, ChatRole> $roles
  * @property-read Collection<int, Memory> $memories
  */
-class Member extends Model implements HasDslAdapterContract, Stateful
+class Character extends Model implements HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<MaskFactory> */
     use HasOwner, HasStates, HasBehaviors, HasFactory;
@@ -104,29 +104,29 @@ class Member extends Model implements HasDslAdapterContract, Stateful
 
     public function getDslAdapter(Process $process): DslAdapterContract
     {
-        return new MemberDslAdapter($process, $this);
+        return new CharacterDslAdapter($process, $this);
     }
 
     public static function boot(): void
     {
         parent::boot();
-        static::creating(function (self $member) {
-            $startScreen = $member->application ?
-                $member->application->startScreen :
-                $member->chat?->application?->startScreen;
+        static::creating(function (self $character) {
+            $startScreen = $character->application ?
+                $character->application->startScreen :
+                $character->chat?->application?->startScreen;
             if (!$startScreen) {
-                throw new LogicException('Cannot create member without starting screen!');
+                throw new LogicException('Cannot create character without starting screen!');
             }
-            $member->screen_id = $startScreen->id;
-            if ($member->chat) {
+            $character->screen_id = $startScreen->id;
+            if ($character->chat) {
                 $compiler = new BehaviorsCompiler();
-                $member->behaviors = $compiler->compile($member);
+                $character->behaviors = $compiler->compile($character);
             }
         });
 
-        static::saving(function (self $member) {
-            self::savingAllStates($member);
-            $member->language = $member->user?->language ?? 'en';
+        static::saving(function (self $character) {
+            self::savingAllStates($character);
+            $character->language = $character->user?->language ?? 'en';
         });
     }
 }

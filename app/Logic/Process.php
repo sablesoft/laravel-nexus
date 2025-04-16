@@ -9,7 +9,7 @@ use App\Logic\Traits\EffectsStack;
 use App\Logic\Traits\Timing;
 use App\Models\Chat;
 use App\Models\ChatLog;
-use App\Models\Member;
+use App\Models\Character;
 use App\Models\Memory;
 use App\Models\Screen;
 use Illuminate\Support\Arr;
@@ -19,7 +19,7 @@ use RuntimeException;
 /**
  * The Process class represents the central logic execution context
  * within the platform. It is used across all logic execution flows (scenarios, steps, commands),
- * and holds both core models (chat, screen, member, memory) and arbitrary user/system data.
+ * and holds both core models (chat, screen, character, memory) and arbitrary user/system data.
  *
  * In addition, Process supports serialization/deserialization, queue execution,
  * execution timing, before/after setup block tracing, and DSL-compatible data access.
@@ -54,7 +54,7 @@ class Process
     public readonly Chat $chat;
     public readonly Memory $memory;
     public readonly Screen $screen;
-    public readonly Member $member;
+    public readonly Character $character;
 
     /**
      * Adapter mapping: each key maps to an Eloquent model.
@@ -63,10 +63,10 @@ class Process
      * but they may wrap a blank (new) model if not explicitly provided.
      */
     protected array $adapters = [
-        'chat'   => Chat::class,
-        'screen' => Screen::class,
-        'memory' => Memory::class,
-        'member' => Member::class,
+        'chat'      => Chat::class,
+        'screen'    => Screen::class,
+        'memory'    => Memory::class,
+        'character' => Character::class,
     ];
 
     public function __construct(array $initial = [])
@@ -183,10 +183,10 @@ class Process
         return [
             'data' => $this->data,
             'adapters' => [
-                'chat'   => $this->chat->getKey(),
-                'screen' => $this->screen->getKey(),
-                'memory' => $this->memory->getKey(),
-                'member' => $this->member->getKey(),
+                'chat'      => $this->chat->getKey(),
+                'screen'    => $this->screen->getKey(),
+                'memory'    => $this->memory->getKey(),
+                'character' => $this->character->getKey(),
             ],
             'inQueue'    => $this->inQueue,
             'skipQueue'  => $this->skipQueue,
@@ -200,10 +200,10 @@ class Process
     public static function unpack(array $payload): Process
     {
         $adapters = [
-            'chat'   => Chat::findOrNew($payload['adapters']['chat'] ?? null),
-            'screen' => Screen::findOrNew($payload['adapters']['screen'] ?? null),
-            'memory' => Memory::findOrNew($payload['adapters']['memory'] ?? null),
-            'member' => Member::findOrNew($payload['adapters']['member'] ?? null),
+            'chat'      => Chat::findOrNew($payload['adapters']['chat'] ?? null),
+            'screen'    => Screen::findOrNew($payload['adapters']['screen'] ?? null),
+            'memory'    => Memory::findOrNew($payload['adapters']['memory'] ?? null),
+            'character' => Character::findOrNew($payload['adapters']['character'] ?? null),
         ];
 
         $instance = new static(array_merge($adapters, $payload['data'] ?? []));
@@ -247,7 +247,7 @@ class Process
         $key = array_key_first($raw);
         ChatLog::create([
             'chat_id'    => $this->chat->getKey(),
-            'member_id'  => $this->member->getKey(),
+            'character_id'  => $this->character->getKey(),
             'effect_key' => $key,
             'level'      => $level,
             'message'    => $message,

@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Chat\Play;
-use App\Models\Member;
+use App\Models\Character;
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -10,28 +10,28 @@ Broadcast::channel('users.{id}', function ($user, $id) {
 });
 
 Broadcast::channel(Play::CHANNELS_PREFIX.'.{chatId}', function(User $user, int $chatId) {
-    $query = Member::where('user_id', $user->id)
+    $query = Character::where('user_id', $user->id)
         ->where('chat_id', $chatId)
         ->where('is_confirmed', true);
-    /** @var null|Member $member */
-    $member = $query->first();
+    /** @var null|Character $character */
+    $character = $query->first();
 
-    return ($member) ? [
-        'id' => $member->user_id
+    return ($character) ? [
+        'id' => $character->user_id
     ] : false;
 });
 
 Broadcast::channel(Play::CHANNELS_PREFIX.'.{chatId}.{screenId}', function(User $user, int $chatId, int $screenId) {
-    $query = Member::where('user_id', $user->id)
+    $query = Character::where('user_id', $user->id)
         ->where('chat_id', $chatId)
         ->where('is_confirmed', true);
-    /** @var null|Member $member */
-    $member = $query->first();
+    /** @var null|Character $character */
+    $character = $query->first();
 
-// todo - use stored member screen
+// todo - use stored character screen
 
-    return ($member) ? [
-        'id' => $member->user_id
+    return ($character) ? [
+        'id' => $character->user_id
     ] : false;
 });
 

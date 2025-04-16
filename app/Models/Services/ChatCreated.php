@@ -22,12 +22,12 @@ class ChatCreated
                 $chatRole->save();
             }
         }
-        foreach ($application->members as $member) {
-            $copy = $member->replicate(['id', 'application_id', 'created_at', 'updated_at']);
+        foreach ($application->characters as $character) {
+            $copy = $character->replicate(['id', 'application_id', 'created_at', 'updated_at']);
             $copy->chat_id = $chat->id;
             $copy->save();
 
-            $newRoles = $member->roles->map(function ($role) use ($chat) {
+            $newRoles = $character->roles->map(function ($role) use ($chat) {
                 return ChatRole::query()
                     ->where('chat_id', $chat->id)
                     ->where('code', $role->code)

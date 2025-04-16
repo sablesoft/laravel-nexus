@@ -59,42 +59,42 @@
                 <h2 class="bg-gray-100/50 dark:bg-black/50 dark:text-white font-bold my-2 p-2 shadow-md text-center text-xl">
                     {{ $screen->title }}
                 </h2>
-                <!-- Online members -->
-                @if($onlineMembers->count())
+                <!-- Online characters -->
+                @if($onlineCharacters->count())
                     <h3 class="bg-gray-100/50 dark:bg-black/50 pr-2 text-right text-lg font-semibold text-green-400">{{ __('Online') }}</h3>
                     <ul class="space-y-2">
-                        @foreach($onlineMembers as $member)
-                            @php $isCurrentUser = $member->user_id === auth()->id(); @endphp
+                        @foreach($onlineCharacters as $character)
+                            @php $isCurrentUser = $character->user_id === auth()->id(); @endphp
                             <li class="flex items-center gap-2 justify-end">
                             <span class="w-3 text-gray-500 dark:text-gray-400 text-sm relative top-[-15px] right-[2px]">
-                                <template x-if="typingUsers[{{ $member->user_id }}]">
+                                <template x-if="typingUsers[{{ $character->user_id }}]">
                                     <flux:icon name="chat-bubble-oval-left-ellipsis"
                                                class="animate-pulse scale-x-[-1]"/>
                                 </template>
-                                <template x-if="!typingUsers[{{ $member->user_id }}]">
+                                <template x-if="!typingUsers[{{ $character->user_id }}]">
                                     <flux:icon name="chat-bubble-oval-left-ellipsis"
                                                class="invisible scale-x-[-1]"/>
                                 </template>
                             </span>
                                 <flux:profile
                                     class="pr-2 bg-gray-100/50 dark:bg-black/50 !dark:hover:bg-black/50 !hover:bg-gray-100/50 rounded-r-none {{ $isCurrentUser ? 'border-2 border-green-400 shadow-lg' : 'cursor-pointer' }}"
-                                    :chevron="false" :name="$member->maskName"
-                                    :avatar="Storage::url($member->mask->imagePathSm)"/>
+                                    :chevron="false" :name="$character->maskName"
+                                    :avatar="Storage::url($character->mask->imagePathSm)"/>
                             </li>
                         @endforeach
                     </ul>
                 @endif
 
-                <!-- Offline members -->
-                @if($offlineMembers->count())
+                <!-- Offline characters -->
+                @if($offlineCharacters->count())
                     <h3 class="bg-black/50 pr-2 text-right text-lg font-semibold mt-6">{{ __('Offline') }}</h3>
                     <ul class="space-y-2">
-                        @foreach($offlineMembers as $member)
+                        @foreach($offlineCharacters as $character)
                             <li class="flex items-center gap-2 justify-end">
                                 <flux:profile
                                     class="bg-black/50 dark:bg-black/50 !dark:hover:bg-black/50 !hover:bg-black/50 pr-2 rounded-r-none"
-                                    :chevron="false" :name="$member->maskName"
-                                    :avatar="Storage::url($member->mask->imagePathSm)"/>
+                                    :chevron="false" :name="$character->maskName"
+                                    :avatar="Storage::url($character->mask->imagePathSm)"/>
                             </li>
                         @endforeach
                     </ul>

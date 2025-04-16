@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app.chat_role_member', function (Blueprint $table) {
-            $table->foreignId('chat_role_id')->nullable(false)->index()
+        Schema::create('app.character_chat_role', function (Blueprint $table) {
+            $table->foreignId('character_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('member_id')->nullable(false)->index()
+            $table->foreignId('chat_role_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
 
             $table->timestamp('created_at')->useCurrent();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app.chat_role_member');
+        Schema::dropIfExists('app.character_chat_role');
     }
 };

@@ -27,7 +27,7 @@ class ChatStateDefinition implements EffectDefinitionContract
             ],
             'examples' => [
                 ['chat.state' => ['prologueDone' => true, 'prologue' => 1]],
-                ['chat.state' => ['flag_found' => 'member.state("some_flag")']],
+                ['chat.state' => ['flag_found' => 'character.state("some_flag")']],
             ],
         ];
     }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('chat_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('author_id')->nullable()->index()
-                ->constrained('app.members')->cascadeOnDelete();
-            $table->foreignId('member_id')->nullable()->index()
+                ->constrained('app.characters')->cascadeOnDelete();
+            $table->foreignId('character_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('image_id')->nullable()->index()
                 ->constrained()->nullOnDelete();

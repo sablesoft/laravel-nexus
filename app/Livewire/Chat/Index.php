@@ -67,14 +67,14 @@ class Index extends Component
         if (!$chat) {
             return;
         }
-        $member = $chat->members->where('user_id', auth()->id())->first();
-        if (!$member) {
+        $character = $chat->characters->where('user_id', auth()->id())->first();
+        if (!$character) {
             return;
         }
-        if (!$member->is_confirmed) {
-            $member->delete();
+        if (!$character->is_confirmed) {
+            $character->delete();
         } else {
-            $member->update(['user_id' => null]);
+            $character->update(['user_id' => null]);
         }
         $this->dispatch('flash', message: __('You leaved this chat'));
     }
@@ -110,7 +110,7 @@ class Index extends Component
 
     protected function modifyQuery(Builder $query): Builder
     {
-        $query->with(['application', 'members']);
+        $query->with(['application', 'characters']);
         $userId = auth()->id();
         if ($this->owner === 'user') {
             $query->where('user_id', $userId);
@@ -126,13 +126,13 @@ class Index extends Component
                 ->orWhere('status', 'published') // Всегда показываем Published
                 ->orWhere(function ($subQuery) use ($userId) {
                     $subQuery->whereIn('status', ['started', 'ended']) // Показываем Started и Ended
-                    ->whereHas('members', function ($memberQuery) use ($userId) {
-                        $memberQuery->where('user_id', $userId); // Только если пользователь участник
+                    ->whereHas('characters', function ($characterQuery) use ($userId) {
+                        $characterQuery->where('user_id', $userId); // Только если пользователь участник
                     });
                 })->orWhere(function ($createdQuery) use ($userId) {
                         $createdQuery->where('status', 'created') // Показываем Created
-                        ->whereHas('members', function ($memberQuery) use ($userId) {
-                            $memberQuery->where('user_id', $userId); // Только если пользователь участник
+                        ->whereHas('characters', function ($characterQuery) use ($userId) {
+                            $characterQuery->where('user_id', $userId); // Только если пользователь участник
                         });
                     });
             });
@@ -141,8 +141,8 @@ class Index extends Component
             }
         }
         if ($this->memberOnly) {
-            $query->whereHas('members', function ($memberQuery) use ($userId) {
-                $memberQuery->where('user_id', $userId);
+            $query->whereHas('characters', function ($characterQuery) use ($userId) {
+                $characterQuery->where('user_id', $userId);
             });
         }
 
@@ -151,11 +151,11 @@ class Index extends Component
 
     protected function isJoined(Chat $chat): bool
     {
-        return !!$chat->members->where('user_id', auth()->id())->count();
+        return !!$chat->characters->where('user_id', auth()->id())->count();
     }
 
     protected function getChat(int $id): ?Chat
     {
-        return Chat::with('members')->where('id', $id)->first();
+        return Chat::with('characters')->where('id', $id)->first();
     }
 }

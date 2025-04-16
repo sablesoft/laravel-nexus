@@ -15,7 +15,7 @@ use UnitEnum;
 /**
  * ModelDslAdapter is responsible for safe and restricted access to Eloquent model attributes
  * within DSL expressions. This adapter is automatically applied by the platform during Process
- * initialization for all core models (Chat, Screen, Member, Memory) unless they provide their own adapter.
+ * initialization for all core models (Chat, Screen, Character, Memory) unless they provide their own adapter.
  *
  * Its main purpose is to filter out unsafe or unwanted values, such as model relations,
  * collections, and complex objects. Only scalars, arrays, enums (UnitEnum), and Carbon dates
@@ -26,7 +26,7 @@ use UnitEnum;
  *
  * ---
  * Context:
- * - Used internally by Process to wrap models: chat, screen, memory, member
+ * - Used internally by Process to wrap models: chat, screen, memory, character
  * - Can be replaced with a custom adapter if the model implements HasDslAdapterContract;
  *   such adapters usually extend this base class
  * - Participates in DSL evaluation: accessed via ExpressionLanguage to resolve variables
@@ -87,7 +87,7 @@ class ModelDslAdapter implements DslAdapterContract
     }
 
     /**
-     * Magic accessor for adapter fields in DSL expressions, e.g., member.name
+     * Magic accessor for adapter fields in DSL expressions, e.g., character.name
      * Checks for a local accessor method first, then falls back to model attributes.
      * Any disallowed access is logged and returns null.
      */

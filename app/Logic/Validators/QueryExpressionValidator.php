@@ -34,8 +34,8 @@ class QueryExpressionValidator implements DslValidatorContract
     {
         // todo
         return [
-            'screen', 'chat', 'application', 'member', 'mask',
-            'members', 'onlineMembers', 'offlineMembers'
+            'screen', 'chat', 'application', 'character', 'mask',
+            'characters', 'onlineCharacters', 'offlineCharacters'
         ];
     }
 }

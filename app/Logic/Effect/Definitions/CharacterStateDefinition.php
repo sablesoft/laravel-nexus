@@ -5,9 +5,9 @@ namespace App\Logic\Effect\Definitions;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Rules\VariableOrArrayRule;
 
-class MemberStateDefinition implements EffectDefinitionContract
+class CharacterStateDefinition implements EffectDefinitionContract
 {
-    public const KEY = 'member.state';
+    public const KEY = 'character.state';
 
     public static function key(): string
     {
@@ -17,12 +17,12 @@ class MemberStateDefinition implements EffectDefinitionContract
     public static function describe(): array
     {
         return [
-            'title' => 'Set Member States',
-            'description' => 'Assigns one or more states to one or more chat members.',
+            'title' => 'Set Character States',
+            'description' => 'Assigns one or more states to one or more characters.',
             'fields' => [
                 'targets' => [
                     'type' => 'expression',
-                    'description' => 'Target member(s) ID, current member will be used if targets not specified',
+                    'description' => 'Target character(s) ID, current character will be used if targets not specified',
                 ],
                 'values' => [
                     'type' => 'map',
@@ -36,8 +36,8 @@ class MemberStateDefinition implements EffectDefinitionContract
                 ],
             ],
             'examples' => [
-                ['member.state' => ['values' => ['has_key' => true]]],
-                ['member.state' => ['target' => [1, 2], 'values' => ['hint' => 'shown']]],
+                ['character.state' => ['values' => ['has_key' => true]]],
+                ['character.state' => ['target' => [1, 2], 'values' => ['hint' => 'shown']]],
             ],
         ];
     }

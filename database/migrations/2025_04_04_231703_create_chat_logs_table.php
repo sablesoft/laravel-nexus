@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('chat_id')->index()->constrained()->cascadeOnDelete();
-            $table->foreignId('member_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('character_id')->nullable()->constrained()->nullOnDelete();
 
             $table->string('effect_key'); // examples: "set", "comment", "memory.create"
             $table->enum('level', ['info', 'error'])->index()->default('info');

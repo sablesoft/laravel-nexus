@@ -61,7 +61,7 @@ class ChatGroups extends Component
         foreach (array_keys($this->rules()) as $field) {
             $this->state[$field] = null;
         }
-        $this->state['roles_per_member'] = 1;
+        $this->state['roles_per_character'] = 1;
         $this->state['is_required'] = true;
     }
 
@@ -161,7 +161,7 @@ class ChatGroups extends Component
             'description' => $group->description,
             'is_required' => $group->is_required,
             'allowed' => $group->allowed,
-            'roles_per_member' => $group->roles_per_member,
+            'roles_per_character' => $group->roles_per_character,
         ];
     }
 
@@ -203,7 +203,7 @@ class ChatGroups extends Component
             'description'   => ['nullable', 'string'],
             'is_required'   => ['nullable', 'bool'],
             'allowed'       => ['nullable', 'string'], // todo - dsl-expression
-            'roles_per_member'   => ['nullable', 'int'],
+            'roles_per_character'   => ['nullable', 'int'],
         ];
     }
 }
