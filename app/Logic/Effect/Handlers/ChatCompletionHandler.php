@@ -60,6 +60,7 @@ class ChatCompletionHandler implements EffectHandlerContract
     {
         $compiled = ValueResolver::resolve(Arr::except($this->params, ['calls', 'content']), $process);
         $request = $this->buildRequest($compiled);
+        logger()->debug('[effect][chat.completion] request', $request);
 
         try {
             // Cleanup previously injected response data (if re-entered)

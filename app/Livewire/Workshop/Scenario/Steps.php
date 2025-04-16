@@ -171,6 +171,7 @@ class Steps extends Component
             'number' => $step->number,
             'scenario_id' => $step->scenario_id,
             'scenarioTitle' => $step->scenario?->title,
+            'name' => $step->name,
             'description' => $step->description ?: $step->scenario?->description,
             'beforeString' => $step->beforeString,
             'afterString' => $step->afterString,
@@ -212,6 +213,7 @@ class Steps extends Component
         $dslEditor = config('dsl.editor');
         return [
             'number'        => ['required', 'integer'],
+            'name'          => ['nullable', 'string'],
             'description'   => ['nullable', 'string'],
             'beforeString'  => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
             'afterString'   => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],

@@ -12,6 +12,11 @@
         <div class="space-y-4">
             <flux:heading>{{ $this->stepId ? __('Edit Step') : __('Create Step') }}</flux:heading>
             <flux:field class="mb-3">
+                <flux:label>{{ __('Name') }}</flux:label>
+                <flux:input wire:model="state.name"/>
+                <flux:error name="state.name"/>
+            </flux:field>
+            <flux:field class="mb-3">
                 <flux:label>{{ __('Description') }}</flux:label>
                 <flux:textarea wire:model="state.description" rows="auto"></flux:textarea>
                 <flux:error name="state.description"/>
@@ -66,8 +71,9 @@
     <div class="space-y-2 mt-6">
         @if($steps)
         {{-- Table header --}}
-        <div class="grid grid-cols-3 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
+        <div class="grid grid-cols-4 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
             <span>{{ __('Number') }}</span>
+            <span>{{ __('Name') }}</span>
             <span>{{ __('Logic') }}</span>
             <span class="text-right">{{ __('Details') }}</span>
         </div>
@@ -87,7 +93,12 @@
                     {{ $step['number'] }}
                 </span>
 
-                {{-- Column 2: Logic --}}
+                {{-- Column 2: Name --}}
+                <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                    {{ $step['name'] }}
+                </span>
+
+                {{-- Column 3: Logic --}}
                 <span class="text-sm text-zinc-600 dark:text-zinc-300">
                     @if($hasScenario)
                     <a class="underline" wire:click.stop wire:navigate
@@ -99,7 +110,7 @@
                     @endif
                 </span>
 
-                {{-- Column 3: Controls --}}
+                {{-- Column 4: Controls --}}
                 <div class="flex justify-end gap-2">
                     <flux:button x-show="open" size="sm" icon="chevron-up"
                                  @click="open = !open" class="cursor-pointer"/>

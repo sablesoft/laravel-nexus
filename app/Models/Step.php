@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property null|int $parent_id         - ID of the parent scenario
  * @property null|int $scenario_id         - ID of the nested scenario (if any)
  * @property null|int $number              - Step number (used for ordering)
+ * @property null|string $name           - Optional technical or editor-facing name
  * @property null|string $description      - Optional technical or editor-facing description
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -43,12 +44,13 @@ class Step extends Model implements NodeContract
 
     protected $fillable = [
         'parent_id', 'scenario_id', 'number',
-        'description', 'before', 'after'
+        'name', 'description', 'before', 'after'
     ];
 
     protected $casts = [
         'before' => 'array',
         'after' => 'array',
+        'name' => LocaleString::class,
         'description' => LocaleString::class,
     ];
 
