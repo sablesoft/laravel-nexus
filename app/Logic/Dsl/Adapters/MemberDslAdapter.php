@@ -18,7 +18,7 @@ class MemberDslAdapter extends ModelDslAdapter
             'name' => $mask->name,
             'gender' => $mask->gender,
             'description' => $mask->description,
-            'roles' => $this->model->chatRoles->pluck('description', 'name')->all()
+            'roles' => $this->model->roles->pluck('description', 'name')->all()
         ];
 
         return json_encode($data, JSON_UNESCAPED_UNICODE);

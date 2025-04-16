@@ -5,8 +5,11 @@ namespace App\Models;
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
+use App\Models\Casts\Behaviors;
 use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\Stateful;
+use App\Models\Services\ChatCreated;
+use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasDslAdapter;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
@@ -58,15 +61,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ChatFactory> */
-    use HasOwner, HasStates, HasFactory, BroadcastsEvents, HasDslAdapter;
+    use HasOwner, HasStates, HasBehaviors, HasFactory, BroadcastsEvents, HasDslAdapter;
 
     protected $fillable = [
-        'user_id', 'application_id', 'title', 'status', 'states'
+        'user_id', 'application_id', 'title', 'status', 'states', 'behaviors', 'behaviorsString'
     ];
 
     protected $casts = [
         'status' => ChatStatus::class,
         'states' => 'array',
+        'behaviors' => Behaviors::class,
         'title' => LocaleString::class
     ];
 
@@ -110,28 +114,16 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
         parent::boot();
         static::creating(function(self $model) {
             self::assignCurrentUser($model);
-            $model->states = $model->application->states;
-            $model->seats = $model->application->seats;
-        });
-        static::created(function(self $model) {
-            $application = $model->application;
-            if (!$application) {
+            if (!$application = $model->application) {
                 throw new \RuntimeException('Cannot initialize chat: chat has no associated application.');
             }
-            $screens = $application->screens;
-            foreach ($screens as $screen) {
-                ChatScreenState::create([
-                    'chat_id'   => $model->id,
-                    'screen_id' => $screen->id,
-                    'states'    => $screen->states ?? [],
-                ]);
-            }
-            foreach ($application->members as $member) {
-                $copy = $member->replicate(['id', 'application_id', 'created_at', 'updated_at']);
-                $copy->chat_id = $model->getKey();
-                $copy->save();
-                $copy->chatRoles()->sync($member->chatRoles);
-            }
+            $model->states = $application->states;
+            $model->behaviors = $application->behaviors;
+            $model->seats = $application->seats;
+        });
+        static::created(function(self $model) {
+            ChatCreated::handle($model);
+            $application = $model->application;
             if ($application->init) {
                 EffectRunner::run($application->init, new Process([
                     'chat' => $model,

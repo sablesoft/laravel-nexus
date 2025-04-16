@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('app.chat_roles', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('application_id')->nullable(false)->index()
+            $table->foreignId('application_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('chat_group_id')->nullable(false)->index()
+            $table->foreignId('chat_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('role_id')->nullable()->index()
                 ->constrained()->nullOnDelete();
+            $table->foreignId('chat_group_id')->nullable(false)->index()
+                ->constrained()->cascadeOnDelete();
 
             $table->json('name')->nullable(false);
             $table->string('code')->nullable(false);
@@ -27,10 +29,8 @@ return new class extends Migration
             $table->string('allowed')->nullable();
 
             $table->unsignedSmallInteger('limit')->nullable(false)->default(0);
-            $table->foreignId('screen_id')->nullable()
-                ->constrained()->nullOnDelete();
 
-            $table->unique(['application_id', 'code']);
+            $table->unique(['chat_group_id', 'chat_id', 'code']);
 
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_chat_roles_states_index', 'gin');

@@ -187,7 +187,7 @@ class Members extends Component
     {
         $this->memberId = $memberId;
         $member = Member::findOrFail($memberId);
-        $this->state['roles'] = $member->chatRoles->pluck('id')->toArray();
+        $this->state['roles'] = $member->roles->pluck('id')->toArray();
         $this->dispatch('searchable-multi-select-roles', searchableId: 'roles', options: $this->selectRoles);
         Flux::modal('form-chat-roles')->show();
     }
@@ -195,7 +195,7 @@ class Members extends Component
     public function submitRoles(): void
     {
         $member = Member::findOrFail($this->memberId);
-        $member->chatRoles()->sync($this->state['roles']);
+        $member->roles()->sync($this->state['roles']);
         Flux::modal('form-chat-roles')->close();
     }
 

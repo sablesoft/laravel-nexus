@@ -30,7 +30,7 @@ class ChatGroups extends Component
     {
         $this->applicationId = $applicationId;
         /** @var Collection<int, Control> $groups */
-        $groups = ChatGroup::where('application_id', $applicationId)->orderBy('number')->with('chatRoles')->get();
+        $groups = ChatGroup::where('application_id', $applicationId)->orderBy('number')->with('roles')->get();
         foreach ($groups as $group) {
             $this->groups[$group->id] = $this->prepareGroup($group);
         }

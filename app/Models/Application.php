@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Logic\Contracts\HasEffectsContract;
+use App\Models\Casts\Behaviors;
 use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
+use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasInit;
@@ -37,35 +39,33 @@ use JsonException;
  * @property null|bool $is_public       - Visibility flag (public or private) TODO - change to status
  * @property null|int $seats             - Total number of participant slots
  * @property null|array $member_states
- * @property null|array $member_behaviors
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
  * @property null|string $memberStatesString
- * @property null|string $memberBehaviorsString
  *
  * @property-read Collection<int, Member> $members     - All members that belong to the application
  * @property-read Collection<int, Screen> $screens     - All screens that belong to the application
  * @property-read Collection<int, Chat> $chats         - All chats created from this application
- * @property-read Collection<int, ChatGroup> $chatGroups  - All chat-groups that belong to this application
- * @property-read Collection<int, ChatRole> $chatRoles - All chat-roles that belong to this application
+ * @property-read Collection<int, ChatGroup> $groups   - All chat-groups that belong to this application
+ * @property-read Collection<int, ChatRole> $roles     - All chat-roles that belong to this application
  * @property-read null|Screen $startScreen             - Default starting screen of the application
  */
 class Application extends Model implements HasOwnerInterface, HasEffectsContract, Stateful
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasStates, HasFactory, HasImage, HasEffects, HasInit;
+    use HasOwner, HasStates, HasBehaviors, HasFactory, HasImage, HasEffects, HasInit;
 
     protected $fillable = [
         'user_id', 'title', 'description', 'is_public', 'seats', 'init',
-        'states', 'member_states', 'member_behaviors', 'before', 'after'
+        'states', 'member_states', 'behaviors', 'before', 'after'
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
         'states' => 'array',
         'member_states' => 'array',
-        'member_behaviors' => 'array',
+        'behaviors' => Behaviors::class,
         'init' => 'array',
         'before' => 'array',
         'after' => 'array',
@@ -88,12 +88,12 @@ class Application extends Model implements HasOwnerInterface, HasEffectsContract
         return $this->screens->where('is_start', true)->first();
     }
 
-    public function chatGroups(): HasMany
+    public function groups(): HasMany
     {
         return $this->hasMany(ChatGroup::class);
     }
 
-    public function chatRoles(): HasMany
+    public function roles(): HasMany
     {
         return $this->hasMany(ChatRole::class);
     }
@@ -114,19 +114,6 @@ class Application extends Model implements HasOwnerInterface, HasEffectsContract
     public function setMemberStatesStringAttribute(?string $value): void
     {
         $this->setStringAsJson('member_states', $value);
-    }
-
-    public function getMemberBehaviorsStringAttribute(): ?string
-    {
-        return $this->getJsonAsString('member_behaviors');
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function setMemberBehaviorsStringAttribute(?string $value): void
-    {
-        $this->setStringAsJson('member_behaviors', $value);
     }
 
     public static function boot(): void

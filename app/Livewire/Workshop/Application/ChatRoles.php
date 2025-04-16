@@ -9,7 +9,6 @@ use App\Models\ChatRole;
 use App\Models\Services\StoreService;
 use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;

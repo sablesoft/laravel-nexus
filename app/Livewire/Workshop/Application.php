@@ -161,8 +161,8 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'rules' => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
-            'memberBehaviorsString' => [
-                'title' => __('Member Behaviors'),
+            'behaviorsString' => [
+                'title' => __('Common Behaviors'),
                 'action' => ['edit', 'view'],
                 'type' => 'codemirror',
                 'rules' => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],

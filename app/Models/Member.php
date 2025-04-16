@@ -6,8 +6,12 @@ use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\Adapters\MemberDslAdapter;
 use App\Logic\Process;
+use App\Models\Casts\Behaviors;
 use App\Models\Enums\Gender;
 use App\Models\Interfaces\Stateful;
+use App\Models\Services\BehaviorsCompiler;
+use App\Models\Traits\HasBehaviors;
+use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
 use Database\Factories\MaskFactory;
@@ -17,7 +21,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Traits\HasOwner;
 use LogicException;
 use Symfony\Component\Intl\Languages;
 
@@ -39,22 +42,23 @@ use Symfony\Component\Intl\Languages;
  * @property-read null|Screen $screen
  * @property-read null|Mask $mask
  * @property-read null|string $maskName
- * @property-read Collection<int, ChatRole> $chatRoles
+ * @property-read Collection<int, ChatRole> $roles
  * @property-read Collection<int, Memory> $memories
  */
 class Member extends Model implements HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<MaskFactory> */
-    use HasOwner, HasStates, HasFactory;
+    use HasOwner, HasStates, HasBehaviors, HasFactory;
 
     protected $fillable = [
         'chat_id', 'application_id', 'mask_id', 'screen_id', 'user_id',
-        'is_confirmed', 'states', 'language', 'gender'
+        'is_confirmed', 'states', 'language', 'gender', 'behaviors'
     ];
 
     protected $casts = [
         'is_confirmed' => 'bool',
         'states' => 'array',
+        'behaviors' => Behaviors::class,
         'gender' => Gender::class
     ];
 
@@ -78,7 +82,7 @@ class Member extends Model implements HasDslAdapterContract, Stateful
         return $this->belongsTo(Mask::class);
     }
 
-    public function chatRoles(): BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(ChatRole::class)->withTimestamps();
     }
@@ -114,6 +118,10 @@ class Member extends Model implements HasDslAdapterContract, Stateful
                 throw new LogicException('Cannot create member without starting screen!');
             }
             $member->screen_id = $startScreen->id;
+            if ($member->chat) {
+                $compiler = new BehaviorsCompiler();
+                $member->behaviors = $compiler->compile($member);
+            }
         });
 
         static::saving(function (self $member) {

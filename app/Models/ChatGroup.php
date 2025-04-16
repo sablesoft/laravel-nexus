@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property null|int $id
  * @property null|int $application_id
+ * @property null|int $chat_id
  * @property null|string $name
  * @property null|string $description
  * @property null|int $number
@@ -21,13 +22,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
  *
- * @property-read null|Application $application             - The parent application this group belongs to
- * @property-read Collection<int, ChatRole> $chatRoles    - All chat-roles that belong to this chat-group
+ * @property-read null|Application $application             - The application this chat-group belongs to
+ * @property-read null|Chat $chat                          - The chat this chat-group belongs to
+ * @property-read Collection<int, ChatRole> $roles    - All chat-roles that belong to this chat-group
  */
 class ChatGroup extends Model
 {
     protected $fillable = [
-        'application_id', 'name', 'description',
+        'application_id', 'chat_id', 'name', 'description',
         'number', 'roles_per_member', 'is_required', 'allowed'
     ];
 
@@ -42,7 +44,12 @@ class ChatGroup extends Model
         return $this->belongsTo(Application::class);
     }
 
-    public function chatRoles(): HasMany
+    public function chat(): BelongsTo
+    {
+        return $this->belongsTo(Chat::class);
+    }
+
+    public function roles(): HasMany
     {
         return $this->hasMany(ChatRole::class);
     }

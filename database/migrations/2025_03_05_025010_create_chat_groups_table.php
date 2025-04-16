@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('app.chat_groups', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('application_id')->nullable(false)->index()
+            $table->foreignId('application_id')->nullable()->index()
+                ->constrained()->cascadeOnDelete();
+            $table->foreignId('chat_id')->nullable()->index()
                 ->constrained()->cascadeOnDelete();
 
             $table->json('name')->nullable(false);
@@ -25,7 +27,7 @@ return new class extends Migration
             $table->boolean('is_required')->nullable(false)->default(true);
             $table->string('allowed')->nullable();
 
-            $table->unique(['application_id', 'number']);
+            $table->unique(['application_id', 'chat_id', 'number']);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

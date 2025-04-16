@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Casts\Behaviors;
 use App\Models\Casts\LocaleString;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
@@ -35,7 +36,7 @@ class Role extends Model implements HasOwnerInterface, Stateful
 
     protected $casts = [
         'is_public' => 'bool',
-        'behaviors' => 'array',
+        'behaviors' => Behaviors::class,
         'states' => 'array',
         'name' => LocaleString::class,
         'description' => LocaleString::class,
