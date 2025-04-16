@@ -70,9 +70,9 @@ class Image extends Model implements HasOwnerInterface, HasFilesInterface
     public function getPathAttributes(): array
     {
         return [
-            $this->path,
-            $this->path_md,
-            $this->path_sm,
+            'path',
+            'path_md',
+            'path_sm',
         ];
     }
 }

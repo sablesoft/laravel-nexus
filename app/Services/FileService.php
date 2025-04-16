@@ -15,7 +15,9 @@ class FileService
     public static function remove(HasFilesInterface $model): void
     {
         foreach ($model->getPathAttributes() as $attribute) {
-            Storage::delete($model->$attribute);
+            if ($model->$attribute) {
+                Storage::delete($model->$attribute);
+            }
         }
     }
 
