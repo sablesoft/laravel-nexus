@@ -86,12 +86,12 @@
     <div class="space-y-2">
         @if($chatRoles)
             <div
-                class="grid grid-cols-[1fr_1fr_1fr_3fr_1fr_auto] gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-                <span>{{ __('Original Role') }}</span>
-                <span>{{ __('Code') }}</span>
+                class="grid grid-cols-[1fr_1fr_4fr_1fr_1fr_auto] gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
                 <span>{{ __('Name') }}</span>
+                <span>{{ __('Code') }}</span>
                 <span>{{ __('Description') }}</span>
                 <span>{{ __('Limit') }}</span>
+                <span>{{ __('Original Role') }}</span>
                 <span class="text-right">{{ __('Actions') }}</span>
             </div>
         @endif
@@ -101,24 +101,24 @@
                  class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow transition-all duration-300">
                 {{-- Row --}}
                 <div
-                    class="grid grid-cols-[1fr_1fr_1fr_3fr_1fr_auto] gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
-                    <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                        <a class="underline" wire:click.stop wire:navigate
-                           href="{{ route('workshop.roles', ['action' => 'view', 'id' => $chatRole['role_id']]) }}">
-                            {{ $chatRole['roleName'] }}
-                        </a>
+                    class="grid grid-cols-[1fr_1fr_4fr_1fr_1fr_auto] gap-4 items-center px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-700">
+                    <span class="text-sm text-zinc-600 dark:text-zinc-300">
+                        {{ $chatRole['name'] }}
                     </span>
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">
                         {{ $chatRole['code'] }}
                     </span>
                     <span class="text-sm text-zinc-600 dark:text-zinc-300">
-                        {{ $chatRole['name'] }}
-                    </span>
-                    <span class="text-sm text-zinc-600 dark:text-zinc-300">
-                        {!! e($chatRole['description']) !!}
+                        {!! nl2br(e($chatRole['description'])) !!}
                     </span>
                     <span class="text-sm text-zinc-500 dark:text-zinc-400">
                         {{ $chatRole['limit'] > 0 ? $chatRole['limit'] : 'Unlimited' }}
+                    </span>
+                    <span class="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                        <a class="underline" wire:click.stop wire:navigate
+                           href="{{ route('workshop.roles', ['action' => 'view', 'id' => $chatRole['role_id']]) }}">
+                            {{ $chatRole['roleName'] }}
+                        </a>
                     </span>
 
                     {{-- Expand toggle + actions --}}

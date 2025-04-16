@@ -21,6 +21,17 @@ class AppScenariosTableSeeder extends Seeder
         \DB::table('app.scenarios')->insert(array (
             0 => 
             array (
+                'id' => 2,
+                'user_id' => 1,
+                'title' => '{"en":"Completion Template","ru":"Шаблон генерации"}',
+                'description' => '{"ru":null}',
+            'before' => '[{"comment":">>Validate context required for chat completion"},{"validate":{"messages":"required|array|min:1","messages.*.role":"required|string|in:user,assistant,system,tool","messages.*.content":"required|string","content_handler":"sometimes|array","tool_choice":"sometimes|string","tools":"sometimes|array","calls_handlers":"sometimes|array","model":"sometimes|string"}},{"comment":">>Prepare context variables"},{"set":{"model":"model ?? \'gpt-4-turbo\'","tools":"tools ?? null","tool_choice":"tools ? (tool_choice ?? \'auto\') : null","calls_handlers":"calls_handlers ?? null","content_handler":"content_handler ?? null"}},{"comment":">>Run chat completion"},{"chat.completion":{"model":"model","messages":"messages","tool_choice":"tool_choice","tools":"tools","calls":"calls_handlers","content":"content_handler"}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-02 04:23:13',
+                'updated_at' => '2025-04-12 00:41:11',
+            ),
+            1 => 
+            array (
                 'id' => 1,
                 'user_id' => 1,
                 'title' => '{"en":"Ask Memory"}',
@@ -30,7 +41,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-28 05:51:03',
                 'updated_at' => '2025-04-01 04:48:32',
             ),
-            1 => 
+            2 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -41,27 +52,16 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-04-07 23:07:51',
                 'updated_at' => '2025-04-12 00:40:56',
             ),
-            2 => 
-            array (
-                'id' => 2,
-                'user_id' => 1,
-                'title' => '{"en":"Completion Template","ru":"Шаблон генерации"}',
-                'description' => '{"ru":null}',
-            'before' => '[{"comment":">>Validate context required for chat completion"},{"validate":{"messages":"required|array|min:1","messages.*.role":"required|string|in:user,assistant,system,tool","messages.*.content":"required|string","content_handler":"sometimes|array","tool_choice":"sometimes|string","tools":"sometimes|array","calls_handlers":"sometimes|array","model":"sometimes|string"}},{"comment":">>Prepare context variables"},{"set":{"model":"model ?? \'gpt-4-turbo\'","tools":"tools ?? null","tool_choice":"tools ? (tool_choice ?? \'auto\') : null","calls_handlers":"calls_handlers ?? null","content_handler":"content_handler ?? null"}},{"comment":">>Run chat completion"},{"chat.completion":{"model":"model","messages":"messages","tool_choice":"tool_choice","tools":"tools","calls":"calls_handlers","content":"content_handler"}}]',
-                'after' => NULL,
-                'created_at' => '2025-04-02 04:23:13',
-                'updated_at' => '2025-04-12 00:41:11',
-            ),
             3 => 
             array (
                 'id' => 12,
                 'user_id' => 1,
                 'title' => '{"en":"Prologue - Continue","ru":"Prologue - Continue"}',
                 'description' => '{"en":null,"ru":null}',
-            'before' => '[{"set":{"meta":null,"author":null,"messages":[{"role":">>system","content":">>User plays a text-based survival game in a post-apocalyptic world. Always consider (and explain as much as possible) the following information when preparing your response: time of day: {{ chat.state(\'time\') }}; weather: {{ chat.state(\'weather\')}}; user\'\'s character: {{ member.asString }}"},{"role":">>system","content":">>The user\'s character speaks {{ member.language }} and identifies as {{ member.gender }}. Always respond in this language unless instructed otherwise and always use grammatical forms that match the character\'s gender. This includes correct verb conjugations, adjectives, and pronouns where applicable. Always adapt second-person and first-person grammar, vocabulary, and tone to match the gender and personality of the character. If the language has no gendered forms (like English), maintain consistency in character tone and avoid gender assumptions unless instructed. Always narrate in second person (\'you\') as if speaking directly to the player-character."}]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}}]',
+            'before' => '[{"set":{"meta":null,"author":null,"messages":"member_info"}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}}]',
             'after' => '[{"chat.completion":{"model":">>gpt-4o","messages":"messages","content":[{"memory.create":{"author_id":"author","content":"content","meta":"meta"}},{"screen.state":{"values":{"waiting":false,"step":"screen.nextState(\'step\')","isDone":"screen.state(\'step\') == screen.state(\'steps\')"}}},{"chat.refresh":null}]}}]',
                 'created_at' => '2025-04-14 03:12:20',
-                'updated_at' => '2025-04-15 02:03:58',
+                'updated_at' => '2025-04-16 00:47:31',
             ),
         ));
         

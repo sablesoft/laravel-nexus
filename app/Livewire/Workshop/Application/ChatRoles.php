@@ -197,7 +197,7 @@ class ChatRoles extends Component
             'allowed'           => ['nullable', 'string'], // todo - dsl-expression
             'statesString'      => ['nullable', $dslEditor, new DslRule(StatesValidator::class, $dslEditor)],
             'behaviorsString'   => ['nullable', $dslEditor, new DslRule(BehaviorsValidator::class, $dslEditor)],
-            'role_id'           => [ 'required', 'int'],
+            'role_id'           => [ 'nullable', 'int'],
         ];
     }
 

@@ -78,7 +78,7 @@ class Mask extends AbstractCrud
                         }
                     }
                 ],
-                'callback' => fn($model) => $model->is_public ? 'Yes' : 'No'
+                'callback' => fn($model) => $model->is_public ? __('Yes') : __('No')
             ],
         ];
     }

@@ -18,8 +18,8 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->foreignId('chat_group_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
-            $table->foreignId('role_id')->nullable(false)->index()
-                ->constrained()->cascadeOnDelete();
+            $table->foreignId('role_id')->nullable()->index()
+                ->constrained()->nullOnDelete();
 
             $table->json('name')->nullable(false);
             $table->string('code')->nullable(false);
@@ -30,7 +30,6 @@ return new class extends Migration
             $table->foreignId('screen_id')->nullable()
                 ->constrained()->nullOnDelete();
 
-            $table->unique(['application_id', 'role_id']);
             $table->unique(['application_id', 'code']);
 
             $table->jsonb('states')->nullable();

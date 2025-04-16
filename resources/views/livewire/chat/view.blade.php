@@ -44,8 +44,7 @@
         @endif
 
         <div class="mb-4">
-            <h3>{{ __('Description') }}</h3>
-            <p>{{ $chat->application->description }}</p>
+            <p>{!! nl2br(e($chat->application->description)) !!}</p>
         </div>
 
         <div class="mb-4">

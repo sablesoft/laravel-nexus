@@ -45,6 +45,19 @@ class AppChatGroupsTableSeeder extends Seeder
                 'created_at' => '2025-04-12 05:31:13',
                 'updated_at' => '2025-04-12 08:12:00',
             ),
+            2 => 
+            array (
+                'id' => 3,
+                'application_id' => 1,
+                'name' => '{"en":"Fraction","ru":"Фракция"}',
+                'description' => '{"en":null,"ru":null}',
+                'number' => 3,
+                'roles_per_member' => 1,
+                'is_required' => true,
+                'allowed' => NULL,
+                'created_at' => '2025-04-16 00:56:30',
+                'updated_at' => '2025-04-16 01:13:01',
+            ),
         ));
         
         

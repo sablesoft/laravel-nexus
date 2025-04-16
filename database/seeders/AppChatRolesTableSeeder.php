@@ -155,6 +155,40 @@ class AppChatRolesTableSeeder extends Seeder
                 'created_at' => '2025-04-12 07:52:44',
                 'updated_at' => '2025-04-12 08:06:49',
             ),
+            8 => 
+            array (
+                'id' => 10,
+                'application_id' => 1,
+                'chat_group_id' => 3,
+                'role_id' => NULL,
+                'name' => '{"en":"Shells","ru":"Панцири"}',
+                'code' => 'shells',
+                'description' => '{"en":"Shells live sealed behind tech — suits, filters, and routines. To them, discipline and containment are the only path forward.\\nThey are believed to have no immunity to the Doomsday Virus — or at least, that’s what everyone thinks.","ru":"Панцири живут, заключённые в технологии — маски, фильтры, протоколы. Для них выживание — это контроль и изоляция.\\nСчитается, что у них нет иммунитета к Вирусу Судного Дня — или, по крайней мере, так думают все."}',
+                'allowed' => NULL,
+                'limit' => 0,
+                'screen_id' => NULL,
+                'states' => NULL,
+                'behaviors' => NULL,
+                'created_at' => '2025-04-16 01:07:18',
+                'updated_at' => '2025-04-16 02:17:56',
+            ),
+            9 => 
+            array (
+                'id' => 9,
+                'application_id' => 1,
+                'chat_group_id' => 3,
+                'role_id' => NULL,
+                'name' => '{"en":"Walkers","ru":"Странники"}',
+                'code' => 'walkers',
+                'description' => '{"en":"Walkers roam the world unmasked — raw, exposed, and adapted. They believe survival comes through trust in nature and the human body, not in hiding.\\nThey are believed to be immune to the Doomsday Virus — or at least, that’s what everyone thinks.","ru":"Странники бродят по миру с открытым лицом — без защиты, но с доверием к природе и собственному телу. Они считают, что прятаться — значит терять себя.\\nСчитается, что они обладают иммунитетом к Вирусу Судного Дня — или, по крайней мере, так думают все."}',
+                'allowed' => NULL,
+                'limit' => 0,
+                'screen_id' => NULL,
+                'states' => NULL,
+                'behaviors' => NULL,
+                'created_at' => '2025-04-16 01:06:40',
+                'updated_at' => '2025-04-16 02:18:18',
+            ),
         ));
         
         

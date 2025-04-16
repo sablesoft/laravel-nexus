@@ -69,6 +69,12 @@ class ChatRole extends Model implements Stateful
     public static function boot(): void
     {
         parent::boot();
+        static::creating(function(self $model) {
+            if ($model->role) {
+                $model->states = $model->role->states;
+                $model->behaviors = $model->role->behaviors;
+            }
+        });
         static::saving(function(self $model) {
             if ($model->isDirty('states')) {
                 $states = $model->states ?: [];
