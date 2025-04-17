@@ -15,6 +15,10 @@ class Behaviors implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes): array
     {
+        if (empty($value)) {
+            return [$key => null];
+        }
+
         if (is_string($value)) {
             $value = json_decode($value, true);
         }

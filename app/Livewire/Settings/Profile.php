@@ -15,7 +15,7 @@ class Profile extends Component
 
     public string $email = '';
 
-    public string $language = 'en';
+    public ?string $language = 'en';
 
     /**
      * Mount the component.
