@@ -5,6 +5,7 @@ namespace App\Logic\Effect\Definitions;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Rules\PrefixedInRule;
 use App\Logic\Rules\VariableOrArrayRule;
+use App\Logic\Rules\VariableOrBoolRule;
 
 /**
  * Defines the structure, validation, and editor schema for the `chat.completion` effect.
@@ -119,7 +120,7 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                     'description' => 'Fallback handler for content. Either scenario code or effect list.',
                 ],
                 'async' => [
-                    'type' => 'boolean',
+                    'type' => 'expression',
                     'description' => 'If true, the completion is sent asynchronously and effects will not wait for a response.',
                 ],
             ],
@@ -130,6 +131,7 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                         'messages' => [
                             ['role' => 'user', 'content' => '>>Hi!']
                         ],
+                        'async' => 'asyncFlag',
                         'tools' => [
                             'get_weather' => [
                                 'description' => '>>Get weather info',
@@ -169,9 +171,10 @@ class ChatCompletionDefinition implements EffectDefinitionContract
     {
         return [
             'model' => [
-                'required',
+                'sometimes',
+                'nullable',
                 'string',
-                new PrefixedInRule(config('openai.gpt_models', ['gpt-4-turbo']))
+                new PrefixedInRule(config('openai.gpt_models', ['gpt-4o']))
             ],
 
             'messages' => ['required', new VariableOrArrayRule([
@@ -192,7 +195,7 @@ class ChatCompletionDefinition implements EffectDefinitionContract
             'stop.*' => 'string',
             'presence_penalty' => 'sometimes|numeric',
             'frequency_penalty' => 'sometimes|numeric',
-            'async' => 'sometimes|boolean',
+            'async' => ['sometimes'],
 
             'tools' => ['sometimes', 'nullable', new VariableOrArrayRule([
                 '*' => ['required', new VariableOrArrayRule([

@@ -3,6 +3,7 @@
 namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
+use App\Logic\Dsl\Dsl;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\EffectJob;
@@ -60,18 +61,13 @@ class ChatCompletionHandler implements EffectHandlerContract
      */
     public function execute(Process $process): void
     {
-        if (!empty($this->params['async'])) {
-            EffectJob::dispatch(
-                ChatCompletionDefinition::KEY,
-                Arr::except($this->params, ['async']),
-                $process
-            );
-            logger()->debug('[effect][chat.completion] sent to async');
+        if ($this->isAsync($process)) {
             return;
         }
 
         $compiled = ValueResolver::resolve(Arr::except($this->params, ['calls', 'content']), $process);
         $request = $this->buildRequest($compiled);
+        $request['model'] = $request['model'] ?? config('openai.gpt_model');
         logger()->debug('[effect][chat.completion] request', $request);
 
         try {
@@ -103,6 +99,25 @@ class ChatCompletionHandler implements EffectHandlerContract
             $this->notifyError($e, $process, $request);
             throw $e;
         }
+    }
+
+    protected function isAsync(Process $process): bool
+    {
+        if (empty($this->params['async'])) {
+            return false;
+        }
+        $async = (bool) \App\Logic\Facades\Dsl::evaluate($this->params['async'], $process->toContext());
+        if (!$async) {
+            return false;
+        }
+
+        EffectJob::dispatch(
+            ChatCompletionDefinition::KEY,
+            Arr::except($this->params, ['async']),
+            $process
+        );
+        logger()->debug('[effect][chat.completion] sent to async');
+        return true;
     }
 
     /**
