@@ -4,6 +4,7 @@ namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
+use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 use App\Models\Memory;
 use Illuminate\Support\Arr;
@@ -64,5 +65,9 @@ class MemoryCreateHandler implements EffectHandlerContract
         $params['chat_id'] = $process->chat->getKey();
 
         Memory::create($params);
+
+        if ($params['type'] === 'debug') {
+            Dsl::debug($params['title'] ?: 'Debug', $params, 'memory');
+        }
     }
 }

@@ -44,7 +44,7 @@ class ScreenDslAdapter extends ModelDslAdapter
         }
 
         return Memory::toMessages(
-            $query->orderByDesc('created_at')->limit($limit)->get()
+            $query->orderByDesc('created_at')->limit($limit)->get()->reverse()
         );
     }
 

@@ -29,11 +29,13 @@ class MemoryDslAdapter extends ModelDslAdapter
         }
 
         $messages = Memory::toMessages(
-            $query->orderByDesc('created_at')->limit($limit)->get()
+            $query->orderByDesc('created_at')->limit($limit)->get()->reverse()
         );
         Dsl::debug('Messages', [
             'expression' => $expression,
             'limit' => $limit,
+            'sql' => $query->toSql(),
+            'bindings' => $query->getBindings(),
             'messages' => $messages
         ], 'memory');
 

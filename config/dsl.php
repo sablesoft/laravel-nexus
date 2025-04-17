@@ -5,15 +5,6 @@ return [
         'enabled' => env('DSL_CACHE', false),
     ],
 
-    'debug' => [
-        'disabled' => env('DSL_DEBUG_DISABLED', false),
-        'process' => env('DSL_DEBUG_PROCESS', false),
-        'adapter' => env('DSL_DEBUG_ADAPTER', false),
-        'query' => env('DSL_DEBUG_QUERY', false),
-        'effect' => env('DSL_DEBUG_EFFECT', false),
-        'memory' => env('DSL_DEBUG_MEMORY', false),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Default Editor Format for Effects Fields

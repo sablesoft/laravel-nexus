@@ -28,7 +28,7 @@ class CharacterDslAdapter extends ModelDslAdapter
         $mask = $this->model->mask;
         $data = [
             'name' => $mask->name,
-            'gender' => $mask->gender,
+            'gender' => $mask->gender->label(),
             'description' => $mask->description,
             'roles' => $this->model->roles->pluck('description', 'name')->all()
         ];

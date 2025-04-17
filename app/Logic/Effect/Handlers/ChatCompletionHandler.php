@@ -70,19 +70,29 @@ class ChatCompletionHandler implements EffectHandlerContract
         $request['model'] = $request['model'] ?? config('openai.gpt_model');
         Dsl::debug('[chat.completion] request', $request, 'effect');
 
+        if ($this->isFake($process)) {
+            return;
+        }
+
         try {
             // Cleanup previously injected response data (if re-entered)
             $process->forget(['call', 'content', 'calls']);
 
             $response = OpenAI::chat()->create($request);
             $choice = $response->choices[0]->message;
+            Dsl::debug('[chat.completion] response', [
+                'message' => $choice->toArray(),
+                'usage' => $response->usage->toArray(),
+                'meta' => $response->meta()->toArray()
+            ], 'effect');
 
             // Handle regular content-based response
-            if (!empty($choice->content)) {
-                $process->set('content', $choice->content);
-                if ($effects = $this->params['content'] ?? null) {
-                    EffectRunner::run($effects, $process);
-                }
+            $process->set('content', $choice->content);
+            if ($content = $this->params['content'] ?? null) {
+                    $effects = is_string($content) ?
+                        ValueResolver::resolve($content, $process):
+                        $content;
+                EffectRunner::run($effects, $process);
             }
 
             // Handle tool function calls (if any)
@@ -120,6 +130,25 @@ class ChatCompletionHandler implements EffectHandlerContract
             'params' => $this->params,
             'process' => $process->pack()
         ], 'effect');
+        return true;
+    }
+
+    protected function isFake(Process $process): bool
+    {
+        if (!config('app.fake.completion')) {
+            return false;
+        }
+
+        Dsl::debug('[chat.completion] fake content used', [], 'effect');
+
+        $process->set('content', fake(app()->getLocale())->realText());
+        if ($content = $this->params['content'] ?? null) {
+            $effects = is_string($content) ?
+                ValueResolver::resolve($content, $process):
+                $content;
+            EffectRunner::run($effects, $process);
+        }
+
         return true;
     }
 

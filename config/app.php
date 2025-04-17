@@ -41,6 +41,18 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
+    'debugging' => [
+        'process' => env('DEBUG_PROCESS', false),
+        'adapter' => env('DEBUG_ADAPTER', false),
+        'query' => env('DEBUG_QUERY', false),
+        'effect' => env('DEBUG_EFFECT', false),
+        'memory' => env('DEBUG_MEMORY', false),
+    ],
+
+    'fake' => [
+        'completion' => env('FAKE_COMPLETION', false),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application URL

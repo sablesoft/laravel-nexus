@@ -45,10 +45,10 @@ class Dsl
 
     public function debug(string $message, array $context = [], ?string $code = null): void
     {
-        if (config('dsl.debug.disabled')) {
+        if (!config('app.debug')) {
             return;
         }
-        if (!$code || config("dsl.debug.$code")) {
+        if (!$code || config("app.debugging.$code")) {
             $prefix = '[DSL]' . ($code ? '['.ucfirst($code).']': '');
             logger()->debug("$prefix$message", $context);
         }
