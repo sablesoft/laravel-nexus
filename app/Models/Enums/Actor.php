@@ -5,23 +5,23 @@ namespace App\Models\Enums;
 use App\Enums\EnumContract;
 use App\Enums\EnumTrait;
 
-enum ControlType: string implements EnumContract
+enum Actor: string implements EnumContract
 {
     use EnumTrait;
 
-    case Action = 'action';
-    case Input = 'input';
+    case Player = 'player';
+    case System = 'system';
 
     public static function getDefault(): self
     {
-        return self::Action;
+        return self::System;
     }
 
     public static function options(): array
     {
         return [
-            self::Action->value => __('control-type.action'),
-            self::Action->value => __('control-type.input'),
+            self::Player->value => __('actor.player'),
+            self::System->value => __('actor.system'),
         ];
     }
 }

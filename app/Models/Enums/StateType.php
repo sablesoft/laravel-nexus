@@ -2,13 +2,34 @@
 
 namespace App\Models\Enums;
 
-enum StateType: string
+use App\Enums\EnumContract;
+use App\Enums\EnumTrait;
+
+enum StateType: string implements EnumContract
 {
+    use EnumTrait;
+
     case Bool = 'bool';
     case Int = 'int';
     case String = 'string';
     case Float = 'float';
     case Enum = 'enum';
+
+    public static function getDefault(): self
+    {
+        return self::String;
+    }
+
+    public static function options(): array
+    {
+        return [
+            self::Bool->value => 'Boolean',
+            self::Int->value => 'Integer',
+            self::String->value => 'String',
+            self::Float->value => 'Float',
+            self::Enum->value => 'Enum',
+        ];
+    }
 
     public function isValid(array $state): bool
     {
@@ -23,17 +44,6 @@ enum StateType: string
             self::Enum   => is_string($value)
                 && is_array($options)
                 && in_array($value, $options, true),
-        };
-    }
-
-    public function label(): string
-    {
-        return match ($this) {
-            self::Bool => 'Boolean',
-            self::Int => 'Integer',
-            self::String => 'String',
-            self::Float => 'Float',
-            self::Enum => 'Enum',
         };
     }
 }

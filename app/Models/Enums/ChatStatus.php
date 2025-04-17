@@ -2,16 +2,31 @@
 
 namespace App\Models\Enums;
 
-enum ChatStatus: string
+use App\Enums\EnumContract;
+use App\Enums\EnumTrait;
+
+enum ChatStatus: string implements EnumContract
 {
+    use EnumTrait;
+
     case Created = 'created';
     case Published = 'published';
     case Started = 'started';
     case Ended = 'ended';
 
-    public static function values(): array
+    public static function getDefault(): ?self
     {
-        return array_map(fn($case) => $case->value, self::cases());
+        return self::Created;
+    }
+
+    public static function options(): array
+    {
+        return [
+            self::Created->value => __('chat-status.created'),
+            self::Published->value => __('chat-status.published'),
+            self::Started->value => __('chat-status.started'),
+            self::Ended->value => __('chat-status.ended'),
+        ];
     }
 
     public static function publicValues(): array

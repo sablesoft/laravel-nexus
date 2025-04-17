@@ -2,27 +2,28 @@
 
 namespace App\Models\Enums;
 
-enum Gender: string
+use App\Enums\EnumContract;
+use App\Enums\EnumTrait;
+
+enum Gender: string implements EnumContract
 {
+    use EnumTrait;
+
     case Male = 'male';
     case Female = 'female';
     case Other = 'other';
 
-    public function label(): string
-    {
-        return __(ucfirst($this->value));
-    }
-
     public static function options(): array
     {
-        return collect(self::cases())
-            ->mapWithKeys(fn($sex) => [
-                $sex->value => __(ucfirst($sex->value))
-            ])->toArray();
+        return [
+            self::Male->value => __('gender.male'),
+            self::Female->value => __('gender.female'),
+            self::Other->value => __('gender.other'),
+        ];
     }
 
-    public static function values(): array
+    public static function getDefault(): null
     {
-        return array_map(fn(self $case) => $case->value, self::cases());
+        return null;
     }
 }
