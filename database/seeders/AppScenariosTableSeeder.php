@@ -14,12 +14,12 @@ class AppScenariosTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.scenarios')->delete();
-
+        
         \DB::table('app.scenarios')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -30,7 +30,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-04-02 04:23:13',
                 'updated_at' => '2025-04-12 00:41:11',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -41,7 +41,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-03-28 05:51:03',
                 'updated_at' => '2025-04-01 04:48:32',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -52,7 +52,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-04-07 23:07:51',
                 'updated_at' => '2025-04-12 00:40:56',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 12,
                 'user_id' => 1,
@@ -64,7 +64,7 @@ class AppScenariosTableSeeder extends Seeder
                 'updated_at' => '2025-04-16 00:47:31',
             ),
         ));
-
-
+        
+        
     }
 }

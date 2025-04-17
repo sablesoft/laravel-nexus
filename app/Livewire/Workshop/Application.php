@@ -120,6 +120,15 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'action' => ['index', 'view', 'edit', 'create'],
                 'type' => 'number'
             ],
+            'masks_allowed' => [
+                'title' => __('Is Masks Allowed'),
+                'hint' => __('masks.allowed.hint'),
+                'action' => ['index', 'view', 'edit', 'create'],
+                'rules' => ['required', 'boolean'],
+                'type' => 'checkbox',
+                'callback' => fn(\App\Models\Application $model) =>
+                                    $model->masks_allowed ? __('Yes') : __('No'),
+            ],
             'statesString' => [
                 'title' => __('Global States'),
                 'hint' => __('This states can be used around all screens'),

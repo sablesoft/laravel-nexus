@@ -7,6 +7,7 @@ use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\Adapters\CharacterDslAdapter;
 use App\Logic\Process;
 use App\Models\Casts\Behaviors;
+use App\Models\Enums\Actor;
 use App\Models\Enums\Gender;
 use App\Models\Interfaces\Stateful;
 use App\Models\Services\BehaviorsCompiler;
@@ -32,6 +33,7 @@ use Symfony\Component\Intl\Languages;
  * @property null|int $screen_id
  * @property null|string $language
  * @property null|Gender $gender
+ * @property null|Actor $actor
  * @property null|bool $is_confirmed
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -52,14 +54,15 @@ class Character extends Model implements HasDslAdapterContract, Stateful
 
     protected $fillable = [
         'chat_id', 'application_id', 'mask_id', 'screen_id', 'user_id',
-        'is_confirmed', 'states', 'language', 'gender', 'behaviors'
+        'actor', 'is_confirmed', 'states', 'language', 'gender', 'behaviors'
     ];
 
     protected $casts = [
         'is_confirmed' => 'bool',
         'states' => 'array',
         'behaviors' => Behaviors::class,
-        'gender' => Gender::class
+        'gender' => Gender::class,
+        'actor' => Actor::class,
     ];
 
     public function application(): BelongsTo

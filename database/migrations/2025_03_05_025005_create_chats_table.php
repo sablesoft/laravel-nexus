@@ -20,8 +20,9 @@ return new class extends Migration
                 ->constrained()->cascadeOnDelete();
             $table->json('title')->nullable(false);
             $table->unsignedSmallInteger('seats')->nullable(false)->default(1);
+            $table->boolean('masks_allowed')->nullable(false)->default(false);
             $table->enum('status', ChatStatus::values())->index()
-                ->nullable(false)->default(ChatStatus::Created->value);
+                ->nullable(false)->default(ChatStatus::getDefault()->value);
 
             $table->jsonb('states')->nullable();
             $table->index('states', 'app_chats_states_index', 'gin');

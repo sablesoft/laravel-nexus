@@ -14,12 +14,12 @@ class AppApplicationsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.applications')->delete();
-
+        
         \DB::table('app.applications')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -38,7 +38,7 @@ class AppApplicationsTableSeeder extends Seeder
                 'updated_at' => '2025-04-16 03:38:25',
             ),
         ));
-
-
+        
+        
     }
 }

@@ -57,6 +57,10 @@
         </div>
 
         <div class="mb-4">
+            <p>{{ __('Is Masks Allowed') }}: {{ $chat->masks_allowed ? __('Yes') : __('No') }}</p>
+        </div>
+
+        <div class="mb-4">
             {{-- todo - status name format --}}
             <p>{{ __('Status') }}: {{ ucfirst($chat->status->value) }}</p>
         </div>

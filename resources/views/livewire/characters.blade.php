@@ -9,17 +9,15 @@
     @endif
 
     <div class="mt-2 space-y-2">
-        @php
-            $cols = 4;
-            if ($chat) $cols++;
-            if (!$this->isStarted()) $cols++;
-        @endphp
-        @switch($cols)
-            @case(4) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr]'; @endphp @break
-            @case(5) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_8rem]'; @endphp @break
-            @case(6) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_10rem_8rem]'; @endphp @break
-        @endswitch
-        @if($characters->isNotEmpty())
+        @if($allowedCharacters->isNotEmpty())
+            @php
+                $cols = 5;
+                if (!$this->isStarted()) $cols++;
+            @endphp
+            @switch($cols)
+                @case(5) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_8rem]'; @endphp @break
+                @case(6) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_8rem_8rem]'; @endphp @break
+            @endswitch
             {{-- Header --}}
             <div class="grid {{ $grid }} gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
                 <span>{{ __('Image') }}</span>
@@ -29,6 +27,9 @@
                 @if($chat)
                     <span>{{ __('Player') }}</span>
                 @endif
+                @if($application)
+                    <span>{{ __('Actor') }}</span>
+                @endif
                 @if(!$this->isStarted())
                     <span>{{ __('Actions') }}</span>
                 @endif
@@ -37,7 +38,7 @@
             <p>{{ __('No characters so far') }}</p>
         @endif
 
-        @foreach($characters as $character)
+        @foreach($allowedCharacters as $character)
             <div class="grid {{ $grid }} gap-4 items-center bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2 text-sm">
                 {{-- Image --}}
                 <div class="flex items-center">
@@ -82,6 +83,13 @@
                 </div>
                 @endif
 
+                {{-- Actor --}}
+                @if($application)
+                    <div>
+                        {{ $character->actor->label() }}
+                    </div>
+                @endif
+
                 {{-- Actions --}}
                 @if(!$this->isStarted())
                     <div>
@@ -108,7 +116,11 @@
                         @endif
                         @if($this->isOwner())
                             @if($application)
-                            <flux:tooltip content="{{ __('Manage Roles') }}">
+                            <flux:tooltip content="{{ __('Actor') }}">
+                                <flux:button class="cursor-pointer" size="sm" icon="bolt"
+                                             wire:click="manageActor({{ $character->id }})"/>
+                            </flux:tooltip>
+                            <flux:tooltip content="{{ __('Roles') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="user-group"
                                              wire:click="manageRoles({{ $character->id }})"/>
                             </flux:tooltip>
@@ -152,8 +164,6 @@
     <flux:modal name="form-chat-roles"
                 class="!max-w-4xl min-w-xl">
         <div class="space-y-4">
-            <flux:heading>{{ __('Manage Roles') }}</flux:heading>
-
             <flux:field class="mb-3">
                 <flux:label>{{ __('Select Role') }}</flux:label>
                 <div>
@@ -170,6 +180,35 @@
                     </flux:button>
                 </flux:modal.close>
                 <flux:button wire:click="submitRoles" variant="primary" class="cursor-pointer">
+                    {{ __('Submit') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
+
+    <flux:modal name="form-actor"
+                class="!max-w-4xl min-w-xl">
+        <div class="space-y-4">
+            <flux:field class="mb-3">
+                <flux:label>{{ __('Select Actor') }}</flux:label>
+                <flux:select wire:model="state.actor" class="cursor-pointer" required>
+                    @foreach (\App\Models\Enums\Actor::options() as $value => $title)
+                        <flux:select.option value="{{ $value }}">
+                            {{ $title }}
+                        </flux:select.option>
+                    @endforeach
+                </flux:select>
+                <flux:error name="state.actor"/>
+            </flux:field>
+
+            <div class="flex gap-2">
+                <flux:spacer/>
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Close') }}
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button wire:click="submitActor" variant="primary" class="cursor-pointer">
                     {{ __('Submit') }}
                 </flux:button>
             </div>

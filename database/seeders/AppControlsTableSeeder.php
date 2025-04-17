@@ -14,12 +14,12 @@ class AppControlsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.controls')->delete();
-
+        
         \DB::table('app.controls')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'screen_id' => 1,
@@ -35,7 +35,7 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-08 20:05:14',
                 'updated_at' => '2025-04-15 01:11:32',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 5,
                 'screen_id' => 9,
@@ -51,7 +51,7 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 21:54:16',
                 'updated_at' => '2025-04-15 01:12:19',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 6,
                 'screen_id' => 2,
@@ -67,7 +67,7 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-15 00:12:39',
                 'updated_at' => '2025-04-15 00:20:32',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 7,
                 'screen_id' => 9,
@@ -84,7 +84,7 @@ class AppControlsTableSeeder extends Seeder
                 'updated_at' => '2025-04-15 00:39:30',
             ),
         ));
-
-
+        
+        
     }
 }

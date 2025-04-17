@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\Actor;
 use App\Models\Enums\Gender;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,6 +25,9 @@ return new class extends Migration
                 ->constrained()->nullOnDelete();
             $table->foreignId('screen_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
+            $table->enum('actor', Actor::values())->index()
+                ->nullable(false)->default(Actor::getDefault()->value);
+
             $table->boolean('is_confirmed')->nullable(false)->default(false);
 
             $table->string('language', 2)->nullable(false)->default('en');

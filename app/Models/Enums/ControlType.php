@@ -21,7 +21,7 @@ enum ControlType: string implements EnumContract
     {
         return [
             self::Action->value => __('control-type.action'),
-            self::Action->value => __('control-type.input'),
+            self::Input->value => __('control-type.input'),
         ];
     }
 }

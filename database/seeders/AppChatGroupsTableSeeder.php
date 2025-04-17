@@ -14,12 +14,12 @@ class AppChatGroupsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.chat_groups')->delete();
-
+        
         \DB::table('app.chat_groups')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'application_id' => 1,
@@ -33,7 +33,7 @@ class AppChatGroupsTableSeeder extends Seeder
                 'created_at' => '2025-04-12 05:23:53',
                 'updated_at' => '2025-04-12 08:11:40',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'application_id' => 1,
@@ -47,7 +47,7 @@ class AppChatGroupsTableSeeder extends Seeder
                 'created_at' => '2025-04-12 05:31:13',
                 'updated_at' => '2025-04-12 08:12:00',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'application_id' => 1,
@@ -62,7 +62,7 @@ class AppChatGroupsTableSeeder extends Seeder
                 'updated_at' => '2025-04-16 01:13:01',
             ),
         ));
-
-
+        
+        
     }
 }

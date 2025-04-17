@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class BehaviorsCompiler
 {
-    public function compile(Character $character): array
+    public function compile(Character $character): ?array
     {
         $chat = $character->chat;
         $compiled = [];
@@ -37,7 +37,7 @@ class BehaviorsCompiler
             $compiled[$verb] = $merged;
         }
 
-        return ['can' => $compiled];
+        return $compiled ? ['can' => $compiled] : null;
     }
 
     public function save(Character $character): void

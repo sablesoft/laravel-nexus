@@ -4,6 +4,7 @@ namespace App\Livewire;
 use App\Models\Application;
 use App\Models\Chat;
 use App\Models\ChatRole;
+use App\Models\Enums\Actor;
 use App\Models\Enums\ChatStatus;
 use App\Models\Mask;
 use App\Models\Character;
@@ -27,7 +28,8 @@ class Characters extends Component
     #[Locked]
     public ?int $characterId = null;
     public array $state = [
-        'roles' => []
+        'roles' => [],
+        'actor' => null
     ];
     public array $selectRoles = [];
 
@@ -44,7 +46,11 @@ class Characters extends Component
 
     public function render(): mixed
     {
-        return view('livewire.characters');
+        return view('livewire.characters', [
+            'allowedCharacters' => $this->chat ?
+                $this->characters->where('actor', Actor::Player->value) :
+                $this->characters
+        ]);
     }
 
     #[On('refresh.chat')]
@@ -111,10 +117,10 @@ class Characters extends Component
         }
 
         if (!$this->chat) {
-            return true;
+            return $this->isOwner();
         }
 
-        return ($this->chat->seats - $this->characters->count()) > 0;
+        return $this->chat->masks_allowed && $this->chat->allowedSeatsCount();
     }
 
     public function character(): void
@@ -167,7 +173,7 @@ class Characters extends Component
 
     public function isJoined(): bool
     {
-        return !!$this->source()->characters->where('user_id', auth()->id())->count();
+        return !!$this->characters->where('user_id', auth()->id())->count();
     }
 
     public function join(int $id): void
@@ -184,10 +190,29 @@ class Characters extends Component
         $this->dispatch('flash', message: __('You joined this chat'));
     }
 
+    public function manageActor(int $characterId): void
+    {
+        $this->characterId = $characterId;
+        /** @var Character $character */
+        $character = $this->findCharacter($characterId);
+        $this->state['actor'] = $character->actor->value;
+        Flux::modal('form-actor')->show();
+    }
+
+    public function submitActor(): void
+    {
+        $character = $this->findCharacter($this->characterId);
+        $character->actor = Actor::from($this->state['actor']);
+        $character->save();
+        $this->updateCharacter($character);
+        Flux::modal('form-actor')->close();
+    }
+
     public function manageRoles(int $characterId): void
     {
         $this->characterId = $characterId;
-        $character = Character::findOrFail($characterId);
+        /** @var Character $character */
+        $character = $this->findCharacter($characterId);
         $this->state['roles'] = $character->roles->pluck('id')->toArray();
         $this->dispatch('searchable-multi-select-roles', searchableId: 'roles', options: $this->selectRoles);
         Flux::modal('form-chat-roles')->show();
@@ -195,8 +220,9 @@ class Characters extends Component
 
     public function submitRoles(): void
     {
-        $character = Character::findOrFail($this->characterId);
+        $character = $this->findCharacter($this->characterId);
         $character->roles()->sync($this->state['roles']);
+        $this->updateCharacter($character);
         Flux::modal('form-chat-roles')->close();
     }
 
@@ -208,12 +234,12 @@ class Characters extends Component
 
     public function maskIds(): array
     {
-        return $this->source()->characters->pluck('mask_id')->toArray();
+        return $this->characters->pluck('mask_id')->toArray();
     }
 
     protected function findCharacter(int $id): ?Character
     {
-        return $this->chat->characters->where('id', $id)->first();
+        return $this->characters->where('id', $id)->first();
     }
 
     protected function source(): Chat|Application
@@ -225,8 +251,6 @@ class Characters extends Component
     {
         if (!$character->exists) {
             $this->characters->forget($character->id);
-        } elseif (! $this->characters->has($character->id)) {
-            $this->characters->put($character->id, $character);
         } else {
             $this->characters->put($character->id, $character);
         }

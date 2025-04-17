@@ -14,12 +14,12 @@ class AppTransfersTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.transfers')->delete();
-
+        
         \DB::table('app.transfers')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 7,
                 'screen_from_id' => 2,
@@ -34,7 +34,7 @@ class AppTransfersTableSeeder extends Seeder
                 'created_at' => '2025-04-14 20:59:21',
                 'updated_at' => '2025-04-14 22:25:52',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 6,
                 'screen_from_id' => 1,
@@ -49,7 +49,7 @@ class AppTransfersTableSeeder extends Seeder
                 'created_at' => '2025-04-14 20:58:46',
                 'updated_at' => '2025-04-14 22:29:11',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 1,
                 'screen_from_id' => 1,
@@ -65,7 +65,7 @@ class AppTransfersTableSeeder extends Seeder
                 'updated_at' => '2025-04-16 04:02:01',
             ),
         ));
-
-
+        
+        
     }
 }

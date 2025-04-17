@@ -47,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|int $application_id    - The application this chat is based on
  * @property null|string $title          - Display title for the chat
  * @property null|int $seats             - Total number of participant slots
+ * @property null|int $masks_allowed     - Is users can add their masks as characters
  * @property null|ChatStatus $status     - Current chat status (e.g. Created, Published, Started)
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -64,10 +65,12 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
     use HasOwner, HasStates, HasBehaviors, HasFactory, BroadcastsEvents, HasDslAdapter;
 
     protected $fillable = [
-        'user_id', 'application_id', 'title', 'status', 'states', 'behaviors', 'behaviorsString'
+        'user_id', 'application_id', 'title', 'status', 'seats',
+        'masks_allowed', 'states', 'behaviors', 'behaviorsString'
     ];
 
     protected $casts = [
+        'masks_allowed' => 'boolean',
         'status' => ChatStatus::class,
         'states' => 'array',
         'behaviors' => Behaviors::class,
@@ -96,7 +99,8 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
 
     public function takenSeats(): HasMany
     {
-        return $this->characters()->whereNotNull('user_id');
+        return $this->characters()
+            ->whereNotNull('user_id')->where('is_confirmed', true);
     }
 
     public function allowedSeatsCount(): int
@@ -117,9 +121,9 @@ class Chat extends Model implements HasOwnerInterface, HasDslAdapterContract, St
             if (!$application = $model->application) {
                 throw new \RuntimeException('Cannot initialize chat: chat has no associated application.');
             }
-            $model->states = $application->states;
-            $model->behaviors = $application->behaviors;
-            $model->seats = $application->seats;
+            foreach(['states', 'behaviors', 'seats', 'masks_allowed'] as $field) {
+                $model->$field = $application->$field;
+            }
         });
         static::created(function(self $model) {
             ChatCreated::handle($model);

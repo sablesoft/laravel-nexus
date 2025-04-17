@@ -38,6 +38,7 @@ use JsonException;
  * @property null|string $description   - Description or notes about the application
  * @property null|bool $is_public       - Visibility flag (public or private) TODO - change to status
  * @property null|int $seats             - Total number of participant slots
+ * @property null|int $masks_allowed     - Is users can add their masks as characters
  * @property null|array $character_states
  * @property null|Carbon $created_at
  * @property null|Carbon $updated_at
@@ -57,12 +58,13 @@ class Application extends Model implements HasOwnerInterface, HasEffectsContract
     use HasOwner, HasStates, HasBehaviors, HasFactory, HasImage, HasEffects, HasInit;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'is_public', 'seats', 'init',
+        'user_id', 'title', 'description', 'is_public', 'seats', 'masks_allowed', 'init',
         'states', 'character_states', 'behaviors', 'before', 'after'
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
+        'masks_allowed' => 'boolean',
         'states' => 'array',
         'character_states' => 'array',
         'behaviors' => Behaviors::class,

@@ -14,12 +14,12 @@ class AppScreensTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.screens')->delete();
-
+        
         \DB::table('app.screens')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -40,7 +40,7 @@ class AppScreensTableSeeder extends Seeder
                 'created_at' => '2025-04-14 20:55:10',
                 'updated_at' => '2025-04-15 16:31:22',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -61,7 +61,7 @@ class AppScreensTableSeeder extends Seeder
                 'created_at' => '2025-04-08 19:54:06',
                 'updated_at' => '2025-04-16 00:52:53',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -83,7 +83,7 @@ class AppScreensTableSeeder extends Seeder
                 'updated_at' => '2025-04-16 03:05:43',
             ),
         ));
-
-
+        
+        
     }
 }
