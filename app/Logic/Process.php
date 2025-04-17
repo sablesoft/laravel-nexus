@@ -84,6 +84,17 @@ class Process
         $this->data = $initial;
     }
 
+    public function clone(array $initial = []): static
+    {
+        $original = $this->data;
+        foreach (array_keys($this->adapters) as $key) {
+            $original[$key] = $this->$key;
+        }
+        $initial = array_merge($original, $initial);
+
+        return new static($initial);
+    }
+
     /** Determines whether this process should be queued */
     public function shouldQueue(): bool
     {
