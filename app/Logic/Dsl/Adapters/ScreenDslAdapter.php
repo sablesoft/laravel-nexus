@@ -3,9 +3,22 @@
 namespace App\Logic\Dsl\Adapters;
 
 use App\Models\ChatScreenState;
+use App\Models\Screen;
 
 class ScreenDslAdapter extends ModelDslAdapter
 {
+    public function transfer(): ?string
+    {
+        return $this->process->screenTransfer ?
+            Screen::findOrFail($this->process->screenTransfer) :
+            null;
+    }
+
+    public function waiting(): bool
+    {
+        return $this->process->screenWaiting;
+    }
+
     public function state(string $key): mixed
     {
         return $this->chatScreenState()->getState($key);

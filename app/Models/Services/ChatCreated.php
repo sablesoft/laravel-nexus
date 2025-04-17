@@ -4,6 +4,7 @@ namespace App\Models\Services;
 
 use App\Models\Chat;
 use App\Models\ChatRole;
+use App\Models\ChatScreenState;
 
 class ChatCreated
 {
@@ -21,6 +22,13 @@ class ChatCreated
                 $chatRole->chat_id = $chat->id;
                 $chatRole->save();
             }
+        }
+        foreach ($application->screens as $screen) {
+            ChatScreenState::create([
+                'chat_id'   => $chat->id,
+                'screen_id' => $screen->id,
+                'states'    => $screen->states ?? [],
+            ]);
         }
         foreach ($application->characters as $character) {
             $copy = $character->replicate(['id', 'application_id', 'created_at', 'updated_at']);

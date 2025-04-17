@@ -5,9 +5,9 @@ namespace App\Logic\Effect\Definitions;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Rules\VariableOrBoolRule;
 
-class ScreenWritingDefinition implements EffectDefinitionContract
+class ScreenWaitingDefinition implements EffectDefinitionContract
 {
-    public const KEY = 'screen.writing';
+    public const KEY = 'screen.waiting';
 
     /**
      * Returns the DSL key that identifies this effect.
@@ -23,14 +23,14 @@ class ScreenWritingDefinition implements EffectDefinitionContract
     public static function describe(): array
     {
         return [
-            'title' => 'Screen Writing',
-            'description' => 'Shows or hide a writing pulse box under the screen messages.',
+            'title' => 'Screen Waiting',
+            'description' => 'Mark screen as waiting. Shows or hide a writing pulse box under the screen messages.',
             'fields' => [],
             'examples' => [
-                ['screen.writing' => 'flag'],
-                ['screen.writing' => "screen.state('something') == 3"],
-                ['screen.writing' => true],
-                ['screen.writing' => false],
+                ['screen.waiting' => 'flag'],
+                ['screen.waiting' => "screen.state('something') == 3"],
+                ['screen.waiting' => true],
+                ['screen.waiting' => false],
             ],
         ];
     }

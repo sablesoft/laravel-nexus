@@ -16,7 +16,7 @@ use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\RunDefinition;
 use App\Logic\Effect\Definitions\ScreenBackDefinition;
 use App\Logic\Effect\Definitions\ScreenStateDefinition;
-use App\Logic\Effect\Definitions\ScreenWritingDefinition;
+use App\Logic\Effect\Definitions\ScreenWaitingDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
@@ -92,7 +92,7 @@ class EffectDefinitionRegistry
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
         static::register(CharacterStateDefinition::KEY, new CharacterStateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
-        static::register(ScreenWritingDefinition::KEY, new ScreenWritingDefinition());
+        static::register(ScreenWaitingDefinition::KEY, new ScreenWaitingDefinition());
         static::register(ChatCompletionDefinition::KEY, new ChatCompletionDefinition());
     }
 

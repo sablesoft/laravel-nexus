@@ -94,7 +94,7 @@ class Play extends Component
     public string $ask = '';
 
     #[Locked]
-    public bool $writing = false;
+    public bool $waiting = false;
 
     /** List of online characters (calculated via PresenceTrait) */
     #[Locked]
@@ -154,8 +154,8 @@ class Play extends Component
     #[On('refresh.play')]
     public function refresh(): void
     {
+        $this->waiting = false;
         $this->chat->load(['memories.author']);
-        $this->writing = false;
         $this->prepareMemories();
         $this->prepareControls();
     }
@@ -172,7 +172,7 @@ class Play extends Component
 
     protected function initScreen(Screen $screen, bool $withHistory = true): void
     {
-        $this->writing = false;
+//        $this->waiting = false;
         if ($withHistory) {
             $this->screenState($screen->getKey())->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen?->getKey());
         }
@@ -416,8 +416,8 @@ class Play extends Component
             EffectRunner::run($appAfter, $process);
         }
 
-        if ($process->screenWriting) {
-            $this->writing = true;
+        if ($process->screenWaiting) {
+            $this->waiting = true;
         }
         if ($process->screenTransfer) {
             $this->changeScreen(Screen::findOrFail($process->screenTransfer));
@@ -436,11 +436,14 @@ class Play extends Component
 
     protected function getProcess(array $data = []): Process
     {
-        return new Process(array_merge([
+        $process = new Process(array_merge([
             'chat' => $this->chat,
             'screen' => $this->screen,
             'character' => $this->character,
         ], $data));
+        $process->screenWaiting = $this->waiting;
+
+        return $process;
     }
 
     protected function screenState(int $screenId = null): ChatScreenState

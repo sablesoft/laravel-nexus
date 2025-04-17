@@ -38,7 +38,7 @@ class Process
 
     protected array $data = []; // Custom data related to the current logic execution
     public bool $screenBack = false;
-    public bool $screenWriting = false;
+    public bool $screenWaiting = false;
     public ?int $screenTransfer = null;
 
     /**

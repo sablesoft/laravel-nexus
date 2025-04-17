@@ -38,7 +38,7 @@
                                     class="text-xs text-gray-400">{{ ($memory['created_at'])->diffForHumans() }}</span>
                             </div>
                         @endforeach
-                        @if($writing)
+                        @if($waiting)
                             <div class="mb-4 p-3 rounded-lg shadow-sm bg-gray-200 dark:bg-gray-700 self-start animate-pulse">
                                 <p class="text-sm text-gray-600 dark:text-gray-300 italic">...</p>
                             </div>

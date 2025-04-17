@@ -4,13 +4,12 @@ namespace App\Livewire\Chat;
 
 use App\Livewire\PresenceTrait;
 use App\Models\Chat;
+use App\Models\Enums\Actor;
 use App\Models\Enums\ChatStatus;
 use App\Models\Mask;
-use App\Models\Character;
 use App\Models\User;
 use App\Notifications\ChatUpdated;
 use Flux\Flux;
-use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -120,7 +119,10 @@ class View extends Component
         }
 
         $this->chat->update(['status' => ChatStatus::Started]);
-        foreach ($this->chat->characters()->whereNull('user_id')->orWhere('is_confirmed', false)->get() as $character) {
+        foreach ($this->chat->characters()->where('actor', Actor::Player->value)
+                    ->where(fn ($query) => $query->whereNull('user_id')
+                                            ->orWhere('is_confirmed', false)
+                    )->get() as $character) {
             $character->delete();
         }
         $this->dispatch('flash', message: __('Your chat was started!'));
