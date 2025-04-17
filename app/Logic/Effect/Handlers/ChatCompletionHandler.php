@@ -4,6 +4,8 @@ namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
+use App\Logic\Effect\Definitions\ChatCompletionDefinition;
+use App\Logic\EffectJob;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -58,6 +60,16 @@ class ChatCompletionHandler implements EffectHandlerContract
      */
     public function execute(Process $process): void
     {
+        if (!empty($this->params['async'])) {
+            EffectJob::dispatch(
+                ChatCompletionDefinition::KEY,
+                Arr::except($this->params, ['async']),
+                $process
+            );
+            logger()->debug('[effect][chat.completion] sent to async');
+            return;
+        }
+
         $compiled = ValueResolver::resolve(Arr::except($this->params, ['calls', 'content']), $process);
         $request = $this->buildRequest($compiled);
         logger()->debug('[effect][chat.completion] request', $request);
@@ -100,16 +112,8 @@ class ChatCompletionHandler implements EffectHandlerContract
     protected function buildRequest(array $config): array
     {
         return Arr::only($config, [
-                'model',
-                'messages',
-                'temperature',
-                'max_tokens',
-                'top_p',
-                'stop',
-                'presence_penalty',
-                'frequency_penalty',
-                'response_format',
-                'tool_choice',
+                'model', 'messages', 'temperature', 'max_tokens', 'top_p',
+                'stop', 'presence_penalty', 'frequency_penalty', 'response_format', 'tool_choice',
             ]) + $this->prepareTools($config);
     }
 
@@ -144,7 +148,10 @@ class ChatCompletionHandler implements EffectHandlerContract
     protected function handleCalls(Process $process): void
     {
         if (empty($this->params['calls'])) {
-            $this->notifyMissedHandler($this->params, $process);
+            Log::warning("No handler defined for tool in chat.completion effect.", [
+                'params' => $this->params,
+                'process' => $process->pack()
+            ]);
             return;
         }
         $compiled = ValueResolver::resolve($this->params['calls'], $process);
@@ -154,21 +161,9 @@ class ChatCompletionHandler implements EffectHandlerContract
                 $process->set('call', $call->arguments);
                 EffectRunner::run($block, $process);
             } else {
-                $this->notifyMissedHandler($call, $process);
+                Log::warning("No handler for tool call: {$call->name}");
             }
         }
-    }
-
-    /**
-     * Called when no handler is defined for a tool call.
-     * For now, logs the issue — future version should notify author.
-     */
-    protected function notifyMissedHandler(array $call, Process $process): void
-    {
-        Log::warning("No handler defined for tool in chat.completion effect.", [
-            'call' => $call,
-            'process' => $process->pack()
-        ]);
     }
 
     /**

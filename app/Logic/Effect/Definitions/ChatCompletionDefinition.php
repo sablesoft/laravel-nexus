@@ -26,6 +26,7 @@ use App\Logic\Rules\VariableOrArrayRule;
  *       messages:
  *         - role: 'user'
  *           content: '>>Hi!'
+ *       async: true
  *       tools:
  *         get_weather:
  *           description: '>>Get weather info'
@@ -117,6 +118,10 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                     'type' => 'expression',
                     'description' => 'Fallback handler for content. Either scenario code or effect list.',
                 ],
+                'async' => [
+                    'type' => 'boolean',
+                    'description' => 'If true, the completion is sent asynchronously and effects will not wait for a response.',
+                ],
             ],
             'examples' => [
                 [
@@ -153,18 +158,13 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                         'tools' => 'tools_schema_var',
                         'calls' => 'calls_effects_var',
                         'content' => 'content_effects_var',
+                        'async' => true,
                     ]
                 ]
             ],
         ];
     }
 
-    /**
-     * Returns Laravel validation rules for this effect.
-     * Supports both literal structures and dynamic variable references via VariableOrArrayRule.
-     * - Tool and call handlers must be defined if used.
-     * - Only effect arrays or variable references are allowed.
-     */
     public static function rules(): array
     {
         return [
@@ -192,6 +192,7 @@ class ChatCompletionDefinition implements EffectDefinitionContract
             'stop.*' => 'string',
             'presence_penalty' => 'sometimes|numeric',
             'frequency_penalty' => 'sometimes|numeric',
+            'async' => 'sometimes|boolean',
 
             'tools' => ['sometimes', 'nullable', new VariableOrArrayRule([
                 '*' => ['required', new VariableOrArrayRule([
@@ -211,7 +212,6 @@ class ChatCompletionDefinition implements EffectDefinitionContract
             ])],
         ];
     }
-
 
     public static function nestedEffects(array $params): array
     {

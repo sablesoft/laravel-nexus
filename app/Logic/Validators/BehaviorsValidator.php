@@ -80,8 +80,7 @@ class BehaviorsValidator implements DslValidatorContract
             'condition'     => ['sometimes'], // validated manually
             'target'        => ['sometimes', 'string'],
             'stuff'         => ['sometimes', 'string'],
-            'modifiers'     => ['sometimes', 'array'],
-            'modifiers.*'   => ['required', 'string'],
+            'modifiers'     => ['sometimes', 'string'],
             'merge'         => ['sometimes'],
             'merge.common'  => ['sometimes', 'in:replace,and,or'],
             'merge.role'    => ['sometimes', 'in:replace,and,or'],
