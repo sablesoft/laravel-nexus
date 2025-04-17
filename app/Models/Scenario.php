@@ -88,9 +88,4 @@ class Scenario extends Model implements HasOwnerInterface, LogicContract
     {
         return collect($this->steps);
     }
-
-    public function shouldQueue(Process $process): bool
-    {
-        return $process->shouldQueue();
-    }
 }

@@ -37,9 +37,6 @@ class Process
     use Timing, EffectsStack;
 
     protected array $data = []; // Custom data related to the current logic execution
-    public bool $inQueue = false; // Whether the process is currently running via queue
-    public bool $skipQueue = false; // Whether to explicitly skip queueing
-
     public bool $screenBack = false;
     public bool $screenWriting = false;
     public ?int $screenTransfer = null;
@@ -93,12 +90,6 @@ class Process
         $initial = array_merge($original, $initial);
 
         return new static($initial);
-    }
-
-    /** Determines whether this process should be queued */
-    public function shouldQueue(): bool
-    {
-        return !$this->skipQueue && !$this->inQueue;
     }
 
     // Data access helpers (dot notation supported)
@@ -199,8 +190,6 @@ class Process
                 'memory'    => $this->memory->getKey(),
                 'character' => $this->character->getKey(),
             ],
-            'inQueue'    => $this->inQueue,
-            'skipQueue'  => $this->skipQueue,
             'timing'     => $this->packTiming(), // from Timing trait
         ];
     }
@@ -219,8 +208,6 @@ class Process
 
         $instance = new static(array_merge($adapters, $payload['data'] ?? []));
 
-        $instance->inQueue   = $payload['inQueue'] ?? false;
-        $instance->skipQueue = $payload['skipQueue'] ?? false;
         $instance->unpackTiming($payload['timing'] ?? []);
 
         return $instance;

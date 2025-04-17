@@ -143,7 +143,6 @@ class Scenario extends AbstractCrud
         /** @var LogicContract $scenario **/
         $scenario = $this->getResource();
         $process = new Process();
-        $process->skipQueue = true;
         try {
             LogicRunner::runLogic($scenario, $process);
             dd($process);

@@ -27,10 +27,4 @@ interface LogicContract extends HasEffectsContract
      * @return Collection<int, NodeContract>
      */
     public function getNodes(): Collection;
-
-    /**
-     * Determines whether the logic should be executed in the background queue,
-     * based on the current implementation and the process state.
-     */
-    public function shouldQueue(Process $process): bool;
 }
