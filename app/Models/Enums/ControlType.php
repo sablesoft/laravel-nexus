@@ -17,11 +17,11 @@ enum ControlType: string implements EnumContract
         return self::Action;
     }
 
-    public static function options(): array
+    public static function options(?string $locale = null): array
     {
         return [
-            self::Action->value => __('control-type.action'),
-            self::Input->value => __('control-type.input'),
+            self::Action->value => __('control-type.action', [], $locale),
+            self::Input->value => __('control-type.input', [], $locale),
         ];
     }
 }

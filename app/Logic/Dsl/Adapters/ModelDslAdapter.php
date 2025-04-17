@@ -4,6 +4,7 @@ namespace App\Logic\Dsl\Adapters;
 
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasEffectsContract;
+use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 use App\Models\Interfaces\Stateful;
 use Carbon\CarbonInterface;
@@ -155,6 +156,10 @@ class ModelDslAdapter implements DslAdapterContract
     protected function log(string $message, array $context = [], string $level = 'debug'): void
     {
         $className = class_basename($this->model);
-        logger()->{$level}("[DSL][$className] " . $message, $context);
+        if ($level === 'debug') {
+            Dsl::debug("[$className] $message", $context, 'adapter');
+        } else {
+            logger()->{$level}("[DSL][$className] " . $message, $context);
+        }
     }
 }

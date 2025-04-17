@@ -13,6 +13,16 @@ use Illuminate\Support\Arr;
  */
 class CharacterDslAdapter extends ModelDslAdapter
 {
+    public function gender(): string
+    {
+        return $this->model->gender->label('en');
+    }
+
+    public function language(): string
+    {
+        return $this->model->language->label('en');
+    }
+
     public function getAsStringAttribute(): string
     {
         $mask = $this->model->mask;

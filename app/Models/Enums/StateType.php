@@ -20,7 +20,7 @@ enum StateType: string implements EnumContract
         return self::String;
     }
 
-    public static function options(): array
+    public static function options(?string $locale = null): array
     {
         return [
             self::Bool->value => 'Boolean',

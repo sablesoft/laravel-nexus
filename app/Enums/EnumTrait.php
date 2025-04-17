@@ -4,9 +4,9 @@ namespace App\Enums;
 
 trait EnumTrait
 {
-    public function label(): string
+    public function label(?string $locale = null): string
     {
-        return self::options()[$this->value];
+        return self::options($locale)[$this->value];
     }
 
     public static function values(): array

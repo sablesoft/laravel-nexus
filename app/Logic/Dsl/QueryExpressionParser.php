@@ -368,18 +368,14 @@ class QueryExpressionParser
 
     protected function debug(string $dsl, Builder $query): void
     {
-        if (!config('app.debug')) {
-            return;
-        }
-
         $sql = $query->toSql();
         $bindings = $query->getBindings();
 
-        logger()->debug('[DSL][Query] Parsed expression', [
+        \App\Logic\Facades\Dsl::debug('Parsed expression', [
             'dsl' => $dsl,
             'sql' => $sql,
             'bindings' => $bindings,
-        ]);
+        ], 'query');
     }
 
     protected function forceJsonb(string|Expression $field): string

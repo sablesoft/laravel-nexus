@@ -3,6 +3,7 @@
 namespace App\Logic\Traits;
 
 use App\Logic\Contracts\HasEffectsContract;
+use App\Logic\Facades\Dsl;
 use Carbon\Carbon;
 
 trait EffectsStack
@@ -19,10 +20,10 @@ trait EffectsStack
         if (in_array($code, $this->effectsStack)) {
             throw new \RuntimeException("Recursive effects detected: $code, stack: ". implode(', ', $this->effectsStack));
         }
-        logger()->debug('[Process][Effects][Start] '. $effects->getCode() .' L'. count($this->effectsStack), [
+        Dsl::debug('[Effects][Start] '. $effects->getCode() .' L'. count($this->effectsStack), [
             'data' => $this->data,
             'started' => $this->formatMicrotime($this->effectsStarted[$code]),
-        ]);
+        ], 'process');
         $this->effectsStack[] = $code;
 
         if ($this->isOverflow()) {
@@ -35,32 +36,32 @@ trait EffectsStack
         $ended = microtime(true);
         $code = $effects->getCode();
         array_pop($this->effectsStack);
-        logger()->debug('[Process][Effects][Finish] '. $code .' L'. count($this->effectsStack), [
+        Dsl::debug('[Effects][Finish] '. $code .' L'. count($this->effectsStack), [
             'data' => $this->data,
             'started' => $this->formatMicrotime($this->effectsStarted[$code]),
             'ended' => $this->formatMicrotime($ended),
             'duration' => number_format(($ended - $this->effectsStarted[$code]) * 1000, 2) . 'ms',
-        ]);
+        ], 'process');
     }
 
     public function startLog(string $identifier, ?array $block): void
     {
-        logger()->debug('[Process][Block][Start] ' . $identifier, [
+        Dsl::debug('[Block][Start] ' . $identifier, [
             'data' => $this->data,
             'block' => $block,
             'started' => $this->formatMicrotime($this->timestamps[$identifier]['start']),
-        ]);
+        ], 'process');
     }
 
     public function stopLog(string $identifier, ?array $block): void
     {
-        logger()->debug('[Process][Block][Stop] ' . $identifier, [
+        Dsl::debug('[Block][Stop] ' . $identifier, [
             'data' => $this->data,
             'block' => $block,
             'duration' => number_format(($this->executionTimes[$identifier]), 2) . 's',
             'started' => $this->formatMicrotime($this->timestamps[$identifier]['start']),
             'ended' => $this->formatMicrotime($this->timestamps[$identifier]['end']),
-        ]);
+        ], 'process');
     }
 
     protected function isOverflow(): bool

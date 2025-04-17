@@ -3,10 +3,10 @@
 namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
-use App\Logic\Dsl\Dsl;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\EffectJob;
+use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -68,7 +68,7 @@ class ChatCompletionHandler implements EffectHandlerContract
         $compiled = ValueResolver::resolve(Arr::except($this->params, ['calls', 'content']), $process);
         $request = $this->buildRequest($compiled);
         $request['model'] = $request['model'] ?? config('openai.gpt_model');
-        logger()->debug('[effect][chat.completion] request', $request);
+        Dsl::debug('[chat.completion] request', $request, 'effect');
 
         try {
             // Cleanup previously injected response data (if re-entered)
@@ -106,7 +106,7 @@ class ChatCompletionHandler implements EffectHandlerContract
         if (empty($this->params['async'])) {
             return false;
         }
-        $async = (bool) \App\Logic\Facades\Dsl::evaluate($this->params['async'], $process->toContext());
+        $async = (bool) Dsl::evaluate($this->params['async'], $process->toContext());
         if (!$async) {
             return false;
         }
@@ -116,7 +116,10 @@ class ChatCompletionHandler implements EffectHandlerContract
             Arr::except($this->params, ['async']),
             $process
         );
-        logger()->debug('[effect][chat.completion] sent to async');
+        Dsl::debug('[chat.completion] sent to async', [
+            'params' => $this->params,
+            'process' => $process->pack()
+        ], 'effect');
         return true;
     }
 

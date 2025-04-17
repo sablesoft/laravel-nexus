@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Language;
 use App\Logic\Contracts\DslAdapterContract;
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Dsl\Adapters\CharacterDslAdapter;
@@ -31,7 +32,7 @@ use Symfony\Component\Intl\Languages;
  * @property null|int $application_id
  * @property null|int $chat_id
  * @property null|int $screen_id
- * @property null|string $language
+ * @property null|Language $language
  * @property null|Gender $gender
  * @property null|Actor $actor
  * @property null|bool $is_confirmed
@@ -39,6 +40,7 @@ use Symfony\Component\Intl\Languages;
  * @property null|Carbon $updated_at
  *
  * @property-read null|string $languageName
+ * @property-read null|string $genderName
  * @property-read null|Application $application
  * @property-read null|Chat $chat
  * @property-read null|Screen $screen
@@ -63,6 +65,7 @@ class Character extends Model implements HasDslAdapterContract, Stateful
         'behaviors' => Behaviors::class,
         'gender' => Gender::class,
         'actor' => Actor::class,
+        'language' => Language::class
     ];
 
     public function application(): BelongsTo
@@ -102,7 +105,12 @@ class Character extends Model implements HasDslAdapterContract, Stateful
 
     public function getLanguageNameAttribute(): string
     {
-        return Languages::getName($this->language);
+        return $this->language->label();
+    }
+
+    public function getGenderNameAttribute(): string
+    {
+        return $this->gender->label();
     }
 
     public function getDslAdapter(Process $process): DslAdapterContract

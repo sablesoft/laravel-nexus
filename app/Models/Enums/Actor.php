@@ -17,11 +17,11 @@ enum Actor: string implements EnumContract
         return self::System;
     }
 
-    public static function options(): array
+    public static function options(?string $locale = null): array
     {
         return [
-            self::Player->value => __('actor.player'),
-            self::System->value => __('actor.system'),
+            self::Player->value => __('actor.player', [], $locale),
+            self::System->value => __('actor.system', [], $locale),
         ];
     }
 }

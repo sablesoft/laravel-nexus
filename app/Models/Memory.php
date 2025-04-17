@@ -8,6 +8,7 @@ use App\Logic\Dsl\Adapters\MemoryDslAdapter;
 use App\Logic\Process;
 use Carbon\Carbon;
 use Database\Factories\MemoryFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -87,5 +88,24 @@ class Memory extends Model implements HasDslAdapterContract
     public function getDslAdapter(Process $process): DslAdapterContract
     {
         return new MemoryDslAdapter($process, $this);
+    }
+
+    /**
+     * @param Collection<int, Memory> $memories
+     * @return array
+     */
+    public static function toMessages(Collection $memories): array
+    {
+        $messages = [];
+        /** @var Memory $memory */
+        foreach($memories as $memory) {
+            $data[] = $memory->content;
+            $data[] = $memory->meta ? 'Meta: ' . json_encode($memory->meta) : '';
+            $messages[] = [
+                'role' => $memory->author_id ? 'user' : 'assistant',
+                'content' => implode(' ', $data)
+            ];
+        }
+        return $messages;
     }
 }

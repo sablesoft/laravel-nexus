@@ -2,9 +2,14 @@
 
 namespace App\Logic\Dsl\Adapters;
 
+use App\Logic\Facades\Dsl;
 use App\Models\ChatScreenState;
+use App\Models\Memory;
 use App\Models\Screen;
 
+/**
+ * @property Screen $model
+ */
 class ScreenDslAdapter extends ModelDslAdapter
 {
     public function transfer(): ?string
@@ -17,6 +22,30 @@ class ScreenDslAdapter extends ModelDslAdapter
     public function waiting(): bool
     {
         return $this->process->screenWaiting;
+    }
+
+    public function messages(string|int $expression = 3, int $limit = 3): array
+    {
+        if (!$this->process->chat->getKey()) {
+            throw new \DomainException('Cannot use screen messages without chat in context');
+        }
+        if (!$this->model->getKey()) {
+            throw new \DomainException('Cannot use screen messages without screen in context');
+        }
+
+        $query = Memory::query()
+            ->where('chat_id', $this->process->chat->getKey())
+            ->where('type', $this->model->code);
+
+        if (is_int($expression)) {
+            $limit = $expression;
+        } else {
+            $query = Dsl::apply($query, $expression, $this->process->toContext());
+        }
+
+        return Memory::toMessages(
+            $query->orderByDesc('created_at')->limit($limit)->get()
+        );
     }
 
     public function state(string $key): mixed

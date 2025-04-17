@@ -13,12 +13,12 @@ enum Gender: string implements EnumContract
     case Female = 'female';
     case Other = 'other';
 
-    public static function options(): array
+    public static function options(?string $locale = null): array
     {
         return [
-            self::Male->value => __('gender.male'),
-            self::Female->value => __('gender.female'),
-            self::Other->value => __('gender.other'),
+            self::Male->value => __('gender.male', [], $locale),
+            self::Female->value => __('gender.female', [], $locale),
+            self::Other->value => __('gender.other', [], $locale),
         ];
     }
 

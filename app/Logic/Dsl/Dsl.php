@@ -43,6 +43,17 @@ class Dsl
         $this->queryParser = new QueryExpressionParser();
     }
 
+    public function debug(string $message, array $context = [], ?string $code = null): void
+    {
+        if (config('dsl.debug.disabled')) {
+            return;
+        }
+        if (!$code || config("dsl.debug.$code")) {
+            $prefix = '[DSL]' . ($code ? '['.ucfirst($code).']': '');
+            logger()->debug("$prefix$message", $context);
+        }
+    }
+
     /**
      * Applies a DSL expression to an Eloquent query.
      * Used for model filtering.

@@ -19,13 +19,13 @@ enum ChatStatus: string implements EnumContract
         return self::Created;
     }
 
-    public static function options(): array
+    public static function options(?string $locale = null): array
     {
         return [
-            self::Created->value => __('chat-status.created'),
-            self::Published->value => __('chat-status.published'),
-            self::Started->value => __('chat-status.started'),
-            self::Ended->value => __('chat-status.ended'),
+            self::Created->value => __('chat-status.created', [], $locale),
+            self::Published->value => __('chat-status.published', [], $locale),
+            self::Started->value => __('chat-status.started', [], $locale),
+            self::Ended->value => __('chat-status.ended', [], $locale),
         ];
     }
 

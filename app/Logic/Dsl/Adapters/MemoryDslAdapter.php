@@ -14,20 +14,29 @@ class MemoryDslAdapter extends ModelDslAdapter
         parent::__construct($process, $model ?? new Memory());
     }
 
-    public function messages(string $expression): array
+    public function messages(string|int $expression = 3, int $limit = 3): array
     {
-        $query = Dsl::apply(Memory::query(), $expression, $this->process->toContext());
-        $query->where('chat_id', $this->process->chat->getKey());
-        $messages = [];
-        /** @var Memory $memory */
-        foreach($query->get() as $memory) {
-            $data[] = $memory->content;
-            $data[] = $memory->meta ? 'Meta: ' . json_encode($memory->meta) : '';
-            $messages[] = [
-                'role' => $memory->author_id ? 'user' : 'assistant',
-                'content' => implode(' ', $data)
-            ];
+        if (!$this->process->chat->getKey()) {
+            throw new \DomainException('Cannot use chat messages without chat in context');
         }
+
+        $query = Memory::query()->where('chat_id', $this->process->chat->getKey());
+
+        if (is_int($expression)) {
+            $limit = $expression;
+        } else {
+            $query = Dsl::apply($query, $expression, $this->process->toContext());
+        }
+
+        $messages = Memory::toMessages(
+            $query->orderByDesc('created_at')->limit($limit)->get()
+        );
+        Dsl::debug('Messages', [
+            'expression' => $expression,
+            'limit' => $limit,
+            'messages' => $messages
+        ], 'memory');
+
         return $messages;
     }
 
