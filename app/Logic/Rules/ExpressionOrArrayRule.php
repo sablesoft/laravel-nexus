@@ -4,7 +4,6 @@ namespace App\Logic\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Description:
@@ -16,9 +15,9 @@ use Illuminate\Support\Facades\Validator;
  * - Used in effects where "array or variable" is acceptable — e.g., tools, calls.
  * - When an array is provided, it will be validated using standard Laravel rules.
  */
-class VariableOrArrayRule implements ValidationRule
+class ExpressionOrArrayRule implements ValidationRule
 {
-    use VariableTrait, ArrayTrait;
+    use ExpressionTrait, ArrayTrait;
 
     /**
      * @param array<string, mixed> $rules Laravel-style rules to apply if the value is an array
@@ -32,7 +31,7 @@ class VariableOrArrayRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->validateVariable($attribute, $value, $fail)) {
+        if ($this->validateExpression($attribute, $value, $fail)) {
             return;
         }
 

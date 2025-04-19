@@ -3,9 +3,8 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\PrefixedInRule;
-use App\Logic\Rules\VariableOrArrayRule;
-use App\Logic\Rules\VariableOrBoolRule;
+use App\Logic\Rules\ExpressionOrArrayRule;
+use App\Logic\Rules\ExpressionOrEnumRule;
 
 /**
  * Defines the structure, validation, and editor schema for the `chat.completion` effect.
@@ -174,15 +173,15 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                 'sometimes',
                 'nullable',
                 'string',
-                new PrefixedInRule(config('openai.gpt_models', ['gpt-4o']))
+                new ExpressionOrEnumRule(config('openai.gpt_models', ['gpt-4o']))
             ],
 
-            'messages' => ['required', new VariableOrArrayRule([
+            'messages' => ['required', new ExpressionOrArrayRule([
                 'value' => 'array|min:1',
                 'value.*.role' => [
                     'required',
                     'string',
-                    new PrefixedInRule(['user', 'system', 'assistant', 'tool'])
+                    new ExpressionOrEnumRule(['user', 'system', 'assistant', 'tool'])
                 ],
                 'value.*.content' => 'required|string',
             ])],
@@ -197,8 +196,8 @@ class ChatCompletionDefinition implements EffectDefinitionContract
             'frequency_penalty' => 'sometimes|numeric',
             'async' => ['sometimes'],
 
-            'tools' => ['sometimes', 'nullable', new VariableOrArrayRule([
-                '*' => ['required', new VariableOrArrayRule([
+            'tools' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
+                '*' => ['required', new ExpressionOrArrayRule([
                     'description' => 'required|string',
                     'parameters' => 'required|array',
                     'parameters.type' => 'required|string',
@@ -207,10 +206,10 @@ class ChatCompletionDefinition implements EffectDefinitionContract
                 ])]
             ])],
 
-            'calls' => ['sometimes', 'nullable', new VariableOrArrayRule([
-                '*' => ['required', new VariableOrArrayRule(['value' => 'array|min:1'])]
+            'calls' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
+                '*' => ['required', new ExpressionOrArrayRule(['value' => 'array|min:1'])]
             ])],
-            'content' => ['sometimes', 'nullable', new VariableOrArrayRule([
+            'content' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
                 'value' => 'array|min:1'
             ])],
         ];

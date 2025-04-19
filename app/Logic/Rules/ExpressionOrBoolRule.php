@@ -4,7 +4,6 @@ namespace App\Logic\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Validation rule that accepts either a variable reference (string without DSL prefix) or a raw bool value.
@@ -18,16 +17,16 @@ use Illuminate\Support\Facades\Validator;
  *   or a dynamic expression (e.g. `flagValue`).
  * - Integrated with YAML/JSON DSL editors where both forms may occur.
  */
-class VariableOrBoolRule implements ValidationRule
+class ExpressionOrBoolRule implements ValidationRule
 {
-    use VariableTrait;
+    use ExpressionTrait;
 
     /**
      * Validate the attribute as either a variable or an integer.
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->validateVariable($attribute, $value, $fail)) {
+        if ($this->validateExpression($attribute, $value, $fail)) {
             return;
         }
 

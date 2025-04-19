@@ -3,7 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\VariableOrArrayRule;
+use App\Logic\Rules\ExpressionOrArrayRule;
 
 class ScreenStateDefinition implements EffectDefinitionContract
 {
@@ -59,8 +59,8 @@ class ScreenStateDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'targets' => ['sometimes', new VariableOrArrayRule(['*' => 'required|string'])],
-            'values' => ['required', new VariableOrArrayRule(['*' => 'required'])],
+            'targets' => ['sometimes', new ExpressionOrArrayRule(['*' => 'required|string'])],
+            'values' => ['required', new ExpressionOrArrayRule(['*' => 'required'])],
         ];
     }
 

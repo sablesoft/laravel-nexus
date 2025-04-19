@@ -3,7 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\VariableOrArrayRule;
+use App\Logic\Rules\ExpressionOrArrayRule;
 
 /**
  * Defines the `unset` effect, which removes one or more variables from the process context.
@@ -63,7 +63,7 @@ class UnsetDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'value' => ['required', new VariableOrArrayRule([
+            'value' => ['required', new ExpressionOrArrayRule([
                 'value' => 'array|min:1',
                 'value.*' => 'string',
             ])],

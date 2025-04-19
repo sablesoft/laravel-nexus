@@ -3,7 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\VariableOrBoolRule;
+use App\Logic\Rules\ExpressionOrBoolRule;
 
 class ScreenWaitingDefinition implements EffectDefinitionContract
 {
@@ -41,7 +41,7 @@ class ScreenWaitingDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'value' => [new VariableOrBoolRule()],
+            'value' => [new ExpressionOrBoolRule()],
         ];
     }
 

@@ -3,8 +3,8 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\VariableOrArrayRule;
-use App\Logic\Rules\VariableOrIntRule;
+use App\Logic\Rules\ExpressionOrArrayRule;
+use App\Logic\Rules\ExpressionOrIntRule;
 use App\Models\Image;
 use App\Models\Character;
 use Illuminate\Validation\Rules\Exists;
@@ -123,18 +123,18 @@ class MemoryCreateDefinition implements EffectDefinitionContract
             'type' => 'sometimes|string',
             'title' => 'sometimes|nullable|string|max:300',
             'content' => 'sometimes|nullable|string|max:2000',
-            'meta' => ['sometimes', 'nullable', new VariableOrArrayRule([])],
+            'meta' => ['sometimes', 'nullable', new ExpressionOrArrayRule([])],
             'author_id' => [
                 'sometimes', 'nullable',
-                new VariableOrIntRule(['value' => new Exists(Character::class, 'id')])
+                new ExpressionOrIntRule(['value' => new Exists(Character::class, 'id')])
             ],
             'character_id' => [
                 'sometimes', 'nullable',
-                new VariableOrIntRule(['value' => new Exists(Character::class, 'id')])
+                new ExpressionOrIntRule(['value' => new Exists(Character::class, 'id')])
             ],
             'image_id' => [
                 'sometimes', 'nullable',
-                new VariableOrIntRule(['value' => new Exists(Image::class, 'id')])
+                new ExpressionOrIntRule(['value' => new Exists(Image::class, 'id')])
             ],
         ];
     }

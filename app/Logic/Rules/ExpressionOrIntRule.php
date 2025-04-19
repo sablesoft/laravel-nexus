@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Validator;
  *   or a dynamic expression (e.g. `character.id`, `input.value`).
  * - Integrated with YAML/JSON DSL editors where both forms may occur.
  */
-class VariableOrIntRule implements ValidationRule
+class ExpressionOrIntRule implements ValidationRule
 {
-    use VariableTrait;
+    use ExpressionTrait;
 
     /**
      * Additional Laravel validation rules applied when value is an integer.
@@ -33,7 +33,7 @@ class VariableOrIntRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->validateVariable($attribute, $value, $fail)) {
+        if ($this->validateExpression($attribute, $value, $fail)) {
             return;
         }
 

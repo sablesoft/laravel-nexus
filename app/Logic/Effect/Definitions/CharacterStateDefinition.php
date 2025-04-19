@@ -3,7 +3,7 @@
 namespace App\Logic\Effect\Definitions;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Rules\VariableOrArrayRule;
+use App\Logic\Rules\ExpressionOrArrayRule;
 
 class CharacterStateDefinition implements EffectDefinitionContract
 {
@@ -45,8 +45,8 @@ class CharacterStateDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
-            'target' => ['sometimes', new VariableOrArrayRule(['*' => 'required|int'])],
-            'values' => ['required', new VariableOrArrayRule(['*' => 'required'])],
+            'target' => ['sometimes', new ExpressionOrArrayRule(['*' => 'required|int'])],
+            'values' => ['required', new ExpressionOrArrayRule(['*' => 'required'])],
         ];
     }
 
