@@ -155,7 +155,9 @@ class CharacterActionHandler implements EffectHandlerContract
             EffectRunner::run($this->always, $process);
         }
         foreach ($this->cases as $case) {
-            if (!isset($case['do']) || !$act->match($case)) {
+            $filter = \Arr::only($case, Act::propertyKeys(true));
+            $filter = ValueResolver::resolve($filter, $process->toContext());
+            if (!isset($filter['do']) || !$act->match($filter)) {
                 continue;
             }
             EffectRunner::run($case['then'], $process);

@@ -46,7 +46,8 @@ class Dsl
     public function prefixed(mixed $value): mixed
     {
         if (is_string($value)) {
-            return config('dsl.string_prefix', '>>').$value;
+            $prefix = config('dsl.string_prefix', '>>');
+            return str_starts_with($value, $prefix) ? $value : $prefix.$value;
         }
         if (is_array($value)) {
             $prefixed = [];

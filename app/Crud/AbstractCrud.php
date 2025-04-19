@@ -114,7 +114,7 @@ abstract class AbstractCrud extends Component
     public function optionsParam(string $field, string $class): array
     {
         return [
-            'field' => $field,
+            'field' => 'state.'.$field,
             'options' => $this->filterByOwner($this->getQuery($class))->get()
                 ->map(fn(Model $model) => [
                     'id' => $model->getKey(),

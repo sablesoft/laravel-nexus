@@ -4,14 +4,19 @@ namespace App\Logic;
 
 use App\Logic\Contracts\HasDslAdapterContract;
 use App\Logic\Contracts\HasEffectsContract;
+use App\Logic\Contracts\LogicContract;
+use App\Logic\Contracts\NodeContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
+use App\Logic\Dsl\Adapters\NodeDslAdapter;
 use App\Logic\Traits\EffectsStack;
 use App\Logic\Traits\Timing;
 use App\Models\Chat;
 use App\Models\ChatLog;
 use App\Models\Character;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Memory;
 use App\Models\Screen;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use RuntimeException;
@@ -52,6 +57,8 @@ class Process
     public readonly Memory $memory;
     public readonly Screen $screen;
     public readonly Character $character;
+
+    public null|HasNotesInterface|NodeContract|LogicContract $node = null;
 
     /**
      * Adapter mapping: each key maps to an Eloquent model.
@@ -169,9 +176,14 @@ class Process
         foreach (array_keys($this->adapters) as $key) {
             $model = $this->{$key};
             // Use a custom DSL adapter if available, otherwise fallback to the default adapter
-            $context[$key] =($model instanceof HasDslAdapterContract)
+            $context[$key] = ($model instanceof HasDslAdapterContract)
                 ? $model->getDslAdapter($this)
                 : new ModelDslAdapter($this, $model);
+        }
+        if ($model = $this->node) {
+            $context['media'] = ($model instanceof HasDslAdapterContract)
+                ? $model->getDslAdapter($this)
+                : new NodeDslAdapter($this, $model);
         }
 
         return array_merge($this->data, $context);
