@@ -50,16 +50,16 @@ class LogicRunner
 
         $process->startEffects($logic);
         try {
-            $process->node = $logic;
+            $process->media = $logic;
             $process->handle('before', $logic, fn() => EffectRunner::run($logic->getBefore(), $process));
             if($logic->getNodes()) {
                 $process->handle('nodes', $logic, function () use ($logic, $process) {
                     foreach ($logic->getNodes() as $node) {
-                        $process->node = $node;
+                        $process->media = $node;
                         NodeRunner::run($node, $process);
                     }
                 });
-                $process->node = $logic;
+                $process->media = $logic;
                 $process->handle('after', $logic, fn() => EffectRunner::run($logic->getAfter(), $process));
             }
         } catch (ReturnException $e) {

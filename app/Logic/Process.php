@@ -7,7 +7,7 @@ use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
-use App\Logic\Dsl\Adapters\NodeDslAdapter;
+use App\Logic\Dsl\Adapters\MediaDslAdapter;
 use App\Logic\Traits\EffectsStack;
 use App\Logic\Traits\Timing;
 use App\Models\Chat;
@@ -58,7 +58,7 @@ class Process
     public readonly Screen $screen;
     public readonly Character $character;
 
-    public null|HasNotesInterface|NodeContract|LogicContract $node = null;
+    public null|HasNotesInterface|NodeContract|LogicContract $media = null;
 
     /**
      * Adapter mapping: each key maps to an Eloquent model.
@@ -180,10 +180,8 @@ class Process
                 ? $model->getDslAdapter($this)
                 : new ModelDslAdapter($this, $model);
         }
-        if ($model = $this->node) {
-            $context['media'] = ($model instanceof HasDslAdapterContract)
-                ? $model->getDslAdapter($this)
-                : new NodeDslAdapter($this, $model);
+        if ($model = $this->media) {
+            $context['media'] = new MediaDslAdapter($this, $model);
         }
 
         return array_merge($this->data, $context);
@@ -202,7 +200,7 @@ class Process
                 'memory'    => $this->memory->getKey(),
                 'character' => $this->character->getKey(),
             ],
-            'node' => $this->node ? $this->node::class .':'. $this->node->getKey() : null,
+            'media' => $this->media ? $this->media::class .':'. $this->media->getKey() : null,
             'timing'     => $this->packTiming(), // from Timing trait
         ];
     }
@@ -220,12 +218,12 @@ class Process
         ];
 
         $instance = new static(array_merge($adapters, $payload['data'] ?? []));
-        if ($node = $payload['node'] ?? null) {
+        if ($node = $payload['media'] ?? null) {
             $parts = explode(':', $node);
             /** @var Model $class */
             $class = $parts[0];
             $id = $parts[1];
-            $instance->node = $class::findOrFail($id);
+            $instance->media = $class::findOrFail($id);
         }
 
         $instance->unpackTiming($payload['timing'] ?? []);
