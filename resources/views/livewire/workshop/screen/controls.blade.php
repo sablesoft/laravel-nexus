@@ -173,7 +173,9 @@
                     </div>
                     @endif
                     <x-effects-view :before-string="$control['beforeString']" :after-string="$control['afterString']"/>
-                    <livewire:workshop.note.usages :model="$this->model($id)" />
+                    @if($control['beforeString'] || $control['afterString'])
+                        <livewire:workshop.note.usages :model="$this->model($id)" />
+                    @endif
                 </div>
             </div>
         @endforeach

@@ -149,7 +149,9 @@
                     </div>
                     @endif
                     <x-effects-view :before-string="$transfer['beforeString']"/>
-                    <livewire:workshop.note.usages :model="$this->model($id)" />
+                    @if($transfer['beforeString'])
+                        <livewire:workshop.note.usages :model="$this->model($id)" />
+                    @endif
                 </div>
             </div>
         @endforeach

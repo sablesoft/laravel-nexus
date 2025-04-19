@@ -21,7 +21,7 @@ final readonly class Act
         }
         $this->do = self::validateToken($data['do']);
         foreach (self::propertyKeys() as $property) {
-            $this->$property = self::validateArray($data[$property] ?? []);
+            $this->$property = self::prepareProperty($data[$property] ?? []);
         }
     }
 
@@ -64,42 +64,44 @@ final readonly class Act
         return $array;
     }
 
-    public function match(array $filter): bool
+    public function match(array $filter): ?array
     {
         if (!array_key_exists('do', $filter)) {
             throw new \InvalidArgumentException("Act matching requires a 'do' key.");
         }
 
         if ($this->do !== $filter['do']) {
-            return false;
+            return null;
         }
 
         unset($filter['do']);
 
-        foreach ($filter as $property => $tokens) {
-            if (!property_exists($this, $property)) {
+        $match = ['do' => $this->do];
+        foreach (self::propertyKeys() as $property) {
+            if (empty($filter[$property])) {
                 continue;
             }
 
-            if (!$this->matchProperty($property, (array) $tokens)) {
-                return false;
+            if (!$token = $this->matchProperty($property, (array) $filter[$property])) {
+                return null;
             }
+            $match[$property] = $token;
         }
 
-        return true;
+        return $match;
     }
 
-    protected function matchProperty(string $property, array $tokens): bool
+    protected function matchProperty(string $property, array $tokens): ?string
     {
         $actual = $this->{$property};
 
         foreach ($tokens as $token) {
             if (in_array(self::validateToken($token), $actual, true)) {
-                return true;
+                return $token;
             }
         }
 
-        return false;
+        return null;
     }
 
     public static function validateToken(string $token): string
@@ -112,14 +114,28 @@ final readonly class Act
         return $token;
     }
 
-    public static function validateArray(array $tokens): array
+    public static function prepareToken(string $token): array
+    {
+        $tokens = [];
+        foreach (explode(' ', $token) as $part) {
+            $tokens[] = self::validateToken(trim($part));
+        }
+
+        return $tokens;
+    }
+
+    public static function prepareProperty(array $tokens): array
     {
         foreach ($tokens as $token) {
             if (!is_string($token)) {
                 throw new \InvalidArgumentException("Invalid token type: expected string, got " . gettype($token));
             }
         }
+        $result = [];
+        foreach ($tokens as $token) {
+            $result = array_merge($result, self::prepareToken($token));
+        }
 
-        return array_map([self::class, 'validateToken'], $tokens);
+        return array_unique($result);
     }
 }

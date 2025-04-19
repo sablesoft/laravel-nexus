@@ -202,6 +202,7 @@ class Process
                 'memory'    => $this->memory->getKey(),
                 'character' => $this->character->getKey(),
             ],
+            'node' => $this->node ? $this->node::class .':'. $this->node->getKey() : null,
             'timing'     => $this->packTiming(), // from Timing trait
         ];
     }
@@ -219,6 +220,13 @@ class Process
         ];
 
         $instance = new static(array_merge($adapters, $payload['data'] ?? []));
+        if ($node = $payload['node'] ?? null) {
+            $parts = explode(':', $node);
+            /** @var Model $class */
+            $class = $parts[0];
+            $id = $parts[1];
+            $instance->node = $class::findOrFail($id);
+        }
 
         $instance->unpackTiming($payload['timing'] ?? []);
 

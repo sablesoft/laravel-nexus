@@ -157,12 +157,14 @@ class CharacterActionDefinition implements EffectDefinitionContract
     public static function nestedEffects(array $params): array
     {
         $nested = [];
-
-        foreach ($params['cases'] ?? [] as $i => $case) {
-            if (isset($case['then']) && is_array($case['then'])) {
-                $nested["cases.$i.then"] = $case['then'];
+        if (!empty($params['cases']) && is_array($params['cases'])) {
+            foreach ($params['cases'] as $i => $case) {
+                if (isset($case['then']) && is_array($case['then'])) {
+                    $nested["cases.$i.then"] = $case['then'];
+                }
             }
         }
+
         foreach(['always', 'default'] as $handler) {
             if (!empty($params[$handler]) && is_array($params[$handler])) {
                 $nested[$handler] = $params[$handler];
