@@ -3,6 +3,7 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectHandlerContract;
+use App\Logic\Effect\Definitions\CharacterActionDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatStateDefinition;
 use App\Logic\Effect\Definitions\CommentDefinition;
@@ -20,6 +21,7 @@ use App\Logic\Effect\Definitions\ScreenWaitingDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
+use App\Logic\Effect\Handlers\CharacterActionHandler;
 use App\Logic\Effect\Handlers\ChatCompletionHandler;
 use App\Logic\Effect\Handlers\ChatStateHandler;
 use App\Logic\Effect\Handlers\CommentHandler;
@@ -99,5 +101,6 @@ class EffectHandlerRegistry
         EffectHandlerRegistry::register(ScreenWaitingDefinition::KEY, ScreenWaitingHandler::class);
         EffectHandlerRegistry::register(CharacterStateDefinition::KEY, CharacterStateHandler::class);
         EffectHandlerRegistry::register(ChatCompletionDefinition::KEY, ChatCompletionHandler::class);
+        EffectHandlerRegistry::register(CharacterActionDefinition::KEY, CharacterActionHandler::class);
     }
 }

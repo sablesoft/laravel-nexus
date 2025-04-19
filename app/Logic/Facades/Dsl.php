@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static void debug(string $message, array $context = [], ?string $code = null)
  * @see \App\Logic\Dsl\Dsl::debug()
+ *
+ * @method static mixed prefixed(string|array $value)
+ * @see \App\Logic\Dsl\Dsl::prefixed()
  */
 class Dsl extends Facade
 {

@@ -41,15 +41,15 @@ class ValueResolver
      * Resolve a given expression using the provided process context.
      *
      * @param mixed $expr A value, expression, or nested structure
-     * @param Process $process The current runtime logic context
+     * @param Process|array $process The current runtime logic context
      * @return mixed Fully resolved runtime value
      */
-    public static function resolve(mixed $expr, Process $process): mixed
+    public static function resolve(mixed $expr, Process|array $process): mixed
     {
-        return static::evaluate($expr, $process->toContext());
+        return static::evaluate($expr, static::context($process));
     }
 
-    public static function resolveWithRaw(string &$key, mixed $expr, Process $process): mixed
+    public static function resolveWithRaw(string &$key, mixed $expr, Process|array $process): mixed
     {
         // Check if the key starts with one or more raw prefixes
         $isRaw = false;
@@ -112,5 +112,10 @@ class ValueResolver
         return preg_replace_callback('/{{\s*(.*?)\s*}}/', function ($matches) use ($context) {
             return Dsl::evaluate($matches[1], $context);
         }, $template);
+    }
+
+    protected static function context(Process|array $process): array
+    {
+        return is_array($process) ? $process : $process->toContext();
     }
 }

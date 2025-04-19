@@ -3,6 +3,7 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectDefinitionContract;
+use App\Logic\Effect\Definitions\CharacterActionDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\ChatStateDefinition;
@@ -90,10 +91,11 @@ class EffectDefinitionRegistry
         static::register(ScreenBackDefinition::KEY, new ScreenBackDefinition());
         static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
-        static::register(CharacterStateDefinition::KEY, new CharacterStateDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
         static::register(ScreenWaitingDefinition::KEY, new ScreenWaitingDefinition());
+        static::register(CharacterStateDefinition::KEY, new CharacterStateDefinition());
         static::register(ChatCompletionDefinition::KEY, new ChatCompletionDefinition());
+        static::register(CharacterActionDefinition::KEY, new CharacterActionDefinition());
     }
 
     /**
