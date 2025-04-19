@@ -198,6 +198,7 @@ class Play extends Component
         if ($screen->init) {
             $process = $this->getProcess();
             $this->before($process);
+            $process->node = $screen;
             EffectRunner::run($screen->init, $process);
             $this->after($process);
         }
@@ -398,9 +399,11 @@ class Play extends Component
     protected function before(Process $process): Process
     {
         if ($appBefore = $this->application->getBefore()) {
+            $process->node = $this->application;
             EffectRunner::run($appBefore, $process);
         }
         if ($screenBefore = $this->screen->getBefore()) {
+            $process->node = $this->screen;
             EffectRunner::run($screenBefore, $process);
         }
 
@@ -410,9 +413,11 @@ class Play extends Component
     protected function after(Process $process): void
     {
         if ($screenAfter = $this->screen->getAfter()) {
+            $process->node = $this->screen;
             EffectRunner::run($screenAfter, $process);
         }
         if ($appAfter = $this->application->getAfter()) {
+            $process->node = $this->application;
             EffectRunner::run($appAfter, $process);
         }
 
