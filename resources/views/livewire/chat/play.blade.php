@@ -34,6 +34,36 @@
                                     <strong>{{ $memory['mask_name'] ?: 'System' }}
                                         :</strong> {{ $memory['content'] }}
                                 </p>
+                                @if($memory['meta'] && config('app.debug'))
+                                    @php
+                                       $meta = $memory['meta'];
+                                       $act = $meta['act'] ?? [];
+                                       unset($meta['act']);
+                                       $desiredOrder = ['do', 'what', 'using', 'from', 'to', 'for', 'how'];
+                                       $reorderedAct = collect($desiredOrder)
+                                            ->filter(fn($key) => array_key_exists($key, $act))
+                                            ->mapWithKeys(fn($key) => [$key => $act[$key]])
+                                            ->toArray();
+                                       $meta = $meta ? json_encode($meta, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : null;
+                                       $act = $reorderedAct ? json_encode($reorderedAct, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : null;
+                                    @endphp
+                                    @if($act)
+                                        <div>{{__('Act') }}:</div>
+                                        <x-code-mirror wire:key="codemirror-act-{{ $memory['id'] }}"
+                                                       lang="json"
+                                                       :readonly="true"
+                                                       :content="$act"
+                                                       class="w-full" />
+                                    @endif
+                                    @if($meta)
+                                        <div>{{__('Meta') }}:</div>
+                                        <x-code-mirror wire:key="codemirror-meta-{{ $memory['id'] }}"
+                                                       lang="json"
+                                                       :readonly="true"
+                                                       :content="$meta"
+                                                       class="w-full" />
+                                    @endif
+                                @endif
                                 <span
                                     class="text-xs text-gray-400">{{ ($memory['created_at'])->diffForHumans() }}</span>
                             </div>
