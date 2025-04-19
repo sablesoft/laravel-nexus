@@ -75,21 +75,21 @@ class AppNoteUsagesTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'note_id' => 1,
-                'noteable_type' => 'App\\Models\\Control',
-                'noteable_id' => 6,
-                'code' => 'room-desc',
-                'created_at' => '2025-04-19 09:26:02',
-                'updated_at' => '2025-04-19 09:26:02',
+                'note_id' => 2,
+                'noteable_type' => 'App\\Models\\Step',
+                'noteable_id' => 12,
+                'code' => 'default-message',
+                'created_at' => '2025-04-19 10:53:34',
+                'updated_at' => '2025-04-19 10:53:34',
             ),
             7 => 
             array (
-                'note_id' => 2,
-                'noteable_type' => 'App\\Models\\Control',
-                'noteable_id' => 6,
-                'code' => 'default-message',
-                'created_at' => '2025-04-19 09:26:13',
-                'updated_at' => '2025-04-19 09:26:13',
+                'note_id' => 1,
+                'noteable_type' => 'App\\Models\\Step',
+                'noteable_id' => 12,
+                'code' => 'room-desc',
+                'created_at' => '2025-04-19 11:11:07',
+                'updated_at' => '2025-04-19 11:11:07',
             ),
         ));
         

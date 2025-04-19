@@ -21,15 +21,6 @@ class AppNotesTableSeeder extends Seeder
         \DB::table('app.notes')->insert(array (
             0 => 
             array (
-                'id' => 1,
-                'user_id' => 1,
-                'title' => '{"en":"Instruction - Room Description"}',
-                'content' => '{"en":"You are a text adventure narrator. The user character is peeking into a dark room, and you must describe what they see based on their attempt to look inside.\\n\\nIt is currently night, and there is no light in the room. Only ambient light from the outside may illuminate some elements.\\n\\nIf anything is visible, the player may notice a large room with vague shapes, including:\\n- a kitchen corner with a table\\n- a bed\\n- a fireplace on the far side\\n\\nDescribe the visible parts with atmospheric detail and leave everything else in shadow or ambiguity.\\n\\nKeep your response immersive, vivid, and grounded in the constraints — especially the absence of light."}',
-                'created_at' => '2025-04-19 04:55:55',
-                'updated_at' => '2025-04-19 04:55:55',
-            ),
-            1 => 
-            array (
                 'id' => 2,
                 'user_id' => 1,
                 'title' => '{"en":"Instruction - Default Message"}',
@@ -37,7 +28,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 04:57:11',
                 'updated_at' => '2025-04-19 04:57:40',
             ),
-            2 => 
+            1 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -46,7 +37,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 08:31:31',
                 'updated_at' => '2025-04-19 08:31:31',
             ),
-            3 => 
+            2 => 
             array (
                 'id' => 4,
                 'user_id' => 1,
@@ -55,7 +46,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 09:01:24',
                 'updated_at' => '2025-04-19 09:01:24',
             ),
-            4 => 
+            3 => 
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -64,7 +55,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 09:02:51',
                 'updated_at' => '2025-04-19 09:02:51',
             ),
-            5 => 
+            4 => 
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -72,6 +63,15 @@ class AppNotesTableSeeder extends Seeder
             'content' => '{"en":"Play the role of an AI narrator. The character has just pulled over and now exits the sedan, approaching the house they spotted earlier. Describe the brief transition (4–5 sentences) from the vehicle to the porch in cinematic, atmospheric detail. Include physical sensations — the crunch of gravel, the shift in light, the air\'s movement — and the character’s cautious posture. The world is alive again, reclaimed by nature; subtle signs of nearby animal or bird presence may be included, along with how they react to the character’s appearance — startled flight, wary glances, or indifference. The character’s own reaction or thoughts about these creatures should also be reflected if appropriate. Focus on mood and immersion, without describing the porch in detail yet. End the narration with the character stepping up onto the covered porch, and include a direct in-universe question to the player — prompting them to decide what to do next."}',
                 'created_at' => '2025-04-19 09:17:21',
                 'updated_at' => '2025-04-19 09:17:21',
+            ),
+            5 => 
+            array (
+                'id' => 1,
+                'user_id' => 1,
+                'title' => '{"en":"Instruction - Room Description"}',
+                'content' => '{"en":"You are a text adventure narrator. The user character is peeking into a dark room, and you must describe what they see based on their attempt to look inside.\\n\\nIt is currently night, and there is no light in the room. Only ambient light from the outside may illuminate some elements.\\n\\nIf anything is visible, the player may notice a large room with vague shapes, including:\\n- a kitchen corner with a table\\n- a bed\\n- a fireplace on the far side\\n\\nDescribe the visible parts with atmospheric detail and leave everything else in shadow or ambiguity.\\nKeep your response immersive, vivid, and grounded in the constraints — especially the absence of light. Write 3-4 sentences in total. "}',
+                'created_at' => '2025-04-19 04:55:55',
+                'updated_at' => '2025-04-19 10:25:12',
             ),
             6 => 
             array (

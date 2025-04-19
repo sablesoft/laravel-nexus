@@ -54,17 +54,6 @@ class AppScenariosTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 13,
-                'user_id' => 1,
-                'title' => '{"en":"Porch - Act","ru":"Porch - Act"}',
-                'description' => '{"en":"Free action handler","ru":"Free action handler"}',
-            'before' => '[{"comment":">>Classify character ask"},{"character.act":{"async":true,"messages":"screen.messages()","always":[{"memory.create":{"author_id":"character.id()","content":"ask","meta":{"act":"act.toArray"}}},{"chat.refresh":null}]}},{"screen.waiting":true}]',
-                'after' => NULL,
-                'created_at' => '2025-04-17 05:39:11',
-                'updated_at' => '2025-04-19 00:37:44',
-            ),
-            4 => 
-            array (
                 'id' => 14,
                 'user_id' => 1,
                 'title' => '{"en":"Tool - AI Warning"}',
@@ -73,6 +62,17 @@ class AppScenariosTableSeeder extends Seeder
                 'after' => NULL,
                 'created_at' => '2025-04-17 17:39:28',
                 'updated_at' => '2025-04-17 19:45:58',
+            ),
+            4 => 
+            array (
+                'id' => 13,
+                'user_id' => 1,
+                'title' => '{"en":"Porch - Act","ru":"Porch - Act"}',
+                'description' => '{"en":"Free action handler","ru":"Free action handler"}',
+                'before' => NULL,
+                'after' => NULL,
+                'created_at' => '2025-04-17 05:39:11',
+                'updated_at' => '2025-04-19 11:07:45',
             ),
             5 => 
             array (

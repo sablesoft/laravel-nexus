@@ -71,6 +71,32 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 16:51:43',
                 'updated_at' => '2025-04-19 08:58:33',
             ),
+            4 => 
+            array (
+                'id' => 11,
+                'parent_id' => 13,
+                'number' => 1,
+                'scenario_id' => NULL,
+                'name' => '{"en":"Case - Look Inside"}',
+                'description' => '{"en":null}',
+            'before' => '[{"merge":{"!cases":[{"do":">>look","what":[">>keyhole",">>window"],"to":[">>inside",">>room",">>interior"],"then":[{"merge":{"messages":[{"role":">>system","content":"media.note(\'room-desc\')"}]}},{"screen.waiting":true},{"chat.completion":{"async":true,"messages":"messages","content":[{"memory.create":{"content":"content","meta":{"match":"match","case":">>look-inside"}}},{"chat.refresh":null}]}}]}]}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-19 10:47:21',
+                'updated_at' => '2025-04-19 10:47:21',
+            ),
+            5 => 
+            array (
+                'id' => 12,
+                'parent_id' => 13,
+                'number' => 2,
+                'scenario_id' => NULL,
+                'name' => '{"en":"Character Action","ru":"Character Action"}',
+                'description' => '{"en":null,"ru":null}',
+            'before' => '[{"comment":">>Classify character ask"},{"set":{"messages":"character_info"}},{"merge":{"messages":"screen.messages()"}},{"character.action":{"async":true,"messages":"messages","always":[{"merge":{"messages":[{"role":">>user","content":"ask"}]}},{"memory.create":{"author_id":"character.id()","content":"ask","meta":{"act":"act.toArray()"}}},{"chat.refresh":null}],"cases":"cases","default":[{"merge":{"messages":[{"role":">>system","content":"media.note(\'default-message\')"}]}},{"chat.completion":{"messages":"messages","content":[{"memory.create":{"content":"content","meta":{"case":">>default"}}}]}},{"chat.refresh":null}]}},{"screen.waiting":true}]',
+                'after' => NULL,
+                'created_at' => '2025-04-19 10:52:50',
+                'updated_at' => '2025-04-19 11:09:09',
+            ),
         ));
         
         

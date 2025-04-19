@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AppStepsTableSeeder::class);
         $this->call(AppNotesTableSeeder::class);
         $this->call(SequencesSeeder::class);
+        $this->call(AppNoteUsagesTableSeeder::class);
     }
 }
