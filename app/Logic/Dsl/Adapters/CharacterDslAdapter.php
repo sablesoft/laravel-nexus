@@ -2,10 +2,10 @@
 
 namespace App\Logic\Dsl\Adapters;
 
+use App\Logic\Act;
 use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 use App\Models\Character;
-use Illuminate\Support\Arr;
 
 /**
  * @property Character $model
@@ -43,11 +43,17 @@ class CharacterDslAdapter extends ModelDslAdapter
         }
 
         $result = [];
-        $compiled = $this->model->behaviors['can'] ?? [];
-        $verbs = $only ?: array_keys($compiled);
+        $behaviors = $this->model->behaviors['can'] ?? [];
+        $verbs = $only ?: array_keys($behaviors);
+        // set correct order of fields for LLM:
+        $fields = ['description'] + Act::propertyKeys();
         foreach ($verbs as $verb) {
             if ($this->can($verb)) {
-                $result[$verb] = Arr::except($compiled[$verb], ['condition', 'merge']);
+                $behavior = $behaviors[$verb];
+                $result[$verb] = collect($fields)
+                    ->filter(fn($key) => array_key_exists($key, $behavior))
+                    ->mapWithKeys(fn($key) => [$key => $behavior[$key]])
+                    ->toArray();
             }
         }
 
@@ -67,6 +73,14 @@ class CharacterDslAdapter extends ModelDslAdapter
     public function is(string $roleCode): bool
     {
         return !!$this->model->roles->where('code', $roleCode)->count();
+    }
+
+    public function fromCode(string $code, ?Process $process = null): self
+    {
+        $model = Character::where('code', $code)->firstOrFail();
+        $process = $process ?: $this->process;
+
+        return new static($process->clone(['character' => $model]), $model);
     }
 
     protected function process(): Process

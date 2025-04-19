@@ -2,6 +2,7 @@
 
 namespace App\Logic\Validators;
 
+use App\Logic\Act;
 use App\Logic\Contracts\DslValidatorContract;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
@@ -75,17 +76,18 @@ class BehaviorsValidator implements DslValidatorContract
 
     protected static function configRules(): array
     {
-        return [
+        $propertyRules = [];
+        foreach (Act::propertyKeys() as $property) {
+            $propertyRules[$property] = ['sometimes', 'string'];
+        }
+
+        return array_merge([
             'description'   => ['sometimes', 'string'],
             'condition'     => ['sometimes'], // validated manually
-            'target'        => ['sometimes', 'string'],
-            'stuff'         => ['sometimes', 'string'],
-            'modifiers'     => ['sometimes', 'string'],
             'merge'         => ['sometimes'],
             'merge.common'  => ['sometimes', 'in:replace,and,or'],
             'merge.role'    => ['sometimes', 'in:replace,and,or'],
-            'comment'       => ['sometimes', 'string'],
-        ];
+        ], $propertyRules);
     }
 
     protected static function allowedTopKeys(): array
