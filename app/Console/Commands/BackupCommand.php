@@ -38,9 +38,11 @@ class BackupCommand extends Command
         'app.transfers',
         'app.scenarios',
         'app.controls',
+        'app.steps',
+        'app.notes',
     ];
 
-    protected string $lastTable = 'app.steps';
+    protected string $lastTable = 'app.note_usages';
 
     /**
      * Execute the console command.

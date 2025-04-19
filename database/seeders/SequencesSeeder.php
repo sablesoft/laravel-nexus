@@ -23,6 +23,7 @@ class SequencesSeeder extends Seeder
         'scenarios',
         'controls',
         'steps',
+        'notes',
     ];
 
     /**

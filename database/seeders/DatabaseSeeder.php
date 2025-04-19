@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AppScenariosTableSeeder::class);
         $this->call(AppControlsTableSeeder::class);
         $this->call(AppStepsTableSeeder::class);
+        $this->call(AppNotesTableSeeder::class);
         $this->call(SequencesSeeder::class);
     }
 }

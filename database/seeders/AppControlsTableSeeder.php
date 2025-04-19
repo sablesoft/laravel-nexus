@@ -53,22 +53,6 @@ class AppControlsTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 6,
-                'screen_id' => 2,
-                'scenario_id' => NULL,
-                'type' => 'input',
-                'title' => '{"ru":"Действие","en":"Act"}',
-                'tooltip' => '{"ru":"Что будешь делать?","en":"What you will do?"}',
-                'description' => '{"ru":"Free action handler","en":"Free action handler"}',
-            'before' => '[{"comment":">>Classify character ask"},{"set":{"messages":"screen.messages(\'\\":meta.tags\\" contains [\\"transfer\\"]\')"}},{"character.action":{"async":true,"messages":"messages","always":[{"merge":{"messages":[{"role":">>user","content":"ask"}]}},{"memory.create":{"author_id":"character.id()","content":"ask","meta":{"act":"act.toArray()"}}},{"chat.refresh":null}],"cases":[{"do":">>look","what":[">>keyhole",">>window"],"to":[">>inside",">>room",">>interior"],"then":[{"merge":{"messages":[{"role":">>system","content":">>TODO: Room Description Instruction"}]}},{"chat.completion":{"messages":"messages","content":[{"memory.create":{"content":"content","meta.tags":[">>look",">>room"]}},{"chat.refresh":null}]}}]}],"default":[{"merge":{"messages":[{"role":">>system","content":">>TODO: Default Message Instruction"}]}},{"chat.completion":{"messages":"messages","content":[{"memory.create":{"content":"content"}}]}},{"chat.refresh":null}]}},{"screen.waiting":true}]',
-                'after' => NULL,
-                'visible_condition' => NULL,
-            'enabled_condition' => 'not screen.waiting()',
-                'created_at' => '2025-04-15 00:12:39',
-                'updated_at' => '2025-04-19 04:13:41',
-            ),
-            3 => 
-            array (
                 'id' => 1,
                 'screen_id' => 1,
                 'scenario_id' => 12,
@@ -82,6 +66,22 @@ class AppControlsTableSeeder extends Seeder
             'enabled_condition' => 'not screen.waiting()',
                 'created_at' => '2025-04-08 20:05:14',
                 'updated_at' => '2025-04-17 07:27:48',
+            ),
+            3 => 
+            array (
+                'id' => 6,
+                'screen_id' => 2,
+                'scenario_id' => NULL,
+                'type' => 'input',
+                'title' => '{"ru":"Действие","en":"Act"}',
+                'tooltip' => '{"ru":"Что будешь делать?","en":"What you will do?"}',
+                'description' => '{"ru":"Free action handler","en":"Free action handler"}',
+            'before' => '[{"comment":">>Classify character ask"},{"set":{"messages":"screen.messages(\'\\":meta.tags\\" contains [\\"transfer\\"]\')"}},{"character.action":{"async":false,"messages":"messages","always":[{"merge":{"messages":[{"role":">>user","content":"ask"}]}},{"memory.create":{"author_id":"character.id()","content":"ask","meta":{"act":"act.toArray()"}}},{"chat.refresh":null}],"cases":[{"do":">>look","what":[">>keyhole",">>window"],"to":[">>inside",">>room",">>interior"],"then":[{"merge":{"messages":[{"role":">>system","content":">>TODO: Room Description Instruction"}]}},{"chat.completion":{"messages":"messages","content":[{"memory.create":{"content":"content","meta.tags":[">>look",">>room"]}},{"chat.refresh":null}]}}]}],"default":[{"merge":{"messages":[{"role":">>system","content":">>TODO: Default Message Instruction"}]}},{"chat.completion":{"messages":"messages","content":[{"memory.create":{"content":"content"}}]}},{"chat.refresh":null}]}},{"screen.waiting":true}]',
+                'after' => NULL,
+                'visible_condition' => NULL,
+            'enabled_condition' => 'not screen.waiting()',
+                'created_at' => '2025-04-15 00:12:39',
+                'updated_at' => '2025-04-19 09:30:55',
             ),
         ));
         
