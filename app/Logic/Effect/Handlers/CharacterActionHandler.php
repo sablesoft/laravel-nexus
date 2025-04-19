@@ -193,7 +193,8 @@ class CharacterActionHandler implements EffectHandlerContract
         }
         foreach (['always', 'cases', 'default'] as $param) {
             if (!empty($this->params[$param])) {
-                $this->$param = $this->params[$param];
+                $value = $this->params[$param];
+                $this->$param = is_array($value) ? $value : ValueResolver::resolve($value, $context);
             }
         }
     }

@@ -77,28 +77,16 @@ trait HasStates
     {
         $state = $this->states['has'][$key] ?? throw new \DomainException("State '{$key}' not found.");
         $this->validateState($key, $state);
-        switch ($state['type']) {
-            case 'bool':
-                return fake()->boolean();
-            case 'enum':
-                $options = $state['options'] ?? [];
-                if (empty($options)) {
-                    throw new \UnexpectedValueException("Enum '{$key}' has no options.");
-                }
-                return fake()->randomElement($options);
-            case 'int':
-                $max = $state['max'] ?? null;
-                $min = $state['min'] ?? 0;
-                if (is_null($max)) {
-                    throw new \LogicException("State '{$key}' has no max value for random.");
-                }
-                if ($min > $max) {
-                    throw new \LogicException("State '{$key}' has invalid range: min > max.");
-                }
-                return fake()->numberBetween($min, $max);
-            default:
-                throw new \LogicException("Cannot randomize state '{$key}' with type '{$state['type']}'");
-        }
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return match ($state['type']) {
+            'bool' => (bool) random_int(0, 1),
+            'enum' => Arr::random($state['options'] ?? throw new \UnexpectedValueException("Enum '{$key}' has no options.")),
+            'int'  => random_int(
+                $state['min'] ?? 0,
+                $state['max'] ?? throw new \LogicException("State '{$key}' has no max value for random.")
+            ),
+            default => throw new \LogicException("Cannot randomize state '{$key}' with type '{$state['type']}'"),
+        };
     }
 
     public function nextState(string $key): mixed

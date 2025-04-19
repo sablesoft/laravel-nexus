@@ -12,6 +12,8 @@ use App\Models\Screen;
  */
 class ScreenDslAdapter extends ModelDslAdapter
 {
+    use HasMedia;
+
     public function transfer(): ?string
     {
         return $this->process->screenTransfer ?
