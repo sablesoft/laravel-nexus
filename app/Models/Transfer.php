@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
 use App\Models\Casts\LocaleString;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\HasNotes;
 use App\Models\Traits\UI;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,9 +41,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read null|Screen $screenFrom  - Source screen of the transfer
  * @property-read null|Screen $screenTo    - Target screen of the transfer
  */
-class Transfer extends Model implements NodeContract
+class Transfer extends Model implements NodeContract, HasNotesInterface
 {
-    use HasFactory, HasEffects, UI;
+    use HasFactory, HasNotes, HasEffects, UI;
 
     protected $fillable = [
         'screen_from_id', 'screen_to_id', 'title', 'tooltip',

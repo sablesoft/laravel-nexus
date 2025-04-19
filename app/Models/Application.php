@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Logic\Contracts\HasEffectsContract;
 use App\Models\Casts\Behaviors;
 use App\Models\Casts\LocaleString;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasBehaviors;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasInit;
+use App\Models\Traits\HasNotes;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasStates;
 use Carbon\Carbon;
@@ -52,10 +54,10 @@ use JsonException;
  * @property-read Collection<int, ChatRole> $roles       - All chat-roles that belong to this application
  * @property-read null|Screen $startScreen               - Default starting screen of the application
  */
-class Application extends Model implements HasOwnerInterface, HasEffectsContract, Stateful
+class Application extends Model implements HasOwnerInterface, HasNotesInterface, HasEffectsContract, Stateful
 {
     /** @use HasFactory<ApplicationFactory> */
-    use HasOwner, HasStates, HasBehaviors, HasFactory, HasImage, HasEffects, HasInit;
+    use HasOwner, HasNotes, HasStates, HasBehaviors, HasFactory, HasImage, HasEffects, HasInit;
 
     protected $fillable = [
         'user_id', 'title', 'description', 'is_public', 'seats', 'masks_allowed', 'init',

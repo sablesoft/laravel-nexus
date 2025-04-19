@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Process;
 use App\Models\Casts\LocaleString;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Interfaces\HasOwnerInterface;
+use App\Models\Traits\HasNotes;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
 use Carbon\Carbon;
@@ -41,10 +43,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Step> $inSteps      - Steps where this scenario is used as nested logic
  * @property-read Collection<int, Control> $inControls - Control elements that use this scenario
  */
-class Scenario extends Model implements HasOwnerInterface, LogicContract
+class Scenario extends Model implements HasOwnerInterface, HasNotesInterface, LogicContract
 {
     /** @use HasFactory<ScenarioFactory> */
-    use HasOwner, HasFactory, HasEffects;
+    use HasOwner, HasNotes, HasFactory, HasEffects;
 
     protected $fillable = [
         'user_id', 'title', 'description', 'before', 'after',

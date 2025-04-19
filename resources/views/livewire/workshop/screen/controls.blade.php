@@ -70,7 +70,7 @@
             </flux:field>
             @if($addLogic)
                 <flux:field class="mb-3">
-                    <x-searchable-select required field="scenario_id" :options="$scenarios"/>
+                    <x-searchable-select required field="state.scenario_id" :options="$scenarios"/>
                     <flux:error name="state.scenario_id"/>
                 </flux:field>
                 {{-- Effects After --}}

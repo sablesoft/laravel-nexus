@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Models\Casts\LocaleString;
+use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Traits\HasOwner;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * @property null|int $id
@@ -12,8 +15,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property null|int $content
  * @property null|int $created_at
  * @property null|int $updated_at
+ *
+ * @property-read Collection $usages
  */
-class Note extends Model
+class Note extends Model implements HasOwnerInterface
 {
     use HasOwner;
 
@@ -25,6 +30,15 @@ class Note extends Model
         'title' => LocaleString::class,
         'content' => LocaleString::class,
     ];
+
+    public function usages(): MorphToMany
+    {
+        return $this->morphedByMany(
+            Note::class,
+            'noteable',
+            'note_usages'
+        )->withPivot('code')->withTimestamps();
+    }
 
     public static function boot(): void
     {

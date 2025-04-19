@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Logic\Contracts\NodeContract;
 use App\Models\Casts\LocaleString;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Traits\HasLogic;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\HasNotes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,9 +40,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read null|Scenario $parent   - Parent scenario this step belongs to
  * @property-read null|Scenario $scenario         - Nested scenario executed as logic
  */
-class Step extends Model implements NodeContract
+class Step extends Model implements NodeContract, HasNotesInterface
 {
-    use HasEffects, HasLogic;
+    use HasNotes, HasEffects, HasLogic;
 
     protected $fillable = [
         'parent_id', 'scenario_id', 'number',

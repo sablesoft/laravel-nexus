@@ -62,17 +62,19 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'aspectRatio' => ImageAspect::Landscape->value
             ]);
         }
-
-        if ($action === 'view' && $field === 'groupsCrud') {
-            return [
-                'applicationId' => $this->modelId
-            ];
-        }
-
-        if ($action === 'view' && $field === 'charactersCrud') {
-            return [
-                'application' => $this->getResource()
-            ];
+        if ($action == 'view') {
+            return match ($field) {
+                'groupsCrud' => [
+                    'applicationId' => $this->modelId
+                ],
+                'charactersCrud' => [
+                    'application' => $this->getResource()
+                ],
+                'notesCrud' => [
+                    'model' => $this->getResource()
+                ],
+                default => []
+            };
         }
 
         return [];
@@ -194,7 +196,16 @@ class Application extends AbstractCrud implements ShouldHasMany
                 'showEmpty' => true,
                 'collapsed' => true
             ],
-        ]: []);
+        ]: [], [
+            'notesCrud' => [
+                'title' => __('Notes'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.note.usages',
+                'showEmpty' => true,
+                'collapsed' => true
+            ],
+        ]);
     }
 
     protected function modifyQuery(Builder $query): Builder

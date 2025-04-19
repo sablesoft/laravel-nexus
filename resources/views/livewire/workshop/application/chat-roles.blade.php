@@ -13,7 +13,7 @@
             <flux:field class="mb-3">
                 <flux:label>{{ __('Role') }}</flux:label>
                 <div wire:key="{{ $selectKey }}">
-                    <x-searchable-select field="role_id" :options="$selectRoles" :key="'ForGroup'. $groupId"/>
+                    <x-searchable-select field="state.role_id" :options="$selectRoles" :key="'ForGroup'. $groupId"/>
                 </div>
                 <flux:error name="state.role_id"/>
             </flux:field>

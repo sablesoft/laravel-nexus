@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Logic\Contracts\NodeContract;
 use App\Models\Casts\LocaleString;
 use App\Models\Enums\ControlType;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Traits\HasLogic;
 use App\Models\Traits\HasEffects;
+use App\Models\Traits\HasNotes;
 use App\Models\Traits\UI;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -40,9 +42,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read null|Screen $screen      - Parent screen this control belongs to
  * @property-read null|Scenario $scenario  - Scenario to be executed when this control is activated
  */
-class Control extends Model implements NodeContract
+class Control extends Model implements NodeContract, HasNotesInterface
 {
-    use HasEffects, HasLogic, UI;
+    use HasNotes, HasEffects, HasLogic, UI;
 
     protected $fillable = [
         'screen_id', 'scenario_id', 'type',

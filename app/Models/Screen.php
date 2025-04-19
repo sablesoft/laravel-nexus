@@ -9,10 +9,12 @@ use App\Logic\Dsl\Adapters\ScreenDslAdapter;
 use App\Logic\Process;
 use App\Logic\Validators\QueryExpressionValidator;
 use App\Models\Casts\LocaleString;
+use App\Models\Interfaces\HasNotesInterface;
 use App\Models\Interfaces\HasOwnerInterface;
 use App\Models\Interfaces\Stateful;
 use App\Models\Traits\HasImage;
 use App\Models\Traits\HasInit;
+use App\Models\Traits\HasNotes;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasEffects;
 use App\Models\Traits\HasStates;
@@ -60,10 +62,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Collection<int, Transfer> $transfersFrom - Incoming screen transitions (screen_to_id)
  * @property-read Collection<int, Control> $controls       - Controls placed on this screen
  */
-class Screen extends Model implements HasOwnerInterface, HasEffectsContract, HasDslAdapterContract, Stateful
+class Screen extends Model implements HasOwnerInterface, HasNotesInterface, HasEffectsContract, HasDslAdapterContract, Stateful
 {
     /** @use HasFactory<ScreenFactory> */
-    use HasOwner, HasFactory, HasImage, HasEffects, HasInit, HasStates, UI;
+    use HasOwner, HasNotes, HasFactory, HasImage, HasEffects, HasInit, HasStates, UI;
 
     const DEFAULT_DSL_QUERY = '":type" == screen.code';
 
