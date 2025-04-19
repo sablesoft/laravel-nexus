@@ -52,6 +52,11 @@ class Steps extends Component
         return view('livewire.workshop.scenario.steps');
     }
 
+    public function model(int $id): Step
+    {
+        return Step::findOrFail($id);
+    }
+
     public function updatedAddLogic(): void
     {
         if (!$this->addLogic) {

@@ -107,11 +107,16 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'aspectRatio' => ImageAspect::Portrait->value
             ]);
         }
-        if ($action === 'view' && $field === 'transfersCrud') {
-            return ['screenId' => $this->modelId];
-        }
-        if ($action === 'view' && $field === 'controlsCrud') {
-            return ['screenId' => $this->modelId];
+        if ($action == 'view') {
+            return match ($field) {
+                'transfersCrud', 'controlsCrud' => [
+                    'screenId' => $this->modelId
+                ],
+                'notesCrud' => [
+                    'model' => $this->getResource()
+                ],
+                default => []
+            };
         }
 
         return [];
@@ -233,6 +238,14 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'component' => 'workshop.screen.transfers',
                 'showEmpty' => true,
                 'collapsed' => true,
+            ],
+            'notesCrud' => [
+                'title' => __('Notes'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.note.usages',
+                'showEmpty' => true,
+                'collapsed' => true
             ],
             'transfersFromList' => $this->linkListField(__('Transfers From'), ['index', 'view']),
         ];

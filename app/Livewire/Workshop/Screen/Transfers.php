@@ -6,6 +6,7 @@ use App\Livewire\Workshop\HasCodeMirror;
 use App\Logic\Rules\DslRule;
 use App\Logic\Validators\EffectsValidator;
 use App\Logic\Validators\QueryExpressionValidator;
+use App\Models\Control;
 use App\Models\Screen;
 use App\Models\Services\StoreService;
 use App\Models\Transfer;
@@ -51,6 +52,11 @@ class Transfers extends Component
     public function className(): string
     {
         return Screen::class;
+    }
+
+    public function model(int $id): Transfer
+    {
+        return Transfer::findOrFail($id);
     }
 
     protected function codeMirrorFields(): array

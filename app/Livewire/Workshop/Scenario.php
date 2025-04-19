@@ -81,6 +81,14 @@ class Scenario extends AbstractCrud
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
+            'notesCrud' => [
+                'title' => __('Notes'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.note.usages',
+                'showEmpty' => true,
+                'collapsed' => true
+            ],
             'inStepsList' => $this->linkListField(__('In Steps Of'), ['index', 'view']),
             'inControlsList' => $this->linkListField(__('In Controls Of'), ['index', 'view']),
         ];
@@ -118,8 +126,16 @@ class Scenario extends AbstractCrud
 
     public function componentParams(string $action, ?string $field = null): array
     {
-        if ($action === 'view' && $field === 'stepsCrud') {
-            return ['scenarioId' => $this->modelId];
+        if ($action == 'view') {
+            return match ($field) {
+                'stepsCrud' => [
+                    'scenarioId' => $this->modelId
+                ],
+                'notesCrud' => [
+                    'model' => $this->getResource()
+                ],
+                default => []
+            };
         }
 
         return [];

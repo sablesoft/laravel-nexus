@@ -60,7 +60,7 @@ class Usages extends Component
             $this->state = Arr::only($usage, ['note_id', 'code', 'content']);
         }
         $this->dispatch("state.note_id-updated-{$this->key}", value: $this->noteId);
-        Flux::modal('form-note-usage')->show();
+        Flux::modal('form-note-usage-' . $this->key)->show();
     }
 
     public function delete(int $noteId): void
@@ -87,7 +87,7 @@ class Usages extends Component
 
         $this->resetForm();
         $this->mount($this->model); // перезагрузить usages
-        Flux::modal('form-note-usage')->close();
+        Flux::modal('form-note-usage-'. $this->key)->close();
         $this->dispatch('flash', message: __('Note attached.'));
     }
 

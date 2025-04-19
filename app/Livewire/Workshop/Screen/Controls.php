@@ -66,6 +66,11 @@ class Controls extends Component
         return ['beforeString', 'afterString'];
     }
 
+    public function model(int $id): Control
+    {
+        return Control::findOrFail($id);
+    }
+
     public function resetForm(): void
     {
         $this->action = 'create';

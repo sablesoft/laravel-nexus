@@ -134,6 +134,7 @@
                     <p>{!! e($step['description']) !!}</p>
                 </div>
                 <x-effects-view :before-string="$step['beforeString']" :after-string="$step['afterString']"/>
+                <livewire:workshop.note.usages :model="$this->model($id)" />
             </div>
         </div>
 

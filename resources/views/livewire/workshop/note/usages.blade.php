@@ -1,7 +1,7 @@
 <div>
     {{-- Add Note Button --}}
     <div class="flex justify-end mb-2">
-        <flux:modal.trigger name="form-note-usage">
+        <flux:modal.trigger name="form-note-usage-{{ $key }}">
             <flux:button icon="plus-circle" variant="primary" class="cursor-pointer">
                 {{ __('Add Note') }}
             </flux:button>
@@ -44,7 +44,7 @@
     @endif
 
     {{-- Modal Form --}}
-    <flux:modal name="form-note-usage" class="!max-w-2xl min-w-xl"
+    <flux:modal name="form-note-usage-{{ $key }}" class="!max-w-2xl min-w-xl"
                 x-on:cancel="$wire.resetForm()"
                 x-on:close="$wire.resetForm()">
         <div class="space-y-4">
