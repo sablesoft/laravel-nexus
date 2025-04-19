@@ -28,9 +28,10 @@ final readonly class Act
     /**
      * @return string[]
      */
-    public static function propertyKeys(): array
+    public static function propertyKeys(bool $withDo = false): array
     {
-        return array_keys(self::properties());
+        $keys = array_keys(self::properties());
+        return $withDo ? array_merge(['do'], $keys) : $keys;
     }
 
     public static function properties(): array

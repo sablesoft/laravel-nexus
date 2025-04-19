@@ -101,7 +101,7 @@ class ChatCompletionHandler implements EffectHandlerContract
             if (!empty($choice->toolCalls)) {
                 foreach ($choice->toolCalls as $toolCall) {
                     $name = $toolCall->function->name;
-                    $arguments = json_decode($toolCall->function->arguments ?? '{}', false);
+                    $arguments = json_decode($toolCall->function->arguments ?? '{}', true);
                     $process->push('calls', new ToolCall($name, $arguments));
                 }
                 $this->handleCalls($process);
@@ -160,6 +160,7 @@ class ChatCompletionHandler implements EffectHandlerContract
                     'name' => $name,
                     'description' => $tool['description'] ?? '',
                     'parameters' => $tool['parameters'] ?? [],
+                    'strict' => $tool['strict'] ?? false
                 ],
             ];
         }

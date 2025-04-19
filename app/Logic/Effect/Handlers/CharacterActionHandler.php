@@ -67,7 +67,12 @@ class CharacterActionHandler implements EffectHandlerContract
         $instruction .= "\n" . $this->renderActionListYaml($actions);
         $chatParams = Dsl::prefixed([
             'model' => $this->model,
-            'tool_choice' => static::TOOL_NAME,
+            'tool_choice' => [
+                'type' => 'function',
+                'function' => [
+                    'name' => static::TOOL_NAME
+                ],
+            ],
             'tools' => [
                 static::TOOL_NAME => $this->toolSchema($actions),
             ],
@@ -125,7 +130,6 @@ class CharacterActionHandler implements EffectHandlerContract
                 'type' => 'array',
                 'items' => [
                     'type' => 'string',
-                    'pattern' => Act::TOKEN_PATTERN
                 ],
                 'description' => $description
             ];
@@ -136,8 +140,10 @@ class CharacterActionHandler implements EffectHandlerContract
             'parameters' => [
                 'type' => 'object',
                 'properties' => $propertiesSchema,
-                'required' => Act::propertyKeys()
-            ]
+                'required' => Act::propertyKeys(true),
+                'additionalProperties' => false
+            ],
+            'strict' => true
         ];
     }
 

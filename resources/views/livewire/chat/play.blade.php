@@ -31,8 +31,7 @@
                             <div class="mb-4 p-3 rounded-lg shadow-sm
                                 {{ $memory['user_id'] === auth()->id() ? 'bg-blue-100 dark:bg-blue-900 self-end' : 'bg-gray-100 dark:bg-gray-700' }}">
                                 <p class="text-sm text-gray-600 dark:text-gray-300">
-                                    <strong>{{ $memory['mask_name'] ?: 'System' }}
-                                        :</strong> {{ $memory['content'] }}
+                                    <strong>{{ $memory['mask_name'] ?: 'System' }}:</strong> {{ $memory['content'] }}
                                 </p>
                                 @if($memory['meta'] && config('app.debug'))
                                     @php
@@ -47,25 +46,37 @@
                                        $meta = $meta ? json_encode($meta, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : null;
                                        $act = $reorderedAct ? json_encode($reorderedAct, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : null;
                                     @endphp
-                                    @if($act)
-                                        <div>{{__('Act') }}:</div>
-                                        <x-code-mirror wire:key="codemirror-act-{{ $memory['id'] }}"
-                                                       lang="json"
-                                                       :readonly="true"
-                                                       :content="$act"
-                                                       class="w-full" />
-                                    @endif
-                                    @if($meta)
-                                        <div>{{__('Meta') }}:</div>
-                                        <x-code-mirror wire:key="codemirror-meta-{{ $memory['id'] }}"
-                                                       lang="json"
-                                                       :readonly="true"
-                                                       :content="$meta"
-                                                       class="w-full" />
-                                    @endif
+
+                                    <div x-data="{ open: false }" class="mt-2">
+                                        <button @click="open = !open"
+                                                class="text-xs text-blue-500 hover:underline flex items-center space-x-1">
+                                            <span x-show="!open">▶</span>
+                                            <span x-show="open">▼</span>
+                                            <span>{{ __('Details') }}</span>
+                                        </button>
+
+                                        <div x-show="open" x-transition class="mt-2 space-y-2">
+                                            @if($act)
+                                                <div>{{ __('Act') }}:</div>
+                                                <x-code-mirror wire:key="codemirror-act-{{ $memory['id'] }}"
+                                                               lang="json"
+                                                               :readonly="true"
+                                                               :content="$act"
+                                                               class="w-full" />
+                                            @endif
+                                            @if($meta)
+                                                <div>{{ __('Meta') }}:</div>
+                                                <x-code-mirror wire:key="codemirror-meta-{{ $memory['id'] }}"
+                                                               lang="json"
+                                                               :readonly="true"
+                                                               :content="$meta"
+                                                               class="w-full" />
+                                            @endif
+                                        </div>
+                                    </div>
                                 @endif
-                                <span
-                                    class="text-xs text-gray-400">{{ ($memory['created_at'])->diffForHumans() }}</span>
+
+                                <span class="text-xs text-gray-400">{{ ($memory['created_at'])->diffForHumans() }}</span>
                             </div>
                         @endforeach
                         @if($waiting)

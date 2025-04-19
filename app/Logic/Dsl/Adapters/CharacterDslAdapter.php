@@ -46,7 +46,7 @@ class CharacterDslAdapter extends ModelDslAdapter
         $behaviors = $this->model->behaviors['can'] ?? [];
         $verbs = $only ?: array_keys($behaviors);
         // set correct order of fields for LLM:
-        $fields = ['description'] + Act::propertyKeys();
+        $fields = array_merge(['description'], Act::propertyKeys());
         foreach ($verbs as $verb) {
             if ($this->can($verb)) {
                 $behavior = $behaviors[$verb];

@@ -97,7 +97,7 @@ class CharacterActionDefinition implements EffectDefinitionContract
     {
         $actRules = [];
         foreach(Act::propertyKeys() as $property) {
-            $actRules["value.$property"] = ['sometimes', new ExpressionOrArrayRule([
+            $actRules["value.*.$property"] = ['sometimes', new ExpressionOrArrayRule([
                 'value' => 'array|min:1',
                 'value.*' => [
                     'required',
@@ -136,11 +136,11 @@ class CharacterActionDefinition implements EffectDefinitionContract
             ])],
             'cases' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
                 'value' => 'array|min:1',
-                'value.do' => [
+                'value.*.do' => [
                     'required',
                     new ExpressionOrTokenRule()
                 ],
-                'value.then' => [
+                'value.*.then' => [
                     'required',
                     new ExpressionOrArrayRule([
                         'value' => 'array|min:1'

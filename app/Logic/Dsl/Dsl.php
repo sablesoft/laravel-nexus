@@ -43,10 +43,7 @@ class Dsl
         $this->queryParser = new QueryExpressionParser();
     }
 
-    /**
-     * @noinspection PhpMixedReturnTypeCanBeReducedInspection
-     */
-    public function prefixed(string|array $value): mixed
+    public function prefixed(mixed $value): mixed
     {
         if (is_string($value)) {
             return config('dsl.string_prefix', '>>').$value;
