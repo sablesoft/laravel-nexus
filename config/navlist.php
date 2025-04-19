@@ -64,6 +64,14 @@ return [
                 'middleware' => ['auth', 'verified'],
                 'tooltip' => 'Manage your images!'
             ],
+            'notes' => [
+                'icon' => 'document-text',
+                'title' => 'Notes',
+                'is_crud' => true,
+                'action' => \App\Livewire\Workshop\Note::class,
+                'middleware' => ['auth', 'verified'],
+                'tooltip' => 'Manage your notes'
+            ],
             'masks' => [
                 'icon' => 'face-smile',
                 'title' => 'Masks',
