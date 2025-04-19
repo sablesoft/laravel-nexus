@@ -5,10 +5,10 @@ namespace App\Logic\Effect\Handlers;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
-use App\Logic\EffectJob;
 use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
+use App\Logic\ToolCall;
 use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -30,6 +30,8 @@ use Throwable;
  */
 class ChatCompletionHandler implements EffectHandlerContract
 {
+    use AsyncTrait;
+
     public function __construct(protected array $params) {}
 
     public function describeLog(Process $process): ?string
@@ -61,13 +63,13 @@ class ChatCompletionHandler implements EffectHandlerContract
      */
     public function execute(Process $process): void
     {
-        if ($this->isAsync($process)) {
+        if ($this->isAsync($process, ChatCompletionDefinition::KEY)) {
             return;
         }
 
         $compiled = ValueResolver::resolve(Arr::except($this->params, ['calls', 'content']), $process);
         $request = $this->buildRequest($compiled);
-        $request['model'] = $request['model'] ?? config('openai.gpt_model');
+        $request['model'] = $request['model'] ?? config('openai.gpt_model', 'gpt-4o');
         Dsl::debug('[chat.completion] request', $request, 'effect');
 
         if ($this->isFake($process)) {
@@ -98,10 +100,9 @@ class ChatCompletionHandler implements EffectHandlerContract
             // Handle tool function calls (if any)
             if (!empty($choice->toolCalls)) {
                 foreach ($choice->toolCalls as $toolCall) {
-                    $call = new \stdClass();
-                    $call->name = $toolCall->function->name;
-                    $call->arguments = json_decode($toolCall->function->arguments ?? '{}', false);
-                    $process->push('calls', $call);
+                    $name = $toolCall->function->name;
+                    $arguments = json_decode($toolCall->function->arguments ?? '{}', false);
+                    $process->push('calls', new ToolCall($name, $arguments));
                 }
                 $this->handleCalls($process);
             }
@@ -109,28 +110,6 @@ class ChatCompletionHandler implements EffectHandlerContract
             $this->notifyError($e, $process, $request);
             throw $e;
         }
-    }
-
-    protected function isAsync(Process $process): bool
-    {
-        if (empty($this->params['async'])) {
-            return false;
-        }
-        $async = (bool) Dsl::evaluate($this->params['async'], $process->toContext());
-        if (!$async) {
-            return false;
-        }
-
-        EffectJob::dispatch(
-            ChatCompletionDefinition::KEY,
-            Arr::except($this->params, ['async']),
-            $process
-        );
-        Dsl::debug('[chat.completion] sent to async', [
-            'params' => $this->params,
-            'process' => $process->pack()
-        ], 'effect');
-        return true;
     }
 
     protected function isFake(Process $process): bool
@@ -195,20 +174,17 @@ class ChatCompletionHandler implements EffectHandlerContract
     protected function handleCalls(Process $process): void
     {
         if (empty($this->params['calls'])) {
-            Log::warning("No handler defined for tool in chat.completion effect.", [
-                'params' => $this->params,
-                'process' => $process->pack()
-            ]);
             return;
         }
         $compiled = ValueResolver::resolve($this->params['calls'], $process);
+        /** @var ToolCall $call */
         foreach ($process->get('calls', []) as $call) {
-            $block = $compiled[$call->name] ?? null;
+            $block = $compiled[$call->name()] ?? null;
             if ($block) {
-                $process->set('call', $call->arguments);
+                $process->set('call', $call);
                 EffectRunner::run($block, $process);
             } else {
-                Log::warning("No handler for tool call: {$call->name}");
+                Log::warning("No handler for tool call: {$call->name()}");
             }
         }
     }
