@@ -2,7 +2,7 @@
 
 namespace App\Logic\Dsl;
 
-use App\logic\Facades\Dsl;
+use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 
 /**
