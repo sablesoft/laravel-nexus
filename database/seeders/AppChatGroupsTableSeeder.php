@@ -21,6 +21,48 @@ class AppChatGroupsTableSeeder extends Seeder
         \DB::table('app.chat_groups')->insert(array (
             0 => 
             array (
+                'id' => 55,
+                'application_id' => NULL,
+                'chat_id' => 18,
+                'name' => '{"ru":"Архетип","en":"Archetype"}',
+                'description' => '{"ru":"Эта группа описывает внутренний взгляд персонажа на мир: как он чувствует, реагирует, взаимодействует с окружающей реальностью и людьми. Эти роли задают характер речевых паттернов и решения.","en":"This group reflects the character’s internal lens on the world — how they perceive, respond to, and interact with their environment and others. These roles shape narrative tone and decision-making."}',
+                'number' => 1,
+                'roles_per_character' => 1,
+                'is_required' => true,
+                'allowed' => NULL,
+                'created_at' => '2025-04-18 03:51:52',
+                'updated_at' => '2025-04-18 03:51:52',
+            ),
+            1 => 
+            array (
+                'id' => 56,
+                'application_id' => NULL,
+                'chat_id' => 18,
+                'name' => '{"ru":"Функция","en":"Function"}',
+                'description' => '{"ru":"Эта группа описывает полезные функции, занятия и фракционные принадлежности персонажей в условиях разрухи: кто они по призванию или по обстоятельствам. Это может быть как профессия, так и способ выживания.","en":"This group defines practical functions, occupations, or affiliations the characters embody in the post-collapse world. It reflects their role in survival — whether chosen or imposed."}',
+                'number' => 2,
+                'roles_per_character' => 1,
+                'is_required' => true,
+                'allowed' => NULL,
+                'created_at' => '2025-04-18 03:51:52',
+                'updated_at' => '2025-04-18 03:51:52',
+            ),
+            2 => 
+            array (
+                'id' => 57,
+                'application_id' => NULL,
+                'chat_id' => 18,
+                'name' => '{"en":"Fraction","ru":"Фракция"}',
+                'description' => '{"en":null,"ru":null}',
+                'number' => 3,
+                'roles_per_character' => 1,
+                'is_required' => true,
+                'allowed' => NULL,
+                'created_at' => '2025-04-18 03:51:53',
+                'updated_at' => '2025-04-18 03:51:53',
+            ),
+            3 => 
+            array (
                 'id' => 1,
                 'application_id' => 1,
                 'chat_id' => NULL,
@@ -33,7 +75,7 @@ class AppChatGroupsTableSeeder extends Seeder
                 'created_at' => '2025-04-12 05:23:53',
                 'updated_at' => '2025-04-12 08:11:40',
             ),
-            1 => 
+            4 => 
             array (
                 'id' => 2,
                 'application_id' => 1,
@@ -47,7 +89,7 @@ class AppChatGroupsTableSeeder extends Seeder
                 'created_at' => '2025-04-12 05:31:13',
                 'updated_at' => '2025-04-12 08:12:00',
             ),
-            2 => 
+            5 => 
             array (
                 'id' => 3,
                 'application_id' => 1,
