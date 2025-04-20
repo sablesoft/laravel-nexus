@@ -18,7 +18,7 @@ class CharacterActionHandler implements EffectHandlerContract
 {
     use AsyncTrait;
 
-    const TOOL_NAME = 'classification';
+    const TOOL_NAME = 'classify';
     const FALLBACK_VERB = 'other';
 
     protected CharacterDslAdapter $character;
@@ -78,7 +78,7 @@ class CharacterActionHandler implements EffectHandlerContract
             ],
             'messages' => array_merge($this->messages, [
                 ['role' => 'system', 'content' => $instruction],
-                ['role' => 'user', 'content' => $this->ask]
+                ['role' => 'user', 'content' => "Classify: ". $this->ask]
             ])
         ]);
 
