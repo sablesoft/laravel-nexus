@@ -11,17 +11,18 @@
     <div class="mt-2 space-y-2">
         @if($allowedCharacters->isNotEmpty())
             @php
-                $cols = 5;
+                $cols = 6;
                 if (!$this->isStarted()) $cols++;
             @endphp
             @switch($cols)
-                @case(5) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_8rem]'; @endphp @break
-                @case(6) @php $grid = 'grid-cols-[8rem_8rem_8rem_1fr_8rem_8rem]'; @endphp @break
+                @case(6) @php $grid = 'grid-cols-[8rem_8rem_8rem_8rem_1fr_8rem]'; @endphp @break
+                @case(7) @php $grid = 'grid-cols-[8rem_8rem_8rem_8rem_1fr_8rem_8rem]'; @endphp @break
             @endswitch
             {{-- Header --}}
             <div class="grid {{ $grid }} gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
                 <span>{{ __('Image') }}</span>
                 <span>{{ __('Name') }}</span>
+                <span>{{ __('Code') }}</span>
                 <span>{{ __('Roles') }}</span>
                 <span>{{ __('Description') }}</span>
                 @if($chat)
@@ -49,6 +50,9 @@
 
                 {{-- Name --}}
                 <div>{{ $character->mask->title }}</div>
+
+                {{-- Code --}}
+                <div>{{ $character->code }}</div>
 
                 {{-- Roles --}}
                 <div>
@@ -116,13 +120,13 @@
                         @endif
                         @if($this->isOwner())
                             @if($application)
-                            <flux:tooltip content="{{ __('Actor') }}">
-                                <flux:button class="cursor-pointer" size="sm" icon="bolt"
-                                             wire:click="manageActor({{ $character->id }})"/>
-                            </flux:tooltip>
                             <flux:tooltip content="{{ __('Roles') }}">
                                 <flux:button class="cursor-pointer" size="sm" icon="user-group"
                                              wire:click="manageRoles({{ $character->id }})"/>
+                            </flux:tooltip>
+                            <flux:tooltip content="{{ __('Edit') }}">
+                                <flux:button class="cursor-pointer" size="sm" icon="bolt"
+                                             wire:click="editCharacter({{ $character->id }})"/>
                             </flux:tooltip>
                             @endif
                             <flux:tooltip content="{{ __('Delete') }}">
@@ -186,9 +190,14 @@
         </div>
     </flux:modal>
 
-    <flux:modal name="form-actor"
+    <flux:modal name="form-character-edit"
                 class="!max-w-4xl min-w-xl">
         <div class="space-y-4">
+            <flux:field class="mb-3">
+                <flux:label>{{ __('Code') }}</flux:label>
+                <flux:input wire:model="state.code" required/>
+                <flux:error name="state.code"/>
+            </flux:field>
             <flux:field class="mb-3">
                 <flux:label>{{ __('Select Actor') }}</flux:label>
                 <flux:select wire:model="state.actor" class="cursor-pointer" required>
@@ -208,7 +217,7 @@
                         {{ __('Close') }}
                     </flux:button>
                 </flux:modal.close>
-                <flux:button wire:click="submitActor" variant="primary" class="cursor-pointer">
+                <flux:button wire:click="submitCharacter" variant="primary" class="cursor-pointer">
                     {{ __('Submit') }}
                 </flux:button>
             </div>

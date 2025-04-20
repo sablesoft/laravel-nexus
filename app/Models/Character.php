@@ -32,6 +32,7 @@ use Symfony\Component\Intl\Languages;
  * @property null|int $application_id
  * @property null|int $chat_id
  * @property null|int $screen_id
+ * @property null|string $code
  * @property null|Language $language
  * @property null|Gender $gender
  * @property null|Actor $actor
@@ -55,7 +56,7 @@ class Character extends Model implements HasDslAdapterContract, Stateful
     use HasOwner, HasStates, HasBehaviors, HasFactory;
 
     protected $fillable = [
-        'chat_id', 'application_id', 'mask_id', 'screen_id', 'user_id',
+        'chat_id', 'application_id', 'mask_id', 'screen_id', 'user_id', 'code',
         'actor', 'is_confirmed', 'states', 'language', 'gender', 'behaviors'
     ];
 

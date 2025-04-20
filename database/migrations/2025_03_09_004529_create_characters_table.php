@@ -25,6 +25,7 @@ return new class extends Migration
                 ->constrained()->nullOnDelete();
             $table->foreignId('screen_id')->nullable(false)->index()
                 ->constrained()->cascadeOnDelete();
+            $table->string('code')->nullable(false)->index();
             $table->enum('actor', Actor::values())->index()
                 ->nullable(false)->default(Actor::getDefault()->value);
 
@@ -39,6 +40,7 @@ return new class extends Migration
             $table->jsonb('behaviors')->nullable();
             $table->index('behaviors', 'app_characters_behaviors_index', 'gin');
 
+            $table->unique(['application_id', 'code']);
             $table->unique(['application_id', 'chat_id', 'mask_id']);
 
             $table->timestamp('created_at')->useCurrent();

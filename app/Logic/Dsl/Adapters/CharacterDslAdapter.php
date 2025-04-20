@@ -75,6 +75,11 @@ class CharacterDslAdapter extends ModelDslAdapter
         return !!$this->model->roles->where('code', $roleCode)->count();
     }
 
+    public function code(): string
+    {
+        return $this->model->code ?: 'none';
+    }
+
     public function fromCode(string $code, ?Process $process = null): self
     {
         $model = Character::where('code', $code)->firstOrFail();

@@ -28,8 +28,9 @@ class Characters extends Component
     #[Locked]
     public ?int $characterId = null;
     public array $state = [
+        'code' => '',
         'roles' => [],
-        'actor' => null
+        'actor' => null,
     ];
     public array $selectRoles = [];
 
@@ -144,6 +145,7 @@ class Characters extends Component
             'application_id' => $this->application?->id,
             'user_id' => $userId,
             'mask_id' => $mask->getKey(),
+            'code' => random_bytes(10),
             'gender' => $mask->gender,
             'is_confirmed' => $this->isOwner()
         ]);
@@ -190,22 +192,24 @@ class Characters extends Component
         $this->dispatch('flash', message: __('You joined this chat'));
     }
 
-    public function manageActor(int $characterId): void
+    public function editCharacter(int $characterId): void
     {
         $this->characterId = $characterId;
         /** @var Character $character */
         $character = $this->findCharacter($characterId);
         $this->state['actor'] = $character->actor->value;
-        Flux::modal('form-actor')->show();
+        $this->state['code'] = $character->code;
+        Flux::modal('form-character-edit')->show();
     }
 
-    public function submitActor(): void
+    public function submitCharacter(): void
     {
         $character = $this->findCharacter($this->characterId);
         $character->actor = Actor::from($this->state['actor']);
+        $character->code = $this->state['code'];
         $character->save();
         $this->updateCharacter($character);
-        Flux::modal('form-actor')->close();
+        Flux::modal('form-character-edit')->close();
     }
 
     public function manageRoles(int $characterId): void
