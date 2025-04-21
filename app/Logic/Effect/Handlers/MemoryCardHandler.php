@@ -11,6 +11,7 @@ use App\Logic\Effect\Handlers\Traits\Async;
 use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 class MemoryCardHandler implements EffectHandlerContract
 {
@@ -44,6 +45,9 @@ class MemoryCardHandler implements EffectHandlerContract
         $this->title = ValueResolver::resolve($this->params['title'], $context);
         $context['task'] = ValueResolver::resolve($this->params['task'], $context);
         $this->prompt = ValueResolver::resolve($this->params['layout'], $context);
+        try {
+            $this->prompt = ValueResolver::resolve(Dsl::prefixed($this->prompt), $context);
+        } catch (SyntaxError) {}
         $this->model = empty($this->params['model']) ? null :
             ValueResolver::resolve($this->params['model'], $context);
     }

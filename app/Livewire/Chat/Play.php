@@ -172,9 +172,8 @@ class Play extends Component
 
     protected function initScreen(Screen $screen, bool $withHistory = true): void
     {
-//        $this->waiting = false;
-        if ($withHistory) {
-            $this->screenState($screen->getKey())->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen?->getKey());
+        if ($withHistory && $this->screen) {
+            $this->screenState($screen->getKey())->setSystem(static::SCREEN_STATE_PREVIOUS, $this->screen->getKey());
         }
         $this->screen = $screen;
         $this->rawTransfers = $screen->transfers->map(fn (Transfer $transfer) => [
@@ -198,7 +197,7 @@ class Play extends Component
         if ($screen->init) {
             $process = $this->getProcess();
             $this->before($process);
-            $process->media = $screen;
+            $process->note = $screen;
             EffectRunner::run($screen->init, $process);
             $this->after($process);
         }
@@ -399,11 +398,11 @@ class Play extends Component
     protected function before(Process $process): Process
     {
         if ($appBefore = $this->application->getBefore()) {
-            $process->media = $this->application;
+            $process->note = $this->application;
             EffectRunner::run($appBefore, $process);
         }
         if ($screenBefore = $this->screen->getBefore()) {
-            $process->media = $this->screen;
+            $process->note = $this->screen;
             EffectRunner::run($screenBefore, $process);
         }
 
@@ -413,11 +412,11 @@ class Play extends Component
     protected function after(Process $process): void
     {
         if ($screenAfter = $this->screen->getAfter()) {
-            $process->media = $this->screen;
+            $process->note = $this->screen;
             EffectRunner::run($screenAfter, $process);
         }
         if ($appAfter = $this->application->getAfter()) {
-            $process->media = $this->application;
+            $process->note = $this->application;
             EffectRunner::run($appAfter, $process);
         }
 
@@ -451,7 +450,7 @@ class Play extends Component
         return $process;
     }
 
-    protected function screenState(int $screenId = null): ChatScreenState
+    protected function screenState(?int $screenId = null): ChatScreenState
     {
         $screenId = $screenId ?: $this->screen->getKey();
         return $this->chat->screenStates->where('screen_id', $screenId)->firstOrFail();

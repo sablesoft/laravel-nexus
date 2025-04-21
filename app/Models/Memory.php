@@ -102,10 +102,9 @@ class Memory extends Model implements HasDslAdapterContract
             $data = [];
             $data[] = $memory->title ?: '';
             $data[] = $memory->content;
-//            $data[] = $memory->meta ? 'Meta: ' . json_encode($memory->meta) : '';
             $messages[] = [
                 'role' => $memory->author_id ? 'user' : 'assistant',
-                'content' => trim(implode('. ', $data))
+                'content' => count($data) > 1 ? trim(implode('. ', $data)) : reset($data)
             ];
         }
         return $messages;

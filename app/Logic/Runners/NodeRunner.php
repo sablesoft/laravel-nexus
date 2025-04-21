@@ -38,11 +38,11 @@ class NodeRunner
     {
         $process->startEffects($node);
         try {
-            $process->media = $node;
+            $process->note = $node;
             $process->handle('before', $node, fn() => EffectRunner::run($node->getBefore(), $process));
             if ($node->getLogic()) {
                 $process->handle('logic', $node, fn() => LogicRunner::run($node, $process));
-                $process->media = $node;
+                $process->note = $node;
                 $process->handle('after', $node, fn() => EffectRunner::run($node->getAfter(), $process));
             }
         } catch (ReturnException $e) {

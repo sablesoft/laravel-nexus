@@ -7,7 +7,7 @@ use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Contracts\LogicContract;
 use App\Logic\Contracts\NodeContract;
 use App\Logic\Dsl\Adapters\ModelDslAdapter;
-use App\Logic\Dsl\Adapters\MediaDslAdapter;
+use App\Logic\Dsl\Adapters\NoteDslAdapter;
 use App\Logic\Traits\EffectsStack;
 use App\Logic\Traits\Timing;
 use App\Models\Chat;
@@ -58,7 +58,7 @@ class Process
     public readonly Screen $screen;
     public readonly Character $character;
 
-    public null|HasNotesInterface|NodeContract|LogicContract $media = null;
+    public null|HasNotesInterface|NodeContract|LogicContract $note = null;
 
     /**
      * Adapter mapping: each key maps to an Eloquent model.
@@ -180,8 +180,8 @@ class Process
                 ? $model->getDslAdapter($this)
                 : new ModelDslAdapter($this, $model);
         }
-        if ($model = $this->media) {
-            $context['media'] = new MediaDslAdapter($this, $model);
+        if ($model = $this->note) {
+            $context['note'] = new NoteDslAdapter($this, $model);
         }
 
         return array_merge($this->data, $context);
@@ -200,7 +200,7 @@ class Process
                 'memory'    => $this->memory->getKey(),
                 'character' => $this->character->getKey(),
             ],
-            'media' => $this->media ? $this->media::class .':'. $this->media->getKey() : null,
+            'note' => $this->note ? $this->note::class .':'. $this->note->getKey() : null,
             'timing'     => $this->packTiming(), // from Timing trait
         ];
     }
@@ -218,12 +218,12 @@ class Process
         ];
 
         $instance = new static(array_merge($adapters, $payload['data'] ?? []));
-        if ($node = $payload['media'] ?? null) {
+        if ($node = $payload['note'] ?? null) {
             $parts = explode(':', $node);
             /** @var Model $class */
             $class = $parts[0];
             $id = $parts[1];
-            $instance->media = $class::findOrFail($id);
+            $instance->note = $class::findOrFail($id);
         }
 
         $instance->unpackTiming($payload['timing'] ?? []);

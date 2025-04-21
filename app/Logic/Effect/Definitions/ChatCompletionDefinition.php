@@ -178,12 +178,16 @@ class ChatCompletionDefinition implements EffectDefinitionContract
 
             'messages' => ['required', new ExpressionOrArrayRule([
                 'value' => 'array|min:1',
-                'value.*.role' => [
-                    'required',
-                    'string',
-                    new ExpressionOrEnumRule(['user', 'system', 'assistant', 'tool'])
+                'value.*' => [
+                    'required', new ExpressionOrArrayRule([
+                        'role' => [
+                            'required',
+                            'string',
+                            new ExpressionOrEnumRule(['user', 'system', 'assistant', 'tool'])
+                        ],
+                        'content' => 'required|string'
+                    ]),
                 ],
-                'value.*.content' => 'required|string',
             ])],
 
             'temperature' => 'sometimes|numeric',

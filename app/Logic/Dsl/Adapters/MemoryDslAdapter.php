@@ -42,12 +42,18 @@ class MemoryDslAdapter extends ModelDslAdapter
         return $messages;
     }
 
-    public function card(string $code, string $type = 'card'): ?array
+    public function card(string $code, string $type = 'card', bool $usePrefix = true): ?array
     {
         $expression = '":type" == "'.$type.'" and ":meta.'.$type.'" == "'.$code.'"';
         $messages = $this->messages($expression, 1);
-        $message = reset($messages);
-        return $message ?: null;
+        if ($message = reset($messages)) {
+            $message['content'] = $usePrefix ?
+                ucfirst($type) . ': ' . $message['content'] :
+                $message['content'];
+        } else {
+            throw new \LogicException("Card with type '$type' found: ". $code);
+        }
+        return $message;
     }
 
     public function meta(string $path, mixed $default = null): mixed
