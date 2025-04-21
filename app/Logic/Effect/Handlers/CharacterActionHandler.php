@@ -3,26 +3,28 @@
 namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Act;
+use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\Adapters\CharacterDslAdapter;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Effect\Definitions\CharacterActionDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
+use App\Logic\Effect\Handlers\Traits\Async;
 use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
-use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\ToolCall;
 use Symfony\Component\Yaml\Yaml;
 
 class CharacterActionHandler implements EffectHandlerContract
 {
-    use AsyncTrait;
+    use Async;
 
     const TOOL_NAME = 'classify';
     const FALLBACK_VERB = 'other';
 
     protected CharacterDslAdapter $character;
     protected string $ask;
+    protected string $instruction = '';
     protected ?string $model = null;
     protected array $messages = [];
     protected array $allowed = [];
@@ -60,11 +62,7 @@ class CharacterActionHandler implements EffectHandlerContract
                 'description' => 'Any user action that does not match the predefined list. Fill all other parameters based on context and the intended meaning of each field.',
             ];
         }
-        $instruction = view('instructions.classify-act', [
-            'toolName' => static::TOOL_NAME,
-            'fallbackVerb' => static::FALLBACK_VERB
-        ])->render();
-        $instruction .= "\n" . $this->renderActionListYaml($actions);
+        $this->instruction .= "\n" . $this->renderActionListYaml($actions);
         $chatParams = Dsl::prefixed([
             'model' => $this->model,
             'tool_choice' => [
@@ -77,7 +75,7 @@ class CharacterActionHandler implements EffectHandlerContract
                 static::TOOL_NAME => $this->toolSchema($actions),
             ],
             'messages' => array_merge($this->messages, [
-                ['role' => 'system', 'content' => $instruction],
+                ['role' => 'system', 'content' => $this->instruction],
                 ['role' => 'user', 'content' => "Classify: ". $this->ask]
             ])
         ]);
@@ -184,6 +182,7 @@ class CharacterActionHandler implements EffectHandlerContract
     protected function prepareParams(Process $process): void
     {
         $context = $process->toContext();
+        $this->prepareInstruction($context);
         $this->prepareAsk($context);
         $this->prepareCharacter($context);
         foreach (['messages', 'allowed', 'model'] as $param) {
@@ -196,6 +195,24 @@ class CharacterActionHandler implements EffectHandlerContract
                 $value = $this->params[$param];
                 $this->$param = is_array($value) ? $value : ValueResolver::resolve($value, $context);
             }
+        }
+    }
+
+    protected function prepareInstruction(array $context): void
+    {
+        $params = [
+            'toolName' => static::TOOL_NAME,
+            'fallbackVerb' => static::FALLBACK_VERB,
+            'properties' => implode(', ',Act::propertyKeys())
+        ];
+        if (empty($this->params['instruction'])) {
+            $this->instruction = view('instructions.classify-act', $params)->render();
+        } else {
+            $this->instruction = ValueResolver::resolve($this->params['instruction'], $context);
+            try {
+                // try to compile second time if note used for example:
+                $this->instruction = ValueResolver::resolve(Dsl::prefixed($this->instruction), $context);
+            } catch (\Throwable) {}
         }
     }
 

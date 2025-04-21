@@ -28,6 +28,10 @@ class CharacterActionDefinition implements EffectDefinitionContract
                     'type' => 'expression',
                     'description' => 'Character performing the action (optional, taken from context if omitted).'
                 ],
+                'instruction' => [
+                    'type' => 'expression',
+                    'description' => 'The custom instruction for classify task (optional, taken from system views if ommited).'
+                ],
                 'ask' => [
                     'type' => 'expression',
                     'description' => 'The raw user message to classify (optional, taken from context if omitted).'
@@ -62,6 +66,7 @@ class CharacterActionDefinition implements EffectDefinitionContract
                     'character.act' => [
                         'character' => 'character',
                         'ask' => 'ask',
+                        'instruction' => 'special_instruction',
                         'messages' => 'messages',
                         'allowed' => ['look', 'open', 'take'],
                         'always' => [
@@ -107,6 +112,7 @@ class CharacterActionDefinition implements EffectDefinitionContract
         }
         return [
             'character' => 'sometimes|nullable',
+            'instruction' => 'sometimes|nullable|string',
             'ask' => 'sometimes|nullable',
             'model' => [
                 'sometimes',
