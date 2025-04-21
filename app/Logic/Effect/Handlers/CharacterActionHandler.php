@@ -39,7 +39,7 @@ class CharacterActionHandler implements EffectHandlerContract
         }
 
         $this->prepareParams($process);
-        $this->classification($process);
+        $this->classify($process);
 
         /** @var ToolCall $call **/
         foreach ($process->get('calls', []) as $call) {
@@ -52,7 +52,7 @@ class CharacterActionHandler implements EffectHandlerContract
         }
     }
 
-    protected function classification(Process $process): void
+    protected function classify(Process $process): void
     {
         $actions = $this->character->behaviorsInfo($this->allowed);
         if (!isset($actions[static::FALLBACK_VERB])) {
@@ -136,7 +136,7 @@ class CharacterActionHandler implements EffectHandlerContract
         }
 
         return [
-            'description' => 'Classify player action',
+            'description' => 'Classify player action. Only English words allowed.',
             'parameters' => [
                 'type' => 'object',
                 'properties' => $propertiesSchema,
