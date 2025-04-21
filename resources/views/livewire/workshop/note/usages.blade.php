@@ -8,6 +8,64 @@
         </flux:modal.trigger>
     </div>
 
+    {{-- Modal Form --}}
+    <flux:modal name="form-note-usage-{{ $key }}" class="!max-w-2xl min-w-xl"
+                x-on:cancel="$wire.resetForm()"
+                x-on:close="$wire.resetForm()">
+        <div class="space-y-4">
+            <flux:heading>
+                {{ $noteId ? __('Edit Note Usage') : __('Attach Note') }}
+            </flux:heading>
+
+            @if(!$noteId)
+            <flux:field class="mb-3">
+                <flux:switch label="{{ __('Create Note') }}" class="cursor-pointer" wire:model.live="createNote"/>
+            </flux:field>
+            @endif
+
+            @if(!$createNote)
+            <flux:field class="mb-3">
+                <flux:label>{{ __('Select Note') }}</flux:label>
+                <x-searchable-select field="state.note_id" :key="$key" :options="$selectNotes" />
+                <flux:error name="state.note_id" />
+            </flux:field>
+            @endif
+
+            <flux:field class="mb-3">
+                <flux:label>{{ __('Code') }}</flux:label>
+                <!--suppress RequiredAttributes -->
+                <flux:input required type="text" wire:model.defer="state.code" />
+                <flux:error name="state.code" />
+            </flux:field>
+
+            <flux:field class="mb-3">
+                <flux:label>{{ __('Title') }}</flux:label>
+                <!--suppress RequiredAttributes -->
+                <flux:input required type="text" wire:model.defer="state.title" />
+                <flux:error name="state.title" />
+            </flux:field>
+
+            <flux:field class="mb-3">
+                <flux:label>{{ __('Content') }}</flux:label>
+                <!--suppress RequiredAttributes -->
+                <flux:textarea required wire:model.defer="state.content" />
+                <flux:error name="state.content" />
+            </flux:field>
+
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="cursor-pointer">
+                        {{ __('Close') }}
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button wire:click="submit" variant="primary" class="cursor-pointer">
+                    {{ __('Submit') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
+
     {{-- Notes Table Header --}}
     @if($usages)
         <div class="grid grid-cols-3 gap-4 font-bold text-sm text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
@@ -42,40 +100,4 @@
     @else
         <p>{{ __('No attached notes') }}</p>
     @endif
-
-    {{-- Modal Form --}}
-    <flux:modal name="form-note-usage-{{ $key }}" class="!max-w-2xl min-w-xl"
-                x-on:cancel="$wire.resetForm()"
-                x-on:close="$wire.resetForm()">
-        <div class="space-y-4">
-            <flux:heading>
-                {{ $noteId ? __('Edit Note Usage') : __('Attach Note') }}
-            </flux:heading>
-
-            <flux:field class="mb-3">
-                <flux:label>{{ __('Code') }}</flux:label>
-                <!--suppress RequiredAttributes -->
-                <flux:input required type="text" wire:model.defer="state.code" />
-                <flux:error name="state.code" />
-            </flux:field>
-
-            <flux:field class="mb-3">
-                <flux:label>{{ __('Select Note') }}</flux:label>
-                <x-searchable-select field="state.note_id" :key="$key" :options="$selectNotes" />
-                <flux:error name="state.note_id" />
-            </flux:field>
-
-            <div class="flex gap-2">
-                <flux:spacer />
-                <flux:modal.close>
-                    <flux:button variant="ghost" class="cursor-pointer">
-                        {{ __('Close') }}
-                    </flux:button>
-                </flux:modal.close>
-                <flux:button wire:click="submit" variant="primary" class="cursor-pointer">
-                    {{ __('Submit') }}
-                </flux:button>
-            </div>
-        </div>
-    </flux:modal>
 </div>
