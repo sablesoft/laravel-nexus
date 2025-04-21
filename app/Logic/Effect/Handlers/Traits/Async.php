@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Logic\Effect\Handlers;
+namespace App\Logic\Effect\Handlers\Traits;
 
 use App\Logic\EffectJob;
 use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 use Illuminate\Support\Arr;
 
-trait AsyncTrait
+trait Async
 {
     protected function isAsync(Process $process, string $effectKey): bool
     {

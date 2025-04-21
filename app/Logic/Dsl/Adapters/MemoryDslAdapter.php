@@ -42,6 +42,14 @@ class MemoryDslAdapter extends ModelDslAdapter
         return $messages;
     }
 
+    public function card(string $code, string $type = 'card'): ?array
+    {
+        $expression = '":type" == "'.$type.'" and ":meta.'.$type.'" == "'.$code.'"';
+        $messages = $this->messages($expression, 1);
+        $message = reset($messages);
+        return $message ?: null;
+    }
+
     public function meta(string $path, mixed $default = null): mixed
     {
         $meta = $this->model?->getAttributeValue('meta') ?? [];

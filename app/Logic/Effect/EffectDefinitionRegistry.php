@@ -10,6 +10,7 @@ use App\Logic\Effect\Definitions\ChatStateDefinition;
 use App\Logic\Effect\Definitions\CommentDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\CharacterStateDefinition;
+use App\Logic\Effect\Definitions\MemoryCardDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
@@ -88,6 +89,7 @@ class EffectDefinitionRegistry
         static::register(CommentDefinition::KEY, new CommentDefinition());
         static::register(ValidateDefinition::KEY, new ValidateDefinition());
         static::register(ChatStateDefinition::KEY, new ChatStateDefinition());
+        static::register(MemoryCardDefinition::KEY, new MemoryCardDefinition());
         static::register(ScreenBackDefinition::KEY, new ScreenBackDefinition());
         static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());

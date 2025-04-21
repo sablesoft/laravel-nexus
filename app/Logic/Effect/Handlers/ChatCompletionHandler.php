@@ -5,13 +5,14 @@ namespace App\Logic\Effect\Handlers;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
+use App\Logic\Effect\Handlers\Traits\Async;
 use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
 use App\Logic\ToolCall;
-use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use OpenAI\Laravel\Facades\OpenAI;
 use Throwable;
 
 /**
@@ -30,7 +31,7 @@ use Throwable;
  */
 class ChatCompletionHandler implements EffectHandlerContract
 {
-    use AsyncTrait;
+    use Async;
 
     public function __construct(protected array $params) {}
 
