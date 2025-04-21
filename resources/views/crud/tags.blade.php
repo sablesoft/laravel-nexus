@@ -6,7 +6,7 @@
         <!-- Select Filtering Category -->
         <div class="flex-1">
             <label for="categories" class="block text-sm font-medium text-gray-700">{{ __('Select Category') }}</label>
-            <x-searchable id="categories" :keep-selected="true" :allow-new="false"
+            <x-searchable key="categories" :keep-selected="true" :allow-new="false"
                           title="{{ __('Category') }}"
                           @searchable-init="categoriesInit"
                           @searchable-selected="categorySelected"
@@ -16,7 +16,7 @@
         <!-- Select Tag -->
         <div class="flex-1">
             <label for="tags" class="block text-sm font-medium text-gray-700">{{ __('Select Tag') }}</label>
-            <x-searchable id="tags" :keep-selected="false" :allow-new="$allowNew"
+            <x-searchable key="tags" :keep-selected="false" :allow-new="$allowNew"
                           title="{{ __('Tag') }}"
                           @searchable-init="tagsInit"
                           @searchable-selected="tagSelected"
@@ -29,7 +29,7 @@
             <!-- Select Parent Category for New Tag -->
             <div class="flex-1">
                 <label for="parents" class="block text-sm font-medium text-gray-700">{{ __('Select Parent') }}</label>
-                <x-searchable id="parents" :keep-selected="true" :allow-new="false"
+                <x-searchable key="parents" :keep-selected="true" :allow-new="false"
                               title="{{ __('Parent') }}"
                               @searchable-init="parentsInit"
                               @searchable-selected="parentSelected"

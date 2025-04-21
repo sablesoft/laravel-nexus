@@ -4,7 +4,7 @@
 
         <!-- Select Items -->
         <div class="flex-1">
-            <x-searchable id="{{ $field }}" :keep-selected="false" :allow-new="false" title="Select"
+            <x-searchable key="{{ $field }}" :keep-selected="false" :allow-new="false" title="Select"
                           @searchable-init="multiSearchableInit"
                           @searchable-selected="multiSearchableSelected"/>
         </div>

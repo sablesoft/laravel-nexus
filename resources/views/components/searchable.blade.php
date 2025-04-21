@@ -1,11 +1,11 @@
 @props([
-    'id' => 'searchable',
+    'key' => 'searchable',
     'title' => 'Search & Select',
     'keepSelected' => false,
     'allowNew' => false,
 ])
 
-<div x-data="searchable('{{ $id }}', '{{ $title }}', @json($keepSelected), @json($allowNew))"
+<div x-data="searchable('{{ $key }}', '{{ $title }}', @json($keepSelected), @json($allowNew))"
     {{ $attributes->merge(['class' => 'relative']) }}>
     <button @click.prevent="toggleDropdown"
             class="cursor-pointer w-full border rounded-lg disabled:shadow-none dark:shadow-none appearance-none text-base sm:text-sm py-2 h-10 leading-[1.375rem] pl-3 pr-3 bg-white dark:bg-white/10 text-zinc-700 placeholder-zinc-400 dark:text-zinc-300 dark:placeholder-zinc-400 shadow-xs border-zinc-200 border-b-zinc-300/80 dark:border-white/10">
@@ -33,9 +33,9 @@
 @script
 <!--suppress JSUnresolvedReference -->
 <script>
-    Alpine.data('searchable',  (id, title, keepSelected, allowNew) => {
+    Alpine.data('searchable',  (key, title, keepSelected, allowNew) => {
         return {
-            id: id,
+            key: key,
             defaultTitle: title,
             allowNew: allowNew,
             keepSelected: keepSelected,
@@ -49,7 +49,7 @@
 
             init() {
                 this.searchableDebug('Init', {
-                    id: this.id,
+                    key: this.key,
                     defaultTitle : this.defaultTitle,
                     allowNew: this.allowNew,
                     keepSelected: this.keepSelected
@@ -60,10 +60,10 @@
                 }, 100);
             },
             addEventListeners() {
-                document.addEventListener('searchable-' + this.id, this.loadOptions.bind(this));
-                document.addEventListener(this.id + '-options', this.loadOptions.bind(this));
-                document.addEventListener(this.id + '-selection', this.loadSelection.bind(this));
-                document.addEventListener(this.id + '-clear', this.clearSelection.bind(this));
+                document.addEventListener('searchable-' + this.key, this.loadOptions.bind(this));
+                document.addEventListener(this.key + '-options', this.loadOptions.bind(this));
+                document.addEventListener(this.key + '-selection', this.loadSelection.bind(this));
+                document.addEventListener(this.key + '-clear', this.clearSelection.bind(this));
             },
             loadOptions(e) {
                 this.options = e.detail;
@@ -78,9 +78,9 @@
 
             dispatch(name, data) {
                 this.searchableDebug('Dispatch ' + name, data);
-                this.$dispatch(this.id + '-' + name, data);
+                this.$dispatch(this.key + '-' + name, data);
                 data = data ? data : {};
-                data.searchableId = this.id;
+                data.searchableId = this.key;
                 this.$dispatch('searchable-' + name, data);
             },
 
@@ -122,7 +122,7 @@
             },
 
             searchableDebug(message, data) {
-                Debug('searchable', this.id, {message: message, data: data});
+                Debug('searchable', this.key, {message: message, data: data});
             },
 
             get filteredOptions() {

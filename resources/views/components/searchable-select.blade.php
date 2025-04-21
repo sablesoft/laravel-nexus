@@ -4,7 +4,7 @@
     'options' => []
 ])
 <div x-data='searchableSelect{{ $key }}("{{ $field }}", @json($options))'>
-    <x-searchable id="{{ $field }}" :keep-selected="true" :allow-new="false"
+    <x-searchable key="{{ $key }}" :keep-selected="true" :allow-new="false"
                   @searchable-init="searchableInit"
                   @searchable-selected="searchableSelected"
                   @searchable-cleared="searchableCleared"/>
@@ -15,13 +15,7 @@
 <script>
     let componentName = "searchableSelect{{ $key }}"
     window[componentName] = function (field, options) {
-        function dotToCamel(str) {
-            const parts = str.split('.');
-            return parts[0] + parts.slice(1).map(part =>
-                part.charAt(0).toUpperCase() + part.slice(1)
-            ).join('');
-        }
-        const key = dotToCamel(field) + 'Selected{{ $key }}';
+        const key = '{{ $key }}';
         let component = {
             field: field,
             selectOptions: options,
@@ -31,15 +25,13 @@
                     field: this.field,
                     options: this.selectOptions
                 });
-                const scopedEvent = this.field + '-updated-{{ $key }}';
-                window.addEventListener(scopedEvent, (e) => {
+                const eventAdded = this.field + '-options-{{ $key }}';
+                window.addEventListener(eventAdded, (e) => {
                     this[key] = e.detail.value;
-                    if (this[key]) {
-                        this.$dispatch( this.field + '-selection', this[key]);
-                    } else {
-                        this.$dispatch( this.field + '-clear');
+                    if (Array.isArray(e.detail.options)) {
+                        this.selectOptions.splice(0, this.selectOptions.length, ...e.detail.options);
                     }
-                    this.debug('Updated from Livewire', e.detail);
+                    this.searchableInit();
                 });
             },
             debug(message, data) {
@@ -49,11 +41,11 @@
             // handlers:
             searchableInit() {
                 this.debug('Send options to component', {options: this.selectOptions});
-                this.$dispatch( this.field + '-options', this.selectOptions);
+                this.$dispatch( key + '-options', this.selectOptions);
                 if (this[key]) {
-                    this.$dispatch( this.field + '-selection', this[key]);
+                    this.$dispatch( key + '-selection', this[key]);
                 } else {
-                    this.$dispatch( this.field + '-clear');
+                    this.$dispatch( key + '-clear');
                 }
             },
             searchableSelected(e) {
