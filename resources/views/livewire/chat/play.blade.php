@@ -31,21 +31,27 @@
                             <div class="mb-4 p-3 rounded-lg shadow-sm
                                 {{ $memory['user_id'] === auth()->id() ? 'bg-blue-100 dark:bg-blue-900 self-end' : 'bg-gray-100 dark:bg-gray-700' }}">
                                 <p class="text-sm text-gray-600 dark:text-gray-300">
-                                    <strong>{{ $memory['mask_name'] ?: 'System' }}:</strong> {{ $memory['content'] }}
+                                    <strong>{{ $memory['mask_name'] ?: 'System' }}:</strong> {!! nl2br(e($memory['content'])) !!}
                                 </p>
-                                @if($memory['meta'] && config('app.debug'))
+                                @if(config('app.debug'))
                                     @php
-                                       $meta = $memory['meta'];
-                                       $act = $meta['act'] ?? [];
-                                       unset($meta['act']);
-                                       $desiredOrder = ['do', 'what', 'using', 'from', 'to', 'for', 'how'];
-                                       $reorderedAct = collect($desiredOrder)
+                                        $data = ['type' => $memory['type']];
+                                        $meta = $memory['meta'];
+                                        $act = $meta['act'] ?? [];
+                                        unset($meta['act']);
+                                        $desiredOrder = ['do', 'what', 'using', 'from', 'to', 'for', 'how'];
+                                        $reorderedAct = collect($desiredOrder)
                                             ->filter(fn($key) => array_key_exists($key, $act))
                                             ->mapWithKeys(fn($key) => [$key => $act[$key]])
                                             ->toArray();
-                                       $meta = $meta ? json_encode($meta, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : null;
-                                       $act = $reorderedAct ? json_encode($reorderedAct, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : null;
                                     @endphp
+                                    @if($reorderedAct)
+                                        @php $data['act'] = $reorderedAct; @endphp
+                                    @endif
+                                    @if($meta)
+                                        @php $data['meta'] = $meta; @endphp
+                                    @endif
+                                    @php $data = json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE); @endphp
 
                                     <div x-data="{ open: false }" class="mt-2">
                                         <button @click="open = !open"
@@ -56,22 +62,11 @@
                                         </button>
 
                                         <div x-show="open" x-transition class="mt-2 space-y-2">
-                                            @if($act)
-                                                <div>{{ __('Act') }}:</div>
-                                                <x-code-mirror wire:key="codemirror-act-{{ $memory['id'] }}"
+                                                <x-code-mirror wire:key="codemirror-debug-{{ $memory['id'] }}"
                                                                lang="json"
                                                                :readonly="true"
-                                                               :content="$act"
+                                                               :content="$data"
                                                                class="w-full" />
-                                            @endif
-                                            @if($meta)
-                                                <div>{{ __('Meta') }}:</div>
-                                                <x-code-mirror wire:key="codemirror-meta-{{ $memory['id'] }}"
-                                                               lang="json"
-                                                               :readonly="true"
-                                                               :content="$meta"
-                                                               class="w-full" />
-                                            @endif
                                         </div>
                                     </div>
                                 @endif
