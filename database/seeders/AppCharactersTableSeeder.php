@@ -27,6 +27,7 @@ class AppCharactersTableSeeder extends Seeder
                 'chat_id' => NULL,
                 'user_id' => NULL,
                 'screen_id' => 1,
+                'code' => 'lia',
                 'actor' => 'system',
                 'is_confirmed' => true,
                 'language' => 'en',
@@ -34,7 +35,7 @@ class AppCharactersTableSeeder extends Seeder
                 'states' => NULL,
                 'behaviors' => NULL,
                 'created_at' => '2025-04-12 01:58:55',
-                'updated_at' => '2025-04-12 01:58:55',
+                'updated_at' => '2025-04-20 18:17:21',
             ),
             1 => 
             array (
@@ -44,6 +45,7 @@ class AppCharactersTableSeeder extends Seeder
                 'chat_id' => NULL,
                 'user_id' => NULL,
                 'screen_id' => 1,
+                'code' => 'nick',
                 'actor' => 'system',
                 'is_confirmed' => true,
                 'language' => 'en',
@@ -51,7 +53,7 @@ class AppCharactersTableSeeder extends Seeder
                 'states' => NULL,
                 'behaviors' => NULL,
                 'created_at' => '2025-04-12 01:58:47',
-                'updated_at' => '2025-04-12 01:58:47',
+                'updated_at' => '2025-04-20 18:17:36',
             ),
             2 => 
             array (
@@ -61,6 +63,7 @@ class AppCharactersTableSeeder extends Seeder
                 'chat_id' => NULL,
                 'user_id' => NULL,
                 'screen_id' => 1,
+                'code' => 'tarek',
                 'actor' => 'player',
                 'is_confirmed' => true,
                 'language' => 'en',
@@ -68,7 +71,7 @@ class AppCharactersTableSeeder extends Seeder
                 'states' => NULL,
                 'behaviors' => NULL,
                 'created_at' => '2025-04-12 01:50:33',
-                'updated_at' => '2025-04-17 02:09:09',
+                'updated_at' => '2025-04-20 18:17:49',
             ),
             3 => 
             array (
@@ -78,6 +81,7 @@ class AppCharactersTableSeeder extends Seeder
                 'chat_id' => NULL,
                 'user_id' => NULL,
                 'screen_id' => 1,
+                'code' => 'mara',
                 'actor' => 'player',
                 'is_confirmed' => true,
                 'language' => 'en',
@@ -85,7 +89,7 @@ class AppCharactersTableSeeder extends Seeder
                 'states' => NULL,
                 'behaviors' => NULL,
                 'created_at' => '2025-04-12 01:59:03',
-                'updated_at' => '2025-04-17 02:09:28',
+                'updated_at' => '2025-04-20 18:17:58',
             ),
         ));
         

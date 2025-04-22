@@ -21,6 +21,22 @@ class AppControlsTableSeeder extends Seeder
         \DB::table('app.controls')->insert(array (
             0 => 
             array (
+                'id' => 8,
+                'screen_id' => 2,
+                'scenario_id' => NULL,
+                'type' => 'action',
+                'title' => '{"en":"Enter","ru":"Войти"}',
+                'tooltip' => '{"en":"Let\'s move inside!","ru":"Давай зайдем внутрь!"}',
+                'description' => '{"en":null,"ru":null}',
+                'before' => NULL,
+                'after' => NULL,
+            'visible_condition' => 'screen.state(\'opened\')',
+                'enabled_condition' => NULL,
+                'created_at' => '2025-04-22 06:42:45',
+                'updated_at' => '2025-04-22 06:43:34',
+            ),
+            1 => 
+            array (
                 'id' => 5,
                 'screen_id' => 9,
                 'scenario_id' => NULL,
@@ -35,7 +51,7 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 21:54:16',
                 'updated_at' => '2025-04-15 01:12:19',
             ),
-            1 => 
+            2 => 
             array (
                 'id' => 7,
                 'screen_id' => 9,
@@ -51,7 +67,7 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-15 00:36:12',
                 'updated_at' => '2025-04-15 00:39:30',
             ),
-            2 => 
+            3 => 
             array (
                 'id' => 6,
                 'screen_id' => 2,
@@ -67,7 +83,7 @@ class AppControlsTableSeeder extends Seeder
                 'created_at' => '2025-04-15 00:12:39',
                 'updated_at' => '2025-04-19 10:55:00',
             ),
-            3 => 
+            4 => 
             array (
                 'id' => 1,
                 'screen_id' => 1,

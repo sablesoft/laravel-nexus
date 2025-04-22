@@ -21,39 +21,6 @@ class AppScenariosTableSeeder extends Seeder
         \DB::table('app.scenarios')->insert(array (
             0 => 
             array (
-                'id' => 1,
-                'user_id' => 1,
-                'title' => '{"en":"Ask Memory"}',
-                'description' => '{"en":"Just add character ask to screen memories"}',
-                'before' => '[{"validate":{"ask":"required|string"}},{"memory.create":{"type":"screen.code","data":{"author_id":"character.id","content":"ask"}}},{"chat.refresh":["screen.code"]}]',
-                'after' => NULL,
-                'created_at' => '2025-03-28 05:51:03',
-                'updated_at' => '2025-04-01 04:48:32',
-            ),
-            1 => 
-            array (
-                'id' => 2,
-                'user_id' => 1,
-                'title' => '{"en":"Completion Template","ru":"Шаблон генерации"}',
-                'description' => '{"ru":null,"en":null}',
-            'before' => '[{"comment":">>Validate context required for chat completion"},{"validate":{"messages":"required|array|min:1","messages.*.role":"required|string|in:user,assistant,system,tool","messages.*.content":"required|string","content_handler":"sometimes|array","tool_choice":"sometimes|string","tools":"sometimes|array","calls_handlers":"sometimes|array","model":"sometimes|string","async":"sometimes|boolean"}},{"comment":">>Prepare context variables"},{"set":{"model":"model ?? null","tools":"tools ?? null","tool_choice":"tools ? (tool_choice ?? \'auto\') : null","calls_handlers":"calls_handlers ?? null","content_handler":"content_handler ?? null"}},{"comment":">>Run chat completion"},{"chat.completion":{"model":"model","async":"async ?? false","messages":"messages","tool_choice":"tool_choice","tools":"tools","calls":"calls_handlers","content":"content_handler"}}]',
-                'after' => NULL,
-                'created_at' => '2025-04-02 04:23:13',
-                'updated_at' => '2025-04-17 15:18:48',
-            ),
-            2 => 
-            array (
-                'id' => 12,
-                'user_id' => 1,
-                'title' => '{"en":"Prologue - Continue","ru":"Prologue - Continue"}',
-                'description' => '{"en":null,"ru":null}',
-            'before' => '[{"set":{"meta":null,"author":null,"async":true,"messages":"character_info","!content_handler":[{"memory.create":{"author_id":"author","content":"content","meta":"meta"}},{"screen.state":{"values":{"waiting":false,"step":"screen.nextState(\'step\')","isDone":"screen.state(\'step\') == screen.state(\'steps\')"}}},{"chat.refresh":null}]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}},{"screen.waiting":true}]',
-                'after' => NULL,
-                'created_at' => '2025-04-14 03:12:20',
-                'updated_at' => '2025-04-17 20:27:45',
-            ),
-            3 => 
-            array (
                 'id' => 14,
                 'user_id' => 1,
                 'title' => '{"en":"Tool - AI Warning"}',
@@ -63,7 +30,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-04-17 17:39:28',
                 'updated_at' => '2025-04-17 19:45:58',
             ),
-            4 => 
+            1 => 
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -74,7 +41,7 @@ class AppScenariosTableSeeder extends Seeder
                 'created_at' => '2025-04-17 05:39:11',
                 'updated_at' => '2025-04-19 11:07:45',
             ),
-            5 => 
+            2 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -84,6 +51,39 @@ class AppScenariosTableSeeder extends Seeder
                 'after' => NULL,
                 'created_at' => '2025-04-07 23:07:51',
                 'updated_at' => '2025-04-18 03:59:12',
+            ),
+            3 => 
+            array (
+                'id' => 1,
+                'user_id' => 1,
+                'title' => '{"en":"Ask Memory"}',
+                'description' => '{"en":"Just add character ask to screen memories"}',
+                'before' => '[{"validate":{"ask":"required|string"}},{"memory.create":{"type":"screen.code","data":{"author_id":"character.id","content":"ask"}}},{"chat.refresh":["screen.code"]}]',
+                'after' => NULL,
+                'created_at' => '2025-03-28 05:51:03',
+                'updated_at' => '2025-04-01 04:48:32',
+            ),
+            4 => 
+            array (
+                'id' => 12,
+                'user_id' => 1,
+                'title' => '{"en":"Prologue - Continue","ru":"Prologue - Continue"}',
+                'description' => '{"en":null,"ru":null}',
+            'before' => '[{"set":{"meta":{"weather":"chat.state(\'weather\')","time":"chat.state(\'time\')"},"author":null,"async":true,"messages":["note.message(\'rules-game\', \'Rules:\')","note.message(\'rules-content\', \'Rules:\')"],"!content_handler":[{"memory.create":{"author_id":"author","content":"content","meta":"meta"}},{"screen.state":{"values":{"waiting":false,"step":"screen.nextState(\'step\')","isDone":"screen.state(\'step\') == screen.state(\'steps\')"}}},{"chat.refresh":null}]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}},{"screen.waiting":true}]',
+                'after' => NULL,
+                'created_at' => '2025-04-14 03:12:20',
+                'updated_at' => '2025-04-21 21:16:32',
+            ),
+            5 => 
+            array (
+                'id' => 2,
+                'user_id' => 1,
+                'title' => '{"en":"Completion Template","ru":"Шаблон генерации"}',
+                'description' => '{"ru":null,"en":null}',
+            'before' => '[{"comment":">>Validate context required for chat completion"},{"validate":{"content_handler":"sometimes|array","tool_choice":"sometimes|string","tools":"sometimes|array","calls_handlers":"sometimes|array","model":"sometimes|string","async":"sometimes|boolean"}},{"comment":">>Prepare context variables"},{"set":{"model":"model ?? null","tools":"tools ?? null","tool_choice":"tools ? (tool_choice ?? \'auto\') : null","calls_handlers":"calls_handlers ?? null","content_handler":"content_handler ?? null"}},{"comment":">>Run chat completion"},{"chat.completion":{"model":"model","async":"async ?? false","messages":"messages","tool_choice":"tool_choice","tools":"tools","calls":"calls_handlers","content":"content_handler"}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-02 04:23:13',
+                'updated_at' => '2025-04-21 21:39:26',
             ),
         ));
         

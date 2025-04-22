@@ -31,8 +31,11 @@ class CharacterActionHandler implements EffectHandlerContract
     protected array $messages = [];
     protected array $allowed = [];
     protected array $cases = [];
+    protected array|null $before = null;
     protected array|null $always = null;
     protected array|null $default = null;
+
+    protected ?string $previousAction = null;
 
     public function __construct(protected array $params) {}
 
@@ -44,6 +47,10 @@ class CharacterActionHandler implements EffectHandlerContract
 
         $this->prepareParams($process);
         $this->classify($process);
+
+        if ($this->before) {
+            EffectRunner::run($this->before, $process);
+        }
 
         /** @var ToolCall $call **/
         foreach ($process->get('calls', []) as $call) {
@@ -125,6 +132,10 @@ class CharacterActionHandler implements EffectHandlerContract
     protected function toolSchema(array $actions): array
     {
         $propertiesSchema = [
+            'action' => [
+                'type' => 'string',
+                'description' => 'Plain English description of this single user action, to help constrain the generation'
+            ],
             'do' => [
                 'type' => 'string',
                 'enum' => array_keys($actions),
@@ -146,7 +157,7 @@ class CharacterActionHandler implements EffectHandlerContract
             'parameters' => [
                 'type' => 'object',
                 'properties' => $propertiesSchema,
-                'required' => Act::propertyKeys(true),
+                'required' => array_merge(['action'], Act::propertyKeys(true)),
                 'additionalProperties' => false
             ],
             'strict' => true
@@ -157,8 +168,20 @@ class CharacterActionHandler implements EffectHandlerContract
     {
         $act = new Act($call->arguments);
         $process->set('act', $act);
+        if ($this->pipeFlag) {
+            if ($this->previousAction) {
+                $instruction = view('instructions.bound-act', [
+                    'previousAction' => $this->previousAction
+                ])->render();
+                $process->push('messages', [
+                    'role' => 'system',
+                    'content' => $instruction
+                ]);
+            }
+            $this->previousAction = $act->action;
+        }
         if ($this->always) {
-            EffectRunner::run($this->always, $process);
+            $this->runEffects($this->always, $process, $act->action);
         }
         foreach ($this->cases as $case) {
             $filter = \Arr::only($case, Act::propertyKeys(true));
@@ -170,12 +193,26 @@ class CharacterActionHandler implements EffectHandlerContract
                 continue;
             }
             $process->set('match', $match);
-            EffectRunner::run($case['then'], $process);
+            $this->runEffects($case['then'], $process, $act->action);
             return;
         }
 
         if ($this->default) {
-            EffectRunner::run($this->default, $process);
+            $this->runEffects($this->default, $process, $act->action);
+        }
+    }
+
+    protected function runEffects(array $effects, Process $process, string $action): void
+    {
+        if ($this->pipeFlag) {
+            $process->set('_ask', $process->get('ask'));
+            $process->set('ask', $action);
+        }
+
+        EffectRunner::run($effects, $process);
+
+        if ($this->pipeFlag) {
+            $process->set('ask', $process->get('_ask'));
         }
     }
 
@@ -199,7 +236,7 @@ class CharacterActionHandler implements EffectHandlerContract
                 $this->$param = ValueResolver::resolve($this->params[$param], $context);
             }
         }
-        foreach (['always', 'cases', 'default'] as $param) {
+        foreach (['before', 'always', 'cases', 'default'] as $param) {
             if (!empty($this->params[$param])) {
                 $value = $this->params[$param];
                 $this->$param = is_array($value) ? $value : ValueResolver::resolve($value, $context);
@@ -223,6 +260,7 @@ class CharacterActionHandler implements EffectHandlerContract
         $params = [
             'toolName' => static::TOOL_NAME,
             'fallbackVerb' => static::FALLBACK_VERB,
+            'pipeFlag' => $this->pipeFlag,
             'properties' => implode(', ',Act::propertyKeys())
         ];
         if (empty($this->params['instruction'])) {

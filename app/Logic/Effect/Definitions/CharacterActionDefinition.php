@@ -48,6 +48,10 @@ class CharacterActionDefinition implements EffectDefinitionContract
                     'type' => 'expression',
                     'description' => 'Whether to perform classification asynchronously (default: false).'
                 ],
+                'before' => [
+                    'type' => 'list',
+                    'description' => 'Effect list that will run before all calls handling.'
+                ],
                 'pipeFlag' => [
                     'type' => 'expression',
                     'description' => 'Name of variable for pipe mode (default: null).'
@@ -143,6 +147,9 @@ class CharacterActionDefinition implements EffectDefinitionContract
                 ],
             ])],
             'async' => ['sometimes', 'nullable', new ExpressionOrBoolRule()],
+            'before' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
+                'value' => 'array|min:1'
+            ])],
             'always' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
                 'value' => 'array|min:1'
             ])],

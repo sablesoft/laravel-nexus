@@ -57,12 +57,12 @@ class AppTransfersTableSeeder extends Seeder
                 'title' => '{"en":"Explore","ru":"Исследовать"}',
                 'tooltip' => '{"en":"What else is there to do?","ru":"А что еще остается делать?"}',
                 'description' => '{"en":"Transitions to the next screen once the prologue is fully completed. \\nAppears only after all parts of the prologue have been shown. Becomes the player’s first active choice to explore the world.","ru":"Переходит на следующий экран после полного завершения пролога.\\nПоявляется только после того, как показаны все части пролога. Становится первым активным выбором игрока для начала исследования мира."}',
-            'before' => '[{"set":{"messages":"character_info"}},{"merge":{"messages":[{"role":">>system","content":"media.note(\'transfer\')"}]}},{"chat.completion":{"model":">>gpt-4o","async":true,"messages":"messages","content":[{"memory.create":{"type":">>porch","content":"content"}},{"chat.refresh":null}]}},{"screen.waiting":true}]',
+            'before' => '[{"comment":">>Transfer to the Porch"},{"chat.completion":{"model":">>gpt-4o","async":true,"messages":["note.message(\'rules-game\', \'Rules:\')","note.message(\'rules-content\', \'Rules:\')","memory.card(\'house\', \'place\')","memory.card(\'porch\', \'place\')","note.message(\'make-transfer\', \'Make:\')"],"content":[{"memory.create":{"type":">>porch","content":"content"}},{"chat.refresh":null}]}},{"screen.waiting":true}]',
                 'after' => NULL,
             'visible_condition' => 'screen.state(\'isDone\')',
                 'enabled_condition' => NULL,
                 'created_at' => '2025-04-08 20:06:27',
-                'updated_at' => '2025-04-19 09:18:24',
+                'updated_at' => '2025-04-21 23:18:46',
             ),
         ));
         

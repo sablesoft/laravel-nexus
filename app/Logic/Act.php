@@ -6,6 +6,7 @@ final readonly class Act
 {
     const TOKEN_PATTERN = '^[a-z]+(-[a-z]+)*$';
 
+    public string $action;
     public string $do;
     public array $what;
     public array $using;
@@ -16,10 +17,14 @@ final readonly class Act
 
     public function __construct(array $data)
     {
-        if (!isset($data['do']) || !is_string($data['do'])) {
+        if (empty($data['do']) || !is_string($data['do'])) {
             throw new \InvalidArgumentException("Missing or invalid 'do' value in Act.");
         }
+        if (empty($data['action']) || !is_string($data['action'])) {
+            throw new \InvalidArgumentException("Missing or invalid 'action' value in Act.");
+        }
         $this->do = self::validateToken($data['do']);
+        $this->action = $data['action'];
         foreach (self::propertyKeys() as $property) {
             $this->$property = self::prepareProperty($data[$property] ?? []);
         }
@@ -36,7 +41,6 @@ final readonly class Act
 
     public static function properties(): array
     {
-        $common = 'List of 2-6 English keywords — related terms and synonyms that describe ';
         return [
             'what'  => 'What the action is directed at',
             'using' => 'Tool, item, method or body part used to perform the action',
@@ -55,6 +59,7 @@ final readonly class Act
     public function toArray(): array
     {
         $array = [
+            'action' => $this->action,
             'do' => $this->do
         ];
         foreach (self::propertyKeys() as $property) {
@@ -76,7 +81,10 @@ final readonly class Act
 
         unset($filter['do']);
 
-        $match = ['do' => $this->do];
+        $match = [
+            'action' => $this->action,
+            'do' => $this->do
+        ];
         foreach (self::propertyKeys() as $property) {
             if (empty($filter[$property])) {
                 continue;
