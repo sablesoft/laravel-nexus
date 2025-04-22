@@ -24,7 +24,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use LogicException;
-use Symfony\Component\Intl\Languages;
 
 /**
  * @property null|int $id
@@ -133,6 +132,7 @@ class Character extends Model implements HasDslAdapterContract, Stateful
             if ($character->chat) {
                 $compiler = new BehaviorsCompiler();
                 $character->behaviors = $compiler->compile($character);
+
             }
         });
 

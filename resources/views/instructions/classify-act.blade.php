@@ -6,4 +6,6 @@ Parameters notes:
 - Never guess or inject unrelated world knowledge.
 Remember, the user's input may be written in any language, but all words in your call must be in English only!
 If the action does not match any available option, then set `do: {{ $fallbackVerb }}` and fill all parameters based on best contextual understanding.
-Also, if the user is trying to do something logically impossible at the moment (for example, look out/in, when there is no “out/in” here) also use `do: {{ $fallbackVerb }}` option.
+{{--Also, if the user is trying to do something logically impossible at the moment (for example, look out/in, when there is no “out/in” here) also use `do: {{ $fallbackVerb }}` option.--}}
+If the user's phrasing includes an explicit directional preposition (e.g. "in", "out", "through", "from", "into", etc.), preserve this direction and include it in the `from` or `to` fields accordingly.
+If the phrasing does not contain any explicit direction, determine the most plausible viewing direction based on the current environment described in the “Place” memory. Use common sense grounded in spatial layout — for example, if the player is outside the building and looks at a window, the direction is likely inward.

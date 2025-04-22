@@ -33,6 +33,7 @@ class ChatCreated
         foreach ($application->characters as $character) {
             $copy = $character->replicate(['id', 'application_id', 'created_at', 'updated_at']);
             $copy->chat_id = $chat->id;
+            $copy->states = $application->character_states;
             $copy->save();
 
             $newRoles = $character->roles->map(function ($role) use ($chat) {

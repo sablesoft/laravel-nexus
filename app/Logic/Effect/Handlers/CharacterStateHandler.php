@@ -10,24 +10,23 @@ use App\Models\Character;
 class CharacterStateHandler implements EffectHandlerContract
 {
     public function __construct(
-        protected array $values,
-        protected ?array $targets = null,
+        protected array $params,
     ) {}
 
     public function describeLog(Process $process): ?string
     {
-        $targets = !empty($this->targets) ?
-            implode(', ', $this->targets) :
+        $targets = !empty($this->params['targets']) ?
+            implode(', ', $this->params['targets']) :
             $process->character->getKey();
-        $keys = implode(', ', array_keys($this->values));
+        $keys = implode(', ', array_keys($this->params['values']));
         return "Set character state(s) [{$keys}] for [{$targets}]";
     }
 
     public function execute(Process $process): void
     {
-        $ids = $this->resolveTargetIds($this->targets, $process);
+        $ids = $this->resolveTargetIds($this->params['targets'] ?? null, $process);
         $resolved = [];
-        foreach ($this->values as $key => $expr) {
+        foreach ($this->params['values'] as $key => $expr) {
             $resolved[$key] = ValueResolver::resolve($expr, $process);
         }
         $characters = Character::whereIn('id', $ids)->get();
