@@ -13,6 +13,7 @@ use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
 use App\Logic\ToolCall;
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\Yaml\Yaml;
 
 class CharacterActionHandler implements EffectHandlerContract
@@ -24,6 +25,7 @@ class CharacterActionHandler implements EffectHandlerContract
 
     protected CharacterDslAdapter $character;
     protected string $ask;
+    protected ?string $pipeFlag = null;
     protected string $instruction = '';
     protected ?string $model = null;
     protected array $messages = [];
@@ -48,8 +50,14 @@ class CharacterActionHandler implements EffectHandlerContract
             if (!$call instanceof ToolCall) {
                 throw new \RuntimeException("character.act: Expected tool calls result in 'calls'.");
             }
+            if ($this->pipeFlag) {
+                $process->forget($this->pipeFlag);
+            }
             if ($call->name() === static::TOOL_NAME) {
                 $this->handleCall($call, $process);
+            }
+            if ($this->pipeFlag && empty($process->get($this->pipeFlag))) {
+                break;
             }
         }
     }
@@ -65,7 +73,7 @@ class CharacterActionHandler implements EffectHandlerContract
         $this->instruction .= "\n" . $this->renderActionListYaml($actions);
         $chatParams = Dsl::prefixed([
             'model' => $this->model,
-            'tool_choice' => [
+            'tool_choice' => $this->pipeFlag ? 'auto' : [
                 'type' => 'function',
                 'function' => [
                     'name' => static::TOOL_NAME
@@ -182,6 +190,7 @@ class CharacterActionHandler implements EffectHandlerContract
     protected function prepareParams(Process $process): void
     {
         $context = $process->toContext();
+        $this->preparePipeFlag($context);
         $this->prepareInstruction($context);
         $this->prepareAsk($context);
         $this->prepareCharacter($context);
@@ -196,6 +205,17 @@ class CharacterActionHandler implements EffectHandlerContract
                 $this->$param = is_array($value) ? $value : ValueResolver::resolve($value, $context);
             }
         }
+    }
+
+    protected function preparePipeFlag(array $context): void
+    {
+        $flag = $this->params['pipeFlag'] ?? null;
+        if ($flag) {
+            try {
+                $flag = ValueResolver::resolve($flag, $context);
+            } catch (SyntaxError) {}
+        }
+        $this->pipeFlag = $flag ?: null;
     }
 
     protected function prepareInstruction(array $context): void

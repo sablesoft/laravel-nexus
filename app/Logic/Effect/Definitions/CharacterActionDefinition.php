@@ -48,6 +48,10 @@ class CharacterActionDefinition implements EffectDefinitionContract
                     'type' => 'expression',
                     'description' => 'Whether to perform classification asynchronously (default: false).'
                 ],
+                'pipeFlag' => [
+                    'type' => 'expression',
+                    'description' => 'Name of variable for pipe mode (default: null).'
+                ],
                 'always' => [
                     'type' => 'list',
                     'description' => 'Effect list that will run everytime before cases and default.'
@@ -69,6 +73,7 @@ class CharacterActionDefinition implements EffectDefinitionContract
                         'instruction' => 'special_instruction',
                         'messages' => 'messages',
                         'allowed' => ['look', 'open', 'take'],
+                        'pipeFlag' => 'canContinue',
                         'always' => [
                             // effects to run every time
                         ],
@@ -114,6 +119,7 @@ class CharacterActionDefinition implements EffectDefinitionContract
             'character' => 'sometimes|nullable',
             'instruction' => 'sometimes|nullable|string',
             'ask' => 'sometimes|nullable',
+            'pipeFlag' => 'sometimes|nullable|string',
             'model' => [
                 'sometimes',
                 'nullable',
