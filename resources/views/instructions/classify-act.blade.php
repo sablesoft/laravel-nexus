@@ -13,6 +13,8 @@ If no suitable action is found, set `do: {{ $fallbackVerb }}` and fill all param
 If the user includes a directional word (like "in", "out", "into", "from", etc.), reflect this in the `from` or `to` field. If no direction is mentioned, infer it based on the current location in the “Place” memory.
 
 @if($pipeFlag)
+Do not explain your reasoning. Do not include any assistant message. Just call the tool directly.
+
 If the input contains multiple actions in sequence (e.g. “walk to the door and open it”), classify each as a separate tool call — in the same order they appear. Each tool call must reflect one clear action only. Never merge unrelated actions. When in doubt, prefer to split.
 If one of the actions cannot be classified clearly, still include it as a separate tool call with `do: {{ $fallbackVerb }}` and parameters based on context. Do not skip unclear steps — include them as well.
 In addition to parameter fields, include a short English description of the user’s action as the `action` field. This must describe only the current classified call, not the overall input or goal. Do not include results or consequences. Just describe what the character is doing.

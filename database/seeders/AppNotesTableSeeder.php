@@ -201,15 +201,6 @@ class AppNotesTableSeeder extends Seeder
             ),
             20 => 
             array (
-                'id' => 1,
-                'user_id' => 1,
-                'title' => '{"en":"Make - Look Inside","ru":"Make - Look Inside"}',
-                'content' => '{"en":"You are a text adventure narrator. The user character is peeking into a dark room, and you must describe what they see based on their limited perspective from outside.\\n\\nUse only the information available from the place card \\"Room\\", provided in message above. Do not invent or add new elements beyond what is already known.\\n\\nTake into account the current level of illumination — based on time of day and weather — and describe only what could realistically be visible in such conditions.\\n\\nYou may paraphrase or reword descriptions from the card, but do not alter the facts. You are allowed to omit details that would not be visible due to darkness or viewing angle.\\n\\nKeep your response immersive and grounded. Write 3–4 sentences in total.","ru":"You are a text adventure narrator. The user character is peeking into a dark room, and you must describe what they see based on their limited perspective from outside.\\n\\nUse only the information available from the place card \\"Room\\", provided in message above. Do not invent or add new elements beyond what is already known.\\n\\nTake into account the current level of illumination — based on time of day and weather — and describe only what could realistically be visible in such conditions.\\n\\nYou may paraphrase or reword descriptions from the card, but do not alter the facts. You are allowed to omit details that would not be visible due to darkness or viewing angle.\\n\\nKeep your response immersive and grounded. Write 3–4 sentences in total."}',
-                'created_at' => '2025-04-19 04:55:55',
-                'updated_at' => '2025-04-22 01:10:32',
-            ),
-            21 => 
-            array (
                 'id' => 29,
                 'user_id' => 1,
                 'title' => '{"en":"Make - Look Anything"}',
@@ -217,7 +208,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 01:49:25',
                 'updated_at' => '2025-04-22 01:49:25',
             ),
-            22 => 
+            21 => 
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -226,7 +217,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:50:39',
                 'updated_at' => '2025-04-22 02:59:34',
             ),
-            23 => 
+            22 => 
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -235,7 +226,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 04:38:33',
                 'updated_at' => '2025-04-22 04:48:47',
             ),
-            24 => 
+            23 => 
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -244,7 +235,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:51:17',
                 'updated_at' => '2025-04-22 03:01:39',
             ),
-            25 => 
+            24 => 
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -253,7 +244,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 06:34:59',
                 'updated_at' => '2025-04-22 06:34:59',
             ),
-            26 => 
+            25 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -262,7 +253,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:51:43',
                 'updated_at' => '2025-04-22 03:05:06',
             ),
-            27 => 
+            26 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -271,7 +262,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 06:36:37',
                 'updated_at' => '2025-04-22 06:36:37',
             ),
-            28 => 
+            27 => 
             array (
                 'id' => 36,
                 'user_id' => 1,
@@ -279,6 +270,15 @@ class AppNotesTableSeeder extends Seeder
             'content' => '{"en":"The player character tries to take a key, but no key is known or visible at the moment.\\n\\nWrite a short message (2–4 sentences) that gently points out this contradiction. Use a humorous or reflective tone, as if the character is talking to themselves or making an ironic observation. Do not invent a key or suggest that it’s hidden — just reinforce that, to their knowledge, no such key exists."}',
                 'created_at' => '2025-04-22 06:38:17',
                 'updated_at' => '2025-04-22 06:38:17',
+            ),
+            28 => 
+            array (
+                'id' => 1,
+                'user_id' => 1,
+                'title' => '{"en":"Make - Look Inside","ru":"Make - Look Inside"}',
+                'content' => '{"en":"You are a text adventure narrator. The user character is peeking into a dark room, and you must describe what they see based on their limited perspective from outside.\\n\\nUse only the information available from the place card \\"Room\\", provided in message above. Do not invent or add new elements beyond what is already known.\\n\\nTake into account the current level of illumination — based on time of day and weather.\\nIf the time is one of the following:\\nMidnight, Night, Late-Night, Pre-Dawn\\nand the weather is one of:\\nOvercast, Storm, Blizzard, Snow, Fog, Cold-Drizzle\\n— then the room should be considered completely dark.\\nIn this case, respond with a short, in-universe message informing the player that they can\'t see anything inside, and suggest why - describe weather, time and no lights inside house.\\nDo not attempt to describe any of the room’s contents in this case.\\n\\nIn all other cases, describe only what could realistically be visible in such lighting. You may paraphrase or reword descriptions from the place card, but do not alter the facts. You are allowed to omit details that would not be visible due to darkness or viewing angle.\\n\\nKeep your response immersive and grounded. Write 3–4 sentences in total.","ru":"You are a text adventure narrator. The user character is peeking into a dark room, and you must describe what they see based on their limited perspective from outside.\\n\\nUse only the information available from the place card \\"Room\\", provided in message above. Do not invent or add new elements beyond what is already known.\\n\\nTake into account the current level of illumination — based on time of day and weather.\\nIf the time is one of the following:\\nMidnight, Night, Late-Night, Pre-Dawn\\nand the weather is one of:\\nOvercast, Storm, Blizzard, Snow, Fog, Cold-Drizzle\\n— then the room should be considered completely dark.\\nIn this case, respond with a short, in-universe message informing the player that they can\'t see anything inside, and suggest why - describe weather, time and no lights inside house.\\nDo not attempt to describe any of the room’s contents in this case.\\n\\nIn all other cases, describe only what could realistically be visible in such lighting. You may paraphrase or reword descriptions from the place card, but do not alter the facts. You are allowed to omit details that would not be visible due to darkness or viewing angle.\\n\\nKeep your response immersive and grounded. Write 3–4 sentences in total."}',
+                'created_at' => '2025-04-19 04:55:55',
+                'updated_at' => '2025-04-22 17:04:00',
             ),
         ));
         
