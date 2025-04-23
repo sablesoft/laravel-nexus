@@ -41,7 +41,29 @@ class Process
 {
     use Timing, EffectsStack;
 
+    const STORAGE_TYPE_DATA = 'data';
+    const STORAGE_TYPE_FUNCTION = 'function';
+
+    const STORAGE_TYPES = [
+        self::STORAGE_TYPE_DATA,
+        self::STORAGE_TYPE_FUNCTION
+    ];
+
+    /**
+     * Adapter mapping: each key maps to an Eloquent model.
+     * This is used in __construct and unpack for initialization.
+     * Every Process instance will always have all four adapters initialized,
+     * but they may wrap a blank (new) model if not explicitly provided.
+     */
+    const ADAPTERS = [
+        'chat'      => Chat::class,
+        'screen'    => Screen::class,
+        'memory'    => Memory::class,
+        'character' => Character::class,
+    ];
+
     protected array $data = []; // Custom data related to the current logic execution
+    protected array $function = []; // Custom functions (lists of effects) related to the current logic executions
     public bool $screenBack = false;
     public bool $screenWaiting = false;
     public ?int $screenTransfer = null;
@@ -60,23 +82,10 @@ class Process
 
     public null|HasNotesInterface|NodeContract|LogicContract $note = null;
 
-    /**
-     * Adapter mapping: each key maps to an Eloquent model.
-     * This is used in __construct and unpack for initialization.
-     * Every Process instance will always have all four adapters initialized,
-     * but they may wrap a blank (new) model if not explicitly provided.
-     */
-    protected array $adapters = [
-        'chat'      => Chat::class,
-        'screen'    => Screen::class,
-        'memory'    => Memory::class,
-        'character' => Character::class,
-    ];
-
     public function __construct(array $initial = [])
     {
         // Initialize DSL adapters for all required models
-        foreach ($this->adapters as $key => $modelClass) {
+        foreach (self::ADAPTERS as $key => $modelClass) {
             $model = $initial[$key] ?? new $modelClass();
             if (!($model instanceof $modelClass)) {
                 throw new InvalidArgumentException("Invalid model [$key], expected instance of [$modelClass].");
@@ -91,7 +100,7 @@ class Process
     public function clone(array $initial = []): static
     {
         $original = $this->data;
-        foreach (array_keys($this->adapters) as $key) {
+        foreach (array_keys(self::ADAPTERS) as $key) {
             $original[$key] = $this->$key;
         }
         $initial = array_merge($original, $initial);
@@ -99,70 +108,78 @@ class Process
         return new static($initial);
     }
 
-    // Data access helpers (dot notation supported)
-    public function get(string $key, mixed $default = null): mixed
+    // Storage access helpers (dot notation supported)
+    public function get(string $key, mixed $default = null, string $type = 'data'): mixed
     {
-        return Arr::get($this->data, $key, $default);
+        $storage = $this->getStorage($type);
+        return Arr::get($storage, $key, $default);
     }
 
-    public function set(string $key, mixed $value): void
+    public function set(string $key, mixed $value, string $type = 'data'): void
     {
-        Arr::set($this->data, $key, $value);
+        $storage = $this->getStorage($type);
+        Arr::set($storage, $key, $value);
+        $this->setStorage($type, $storage);
     }
 
-    public function forget(string|array $key): void
+    public function forget(string|array $key, $type = 'data'): void
     {
+        $storage = $this->getStorage($type);
         foreach ((array) $key as $variable) {
-            Arr::forget($this->data, $variable);
+            Arr::forget($storage, $variable);
         }
+        $this->setStorage($type, $storage);
     }
 
-    public function has(string $key): bool
+    public function has(string $key, $type = 'data'): bool
     {
-        return Arr::has($this->data, $key);
+        $storage = $this->getStorage($type);
+        return Arr::has($storage, $key);
     }
 
     /**
      * @throw RuntimeException
      */
-    public function push(string $key, mixed $value): void
+    public function push(string $key, mixed $value, string $type = 'data'): void
     {
-        $array = Arr::get($this->data, $key, []);
+        $storage = $this->getStorage($type);
+        $array = Arr::get($storage, $key, []);
 
         if (!is_array($array) || !array_is_list($array)) {
             throw new RuntimeException("Cannot push to [$key]: target is not an indexed array.");
         }
 
         $array[] = $value;
-        Arr::set($this->data, $key, $array);
+        Arr::set($storage, $key, $array);
+        $this->setStorage($type, $storage);
+    }
+
+    public function merge(array $items, ?string $path = null, string $type = 'data'): void
+    {
+        $storage = $path ? $this->get($path, [], $type) : $this->$type;
+        $to = $path ? " to $type [$path]" : '';
+        if (!is_array($storage)) {
+            throw new RuntimeException("Cannot merge data$to: value must be an array.");
+        }
+        if (!empty($storage)) {
+            $isIndexed = array_is_list($items);
+            $isDataIndexed = array_is_list($storage);
+            if ($isIndexed !== $isDataIndexed) {
+                throw new RuntimeException("Cannot merge storage$to: array types do not match (indexed vs associative).");
+            }
+        }
+
+        $storage = array_merge($storage, $items);
+        if ($path) {
+            $this->set($path, $storage, $type);
+        } else {
+            $this->$type = $storage;
+        }
     }
 
     public function data(): array
     {
         return $this->data;
-    }
-
-    public function merge(array $items, ?string $path = null): void
-    {
-        $data = $path ? $this->get($path, []) : $this->data;
-        $to = $path ? " to [$path]" : '';
-        if (!is_array($data)) {
-            throw new RuntimeException("Cannot merge data$to: value must be an array.");
-        }
-        if (!empty($data)) {
-            $isIndexed = array_is_list($items);
-            $isDataIndexed = array_is_list($data);
-            if ($isIndexed !== $isDataIndexed) {
-                throw new RuntimeException("Cannot merge data$to: array types do not match (indexed vs associative).");
-            }
-        }
-
-        $data = array_merge($data, $items);
-        if ($path) {
-            $this->set($path, $data);
-        } else {
-            $this->data = $data;
-        }
     }
 
     /**
@@ -173,7 +190,7 @@ class Process
     public function toContext(): array
     {
         $context = [];
-        foreach (array_keys($this->adapters) as $key) {
+        foreach (array_keys(self::ADAPTERS) as $key) {
             $model = $this->{$key};
             // Use a custom DSL adapter if available, otherwise fallback to the default adapter
             $context[$key] = ($model instanceof HasDslAdapterContract)
@@ -192,8 +209,12 @@ class Process
      */
     public function pack(): array
     {
+        $storage = [];
+        foreach (self::STORAGE_TYPES as $type) {
+            $storage[$type] = $this->$type;
+        }
         return [
-            'data' => $this->data,
+            'storage' => $storage,
             'adapters' => [
                 'chat'      => $this->chat->getKey(),
                 'screen'    => $this->screen->getKey(),
@@ -210,14 +231,16 @@ class Process
      */
     public static function unpack(array $payload): Process
     {
-        $adapters = [
-            'chat'      => Chat::findOrNew($payload['adapters']['chat'] ?? null),
-            'screen'    => Screen::findOrNew($payload['adapters']['screen'] ?? null),
-            'memory'    => Memory::findOrNew($payload['adapters']['memory'] ?? null),
-            'character' => Character::findOrNew($payload['adapters']['character'] ?? null),
-        ];
+        $adapters = [];
+        foreach (self::ADAPTERS as $field => $className) {
+            $adapters[$field] = $className::findOrNew($payload['adapters'][$field] ?? null);
+        }
 
-        $instance = new static(array_merge($adapters, $payload['data'] ?? []));
+        $instance = new static($adapters);
+        foreach (self::STORAGE_TYPES as $type) {
+            $instance->setStorage($type, $payload['storage'][$type] ?? []);
+        }
+
         if ($node = $payload['note'] ?? null) {
             $parts = explode(':', $node);
             /** @var Model $class */
@@ -273,5 +296,23 @@ class Process
                 'screen' => $this->screen->code,
             ],
         ]);
+    }
+
+    public function getStorage(string $type): array
+    {
+        if (!in_array($type, self::STORAGE_TYPES)) {
+            throw new InvalidArgumentException('Process storage type is invalid: ' . $type);
+        }
+
+        return $this->$type;
+    }
+
+    public function setStorage(string $type, array $storage): void
+    {
+        if (!in_array($type, self::STORAGE_TYPES)) {
+            throw new InvalidArgumentException('Process storage type is invalid: ' . $type);
+        }
+
+        $this->$type = $storage;
     }
 }

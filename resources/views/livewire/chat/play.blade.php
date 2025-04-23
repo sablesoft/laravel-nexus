@@ -39,17 +39,17 @@
                                         $meta = $memory['meta'];
                                         $act = $meta['act'] ?? [];
                                         unset($meta['act']);
-                                        $desiredOrder = ['do', 'what', 'using', 'from', 'to', 'for', 'how'];
+                                        $desiredOrder = ['action', 'do', 'what', 'using', 'from', 'to', 'for', 'how'];
                                         $reorderedAct = collect($desiredOrder)
                                             ->filter(fn($key) => array_key_exists($key, $act))
                                             ->mapWithKeys(fn($key) => [$key => $act[$key]])
                                             ->toArray();
                                     @endphp
-                                    @if($reorderedAct)
-                                        @php $data['act'] = $reorderedAct; @endphp
-                                    @endif
                                     @if($meta)
                                         @php $data['meta'] = $meta; @endphp
+                                    @endif
+                                    @if($reorderedAct)
+                                        @php $data['act'] = $reorderedAct; @endphp
                                     @endif
                                     @php $data = json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE); @endphp
 

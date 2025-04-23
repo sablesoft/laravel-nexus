@@ -4,18 +4,19 @@ namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Effect\Definitions\CharacterActionDefinition;
+use App\Logic\Effect\Definitions\CharacterStateDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
 use App\Logic\Effect\Definitions\ChatStateDefinition;
 use App\Logic\Effect\Definitions\CommentDefinition;
+use App\Logic\Effect\Definitions\FunctionRunDefinition;
+use App\Logic\Effect\Definitions\FunctionSetDefinition;
 use App\Logic\Effect\Definitions\IfDefinition;
-use App\Logic\Effect\Definitions\CharacterStateDefinition;
 use App\Logic\Effect\Definitions\MemoryCardDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
-use App\Logic\Effect\Definitions\RunDefinition;
 use App\Logic\Effect\Definitions\ScreenBackDefinition;
 use App\Logic\Effect\Definitions\ScreenStateDefinition;
 use App\Logic\Effect\Definitions\ScreenWaitingDefinition;
@@ -81,7 +82,6 @@ class EffectDefinitionRegistry
     {
         static::register(IfDefinition::KEY, new IfDefinition());
         static::register(SetDefinition::KEY, new SetDefinition());
-        static::register(RunDefinition::KEY, new RunDefinition());
         static::register(PushDefinition::KEY, new PushDefinition());
         static::register(MergeDefinition::KEY, new MergeDefinition());
         static::register(UnsetDefinition::KEY, new UnsetDefinition());
@@ -91,6 +91,8 @@ class EffectDefinitionRegistry
         static::register(ChatStateDefinition::KEY, new ChatStateDefinition());
         static::register(MemoryCardDefinition::KEY, new MemoryCardDefinition());
         static::register(ScreenBackDefinition::KEY, new ScreenBackDefinition());
+        static::register(FunctionSetDefinition::KEY, new FunctionSetDefinition());
+        static::register(FunctionRunDefinition::KEY, new FunctionRunDefinition());
         static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
         static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
         static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
