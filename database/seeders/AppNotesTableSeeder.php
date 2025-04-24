@@ -23,7 +23,7 @@ class AppNotesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'user_id' => 2,
-                'title' => '{"en":"Doomsday Virus"}',
+                'title' => '{"en":"Lore - Doomsday Virus"}',
                 'content' => '{"en":"Doomsday Virus — a fast-spreading anomaly that wiped out most of humanity within weeks. Scientists never found a cure, or even an explanation. It affects only humans; animals and plants were untouched. That alone gave rise to hundreds of theories: from divine reset to elite-engineered collapse."}',
                 'created_at' => '2025-04-19 18:19:36',
                 'updated_at' => '2025-04-19 18:19:36',
@@ -32,7 +32,7 @@ class AppNotesTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'user_id' => 2,
-                'title' => '{"en":"Fractions"}',
+                'title' => '{"en":"Lore - Fractions"}',
                 'content' => '{"en":"Walkers and Shells — all survivors are loosely divided into these two groups. They mistrust one another and sometimes openly clash. Their fundamental difference lies in the fact that the Walkers possess natural immunity,  while the Shells do not."}',
                 'created_at' => '2025-04-19 18:20:06',
                 'updated_at' => '2025-04-19 18:20:06',
