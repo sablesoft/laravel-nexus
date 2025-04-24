@@ -6,17 +6,21 @@ use App\Logic\Act;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\Adapters\CharacterDslAdapter;
 use App\Logic\Dsl\ValueResolver;
-use App\Logic\Effect\Definitions\CharacterActionDefinition;
+use App\Logic\Effect\Definitions\ActionDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Handlers\Traits\Async;
 use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
 use App\Logic\ToolCall;
+use Arr;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\Yaml\Yaml;
+use Throwable;
 
-class CharacterActionHandler implements EffectHandlerContract
+class ActionHandler implements EffectHandlerContract
 {
     use Async;
 
@@ -39,9 +43,12 @@ class CharacterActionHandler implements EffectHandlerContract
 
     public function __construct(protected array $params) {}
 
+    /**
+     * @throws Throwable
+     */
     public function execute(Process $process): void
     {
-        if ($this->isAsync($process, CharacterActionDefinition::KEY)) {
+        if ($this->isAsync($process, ActionDefinition::KEY)) {
             return;
         }
 
@@ -55,7 +62,7 @@ class CharacterActionHandler implements EffectHandlerContract
         /** @var ToolCall $call **/
         foreach ($process->get('calls', []) as $call) {
             if (!$call instanceof ToolCall) {
-                throw new \RuntimeException("character.act: Expected tool calls result in 'calls'.");
+                throw new RuntimeException("character.act: Expected tool calls result in 'calls'.");
             }
             if ($this->pipeFlag) {
                 $process->forget($this->pipeFlag);
@@ -164,6 +171,9 @@ class CharacterActionHandler implements EffectHandlerContract
         ];
     }
 
+    /**
+     * @throws Throwable
+     */
     protected function handleCall(ToolCall $call, Process $process): void
     {
         $act = new Act($call->arguments);
@@ -183,30 +193,41 @@ class CharacterActionHandler implements EffectHandlerContract
         if ($this->always) {
             $this->runEffects($this->always, $process, $act->action);
         }
-        foreach ($this->cases as $case) {
-            $filter = \Arr::only($case, Act::propertyKeys(true));
-            $filter = ValueResolver::resolve($filter, $process->toContext());
+        foreach ($this->cases as $name => $case) {
+            $filter = Arr::only($case, Act::propertyKeys(true));
             if (!isset($filter['do'])) {
-                continue;
+                throw new InvalidArgumentException('Missed `do` parameter in case ' . $name);
             }
             if (!$match = $act->match($filter)) {
                 continue;
             }
             $process->set('match', $match);
+            $process->set('case', $name);
             $this->runEffects($case['then'], $process, $act->action);
             return;
         }
 
         if ($this->default) {
+            $process->set('match', 'none');
+            $process->set('case', 'default');
             $this->runEffects($this->default, $process, $act->action);
         }
     }
 
-    protected function runEffects(array $effects, Process $process, string $action): void
+    protected function runEffects(string|array $effects, Process $process, string $action): void
     {
         if ($this->pipeFlag) {
             $process->set('_ask', $process->get('ask'));
             $process->set('ask', $action);
+        }
+
+        if (is_string($effects)) {
+            try {
+                $name = ValueResolver::resolve($effects, $process);
+            } catch (SyntaxError) {
+                $name = $effects;
+            }
+            $effects = $process->get($name, [], Process::STORAGE_TYPE_FUNCTION);
         }
 
         EffectRunner::run($effects, $process);
@@ -221,9 +242,12 @@ class CharacterActionHandler implements EffectHandlerContract
      */
     public function describeLog(Process $process): ?string
     {
-        return 'Character Act Run';
+        return 'Character Action Run';
     }
 
+    /**
+     * @throws Throwable
+     */
     protected function prepareParams(Process $process): void
     {
         $context = $process->toContext();
@@ -236,7 +260,9 @@ class CharacterActionHandler implements EffectHandlerContract
                 $this->$param = ValueResolver::resolve($this->params[$param], $context);
             }
         }
-        foreach (['before', 'always', 'cases', 'default'] as $param) {
+        $this->cases = $process->getStorage(Process::STORAGE_TYPE_CASE);
+        $process->setStorage([], Process::STORAGE_TYPE_CASE);
+        foreach (['before', 'always', 'default'] as $param) {
             if (!empty($this->params[$param])) {
                 $value = $this->params[$param];
                 $this->$param = is_array($value) ? $value : ValueResolver::resolve($value, $context);
@@ -255,6 +281,9 @@ class CharacterActionHandler implements EffectHandlerContract
         $this->pipeFlag = $flag ?: null;
     }
 
+    /**
+     * @throws Throwable
+     */
     protected function prepareInstruction(array $context): void
     {
         $params = [
@@ -270,7 +299,7 @@ class CharacterActionHandler implements EffectHandlerContract
             try {
                 // try to compile second time if note used for example:
                 $this->instruction = ValueResolver::resolve(Dsl::prefixed($this->instruction), $context);
-            } catch (\Throwable) {}
+            } catch (Throwable) {}
         }
     }
 
@@ -280,7 +309,7 @@ class CharacterActionHandler implements EffectHandlerContract
             ValueResolver::resolve($this->params['ask'], $context):
             ($context['ask'] ?? null);
         if (empty($ask) || !is_string($ask)) {
-            throw new \InvalidArgumentException("character.act: invalid or missing ask.");
+            throw new InvalidArgumentException("character.act: invalid or missing ask.");
         }
         $this->ask = $ask;
     }
@@ -293,10 +322,10 @@ class CharacterActionHandler implements EffectHandlerContract
         } elseif ($character instanceof CharacterDslAdapter) {
             $this->character = $character;
         } else {
-            throw new \InvalidArgumentException("character.act: invalid or missing character.");
+            throw new InvalidArgumentException("character.action: invalid or missing character.");
         }
         if (!$this->character->id()) {
-            throw new \InvalidArgumentException("character.act: invalid or missing character.");
+            throw new InvalidArgumentException("character.action: invalid or missing character.");
         }
     }
 }

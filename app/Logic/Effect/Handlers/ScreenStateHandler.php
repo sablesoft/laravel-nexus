@@ -2,6 +2,7 @@
 
 namespace App\Logic\Effect\Handlers;
 
+use App\Logic\Effect\Handlers\Traits\Condition;
 use App\Models\Screen;
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
@@ -10,8 +11,10 @@ use Illuminate\Support\Collection;
 
 class ScreenStateHandler implements EffectHandlerContract
 {
+    use Condition;
+
     public function __construct(
-        protected string|array $params,
+        protected array $params
     ) {}
 
     public function describeLog(Process $process): ?string
@@ -27,6 +30,10 @@ class ScreenStateHandler implements EffectHandlerContract
 
     public function execute(Process $process): void
     {
+        if ($this->shouldSkip($process)) {
+            return;
+        }
+
         $params = ValueResolver::resolve($this->params, $process);
         if (!$process->chat->getKey()) {
             throw new \DomainException('Cannot use screen.state effect without chat in context');

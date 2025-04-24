@@ -4,6 +4,7 @@ namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
+use App\Logic\Effect\Handlers\Traits\Condition;
 use App\Logic\Facades\Dsl;
 use App\Logic\Process;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
@@ -17,9 +18,10 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
  */
 class FunctionSetHandler implements EffectHandlerContract
 {
-    protected string $name;
-    protected string $condition;
-    protected array $effects;
+    use Condition;
+
+    protected ?string $name = null;
+    protected array $effects = [];
 
     /**
      * @param array $params
@@ -48,13 +50,6 @@ class FunctionSetHandler implements EffectHandlerContract
         } catch (SyntaxError) {
             $this->name = $this->params['name'];
         }
-
-        $this->condition = $this->params['condition'] ?? true;
         $this->effects = $this->params['effects'];
-    }
-
-    protected function shouldSkip(Process $process): bool
-    {
-        return !Dsl::evaluate($this->condition, $process->toContext());
     }
 }

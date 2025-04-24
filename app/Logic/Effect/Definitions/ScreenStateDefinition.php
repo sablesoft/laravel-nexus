@@ -20,6 +20,10 @@ class ScreenStateDefinition implements EffectDefinitionContract
             'title' => 'Set Screen States',
             'description' => 'Assigns values to one or more screen-level states. Applies to the current screen or a list of screen codes.',
             'fields' => [
+                'condition' => [
+                    'type' => 'expression',
+                    'description' => 'Optional EL-expression to evaluate'
+                ],
                 'targets' => [
                     'type' => 'expression',
                     'description' => 'List of screen codes to target. If omitted or null, applies to the current screen.',
@@ -46,6 +50,7 @@ class ScreenStateDefinition implements EffectDefinitionContract
                 ],
                 [
                     'screen.state' => [
+                        'condition' => 'isAdmin',
                         'targets' => ['intro', 'warning'],
                         'values' => [
                             'visited' => true
@@ -59,6 +64,7 @@ class ScreenStateDefinition implements EffectDefinitionContract
     public static function rules(): array
     {
         return [
+            'condition' => 'sometimes|nullable|string',
             'targets' => ['sometimes', new ExpressionOrArrayRule(['*' => 'required|string'])],
             'values' => ['required', new ExpressionOrArrayRule(['*' => 'required'])],
         ];

@@ -3,7 +3,8 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectDefinitionContract;
-use App\Logic\Effect\Definitions\CharacterActionDefinition;
+use App\Logic\Effect\Definitions\ActionCaseDefinition;
+use App\Logic\Effect\Definitions\ActionDefinition;
 use App\Logic\Effect\Definitions\CharacterStateDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
@@ -15,6 +16,7 @@ use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCardDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
+use App\Logic\Effect\Definitions\MergeIfDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\ScreenBackDefinition;
@@ -80,26 +82,28 @@ class EffectDefinitionRegistry
      */
     public static function boot(): void
     {
-        static::register(IfDefinition::KEY, new IfDefinition());
-        static::register(SetDefinition::KEY, new SetDefinition());
-        static::register(PushDefinition::KEY, new PushDefinition());
-        static::register(MergeDefinition::KEY, new MergeDefinition());
-        static::register(UnsetDefinition::KEY, new UnsetDefinition());
-        static::register(ReturnDefinition::KEY, new ReturnDefinition());
-        static::register(CommentDefinition::KEY, new CommentDefinition());
-        static::register(ValidateDefinition::KEY, new ValidateDefinition());
-        static::register(ChatStateDefinition::KEY, new ChatStateDefinition());
-        static::register(MemoryCardDefinition::KEY, new MemoryCardDefinition());
-        static::register(ScreenBackDefinition::KEY, new ScreenBackDefinition());
-        static::register(FunctionSetDefinition::KEY, new FunctionSetDefinition());
-        static::register(FunctionRunDefinition::KEY, new FunctionRunDefinition());
-        static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
-        static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
-        static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
-        static::register(ScreenWaitingDefinition::KEY, new ScreenWaitingDefinition());
+        static::register(ActionCaseDefinition::KEY, new ActionCaseDefinition());
+        static::register(ActionDefinition::KEY, new ActionDefinition());
         static::register(CharacterStateDefinition::KEY, new CharacterStateDefinition());
         static::register(ChatCompletionDefinition::KEY, new ChatCompletionDefinition());
-        static::register(CharacterActionDefinition::KEY, new CharacterActionDefinition());
+        static::register(ChatRefreshDefinition::KEY, new ChatRefreshDefinition());
+        static::register(ChatStateDefinition::KEY, new ChatStateDefinition());
+        static::register(CommentDefinition::KEY, new CommentDefinition());
+        static::register(FunctionRunDefinition::KEY, new FunctionRunDefinition());
+        static::register(FunctionSetDefinition::KEY, new FunctionSetDefinition());
+        static::register(IfDefinition::KEY, new IfDefinition());
+        static::register(MemoryCardDefinition::KEY, new MemoryCardDefinition());
+        static::register(MemoryCreateDefinition::KEY, new MemoryCreateDefinition());
+        static::register(MergeDefinition::KEY, new MergeDefinition());
+        static::register(MergeIfDefinition::KEY, new MergeIfDefinition());
+        static::register(PushDefinition::KEY, new PushDefinition());
+        static::register(ReturnDefinition::KEY, new ReturnDefinition());
+        static::register(ScreenBackDefinition::KEY, new ScreenBackDefinition());
+        static::register(ScreenStateDefinition::KEY, new ScreenStateDefinition());
+        static::register(ScreenWaitingDefinition::KEY, new ScreenWaitingDefinition());
+        static::register(SetDefinition::KEY, new SetDefinition());
+        static::register(UnsetDefinition::KEY, new UnsetDefinition());
+        static::register(ValidateDefinition::KEY, new ValidateDefinition());
     }
 
     /**

@@ -56,6 +56,8 @@ class FunctionSetDefinition implements EffectDefinitionContract
 
     public static function nestedEffects(array $params): array
     {
-        return $params['effects'];
+        return [
+            'effects' => $params['effects']
+        ];
     }
 }

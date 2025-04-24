@@ -41,11 +41,13 @@ class Process
 {
     use Timing, EffectsStack;
 
-    const STORAGE_TYPE_DATA = 'data';
-    const STORAGE_TYPE_FUNCTION = 'function';
+    const STORAGE_TYPE_DATA = 'data'; # common context data
+    const STORAGE_TYPE_CASE = 'case'; # cases for character.action
+    const STORAGE_TYPE_FUNCTION = 'function'; # custom functions
 
     const STORAGE_TYPES = [
         self::STORAGE_TYPE_DATA,
+        self::STORAGE_TYPE_CASE,
         self::STORAGE_TYPE_FUNCTION
     ];
 
@@ -62,8 +64,9 @@ class Process
         'character' => Character::class,
     ];
 
-    protected array $data = []; // Custom data related to the current logic execution
-    protected array $function = []; // Custom functions (lists of effects) related to the current logic executions
+    // storage for process context
+    protected array $storage = [];
+
     public bool $screenBack = false;
     public bool $screenWaiting = false;
     public ?int $screenTransfer = null;
@@ -93,13 +96,12 @@ class Process
             $this->{$key} = $model;
             unset($initial[$key]); // Remaining entries are treated as general data
         }
-
-        $this->data = $initial;
+        $this->setStorage($initial, 'data');
     }
 
     public function clone(array $initial = []): static
     {
-        $original = $this->data;
+        $original = $this->getStorage('data');
         foreach (array_keys(self::ADAPTERS) as $key) {
             $original[$key] = $this->$key;
         }
@@ -119,7 +121,7 @@ class Process
     {
         $storage = $this->getStorage($type);
         Arr::set($storage, $key, $value);
-        $this->setStorage($type, $storage);
+        $this->setStorage($storage, $type);
     }
 
     public function forget(string|array $key, $type = 'data'): void
@@ -128,7 +130,7 @@ class Process
         foreach ((array) $key as $variable) {
             Arr::forget($storage, $variable);
         }
-        $this->setStorage($type, $storage);
+        $this->setStorage($storage, $type);
     }
 
     public function has(string $key, $type = 'data'): bool
@@ -151,7 +153,7 @@ class Process
 
         $array[] = $value;
         Arr::set($storage, $key, $array);
-        $this->setStorage($type, $storage);
+        $this->setStorage($storage, $type);
     }
 
     public function merge(array $items, ?string $path = null, string $type = 'data'): void
@@ -177,11 +179,6 @@ class Process
         }
     }
 
-    public function data(): array
-    {
-        return $this->data;
-    }
-
     /**
      * Returns the full context used in DSL evaluations:
      * includes both wrapped models and user data.
@@ -201,7 +198,7 @@ class Process
             $context['note'] = new NoteDslAdapter($this, $model);
         }
 
-        return array_merge($this->data, $context);
+        return array_merge($this->getStorage('data'), $context);
     }
 
     /**
@@ -209,12 +206,8 @@ class Process
      */
     public function pack(): array
     {
-        $storage = [];
-        foreach (self::STORAGE_TYPES as $type) {
-            $storage[$type] = $this->$type;
-        }
         return [
-            'storage' => $storage,
+            'storage' => $this->storage,
             'adapters' => [
                 'chat'      => $this->chat->getKey(),
                 'screen'    => $this->screen->getKey(),
@@ -238,7 +231,7 @@ class Process
 
         $instance = new static($adapters);
         foreach (self::STORAGE_TYPES as $type) {
-            $instance->setStorage($type, $payload['storage'][$type] ?? []);
+            $instance->setStorage($payload['storage'][$type] ?? [], $type);
         }
 
         if ($node = $payload['note'] ?? null) {
@@ -292,27 +285,33 @@ class Process
             'message'    => $message,
             'context'    => [
                 'raw'    => $raw[$key],
-                'data'   => $this->data(),
                 'screen' => $this->screen->code,
             ],
         ]);
     }
 
-    public function getStorage(string $type): array
+    public function getStorage(?string $type = null): array
     {
+        if (is_null($type)) {
+            return $this->storage;
+        }
         if (!in_array($type, self::STORAGE_TYPES)) {
             throw new InvalidArgumentException('Process storage type is invalid: ' . $type);
         }
 
-        return $this->$type;
+        return $this->storage[$type] ?? [];
     }
 
-    public function setStorage(string $type, array $storage): void
+    public function setStorage(array $storage, ?string $type = null): void
     {
+        if (is_null($type)) {
+            $this->storage = $storage;
+            return;
+        }
         if (!in_array($type, self::STORAGE_TYPES)) {
             throw new InvalidArgumentException('Process storage type is invalid: ' . $type);
         }
 
-        $this->$type = $storage;
+        $this->storage[$type] = $storage;
     }
 }

@@ -2,16 +2,17 @@
 
 namespace App\Logic\Effect\Definitions;
 
-use App\Logic\Act;
 use App\Logic\Contracts\EffectDefinitionContract;
 use App\Logic\Rules\ExpressionOrArrayRule;
 use App\Logic\Rules\ExpressionOrBoolRule;
 use App\Logic\Rules\ExpressionOrEnumRule;
 use App\Logic\Rules\ExpressionOrTokenRule;
 
-class CharacterActionDefinition implements EffectDefinitionContract
+class ActionDefinition implements EffectDefinitionContract
 {
-    public const KEY = 'character.action';
+    public const KEY = 'action';
+
+    const HANDLERS = ['before', 'always', 'default'];
 
     public static function key(): string
     {
@@ -60,10 +61,6 @@ class CharacterActionDefinition implements EffectDefinitionContract
                     'type' => 'list',
                     'description' => 'Effect list that will run everytime before cases and default.'
                 ],
-                'cases' => [
-                    'type' => 'list',
-                    'description' => 'List of action match filters and effect blocks. Only the first matching case will execute.',
-                ],
                 'default' => [
                     'type' => 'list',
                     'description' => 'Fallback effect list if no case matches.'
@@ -81,23 +78,6 @@ class CharacterActionDefinition implements EffectDefinitionContract
                         'always' => [
                             // effects to run every time
                         ],
-                        'cases' => [
-                            [
-                                'do' => '>>look',
-                                'what' => ['door'],
-                                'then' => [
-                                    // effects to hande this case
-                                ]
-                            ],
-                            [
-                                'do' => '>>take',
-                                'what' => ['key'],
-                                'from' => ['floor'],
-                                'then' => [
-                                    // effects to hande this case
-                                ]
-                            ]
-                        ],
                         'default' => [
                             // effects to run if no any other cases matched
                         ]
@@ -109,14 +89,10 @@ class CharacterActionDefinition implements EffectDefinitionContract
 
     public static function rules(): array
     {
-        $actRules = [];
-        foreach(Act::propertyKeys() as $property) {
-            $actRules["value.*.$property"] = ['sometimes', new ExpressionOrArrayRule([
-                'value' => 'array|min:1',
-                'value.*' => [
-                    'required',
-                    new ExpressionOrTokenRule()
-                ]
+        $handlers = [];
+        foreach (self::HANDLERS as $handler) {
+            $handlers[$handler] = ['sometimes', 'nullable', new ExpressionOrArrayRule([
+                'value' => 'array|min:1'
             ])];
         }
         return [
@@ -147,44 +123,14 @@ class CharacterActionDefinition implements EffectDefinitionContract
                 ],
             ])],
             'async' => ['sometimes', 'nullable', new ExpressionOrBoolRule()],
-            'before' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
-                'value' => 'array|min:1'
-            ])],
-            'always' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
-                'value' => 'array|min:1'
-            ])],
-            'cases' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
-                'value' => 'array|min:1',
-                'value.*.do' => [
-                    'required',
-                    new ExpressionOrTokenRule()
-                ],
-                'value.*.then' => [
-                    'required',
-                    new ExpressionOrArrayRule([
-                        'value' => 'array|min:1'
-                    ]),
-                ],
-                ...$actRules
-            ])],
-            'default' => ['sometimes', 'nullable', new ExpressionOrArrayRule([
-                'value' => 'array|min:1'
-            ])]
+            ...$handlers
         ];
     }
 
     public static function nestedEffects(array $params): array
     {
         $nested = [];
-        if (!empty($params['cases']) && is_array($params['cases'])) {
-            foreach ($params['cases'] as $i => $case) {
-                if (isset($case['then']) && is_array($case['then'])) {
-                    $nested["cases.$i.then"] = $case['then'];
-                }
-            }
-        }
-
-        foreach(['always', 'default'] as $handler) {
+        foreach(self::HANDLERS as $handler) {
             if (!empty($params[$handler]) && is_array($params[$handler])) {
                 $nested[$handler] = $params[$handler];
             }

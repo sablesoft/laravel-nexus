@@ -206,6 +206,14 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'rules' => ['nullable', $dslEditor, new DslRule(EffectsValidator::class, $dslEditor)],
                 'collapsed' => true
             ],
+            'notesCrud' => [
+                'title' => __('Notes'),
+                'action' => ['view'],
+                'type' => 'component',
+                'component' => 'workshop.note.usages',
+                'showEmpty' => true,
+                'collapsed' => true
+            ],
             'beforeString' => [
                 'title' => __('Effects'),
                 'hint' => __("screen.effects.before"),
@@ -238,14 +246,6 @@ class Screen extends AbstractCrud implements ShouldBelongsTo
                 'component' => 'workshop.screen.transfers',
                 'showEmpty' => true,
                 'collapsed' => true,
-            ],
-            'notesCrud' => [
-                'title' => __('Notes'),
-                'action' => ['view'],
-                'type' => 'component',
-                'component' => 'workshop.note.usages',
-                'showEmpty' => true,
-                'collapsed' => true
             ],
             'transfersFromList' => $this->linkListField(__('Transfers From'), ['index', 'view']),
         ];

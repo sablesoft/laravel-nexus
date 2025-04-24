@@ -5,6 +5,7 @@ namespace App\Logic\Traits;
 use App\Logic\Contracts\HasEffectsContract;
 use App\Logic\Facades\Dsl;
 use Carbon\Carbon;
+use RuntimeException;
 
 trait EffectsStack
 {
@@ -18,16 +19,16 @@ trait EffectsStack
         $code = $effects->getCode();
         $this->effectsStarted[$code] = microtime(true);
         if (in_array($code, $this->effectsStack)) {
-            throw new \RuntimeException("Recursive effects detected: $code, stack: ". implode(', ', $this->effectsStack));
+            throw new RuntimeException("Recursive effects detected: $code, stack: ". implode(', ', $this->effectsStack));
         }
         Dsl::debug('[Effects][Start] '. $effects->getCode() .' L'. count($this->effectsStack), [
-            'data' => $this->data,
+            'data' => $this->getStorage('data'),
             'started' => $this->formatMicrotime($this->effectsStarted[$code]),
         ], 'process');
         $this->effectsStack[] = $code;
 
         if ($this->isOverflow()) {
-            throw new \RuntimeException("Setup stack overflow");
+            throw new RuntimeException("Setup stack overflow");
         }
     }
 
@@ -37,7 +38,7 @@ trait EffectsStack
         $code = $effects->getCode();
         array_pop($this->effectsStack);
         Dsl::debug('[Effects][Finish] '. $code .' L'. count($this->effectsStack), [
-            'data' => $this->data,
+            'data' => $this->getStorage('data'),
             'started' => $this->formatMicrotime($this->effectsStarted[$code]),
             'ended' => $this->formatMicrotime($ended),
             'duration' => number_format(($ended - $this->effectsStarted[$code]) * 1000, 2) . 'ms',
@@ -47,7 +48,7 @@ trait EffectsStack
     public function startLog(string $identifier, ?array $block): void
     {
         Dsl::debug('[Block][Start] ' . $identifier, [
-            'data' => $this->data,
+            'data' => $this->getStorage('data'),
             'block' => $block,
             'started' => $this->formatMicrotime($this->timestamps[$identifier]['start']),
         ], 'process');
@@ -56,7 +57,7 @@ trait EffectsStack
     public function stopLog(string $identifier, ?array $block): void
     {
         Dsl::debug('[Block][Stop] ' . $identifier, [
-            'data' => $this->data,
+            'data' => $this->getStorage('data'),
             'block' => $block,
             'duration' => number_format(($this->executionTimes[$identifier]), 2) . 's',
             'started' => $this->formatMicrotime($this->timestamps[$identifier]['start']),

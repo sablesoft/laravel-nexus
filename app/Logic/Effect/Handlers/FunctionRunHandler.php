@@ -4,6 +4,7 @@ namespace App\Logic\Effect\Handlers;
 
 use App\Logic\Contracts\EffectHandlerContract;
 use App\Logic\Dsl\ValueResolver;
+use App\Logic\Effect\Handlers\Traits\Condition;
 use App\Logic\Facades\Dsl;
 use App\Logic\Facades\EffectRunner;
 use App\Logic\Process;
@@ -21,8 +22,9 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
  */
 class FunctionRunHandler implements EffectHandlerContract
 {
+    use Condition;
+
     protected string $name;
-    protected string $condition;
 
     /**
      * @param array $params
@@ -59,12 +61,5 @@ class FunctionRunHandler implements EffectHandlerContract
         if (!$process->has($this->name, Process::STORAGE_TYPE_FUNCTION)) {
             throw new InvalidArgumentException("Function not found: " . $this->name);
         }
-
-        $this->condition = $this->params['condition'] ?? true;
-    }
-
-    protected function shouldSkip(Process $process): bool
-    {
-        return !Dsl::evaluate($this->condition, $process->toContext());
     }
 }

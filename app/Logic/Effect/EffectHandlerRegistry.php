@@ -3,7 +3,8 @@
 namespace App\Logic\Effect;
 
 use App\Logic\Contracts\EffectHandlerContract;
-use App\Logic\Effect\Definitions\CharacterActionDefinition;
+use App\Logic\Effect\Definitions\ActionCaseDefinition;
+use App\Logic\Effect\Definitions\ActionDefinition;
 use App\Logic\Effect\Definitions\CharacterStateDefinition;
 use App\Logic\Effect\Definitions\ChatCompletionDefinition;
 use App\Logic\Effect\Definitions\ChatRefreshDefinition;
@@ -15,6 +16,7 @@ use App\Logic\Effect\Definitions\IfDefinition;
 use App\Logic\Effect\Definitions\MemoryCardDefinition;
 use App\Logic\Effect\Definitions\MemoryCreateDefinition;
 use App\Logic\Effect\Definitions\MergeDefinition;
+use App\Logic\Effect\Definitions\MergeIfDefinition;
 use App\Logic\Effect\Definitions\PushDefinition;
 use App\Logic\Effect\Definitions\ReturnDefinition;
 use App\Logic\Effect\Definitions\ScreenBackDefinition;
@@ -23,7 +25,8 @@ use App\Logic\Effect\Definitions\ScreenWaitingDefinition;
 use App\Logic\Effect\Definitions\SetDefinition;
 use App\Logic\Effect\Definitions\UnsetDefinition;
 use App\Logic\Effect\Definitions\ValidateDefinition;
-use App\Logic\Effect\Handlers\CharacterActionHandler;
+use App\Logic\Effect\Handlers\ActionCaseHandler;
+use App\Logic\Effect\Handlers\ActionHandler;
 use App\Logic\Effect\Handlers\CharacterStateHandler;
 use App\Logic\Effect\Handlers\ChatCompletionHandler;
 use App\Logic\Effect\Handlers\ChatRefreshHandler;
@@ -35,6 +38,7 @@ use App\Logic\Effect\Handlers\IfHandler;
 use App\Logic\Effect\Handlers\MemoryCardHandler;
 use App\Logic\Effect\Handlers\MemoryCreateHandler;
 use App\Logic\Effect\Handlers\MergeHandler;
+use App\Logic\Effect\Handlers\MergeIfHandler;
 use App\Logic\Effect\Handlers\PushHandler;
 use App\Logic\Effect\Handlers\ReturnHandler;
 use App\Logic\Effect\Handlers\ScreenBackHandler;
@@ -88,25 +92,27 @@ class EffectHandlerRegistry
      */
     public static function boot(): void
     {
-        EffectHandlerRegistry::register(IfDefinition::KEY, IfHandler::class);
-        EffectHandlerRegistry::register(SetDefinition::KEY, SetHandler::class);
-        EffectHandlerRegistry::register(PushDefinition::KEY, PushHandler::class);
-        EffectHandlerRegistry::register(MergeDefinition::KEY, MergeHandler::class);
-        EffectHandlerRegistry::register(UnsetDefinition::KEY, UnsetHandler::class);
-        EffectHandlerRegistry::register(ReturnDefinition::KEY, ReturnHandler::class);
-        EffectHandlerRegistry::register(CommentDefinition::KEY, CommentHandler::class);
-        EffectHandlerRegistry::register(ValidateDefinition::KEY, ValidateHandler::class);
-        EffectHandlerRegistry::register(ChatStateDefinition::KEY, ChatStateHandler::class);
-        EffectHandlerRegistry::register(MemoryCardDefinition::KEY, MemoryCardHandler::class);
-        EffectHandlerRegistry::register(ScreenBackDefinition::KEY, ScreenBackHandler::class);
-        EffectHandlerRegistry::register(FunctionSetDefinition::KEY, FunctionSetHandler::class);
-        EffectHandlerRegistry::register(FunctionRunDefinition::KEY, FunctionRunHandler::class);
-        EffectHandlerRegistry::register(ScreenStateDefinition::KEY, ScreenStateHandler::class);
-        EffectHandlerRegistry::register(ChatRefreshDefinition::KEY, ChatRefreshHandler::class);
-        EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);
-        EffectHandlerRegistry::register(ScreenWaitingDefinition::KEY, ScreenWaitingHandler::class);
+        EffectHandlerRegistry::register(ActionCaseDefinition::KEY, ActionCaseHandler::class);
+        EffectHandlerRegistry::register(ActionDefinition::KEY, ActionHandler::class);
         EffectHandlerRegistry::register(CharacterStateDefinition::KEY, CharacterStateHandler::class);
         EffectHandlerRegistry::register(ChatCompletionDefinition::KEY, ChatCompletionHandler::class);
-        EffectHandlerRegistry::register(CharacterActionDefinition::KEY, CharacterActionHandler::class);
+        EffectHandlerRegistry::register(ChatRefreshDefinition::KEY, ChatRefreshHandler::class);
+        EffectHandlerRegistry::register(ChatStateDefinition::KEY, ChatStateHandler::class);
+        EffectHandlerRegistry::register(CommentDefinition::KEY, CommentHandler::class);
+        EffectHandlerRegistry::register(FunctionRunDefinition::KEY, FunctionRunHandler::class);
+        EffectHandlerRegistry::register(FunctionSetDefinition::KEY, FunctionSetHandler::class);
+        EffectHandlerRegistry::register(IfDefinition::KEY, IfHandler::class);
+        EffectHandlerRegistry::register(MemoryCardDefinition::KEY, MemoryCardHandler::class);
+        EffectHandlerRegistry::register(MemoryCreateDefinition::KEY, MemoryCreateHandler::class);
+        EffectHandlerRegistry::register(MergeDefinition::KEY, MergeHandler::class);
+        EffectHandlerRegistry::register(MergeIfDefinition::KEY, MergeIfHandler::class);
+        EffectHandlerRegistry::register(PushDefinition::KEY, PushHandler::class);
+        EffectHandlerRegistry::register(ReturnDefinition::KEY, ReturnHandler::class);
+        EffectHandlerRegistry::register(ScreenBackDefinition::KEY, ScreenBackHandler::class);
+        EffectHandlerRegistry::register(ScreenStateDefinition::KEY, ScreenStateHandler::class);
+        EffectHandlerRegistry::register(ScreenWaitingDefinition::KEY, ScreenWaitingHandler::class);
+        EffectHandlerRegistry::register(SetDefinition::KEY, SetHandler::class);
+        EffectHandlerRegistry::register(UnsetDefinition::KEY, UnsetHandler::class);
+        EffectHandlerRegistry::register(ValidateDefinition::KEY, ValidateHandler::class);
     }
 }

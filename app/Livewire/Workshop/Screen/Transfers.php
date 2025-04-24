@@ -168,6 +168,13 @@ class Transfers extends Component
         return $query;
     }
 
+    protected function codeMirrorViewMap(): array
+    {
+        return [
+            'codemirror-before-' => 'beforeString'
+        ];
+    }
+
     protected function rules(): array
     {
         $dslEditor = config('dsl.editor');
