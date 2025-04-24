@@ -21,10 +21,10 @@ class AppScreensTableSeeder extends Seeder
         \DB::table('app.screens')->insert(array (
             0 => 
             array (
-                'id' => 9,
-                'user_id' => 1,
+                'id' => 1,
+                'user_id' => 2,
                 'application_id' => 1,
-                'image_id' => 62,
+                'image_id' => 1,
                 'title' => '{"en":"Recorder","ru":"Диктофон"}',
                 'code' => 'recorder',
                 'description' => '{"en":"This screen displays audio log entries created by the player or revealed through the story. Each entry reflects the character’s thoughts, memories, or key moments — either recorded manually or triggered by events. The screen is meant to feel like a quiet personal archive, slowly growing over time. Use it to deepen the emotional tone, reinforce narrative themes, or foreshadow future developments","ru":"На этом экране отображаются аудиозаписи, созданные игроком или раскрытые по ходу сюжета. Каждая запись отражает мысли, воспоминания или важные моменты персонажа — будь то сделанные вручную или активированные событиями. Экран задуман как личный архив, который постепенно наполняется со временем. Используйте его для усиления эмоционального фона, раскрытия тем повествования или предвосхищения будущих событий. Здесь отображаются только записи с тегом \\"audio-log\\"."}',
@@ -43,9 +43,9 @@ class AppScreensTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'user_id' => 1,
+                'user_id' => 2,
                 'application_id' => 1,
-                'image_id' => 53,
+                'image_id' => 9,
                 'title' => '{"en":"Porch","ru":"На пороге"}',
                 'code' => 'porch',
                 'description' => '{"ru":null,"en":null}',
@@ -63,10 +63,10 @@ class AppScreensTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 1,
-                'user_id' => 1,
+                'id' => 3,
+                'user_id' => 2,
                 'application_id' => 1,
-                'image_id' => 52,
+                'image_id' => 3,
                 'title' => '{"en":"Prologue","ru":"Пролог"}',
                 'code' => 'prologue',
                 'description' => '{"ru":null,"en":null}',

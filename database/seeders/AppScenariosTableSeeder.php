@@ -21,8 +21,8 @@ class AppScenariosTableSeeder extends Seeder
         \DB::table('app.scenarios')->insert(array (
             0 => 
             array (
-                'id' => 13,
-                'user_id' => 1,
+                'id' => 1,
+                'user_id' => 2,
                 'title' => '{"en":"Porch - Act","ru":"Porch - Act"}',
                 'description' => '{"en":"Free action handler","ru":"Free action handler"}',
                 'before' => NULL,
@@ -32,8 +32,8 @@ class AppScenariosTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 12,
-                'user_id' => 1,
+                'id' => 2,
+                'user_id' => 2,
                 'title' => '{"en":"Prologue - Continue","ru":"Prologue - Continue"}',
                 'description' => '{"en":null,"ru":null}',
             'before' => '[{"set":{"meta":{"weather":"chat.state(\'weather\')","time":"chat.state(\'time\')"},"author":null,"messages":["note.message(\'rules-game\', \'Rules:\')","note.message(\'rules-narrator\', \'Rules:\')","note.message(\'rules-content\', \'Rules:\')"]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}},{"screen.waiting":true}]',

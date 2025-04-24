@@ -21,12 +21,12 @@ class AppCharactersTableSeeder extends Seeder
         \DB::table('app.characters')->insert(array (
             0 => 
             array (
-                'id' => 3,
-                'mask_id' => 1,
+                'id' => 1,
+                'mask_id' => 2,
                 'application_id' => 1,
                 'chat_id' => NULL,
                 'user_id' => NULL,
-                'screen_id' => 1,
+                'screen_id' => 3,
                 'code' => 'lia',
                 'actor' => 'system',
                 'is_confirmed' => true,
@@ -40,11 +40,11 @@ class AppCharactersTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'mask_id' => 4,
+                'mask_id' => 1,
                 'application_id' => 1,
                 'chat_id' => NULL,
                 'user_id' => NULL,
-                'screen_id' => 1,
+                'screen_id' => 3,
                 'code' => 'nick',
                 'actor' => 'system',
                 'is_confirmed' => true,
@@ -57,12 +57,12 @@ class AppCharactersTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 1,
+                'id' => 3,
                 'mask_id' => 3,
                 'application_id' => 1,
                 'chat_id' => NULL,
                 'user_id' => NULL,
-                'screen_id' => 1,
+                'screen_id' => 3,
                 'code' => 'tarek',
                 'actor' => 'player',
                 'is_confirmed' => true,
@@ -76,11 +76,11 @@ class AppCharactersTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'mask_id' => 2,
+                'mask_id' => 4,
                 'application_id' => 1,
                 'chat_id' => NULL,
                 'user_id' => NULL,
-                'screen_id' => 1,
+                'screen_id' => 3,
                 'code' => 'mara',
                 'actor' => 'player',
                 'is_confirmed' => true,

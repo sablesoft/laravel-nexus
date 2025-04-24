@@ -21,9 +21,9 @@ class AppTransfersTableSeeder extends Seeder
         \DB::table('app.transfers')->insert(array (
             0 => 
             array (
-                'id' => 7,
+                'id' => 1,
                 'screen_from_id' => 2,
-                'screen_to_id' => 9,
+                'screen_to_id' => 1,
                 'title' => '{"en":"Recorder","ru":"Диктофон"}',
                 'tooltip' => '{"en":"Check your audio records","ru":"Проверить аудио записи"}',
                 'description' => '{"en":null,"ru":null}',
@@ -36,9 +36,9 @@ class AppTransfersTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 6,
-                'screen_from_id' => 1,
-                'screen_to_id' => 9,
+                'id' => 2,
+                'screen_from_id' => 3,
+                'screen_to_id' => 1,
                 'title' => '{"en":"Recorder","ru":"Диктофон"}',
                 'tooltip' => '{"en":"Check your audio records","ru":"Проверить аудио записи"}',
                 'description' => '{"en":null,"ru":null}',
@@ -51,8 +51,8 @@ class AppTransfersTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 1,
-                'screen_from_id' => 1,
+                'id' => 3,
+                'screen_from_id' => 3,
                 'screen_to_id' => 2,
                 'title' => '{"en":"Explore","ru":"Исследовать"}',
                 'tooltip' => '{"en":"What else is there to do?","ru":"А что еще остается делать?"}',

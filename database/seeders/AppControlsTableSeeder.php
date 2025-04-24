@@ -21,7 +21,7 @@ class AppControlsTableSeeder extends Seeder
         \DB::table('app.controls')->insert(array (
             0 => 
             array (
-                'id' => 8,
+                'id' => 1,
                 'screen_id' => 2,
                 'scenario_id' => NULL,
                 'type' => 'action',
@@ -37,8 +37,8 @@ class AppControlsTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 5,
-                'screen_id' => 9,
+                'id' => 2,
+                'screen_id' => 1,
                 'scenario_id' => NULL,
                 'type' => 'action',
                 'title' => '{"en":"Back","ru":"Назад"}',
@@ -53,8 +53,8 @@ class AppControlsTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 7,
-                'screen_id' => 9,
+                'id' => 3,
+                'screen_id' => 1,
                 'scenario_id' => NULL,
                 'type' => 'input',
                 'title' => '{"en":"Record","ru":"Записать"}',
@@ -69,9 +69,9 @@ class AppControlsTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 6,
+                'id' => 4,
                 'screen_id' => 2,
-                'scenario_id' => 13,
+                'scenario_id' => 1,
                 'type' => 'input',
                 'title' => '{"ru":"Действие","en":"Act"}',
                 'tooltip' => '{"ru":"Что будешь делать?","en":"What you will do?"}',
@@ -85,9 +85,9 @@ class AppControlsTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'id' => 1,
-                'screen_id' => 1,
-                'scenario_id' => 12,
+                'id' => 5,
+                'screen_id' => 3,
+                'scenario_id' => 2,
                 'type' => 'action',
                 'title' => '{"en":"Continue","ru":"Далее"}',
                 'tooltip' => '{"en":"Press to continue your story","ru":"Нажмите чтобы продолжить историю"}',

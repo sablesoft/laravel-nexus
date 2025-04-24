@@ -21,7 +21,7 @@ class PublicUsersTableSeeder extends Seeder
         \DB::table('public.users')->insert(array (
             0 => 
             array (
-                'id' => 2,
+                'id' => 1,
                 'name' => 'Vasia',
                 'email' => 'vasia@gmail.com',
                 'language' => 'en',
@@ -33,7 +33,7 @@ class PublicUsersTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 1,
+                'id' => 2,
                 'name' => 'Raman',
                 'email' => 'sable.lair@gmail.com',
                 'language' => 'en',

@@ -21,10 +21,10 @@ class AppChatRolesTableSeeder extends Seeder
         \DB::table('app.chat_roles')->insert(array (
             0 => 
             array (
-                'id' => 2,
+                'id' => 1,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 2,
+                'role_id' => 6,
                 'chat_group_id' => 1,
                 'name' => '{"en":"Spark","ru":"Искра"}',
                 'code' => 'spark',
@@ -38,10 +38,10 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 4,
+                'id' => 2,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 4,
+                'role_id' => 2,
                 'chat_group_id' => 1,
                 'name' => '{"en":"Heart","ru":"Сердце"}',
                 'code' => 'heart',
@@ -58,7 +58,7 @@ class AppChatRolesTableSeeder extends Seeder
                 'id' => 3,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 3,
+                'role_id' => 1,
                 'chat_group_id' => 1,
                 'name' => '{"en":"Analyst","ru":"Аналитик"}',
                 'code' => 'analyst',
@@ -72,10 +72,10 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 1,
+                'id' => 4,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 1,
+                'role_id' => 5,
                 'chat_group_id' => 1,
                 'name' => '{"en":"Observer","ru":"Наблюдатель"}',
                 'code' => 'observer',
@@ -89,10 +89,10 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'id' => 8,
+                'id' => 5,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 8,
+                'role_id' => 4,
                 'chat_group_id' => 2,
                 'name' => '{"en":"Healer","ru":"Целитель"}',
                 'code' => 'healer',
@@ -106,10 +106,10 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'id' => 7,
+                'id' => 6,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 6,
+                'role_id' => 8,
                 'chat_group_id' => 2,
                 'name' => '{"en":"Scrapper","ru":"Собиратель"}',
                 'code' => 'scrapper',
@@ -123,10 +123,10 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'id' => 5,
+                'id' => 7,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 7,
+                'role_id' => 3,
                 'chat_group_id' => 2,
                 'name' => '{"en":"Technician","ru":"Техник"}',
                 'code' => 'tech',
@@ -140,10 +140,10 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             7 => 
             array (
-                'id' => 6,
+                'id' => 8,
                 'application_id' => 1,
                 'chat_id' => NULL,
-                'role_id' => 5,
+                'role_id' => 7,
                 'chat_group_id' => 2,
                 'name' => '{"en":"Scout","ru":"Разведчик"}',
                 'code' => 'scout',
@@ -157,7 +157,7 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             8 => 
             array (
-                'id' => 10,
+                'id' => 9,
                 'application_id' => 1,
                 'chat_id' => NULL,
                 'role_id' => NULL,
@@ -174,7 +174,7 @@ class AppChatRolesTableSeeder extends Seeder
             ),
             9 => 
             array (
-                'id' => 9,
+                'id' => 10,
                 'application_id' => 1,
                 'chat_id' => NULL,
                 'role_id' => NULL,

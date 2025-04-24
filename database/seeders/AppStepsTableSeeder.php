@@ -21,8 +21,8 @@ class AppStepsTableSeeder extends Seeder
         \DB::table('app.steps')->insert(array (
             0 => 
             array (
-                'id' => 4,
-                'parent_id' => 12,
+                'id' => 1,
+                'parent_id' => 2,
                 'number' => 1,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Forest Road","ru":"Forest Road"}',
@@ -34,8 +34,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 3,
-                'parent_id' => 12,
+                'id' => 2,
+                'parent_id' => 2,
                 'number' => 3,
                 'scenario_id' => NULL,
                 'name' => '{"en":"House by the Road","ru":"House by the Road"}',
@@ -47,8 +47,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 16,
-                'parent_id' => 13,
+                'id' => 3,
+                'parent_id' => 1,
                 'number' => 3,
                 'scenario_id' => NULL,
                 'name' => '{"ru":"Case - Look Place","en":"Case - Look Place"}',
@@ -60,8 +60,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 14,
-                'parent_id' => 13,
+                'id' => 4,
+                'parent_id' => 1,
                 'number' => 8,
                 'scenario_id' => NULL,
                 'name' => '{"ru":"Case - Locked Door","en":"Case - Locked Door"}',
@@ -73,8 +73,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'id' => 13,
-                'parent_id' => 13,
+                'id' => 5,
+                'parent_id' => 1,
                 'number' => 1,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Rules & Place","ru":"Rules & Context"}',
@@ -86,8 +86,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'id' => 18,
-                'parent_id' => 13,
+                'id' => 6,
+                'parent_id' => 1,
                 'number' => 5,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Case - Look Anything","ru":"Case - Look Anything"}',
@@ -99,8 +99,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'id' => 11,
-                'parent_id' => 13,
+                'id' => 7,
+                'parent_id' => 1,
                 'number' => 4,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Case - Look Inside","ru":"Case - Look Inside"}',
@@ -112,8 +112,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             7 => 
             array (
-                'id' => 19,
-                'parent_id' => 13,
+                'id' => 8,
+                'parent_id' => 1,
                 'number' => 6,
                 'scenario_id' => NULL,
                 'name' => '{"ru":"Case - Search Mat","en":"Case - Search Mat"}',
@@ -125,8 +125,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             8 => 
             array (
-                'id' => 20,
-                'parent_id' => 13,
+                'id' => 9,
+                'parent_id' => 1,
                 'number' => 9,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Case - Move Anywhere","ru":"Case - Move Anywhere"}',
@@ -138,8 +138,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             9 => 
             array (
-                'id' => 8,
-                'parent_id' => 12,
+                'id' => 10,
+                'parent_id' => 2,
                 'number' => 4,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Response"}',
@@ -151,8 +151,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             10 => 
             array (
-                'id' => 17,
-                'parent_id' => 13,
+                'id' => 11,
+                'parent_id' => 1,
                 'number' => 2,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Case - Inspect Place","ru":"Case - Inspect Place"}',
@@ -165,7 +165,7 @@ class AppStepsTableSeeder extends Seeder
             11 => 
             array (
                 'id' => 12,
-                'parent_id' => 13,
+                'parent_id' => 1,
                 'number' => 11,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Action","ru":"Action"}',
@@ -177,8 +177,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             12 => 
             array (
-                'id' => 2,
-                'parent_id' => 12,
+                'id' => 13,
+                'parent_id' => 2,
                 'number' => 2,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Audio Log - Apocalipsys","ru":"Audio Log - Doomsday"}',
@@ -190,8 +190,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             13 => 
             array (
-                'id' => 15,
-                'parent_id' => 13,
+                'id' => 14,
+                'parent_id' => 1,
                 'number' => 7,
                 'scenario_id' => NULL,
                 'name' => '{"en":"Case - Door Key","ru":"Case - Door Key"}',
@@ -203,8 +203,8 @@ class AppStepsTableSeeder extends Seeder
             ),
             14 => 
             array (
-                'id' => 21,
-                'parent_id' => 13,
+                'id' => 15,
+                'parent_id' => 1,
                 'number' => 10,
                 'scenario_id' => NULL,
                 'name' => '{"ru":"Case - Take Key","en":"Case - Take Key"}',

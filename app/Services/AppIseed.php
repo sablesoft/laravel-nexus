@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
-use Orangehill\Iseed\Iseed;
+use App\Services\SeedIdTracker;
 use Orangehill\Iseed\TableNotFoundException;
 
 class AppIseed
@@ -127,12 +127,7 @@ class AppIseed
         return base_path() . config('iseed::config.path');
     }
 
-    /**
-     * Get the Data
-     * @param  string $table
-     * @return Array
-     */
-    public function getData($table, $max, $exclude = null, $orderBy = null, $direction = 'ASC')
+    public function getData($table, $max, $exclude = null, $orderBy = null, $direction = 'ASC', $reindexIds = true)
     {
         $result = \DB::connection($this->databaseName)->table($table);
 
@@ -141,7 +136,7 @@ class AppIseed
             $result = $result->select(array_diff($allColumns, $exclude));
         }
 
-        if($orderBy) {
+        if ($orderBy) {
             $result = $result->orderBy($orderBy, $direction);
         }
 
@@ -149,7 +144,23 @@ class AppIseed
             $result = $result->limit($max);
         }
 
-        return $result->get();
+        $data = $result->get();
+
+        if ($reindexIds && !empty($data)) {
+            $counter = 1;
+
+            foreach ($data as &$row) {
+                if (isset($row->id)) {
+                    SeedIdTracker::remember($table, $row->id, $counter);
+                    $row->id = $counter++;
+                }
+
+                SeedIdTracker::resolveForeignKeys($row, $table);
+            }
+
+        }
+
+        return $data;
     }
 
     /**
