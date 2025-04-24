@@ -17,6 +17,7 @@ return [
     */
 
     'enabled' => env('TELESCOPE_ENABLED', true),
+    'debug' => env('TELESCOPE_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
