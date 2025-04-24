@@ -162,7 +162,7 @@
                             <label
                                 class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('States') }}
                                 ({{ config('dsl.editor', 'yaml') }})</label>
-                            <x-code-mirror wire:key="codemirror-before-{{ uuid_create() }}"
+                            <x-code-mirror wire:key="codemirror-state-chat-role-{{ $id }}"
                                            :lang="config('dsl.editor', 'yaml')"
                                            :readonly="true"
                                            :content="$chatRole['statesString']"

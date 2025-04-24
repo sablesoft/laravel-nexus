@@ -113,6 +113,7 @@ class Transfers extends Component
         $this->transfers[$transfer->id] = $this->prepareTransfer($transfer);
         Flux::modal('form-transfer')->close();
         $this->dispatch('flash', message: 'Transfer' . ($this->transferId ? ' updated' : ' created'));
+        $this->dispatchCodeMirrorView('transfer-' . $transfer->getKey());
         $this->resetForm();
     }
 

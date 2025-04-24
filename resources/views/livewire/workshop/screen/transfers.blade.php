@@ -148,7 +148,7 @@
                         <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($transfer['enabled_condition']) !!}</pre>
                     </div>
                     @endif
-                    <x-effects-view :before-string="$transfer['beforeString']"/>
+                    <x-effects-view :key="'transfer-'.$id" :before-string="$transfer['beforeString']"/>
                     @if($transfer['beforeString'])
                         <livewire:workshop.note.usages :model="$this->model($id)" />
                     @endif

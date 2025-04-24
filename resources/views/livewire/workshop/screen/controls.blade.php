@@ -172,7 +172,7 @@
                         <pre class="whitespace-pre-wrap mt-1 bg-zinc-100 dark:bg-zinc-800 rounded px-2 py-1 text-sm font-mono text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">{!! e($control['enabled_condition']) !!}</pre>
                     </div>
                     @endif
-                    <x-effects-view :before-string="$control['beforeString']" :after-string="$control['afterString']"/>
+                    <x-effects-view :key="'control-'.$id" :before-string="$control['beforeString']" :after-string="$control['afterString']"/>
                     @if($control['beforeString'] || $control['afterString'])
                         <livewire:workshop.note.usages :model="$this->model($id)" />
                     @endif

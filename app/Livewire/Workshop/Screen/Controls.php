@@ -102,6 +102,7 @@ class Controls extends Component
         /** @var Control $control */
         $control = StoreService::handle($data['state'], $control);
         $this->controls[$control->id] = $this->prepareControl($control);
+        $this->dispatchCodeMirrorView('control-' . $control->getKey());
         $this->resetForm();
         Flux::modal('form-control')->close();
         $this->dispatch('flash', message: 'Control' . ($this->controlId ? ' updated' : ' created'));

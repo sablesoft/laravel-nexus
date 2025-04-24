@@ -133,7 +133,7 @@
                     <label class="block text-xs font-semibold text-zinc-500 dark:text-zinc-400">{{ __('Description') }}</label>
                     <p>{!! e($step['description']) !!}</p>
                 </div>
-                <x-effects-view :before-string="$step['beforeString']" :after-string="$step['afterString']"/>
+                <x-effects-view :key="'step-'.$id" :before-string="$step['beforeString']" :after-string="$step['afterString']"/>
                 @if($step['beforeString'] || $step['afterString'])
                     <livewire:workshop.note.usages :model="$this->model($id)" />
                 @endif

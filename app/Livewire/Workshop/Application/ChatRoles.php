@@ -118,6 +118,13 @@ class ChatRoles extends Component
         Flux::modal('form-group-'.$this->groupId.'-role')->show();
     }
 
+    protected function codeMirrorViewMap(): array
+    {
+        return [
+            'codemirror-state-chat-role-' => 'state',
+        ];
+    }
+
     public function submit(): void
     {
         $data = $this->validate(\Arr::prependKeysWith($this->rules(), 'state.'));
@@ -128,6 +135,7 @@ class ChatRoles extends Component
         /** @var ChatRole $chatRole */
         $chatRole = StoreService::handle($data['state'], $chatRole);
         $this->chatRoles[$chatRole->id] = $this->prepareGroupRole($chatRole);
+        $this->dispatchCodeMirrorView($chatRole->getKey());
         $this->resetForm();
         Flux::modal('form-group-'.$this->groupId.'-role')->close();
         $this->dispatch('flash', message: 'Group Role' . ($this->chatRoleId ? ' updated' : ' created'));

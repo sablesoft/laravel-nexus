@@ -31,4 +31,19 @@ trait HasCodeMirror
             $this->dispatch('codemirror:update', key: "$this->codeMirrorPrefix.$field", value: $this->state[$field]);
         }
     }
+
+    protected function codeMirrorViewMap(): array
+    {
+        return [
+            'codemirror-before-' => 'beforeString',
+            'codemirror-after-' => 'afterString'
+        ];
+    }
+
+    protected function dispatchCodeMirrorView(string $key): void
+    {
+        foreach ($this->codeMirrorViewMap() as $prefix => $field) {
+            $this->dispatch('codemirror:update', key: "$prefix$key", value: $this->state[$field]);
+        }
+    }
 }

@@ -104,6 +104,7 @@ class Steps extends Component
         /** @var Step $step */
         $step = StoreService::handle($data['state'], $step);
         $this->steps[$step->id] = $this->prepareStep($step);
+        $this->dispatchCodeMirrorView('step-' . $step->getKey());
         $this->resetForm();
         Flux::modal('form-step')->close();
         $this->dispatch('flash', message: 'Step' . ($this->stepId ? ' updated' : ' created'));

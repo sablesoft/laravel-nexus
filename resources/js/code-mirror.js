@@ -15,6 +15,8 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
             const container = this.$refs.editorContainer;
             const key = this.$el.dataset.codemirrorKey;
 
+            // console.debug('CodeMirror', key);
+
             container.innerHTML = '';
             let initial = textarea.value ?? '';
             if (lang === 'yaml') {
@@ -98,26 +100,27 @@ window.codeMirrorComponent = (lang = 'yaml', readonly = false) => ({
                         textarea.value = this.view.state.doc.toString();
                     });
                 }
-
-                window.addEventListener('codemirror:update', (e) => {
-                    if (e.detail?.key !== key) return;
-
-                    let newValue = e.detail.value ?? '';
-                    if (lang === 'yaml') {
-                        newValue = this.normalizeMultilineYaml(newValue);
-                    }
-                    const currentValue = this.view.state.doc.toString();
-
-                    if (newValue !== currentValue) {
-                        this.view.dispatch({
-                            changes: { from: 0, to: this.view.state.doc.length, insert: newValue }
-                        });
-
-                        textarea.value = newValue;
-                        textarea.dispatchEvent(new Event('input', { bubbles: true }));
-                    }
-                });
             }
+
+            window.addEventListener('codemirror:update', (e) => {
+                if (e.detail?.key !== key) return;
+                // console.debug('codemirror:update', key);
+
+                let newValue = e.detail.value ?? '';
+                if (lang === 'yaml') {
+                    newValue = this.normalizeMultilineYaml(newValue);
+                }
+                const currentValue = this.view.state.doc.toString();
+
+                if (newValue !== currentValue) {
+                    this.view.dispatch({
+                        changes: { from: 0, to: this.view.state.doc.length, insert: newValue }
+                    });
+
+                    textarea.value = newValue;
+                    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            });
         });
     },
 
