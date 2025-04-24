@@ -22,6 +22,7 @@ class MemoryCardHandler implements EffectHandlerContract
     protected string $code;
     protected string $title;
     protected string $prompt;
+    protected array $messages = [];
 
     public function __construct(protected array $params) {}
 
@@ -48,6 +49,8 @@ class MemoryCardHandler implements EffectHandlerContract
         try {
             $this->prompt = ValueResolver::resolve(Dsl::prefixed($this->prompt), $context);
         } catch (SyntaxError) {}
+        $this->messages = empty($this->params['messages']) ? [] :
+            ValueResolver::resolve($this->params['messages'], $context);
         $this->model = empty($this->params['model']) ? null :
             ValueResolver::resolve($this->params['model'], $context);
     }
@@ -58,12 +61,12 @@ class MemoryCardHandler implements EffectHandlerContract
             [ChatCompletionDefinition::KEY => Dsl::prefixed([
                 'model' => $this->model,
                 'async' => false,
-                'messages' => [
+                'messages' => array_merge($this->messages,[
                     [
                         'role' => 'system',
                         'content' => $this->prompt,
                     ]
-                ]
+                ])
             ])],
             [MemoryCreateDefinition::KEY => [
                 'title' => Dsl::prefixed($this->title),
