@@ -66,15 +66,6 @@ class AppNoteUsagesTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'note_id' => 4,
-                'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 2,
-                'code' => 'make-audio-log',
-                'created_at' => '2025-04-24 04:12:02',
-                'updated_at' => '2025-04-24 04:12:02',
-            ),
-            6 => 
-            array (
                 'note_id' => 9,
                 'noteable_type' => 'App\\Models\\Screen',
                 'noteable_id' => 1,
@@ -82,7 +73,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 19:14:11',
                 'updated_at' => '2025-04-19 19:14:11',
             ),
-            7 => 
+            6 => 
             array (
                 'note_id' => 7,
                 'noteable_type' => 'App\\Models\\Step',
@@ -91,7 +82,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 04:14:59',
                 'updated_at' => '2025-04-24 04:14:59',
             ),
-            8 => 
+            7 => 
             array (
                 'note_id' => 12,
                 'noteable_type' => 'App\\Models\\Screen',
@@ -100,7 +91,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 14:55:38',
                 'updated_at' => '2025-04-20 14:55:38',
             ),
-            9 => 
+            8 => 
             array (
                 'note_id' => 10,
                 'noteable_type' => 'App\\Models\\Screen',
@@ -109,7 +100,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 14:55:44',
                 'updated_at' => '2025-04-20 14:55:44',
             ),
-            10 => 
+            9 => 
             array (
                 'note_id' => 12,
                 'noteable_type' => 'App\\Models\\Transfer',
@@ -118,7 +109,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 14:56:28',
                 'updated_at' => '2025-04-20 14:56:28',
             ),
-            11 => 
+            10 => 
             array (
                 'note_id' => 10,
                 'noteable_type' => 'App\\Models\\Transfer',
@@ -127,7 +118,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 14:56:34',
                 'updated_at' => '2025-04-20 14:56:34',
             ),
-            12 => 
+            11 => 
             array (
                 'note_id' => 10,
                 'noteable_type' => 'App\\Models\\Scenario',
@@ -136,7 +127,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 15:04:12',
                 'updated_at' => '2025-04-20 15:04:12',
             ),
-            13 => 
+            12 => 
             array (
                 'note_id' => 12,
                 'noteable_type' => 'App\\Models\\Scenario',
@@ -145,7 +136,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 15:04:26',
                 'updated_at' => '2025-04-20 15:04:26',
             ),
-            14 => 
+            13 => 
             array (
                 'note_id' => 30,
                 'noteable_type' => 'App\\Models\\Step',
@@ -154,7 +145,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 02:45:48',
                 'updated_at' => '2025-04-24 02:45:48',
             ),
-            15 => 
+            14 => 
             array (
                 'note_id' => 22,
                 'noteable_type' => 'App\\Models\\Step',
@@ -163,7 +154,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 18:31:47',
                 'updated_at' => '2025-04-21 18:31:47',
             ),
-            16 => 
+            15 => 
             array (
                 'note_id' => 23,
                 'noteable_type' => 'App\\Models\\Step',
@@ -172,7 +163,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 18:34:42',
                 'updated_at' => '2025-04-21 18:34:42',
             ),
-            17 => 
+            16 => 
             array (
                 'note_id' => 24,
                 'noteable_type' => 'App\\Models\\Step',
@@ -181,7 +172,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 19:43:25',
                 'updated_at' => '2025-04-21 19:43:25',
             ),
-            18 => 
+            17 => 
             array (
                 'note_id' => 25,
                 'noteable_type' => 'App\\Models\\Step',
@@ -190,7 +181,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 20:58:34',
                 'updated_at' => '2025-04-21 20:58:34',
             ),
-            19 => 
+            18 => 
             array (
                 'note_id' => 39,
                 'noteable_type' => 'App\\Models\\Step',
@@ -199,7 +190,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:16:17',
                 'updated_at' => '2025-04-24 03:16:17',
             ),
-            20 => 
+            19 => 
             array (
                 'note_id' => 25,
                 'noteable_type' => 'App\\Models\\Transfer',
@@ -208,7 +199,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 21:05:39',
                 'updated_at' => '2025-04-21 21:05:39',
             ),
-            21 => 
+            20 => 
             array (
                 'note_id' => 26,
                 'noteable_type' => 'App\\Models\\Step',
@@ -217,7 +208,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 23:14:41',
                 'updated_at' => '2025-04-21 23:14:41',
             ),
-            22 => 
+            21 => 
             array (
                 'note_id' => 37,
                 'noteable_type' => 'App\\Models\\Step',
@@ -226,7 +217,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:20:48',
                 'updated_at' => '2025-04-24 03:20:48',
             ),
-            23 => 
+            22 => 
             array (
                 'note_id' => 38,
                 'noteable_type' => 'App\\Models\\Step',
@@ -235,7 +226,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:21:09',
                 'updated_at' => '2025-04-24 03:21:09',
             ),
-            24 => 
+            23 => 
             array (
                 'note_id' => 20,
                 'noteable_type' => 'App\\Models\\Step',
@@ -244,7 +235,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:21:23',
                 'updated_at' => '2025-04-24 03:21:23',
             ),
-            25 => 
+            24 => 
             array (
                 'note_id' => 21,
                 'noteable_type' => 'App\\Models\\Step',
@@ -253,7 +244,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:21:30',
                 'updated_at' => '2025-04-24 03:21:30',
             ),
-            26 => 
+            25 => 
             array (
                 'note_id' => 1,
                 'noteable_type' => 'App\\Models\\Step',
@@ -262,7 +253,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:23:04',
                 'updated_at' => '2025-04-24 03:23:04',
             ),
-            27 => 
+            26 => 
             array (
                 'note_id' => 26,
                 'noteable_type' => 'App\\Models\\Step',
@@ -271,7 +262,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:25:55',
                 'updated_at' => '2025-04-24 03:25:55',
             ),
-            28 => 
+            27 => 
             array (
                 'note_id' => 10,
                 'noteable_type' => 'App\\Models\\Step',
@@ -280,7 +271,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:26:56',
                 'updated_at' => '2025-04-24 03:26:56',
             ),
-            29 => 
+            28 => 
             array (
                 'note_id' => 27,
                 'noteable_type' => 'App\\Models\\Step',
@@ -289,7 +280,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:29:24',
                 'updated_at' => '2025-04-24 03:29:24',
             ),
-            30 => 
+            29 => 
             array (
                 'note_id' => 28,
                 'noteable_type' => 'App\\Models\\Step',
@@ -298,7 +289,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:30:15',
                 'updated_at' => '2025-04-24 03:30:15',
             ),
-            31 => 
+            30 => 
             array (
                 'note_id' => 29,
                 'noteable_type' => 'App\\Models\\Step',
@@ -307,7 +298,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:32:20',
                 'updated_at' => '2025-04-24 03:32:20',
             ),
-            32 => 
+            31 => 
             array (
                 'note_id' => 32,
                 'noteable_type' => 'App\\Models\\Step',
@@ -316,7 +307,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:33:14',
                 'updated_at' => '2025-04-24 03:33:14',
             ),
-            33 => 
+            32 => 
             array (
                 'note_id' => 31,
                 'noteable_type' => 'App\\Models\\Step',
@@ -325,7 +316,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:33:31',
                 'updated_at' => '2025-04-24 03:33:31',
             ),
-            34 => 
+            33 => 
             array (
                 'note_id' => 13,
                 'noteable_type' => 'App\\Models\\Step',
@@ -334,7 +325,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:35:54',
                 'updated_at' => '2025-04-24 03:35:54',
             ),
-            35 => 
+            34 => 
             array (
                 'note_id' => 33,
                 'noteable_type' => 'App\\Models\\Step',
@@ -343,7 +334,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:37:04',
                 'updated_at' => '2025-04-24 03:37:04',
             ),
-            36 => 
+            35 => 
             array (
                 'note_id' => 34,
                 'noteable_type' => 'App\\Models\\Step',
@@ -352,7 +343,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:37:39',
                 'updated_at' => '2025-04-24 03:37:39',
             ),
-            37 => 
+            36 => 
             array (
                 'note_id' => 35,
                 'noteable_type' => 'App\\Models\\Step',
@@ -361,7 +352,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:38:34',
                 'updated_at' => '2025-04-24 03:38:34',
             ),
-            38 => 
+            37 => 
             array (
                 'note_id' => 36,
                 'noteable_type' => 'App\\Models\\Step',
@@ -370,7 +361,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:39:06',
                 'updated_at' => '2025-04-24 03:39:06',
             ),
-            39 => 
+            38 => 
             array (
                 'note_id' => 12,
                 'noteable_type' => 'App\\Models\\Step',
@@ -379,7 +370,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:40:23',
                 'updated_at' => '2025-04-24 03:40:23',
             ),
-            40 => 
+            39 => 
             array (
                 'note_id' => 2,
                 'noteable_type' => 'App\\Models\\Step',
@@ -388,7 +379,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:42:19',
                 'updated_at' => '2025-04-24 03:42:19',
             ),
-            41 => 
+            40 => 
             array (
                 'note_id' => 5,
                 'noteable_type' => 'App\\Models\\Screen',
@@ -397,7 +388,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:52:01',
                 'updated_at' => '2025-04-24 03:52:01',
             ),
-            42 => 
+            41 => 
             array (
                 'note_id' => 39,
                 'noteable_type' => 'App\\Models\\Screen',
@@ -406,7 +397,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:52:32',
                 'updated_at' => '2025-04-24 03:52:32',
             ),
-            43 => 
+            42 => 
             array (
                 'note_id' => 23,
                 'noteable_type' => 'App\\Models\\Transfer',
@@ -415,7 +406,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:56:51',
                 'updated_at' => '2025-04-24 03:56:51',
             ),
-            44 => 
+            43 => 
             array (
                 'note_id' => 39,
                 'noteable_type' => 'App\\Models\\Transfer',
@@ -424,7 +415,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:57:24',
                 'updated_at' => '2025-04-24 03:57:24',
             ),
-            45 => 
+            44 => 
             array (
                 'note_id' => 6,
                 'noteable_type' => 'App\\Models\\Transfer',
@@ -433,7 +424,7 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 04:00:09',
                 'updated_at' => '2025-04-24 04:00:09',
             ),
-            46 => 
+            45 => 
             array (
                 'note_id' => 39,
                 'noteable_type' => 'App\\Models\\Scenario',
@@ -441,6 +432,33 @@ class AppNoteUsagesTableSeeder extends Seeder
                 'code' => 'rules-narrator',
                 'created_at' => '2025-04-24 04:01:19',
                 'updated_at' => '2025-04-24 04:01:19',
+            ),
+            46 => 
+            array (
+                'note_id' => 40,
+                'noteable_type' => 'App\\Models\\Screen',
+                'noteable_id' => 1,
+                'code' => 'layout-quest',
+                'created_at' => '2025-04-24 05:19:06',
+                'updated_at' => '2025-04-24 05:19:06',
+            ),
+            47 => 
+            array (
+                'note_id' => 41,
+                'noteable_type' => 'App\\Models\\Screen',
+                'noteable_id' => 1,
+                'code' => 'quest-main',
+                'created_at' => '2025-04-24 05:19:17',
+                'updated_at' => '2025-04-24 05:19:17',
+            ),
+            48 => 
+            array (
+                'note_id' => 4,
+                'noteable_type' => 'App\\Models\\Step',
+                'noteable_id' => 2,
+                'code' => 'make-audio-log',
+                'created_at' => '2025-04-24 05:45:21',
+                'updated_at' => '2025-04-24 05:45:21',
             ),
         ));
         

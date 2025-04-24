@@ -14,12 +14,12 @@ class AppNotesTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('app.notes')->delete();
-
+        
         \DB::table('app.notes')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 8,
                 'user_id' => 1,
@@ -28,7 +28,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 18:19:36',
                 'updated_at' => '2025-04-19 18:19:36',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 9,
                 'user_id' => 1,
@@ -37,7 +37,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 18:20:06',
                 'updated_at' => '2025-04-19 18:20:06',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 5,
                 'user_id' => 1,
@@ -46,7 +46,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 09:02:51',
                 'updated_at' => '2025-04-24 03:52:01',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 3,
                 'user_id' => 1,
@@ -55,7 +55,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 08:31:31',
                 'updated_at' => '2025-04-24 04:04:01',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 10,
                 'user_id' => 1,
@@ -64,16 +64,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 18:21:39',
                 'updated_at' => '2025-04-24 03:26:56',
             ),
-            5 =>
-            array (
-                'id' => 4,
-                'user_id' => 1,
-                'title' => '{"en":"Prologue - Make - Audio Log"}',
-            'content' => '{"en":"Now you are not a narrator but the player speaking into a their voice recorder. This is their personal audio log.\\n\\nWrite a short monologue (8–10 sentences) in the first person, in the voice of the player. The first sentence must begin with: “It’s been [number] years since it happened.” The event refers to the outbreak of Doomsday Virus. So, let\'s player describe it from his point of view. Also the player should express their attitude toward Walkers and Shells — with empathy, resentment, irony, distrust, or however it fits their personality. Let it feel personal and grounded, not ideological. Remember about player\'s fraction.\\n\\nThen, describe how the player survived, what they’ve been through, and finally — articulate their current purpose. Where are they headed, and why? What are they looking for — a person, a place, an answer? This is their personal quest — make it clear and specific.\\n\\nAt the end of the message, the player suddenly notices a small structure by the side of the road — just as they\'re finishing their thought. They interrupt the recording mid-sentence or immediately after, reacting briefly and spontaneously. You may include a quick, emotionally honest reaction — a whisper, a fragment, or even an expletive — but do not describe the structure itself."}',
-                'created_at' => '2025-04-19 09:01:24',
-                'updated_at' => '2025-04-24 04:12:02',
-            ),
-            6 =>
+            5 => 
             array (
                 'id' => 7,
                 'user_id' => 1,
@@ -82,7 +73,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 09:22:57',
                 'updated_at' => '2025-04-24 04:14:59',
             ),
-            7 =>
+            6 => 
             array (
                 'id' => 13,
                 'user_id' => 1,
@@ -91,7 +82,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 03:45:47',
                 'updated_at' => '2025-04-24 03:35:54',
             ),
-            8 =>
+            7 => 
             array (
                 'id' => 12,
                 'user_id' => 1,
@@ -100,7 +91,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-20 14:45:30',
                 'updated_at' => '2025-04-24 03:40:23',
             ),
-            9 =>
+            8 => 
             array (
                 'id' => 2,
                 'user_id' => 1,
@@ -109,7 +100,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 04:57:11',
                 'updated_at' => '2025-04-24 03:42:19',
             ),
-            10 =>
+            9 => 
             array (
                 'id' => 20,
                 'user_id' => 1,
@@ -118,7 +109,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 05:54:34',
                 'updated_at' => '2025-04-24 03:21:23',
             ),
-            11 =>
+            10 => 
             array (
                 'id' => 24,
                 'user_id' => 1,
@@ -127,7 +118,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 19:38:42',
                 'updated_at' => '2025-04-24 04:11:13',
             ),
-            12 =>
+            11 => 
             array (
                 'id' => 22,
                 'user_id' => 1,
@@ -136,7 +127,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 06:58:20',
                 'updated_at' => '2025-04-21 18:25:49',
             ),
-            13 =>
+            12 => 
             array (
                 'id' => 21,
                 'user_id' => 1,
@@ -145,7 +136,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 05:56:23',
                 'updated_at' => '2025-04-24 03:21:30',
             ),
-            14 =>
+            13 => 
             array (
                 'id' => 23,
                 'user_id' => 1,
@@ -154,7 +145,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 18:07:27',
                 'updated_at' => '2025-04-24 03:56:51',
             ),
-            15 =>
+            14 => 
             array (
                 'id' => 26,
                 'user_id' => 1,
@@ -163,7 +154,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 23:10:15',
                 'updated_at' => '2025-04-24 03:25:55',
             ),
-            16 =>
+            15 => 
             array (
                 'id' => 25,
                 'user_id' => 1,
@@ -172,7 +163,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 20:56:37',
                 'updated_at' => '2025-04-22 00:14:57',
             ),
-            17 =>
+            16 => 
             array (
                 'id' => 28,
                 'user_id' => 1,
@@ -181,7 +172,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 00:28:03',
                 'updated_at' => '2025-04-24 03:30:15',
             ),
-            18 =>
+            17 => 
             array (
                 'id' => 34,
                 'user_id' => 1,
@@ -190,7 +181,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 06:34:59',
                 'updated_at' => '2025-04-24 03:37:39',
             ),
-            19 =>
+            18 => 
             array (
                 'id' => 30,
                 'user_id' => 1,
@@ -199,7 +190,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:50:39',
                 'updated_at' => '2025-04-22 02:59:34',
             ),
-            20 =>
+            19 => 
             array (
                 'id' => 32,
                 'user_id' => 1,
@@ -208,7 +199,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:51:43',
                 'updated_at' => '2025-04-24 03:33:14',
             ),
-            21 =>
+            20 => 
             array (
                 'id' => 35,
                 'user_id' => 1,
@@ -217,7 +208,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 06:36:37',
                 'updated_at' => '2025-04-24 03:38:34',
             ),
-            22 =>
+            21 => 
             array (
                 'id' => 36,
                 'user_id' => 1,
@@ -226,7 +217,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 06:38:17',
                 'updated_at' => '2025-04-24 03:39:06',
             ),
-            23 =>
+            22 => 
             array (
                 'id' => 31,
                 'user_id' => 1,
@@ -235,7 +226,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:51:17',
                 'updated_at' => '2025-04-24 03:33:31',
             ),
-            24 =>
+            23 => 
             array (
                 'id' => 33,
                 'user_id' => 1,
@@ -244,7 +235,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 04:38:33',
                 'updated_at' => '2025-04-24 03:37:04',
             ),
-            25 =>
+            24 => 
             array (
                 'id' => 29,
                 'user_id' => 1,
@@ -253,7 +244,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-22 01:49:25',
                 'updated_at' => '2025-04-24 03:32:20',
             ),
-            26 =>
+            25 => 
             array (
                 'id' => 39,
                 'user_id' => 1,
@@ -262,7 +253,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-24 03:14:27',
                 'updated_at' => '2025-04-24 03:15:17',
             ),
-            27 =>
+            26 => 
             array (
                 'id' => 37,
                 'user_id' => 1,
@@ -271,7 +262,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-23 19:03:23',
                 'updated_at' => '2025-04-24 03:20:48',
             ),
-            28 =>
+            27 => 
             array (
                 'id' => 38,
                 'user_id' => 1,
@@ -280,7 +271,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-23 19:03:43',
                 'updated_at' => '2025-04-24 03:21:09',
             ),
-            29 =>
+            28 => 
             array (
                 'id' => 1,
                 'user_id' => 1,
@@ -289,7 +280,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 04:55:55',
                 'updated_at' => '2025-04-24 03:23:04',
             ),
-            30 =>
+            29 => 
             array (
                 'id' => 27,
                 'user_id' => 1,
@@ -298,7 +289,7 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-21 23:59:45',
                 'updated_at' => '2025-04-24 03:29:24',
             ),
-            31 =>
+            30 => 
             array (
                 'id' => 6,
                 'user_id' => 1,
@@ -307,8 +298,35 @@ class AppNotesTableSeeder extends Seeder
                 'created_at' => '2025-04-19 09:17:21',
                 'updated_at' => '2025-04-24 04:00:09',
             ),
+            31 => 
+            array (
+                'id' => 40,
+                'user_id' => 1,
+                'title' => '{"ru":"Layout - Quest","en":"Layout - Quest"}',
+            'content' => '{"ru":"Your task is to generate a structured quest memory card for internal use.\\n\\nThis content will not be shown directly to the player. It will be used by the system to reason about quest logic, objectives, progression state, dependencies, and possible branches during gameplay.\\n\\nThe description should be precise, logic-oriented, and unambiguous. Avoid narrative tone, emotional framing, or dramatic language. Structure the quest information clearly and consistently. This card must be internally coherent and usable for decision-making and filtering during interactive events.\\n\\nYou may include:\\n- title\\n- description\\n- type (main, side, optional, timed, etc.)\\n- initiating condition (how the quest starts)\\n- completion condition (what must happen to complete the quest)\\n- failure conditions (if any)\\n- quest stages or steps (sequential or branching)\\n- dependencies (required items, locations, prior events)\\n- consequences (state changes, unlocked areas, new characters, etc.)\\n- related characters and their roles\\n\\nBelow is the requirements describing what this memory should include:\\n\\n---\\n{{ task }}\\n\\n---\\nNow produce the complete internal representation of the quest. Be explicit, structured, and focused on system-relevant logic. Do not include formatting instructions or explanation — output only the quest description itself.","en":"Your task is to generate a structured quest memory card for internal use.\\n\\nThis content will not be shown directly to the player. It will be used by the system to reason about quest logic, objectives, progression state, dependencies, and possible branches during gameplay.\\n\\nThe description should be precise, logic-oriented, and unambiguous. Avoid narrative tone, emotional framing, or dramatic language. Structure the quest information clearly and consistently. This card must be internally coherent and usable for decision-making and filtering during interactive events.\\n\\nYou may include:\\n- title\\n- description\\n- type (main, side, optional, timed, etc.)\\n- initiating condition (how the quest starts)\\n- completion condition (what must happen to complete the quest)\\n- failure conditions (if any)\\n- quest stages or steps (sequential or branching)\\n- dependencies (required items, locations, prior events)\\n- consequences (state changes, unlocked areas, new characters, etc.)\\n- related characters with names and their roles\\n\\nBelow is the requirements describing what this memory should include:\\n\\n---\\n{{ task }}\\n\\n---\\nNow produce the complete internal representation of the quest. Be explicit, structured, and focused on system-relevant logic. Do not include formatting instructions or explanation — output only the quest description itself."}',
+                'created_at' => '2025-04-24 05:08:42',
+                'updated_at' => '2025-04-24 05:55:05',
+            ),
+            32 => 
+            array (
+                'id' => 4,
+                'user_id' => 1,
+                'title' => '{"en":"Prologue - Make - Audio Log","ru":"Prologue - Make - Audio Log"}',
+            'content' => '{"en":"Now you are not a narrator but the player speaking into a their voice recorder. This is their personal audio log.\\n\\nWrite a monologue (8–10 sentences) in the first person, in the voice of the player. The first sentence must begin with: “It’s been [number] years since it happened.” The event refers to the outbreak of Doomsday Virus. So, let\'s player describe it from his point of view. Also the player should express their attitude toward Walkers and Shells — with empathy, resentment, irony, distrust, or however it fits their personality. Let it feel personal and grounded, not ideological. Remember about player\'s fraction.\\n\\nThen, describe how the player survived, what they’ve been through, and finally — articulate their current quest. Use the internal quest memory card \\"Quest: Main\\" to extract all system-relevant details (objectives, motivation, targets). Express this quest in the player\'s own words: personal, emotionally honest, and specific. Make it clear why it matters to them.\\n\\nAt the end of the message, the player suddenly notices a small structure by the side of the road — just as they\'re finishing their thought. They interrupt the recording mid-sentence or immediately after, reacting briefly and spontaneously. You may include a quick, emotionally honest reaction — a whisper, a fragment, or even an expletive — but do not describe the structure itself.","ru":"Now you are not a narrator but the player speaking into a their voice recorder. This is their personal audio log.\\n\\nWrite a monologue (8–10 sentences) in the first person, in the voice of the player. The first sentence must begin with: “It’s been [number] years since it happened.” The event refers to the outbreak of Doomsday Virus. So, let\'s player describe it from his point of view. Also the player should express their attitude toward Walkers and Shells — with empathy, resentment, irony, distrust, or however it fits their personality. Let it feel personal and grounded, not ideological. Remember about player\'s fraction.\\n\\nThen, describe how the player survived, what they’ve been through, and finally — articulate their current quest. Use the internal quest memory card \\"Quest: Main\\" to extract all system-relevant details (objectives, motivation, targets). Express this quest in the player\'s own words: personal, emotionally honest, and specific. Make it clear why it matters to them.\\n\\nAt the end of the message, the player suddenly notices a small structure by the side of the road — just as they\'re finishing their thought. They interrupt the recording mid-sentence or immediately after, reacting briefly and spontaneously. You may include a quick, emotionally honest reaction — a whisper, a fragment, or even an expletive — but do not describe the structure itself."}',
+                'created_at' => '2025-04-19 09:01:24',
+                'updated_at' => '2025-04-24 05:45:21',
+            ),
+            33 => 
+            array (
+                'id' => 41,
+                'user_id' => 1,
+                'title' => '{"ru":"Quest - Main","en":"Quest - Main"}',
+                'content' => '{"ru":"The main player\'s quest.\\n\\nThe quest has already started. When creating it, keep in mind that at this very moment the player is driving along a forest road. The quest must explain why the player is going there and where they are headed.\\n\\nThe quest must be:\\n- realistic and plausible within the context of the game,\\n- anchored in the player character’s personal history and current situation,\\n- and provide the player character with a compelling inner motivation — a reason so strong and deeply rooted that it gives them unshakable determination to see it through.\\n\\nAlso take into account the broader context of the game world, its factions, known threats, and recent events.\\n\\nBe specific, grounded, and purposeful. This is not a side objective — this is the main quest that defines the player\'s journey.","en":"The main player\'s quest.\\n\\nThe quest has already started. When creating it, keep in mind that at this very moment the player is driving along a forest road. The quest must explain why the player is going there and where they are headed.\\n\\nThe quest must be:\\n- realistic and plausible within the context of the game,\\n- anchored in the player character’s personal history and current situation,\\n- and provide the player character with a compelling inner motivation — a reason so strong and deeply rooted that it gives them unshakable determination to see it through.\\n\\nAlso take into account the broader context of the game world, its factions, known threats, and recent events.\\n\\nBe specific, grounded, and purposeful. This is not a side objective — this is the main quest that defines the player\'s journey."}',
+                'created_at' => '2025-04-24 05:13:36',
+                'updated_at' => '2025-04-24 05:43:32',
+            ),
         ));
-
-
+        
+        
     }
 }

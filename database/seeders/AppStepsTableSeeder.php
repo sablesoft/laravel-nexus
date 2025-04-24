@@ -21,32 +21,6 @@ class AppStepsTableSeeder extends Seeder
         \DB::table('app.steps')->insert(array (
             0 => 
             array (
-                'id' => 2,
-                'parent_id' => 12,
-                'number' => 2,
-                'scenario_id' => NULL,
-                'name' => '{"en":"Audio Log - Apocalipsys","ru":"Audio Log - Doomsday"}',
-                'description' => '{"en":null,"ru":null}',
-            'before' => '[{"if":{"condition":"screen.state(\'step\') == 2","then":[{"set":{"meta.tags":[">>audio-log"],"author":"character.id()"}},{"merge":{"messages":["note.message(\'lore-virus\', \'Lore:\')","note.message(\'lore-fractions\', \'Lore:\')","note.message(\'make-audio-log\', \'Make:\')"]}},{"memory.card":{"async":true,"type":">>place","layout":"note.content(\'layout-place\')","code":">>house","title":">>House","task":"note.content(\\"place-house\\")"}}]}}]',
-                'after' => NULL,
-                'created_at' => '2025-04-14 03:24:01',
-                'updated_at' => '2025-04-21 21:58:35',
-            ),
-            1 => 
-            array (
-                'id' => 12,
-                'parent_id' => 13,
-                'number' => 11,
-                'scenario_id' => NULL,
-                'name' => '{"en":"Action","ru":"Character Action"}',
-                'description' => '{"en":null,"ru":null}',
-            'before' => '[{"comment":">>Classify character ask"},{"action":{"async":false,"pipeFlag":">>pipe","messages":"messages","allowed":[">>look",">>search",">>open",">>take",">>move"],"before":[{"merge":{"messages":["note.message(\'rules-narrator\', \'Rules:\')","note.message(\'rules-content\', \'Rules:\')"]}},{"memory.create":{"author_id":"character.id()","content":"ask","meta":{"weather":"chat.state(\'weather\')","time":"chat.state(\'time\')"}}},{"chat.refresh":null}],"always":[{"merge":{"messages":[{"role":">>user","content":"ask"}]}}],"default":[{"merge":{"messages":["note.message(\'make-fun\', \'Make:\')"]}},{"function.run":{"name":"generate_response"}}]}},{"screen.waiting":true}]',
-                'after' => NULL,
-                'created_at' => '2025-04-19 10:52:50',
-                'updated_at' => '2025-04-24 03:27:58',
-            ),
-            2 => 
-            array (
                 'id' => 4,
                 'parent_id' => 12,
                 'number' => 1,
@@ -58,7 +32,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 16:51:43',
                 'updated_at' => '2025-04-24 04:05:13',
             ),
-            3 => 
+            1 => 
             array (
                 'id' => 3,
                 'parent_id' => 12,
@@ -71,7 +45,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-14 05:45:45',
                 'updated_at' => '2025-04-21 23:14:31',
             ),
-            4 => 
+            2 => 
             array (
                 'id' => 16,
                 'parent_id' => 13,
@@ -84,7 +58,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-21 23:45:14',
                 'updated_at' => '2025-04-24 02:41:13',
             ),
-            5 => 
+            3 => 
             array (
                 'id' => 14,
                 'parent_id' => 13,
@@ -97,7 +71,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-21 02:42:29',
                 'updated_at' => '2025-04-24 02:57:13',
             ),
-            6 => 
+            4 => 
             array (
                 'id' => 13,
                 'parent_id' => 13,
@@ -110,7 +84,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-19 18:53:05',
                 'updated_at' => '2025-04-24 02:25:59',
             ),
-            7 => 
+            5 => 
             array (
                 'id' => 18,
                 'parent_id' => 13,
@@ -123,7 +97,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-22 01:51:26',
                 'updated_at' => '2025-04-24 02:44:33',
             ),
-            8 => 
+            6 => 
             array (
                 'id' => 11,
                 'parent_id' => 13,
@@ -136,7 +110,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-19 10:47:21',
                 'updated_at' => '2025-04-24 02:43:29',
             ),
-            9 => 
+            7 => 
             array (
                 'id' => 19,
                 'parent_id' => 13,
@@ -149,7 +123,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:38:08',
                 'updated_at' => '2025-04-24 02:49:17',
             ),
-            10 => 
+            8 => 
             array (
                 'id' => 20,
                 'parent_id' => 13,
@@ -162,7 +136,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-22 04:29:23',
                 'updated_at' => '2025-04-24 03:01:18',
             ),
-            11 => 
+            9 => 
             array (
                 'id' => 8,
                 'parent_id' => 12,
@@ -175,7 +149,7 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-17 17:55:51',
                 'updated_at' => '2025-04-24 04:22:26',
             ),
-            12 => 
+            10 => 
             array (
                 'id' => 17,
                 'parent_id' => 13,
@@ -187,6 +161,32 @@ class AppStepsTableSeeder extends Seeder
                 'after' => NULL,
                 'created_at' => '2025-04-22 00:33:01',
                 'updated_at' => '2025-04-24 02:38:59',
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'parent_id' => 13,
+                'number' => 11,
+                'scenario_id' => NULL,
+                'name' => '{"en":"Action","ru":"Action"}',
+                'description' => '{"en":null,"ru":null}',
+            'before' => '[{"comment":">>Classify character ask"},{"action":{"async":true,"pipeFlag":">>pipe","messages":"messages","allowed":[">>look",">>search",">>open",">>take",">>move"],"before":[{"merge":{"messages":["note.message(\'rules-narrator\', \'Rules:\')","note.message(\'rules-content\', \'Rules:\')"]}},{"memory.create":{"author_id":"character.id()","content":"ask","meta":{"weather":"chat.state(\'weather\')","time":"chat.state(\'time\')"}}},{"chat.refresh":null}],"always":[{"merge":{"messages":[{"role":">>user","content":"ask"}]}}],"default":[{"merge":{"messages":["note.message(\'make-fun\', \'Make:\')"]}},{"function.run":{"name":"generate_response"}}]}},{"screen.waiting":true}]',
+                'after' => NULL,
+                'created_at' => '2025-04-19 10:52:50',
+                'updated_at' => '2025-04-24 04:53:19',
+            ),
+            12 => 
+            array (
+                'id' => 2,
+                'parent_id' => 12,
+                'number' => 2,
+                'scenario_id' => NULL,
+                'name' => '{"en":"Audio Log - Apocalipsys","ru":"Audio Log - Doomsday"}',
+                'description' => '{"en":null,"ru":null}',
+            'before' => '[{"if":{"condition":"screen.state(\'step\') == 2","then":[{"set":{"meta.tags":[">>audio-log"],"author":"character.id()"}},{"merge":{"messages":["note.message(\'lore-virus\', \'Lore:\')","note.message(\'lore-fractions\', \'Lore:\')","memory.card(\'main\', \'quest\')","note.message(\'make-audio-log\', \'Make:\')"]}},{"memory.card":{"async":true,"type":">>place","layout":"note.content(\'layout-place\')","code":">>house","title":">>House","task":"note.content(\\"place-house\\")"}}]}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-14 03:24:01',
+                'updated_at' => '2025-04-24 05:32:14',
             ),
             13 => 
             array (

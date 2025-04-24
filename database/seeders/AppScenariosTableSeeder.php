@@ -39,7 +39,7 @@ class AppScenariosTableSeeder extends Seeder
             'before' => '[{"set":{"meta":{"weather":"chat.state(\'weather\')","time":"chat.state(\'time\')"},"author":null,"messages":["note.message(\'rules-game\', \'Rules:\')","note.message(\'rules-narrator\', \'Rules:\')","note.message(\'rules-content\', \'Rules:\')"]}},{"merge":{"messages":"memory.messages(\'\\":type\\" == screen.code\')"}},{"screen.waiting":true}]',
                 'after' => NULL,
                 'created_at' => '2025-04-14 03:12:20',
-                'updated_at' => '2025-04-24 04:20:47',
+                'updated_at' => '2025-04-24 05:16:08',
             ),
         ));
         
