@@ -54,8 +54,10 @@ class Mask extends AbstractCrud
             ],
             'gender' => [
                 'title' => __('Gender'),
+                'rules' => ['required', 'string'],
                 'action' => ['index', 'create', 'edit', 'view'],
                 'type' => 'select',
+                'init' => Gender::Male->value,
                 'options' => Gender::options()
             ],
             'image_id' => $this->imageSelectorField(__('Avatar')),
