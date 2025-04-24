@@ -43,6 +43,18 @@ class PublicUsersTableSeeder extends Seeder
                 'created_at' => '2025-03-04 21:17:48',
                 'updated_at' => '2025-04-24 05:54:23',
             ),
+            2 => 
+            array (
+                'id' => 3,
+                'name' => 'vvrn',
+                'email' => 'me.vvrn@gmail.com',
+                'language' => 'ru',
+                'email_verified_at' => '2025-04-23 15:41:48',
+                'password' => '$2y$12$6T3L.aNaONuaiviy/E9oTu.YlImWgXr5rlKKgmnroO3hMPz8CxnG6',
+                'remember_token' => NULL,
+                'created_at' => '2025-04-23 15:40:48',
+                'updated_at' => '2025-04-23 15:41:48',
+            ),
         ));
         
         
