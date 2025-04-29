@@ -22,7 +22,7 @@ class AppMasksTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'user_id' => 2,
+                'user_id' => 3,
                 'image_id' => 7,
                 'portrait_id' => 8,
                 'name' => '{"en":"Nick Rayner","ru":"Ник Рейнер"}',
@@ -35,7 +35,7 @@ class AppMasksTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'user_id' => 2,
+                'user_id' => 3,
                 'image_id' => 10,
                 'portrait_id' => 11,
                 'name' => '{"en":"Lia Novak","ru":"Лия Новак"}',
@@ -48,7 +48,7 @@ class AppMasksTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 3,
-                'user_id' => 2,
+                'user_id' => 3,
                 'image_id' => 12,
                 'portrait_id' => 4,
                 'name' => '{"en":"Tarek Basim","ru":"Тарек Басим"}',
@@ -61,7 +61,7 @@ class AppMasksTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'user_id' => 2,
+                'user_id' => 3,
                 'image_id' => 6,
                 'portrait_id' => 14,
                 'name' => '{"en":"Mara Kessler","ru":"Мара Кесслер"}',
@@ -70,6 +70,19 @@ class AppMasksTableSeeder extends Seeder
                 'is_public' => false,
                 'created_at' => '2025-04-11 21:00:34',
                 'updated_at' => '2025-04-16 02:12:42',
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'user_id' => 3,
+                'image_id' => 5,
+                'portrait_id' => NULL,
+                'name' => '{"en":"Girl"}',
+                'description' => '{"en":null}',
+                'gender' => 'female',
+                'is_public' => false,
+                'created_at' => '2025-04-24 19:00:11',
+                'updated_at' => '2025-04-24 19:00:11',
             ),
         ));
         

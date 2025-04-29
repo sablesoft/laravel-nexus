@@ -32,7 +32,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 2,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 13,
+                'noteable_id' => 11,
                 'code' => 'lore-fractions',
                 'created_at' => '2025-04-19 18:47:17',
                 'updated_at' => '2025-04-19 18:47:17',
@@ -41,7 +41,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 1,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 13,
+                'noteable_id' => 11,
                 'code' => 'lore-virus',
                 'created_at' => '2025-04-19 18:47:28',
                 'updated_at' => '2025-04-19 18:47:28',
@@ -50,7 +50,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 11,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 13,
+                'noteable_id' => 11,
                 'code' => 'layout-place',
                 'created_at' => '2025-04-24 04:11:13',
                 'updated_at' => '2025-04-24 04:11:13',
@@ -140,7 +140,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 19,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 8,
+                'noteable_id' => 7,
                 'code' => 'make-empty-mat',
                 'created_at' => '2025-04-24 02:45:48',
                 'updated_at' => '2025-04-24 02:45:48',
@@ -158,7 +158,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 14,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 13,
+                'noteable_id' => 11,
                 'code' => 'place-house',
                 'created_at' => '2025-04-21 18:34:42',
                 'updated_at' => '2025-04-21 18:34:42',
@@ -185,7 +185,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 26,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 12,
+                'noteable_id' => 10,
                 'code' => 'rules-narrator',
                 'created_at' => '2025-04-24 03:16:17',
                 'updated_at' => '2025-04-24 03:16:17',
@@ -248,7 +248,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 29,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 7,
+                'noteable_id' => 13,
                 'code' => 'make-look-inside',
                 'created_at' => '2025-04-24 03:23:04',
                 'updated_at' => '2025-04-24 03:23:04',
@@ -284,7 +284,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 17,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 11,
+                'noteable_id' => 12,
                 'code' => 'make-inspect-place',
                 'created_at' => '2025-04-24 03:30:15',
                 'updated_at' => '2025-04-24 03:30:15',
@@ -302,7 +302,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 20,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 8,
+                'noteable_id' => 7,
                 'code' => 'make-found-key',
                 'created_at' => '2025-04-24 03:33:14',
                 'updated_at' => '2025-04-24 03:33:14',
@@ -311,7 +311,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 23,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 8,
+                'noteable_id' => 7,
                 'code' => 'make-mat-key',
                 'created_at' => '2025-04-24 03:33:31',
                 'updated_at' => '2025-04-24 03:33:31',
@@ -329,7 +329,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 24,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 9,
+                'noteable_id' => 8,
                 'code' => 'make-move-anywhere',
                 'created_at' => '2025-04-24 03:37:04',
                 'updated_at' => '2025-04-24 03:37:04',
@@ -365,7 +365,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 8,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 12,
+                'noteable_id' => 10,
                 'code' => 'rules-content',
                 'created_at' => '2025-04-24 03:40:23',
                 'updated_at' => '2025-04-24 03:40:23',
@@ -374,7 +374,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 9,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 12,
+                'noteable_id' => 10,
                 'code' => 'make-fun',
                 'created_at' => '2025-04-24 03:42:19',
                 'updated_at' => '2025-04-24 03:42:19',
@@ -455,7 +455,7 @@ class AppNoteUsagesTableSeeder extends Seeder
             array (
                 'note_id' => 33,
                 'noteable_type' => 'App\\Models\\Step',
-                'noteable_id' => 13,
+                'noteable_id' => 11,
                 'code' => 'make-audio-log',
                 'created_at' => '2025-04-24 05:45:21',
                 'updated_at' => '2025-04-24 05:45:21',

@@ -22,7 +22,7 @@ class AppScreensTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'user_id' => 2,
+                'user_id' => 3,
                 'application_id' => 1,
                 'image_id' => 1,
                 'title' => '{"en":"Recorder","ru":"Диктофон"}',
@@ -43,7 +43,7 @@ class AppScreensTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'user_id' => 2,
+                'user_id' => 3,
                 'application_id' => 1,
                 'image_id' => 9,
                 'title' => '{"en":"Porch","ru":"На пороге"}',
@@ -64,14 +64,14 @@ class AppScreensTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 3,
-                'user_id' => 2,
+                'user_id' => 3,
                 'application_id' => 1,
                 'image_id' => 3,
                 'title' => '{"en":"Prologue","ru":"Пролог"}',
                 'code' => 'prologue',
                 'description' => '{"ru":null,"en":null}',
                 'is_start' => true,
-                'query' => '":type" == screen.code or ":type" == \'card\'',
+            'query' => '":type" == screen.code or has(":meta.tags", "card")',
                 'template' => NULL,
                 'visible_condition' => NULL,
                 'enabled_condition' => NULL,
@@ -80,7 +80,7 @@ class AppScreensTableSeeder extends Seeder
                 'before' => NULL,
                 'after' => NULL,
                 'created_at' => '2025-04-08 19:43:19',
-                'updated_at' => '2025-04-24 05:30:34',
+                'updated_at' => '2025-04-28 06:40:53',
             ),
         ));
         

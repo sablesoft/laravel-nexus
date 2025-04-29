@@ -34,18 +34,6 @@ class PublicUsersTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => 'Raman',
-                'email' => 'sable.lair@gmail.com',
-                'language' => 'en',
-                'email_verified_at' => '2025-03-05 18:48:07',
-                'password' => '$2y$12$gqzTj4axfOb/CiY4Ft5Ai.JC.P31L.einegDgA/DaKA.rTB.rCL.y',
-                'remember_token' => 'jWes7vm78i10mYUMyunjPs4iHXWm3ojdhUMjq1tZg3Kf6dn2atWt90K5uCWF',
-                'created_at' => '2025-03-04 21:17:48',
-                'updated_at' => '2025-04-24 05:54:23',
-            ),
-            2 => 
-            array (
-                'id' => 3,
                 'name' => 'vvrn',
                 'email' => 'me.vvrn@gmail.com',
                 'language' => 'ru',
@@ -54,6 +42,18 @@ class PublicUsersTableSeeder extends Seeder
                 'remember_token' => NULL,
                 'created_at' => '2025-04-23 15:40:48',
                 'updated_at' => '2025-04-23 15:41:48',
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'name' => 'Raman',
+                'email' => 'sable.lair@gmail.com',
+                'language' => 'ru',
+                'email_verified_at' => '2025-03-05 18:48:07',
+                'password' => '$2y$12$gqzTj4axfOb/CiY4Ft5Ai.JC.P31L.einegDgA/DaKA.rTB.rCL.y',
+                'remember_token' => 'jWes7vm78i10mYUMyunjPs4iHXWm3ojdhUMjq1tZg3Kf6dn2atWt90K5uCWF',
+                'created_at' => '2025-03-04 21:17:48',
+                'updated_at' => '2025-04-28 06:37:58',
             ),
         ));
         

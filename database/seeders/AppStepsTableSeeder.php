@@ -101,19 +101,6 @@ class AppStepsTableSeeder extends Seeder
             array (
                 'id' => 7,
                 'parent_id' => 1,
-                'number' => 4,
-                'scenario_id' => NULL,
-                'name' => '{"en":"Case - Look Inside","ru":"Case - Look Inside"}',
-                'description' => '{"en":null,"ru":null}',
-            'before' => '[{"set":{"message_look_inside":"note.message(\'make-look-inside\', \'Make:\')"}},{"action.case":{"name":">>look-inside","do":">>look","what":[">>keyhole",">>window"],"to":[">>inside",">>room",">>interior"],"then":[{"merge":{"messages":["memory.card(\'room\', \'place\')","message_look_inside"]}},{"function.run":{"name":"generate_response"}}]}}]',
-                'after' => NULL,
-                'created_at' => '2025-04-19 10:47:21',
-                'updated_at' => '2025-04-24 02:43:29',
-            ),
-            7 => 
-            array (
-                'id' => 8,
-                'parent_id' => 1,
                 'number' => 6,
                 'scenario_id' => NULL,
                 'name' => '{"ru":"Case - Search Mat","en":"Case - Search Mat"}',
@@ -123,9 +110,9 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-22 02:38:08',
                 'updated_at' => '2025-04-24 02:49:17',
             ),
-            8 => 
+            7 => 
             array (
-                'id' => 9,
+                'id' => 8,
                 'parent_id' => 1,
                 'number' => 9,
                 'scenario_id' => NULL,
@@ -136,9 +123,9 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-22 04:29:23',
                 'updated_at' => '2025-04-24 03:01:18',
             ),
-            9 => 
+            8 => 
             array (
-                'id' => 10,
+                'id' => 9,
                 'parent_id' => 2,
                 'number' => 4,
                 'scenario_id' => NULL,
@@ -149,22 +136,9 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-17 17:55:51',
                 'updated_at' => '2025-04-24 04:22:26',
             ),
-            10 => 
+            9 => 
             array (
-                'id' => 11,
-                'parent_id' => 1,
-                'number' => 2,
-                'scenario_id' => NULL,
-                'name' => '{"en":"Case - Inspect Place","ru":"Case - Inspect Place"}',
-                'description' => '{"en":null,"ru":null}',
-            'before' => '[{"set":{"message_inspect_place":"note.message(\'make-inspect-place\', \'Make:\')"}},{"action.case":{"name":">>inspect-place","do":">>look","what":[">>around",">>environment",">>surroundings"],"how":[">>intently",">>carefully",">>attentively",">>diligently"],"then":[{"merge":{"messages":["message_inspect_place"]}},{"function.run":{"name":"generate_response"}}]}}]',
-                'after' => NULL,
-                'created_at' => '2025-04-22 00:33:01',
-                'updated_at' => '2025-04-24 02:38:59',
-            ),
-            11 => 
-            array (
-                'id' => 12,
+                'id' => 10,
                 'parent_id' => 1,
                 'number' => 11,
                 'scenario_id' => NULL,
@@ -175,9 +149,9 @@ class AppStepsTableSeeder extends Seeder
                 'created_at' => '2025-04-19 10:52:50',
                 'updated_at' => '2025-04-24 04:53:19',
             ),
-            12 => 
+            10 => 
             array (
-                'id' => 13,
+                'id' => 11,
                 'parent_id' => 2,
                 'number' => 2,
                 'scenario_id' => NULL,
@@ -187,6 +161,32 @@ class AppStepsTableSeeder extends Seeder
                 'after' => NULL,
                 'created_at' => '2025-04-14 03:24:01',
                 'updated_at' => '2025-04-24 05:32:14',
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'parent_id' => 1,
+                'number' => 2,
+                'scenario_id' => NULL,
+                'name' => '{"en":"Case - Inspect Place","ru":"Case - Inspect Place"}',
+                'description' => '{"en":null,"ru":null}',
+            'before' => '[{"set":{"message_inspect_place":"note.message(\'make-inspect-place\', \'Make:\')"}},{"action.case":{"name":">>inspect-place","do":">>look","what":[">>porch",">>around",">>environment",">>surroundings"],"how":[">>intently",">>carefully",">>attentively",">>diligently"],"then":[{"merge":{"messages":["message_inspect_place"]}},{"function.run":{"name":"generate_response"}}]}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-22 00:33:01',
+                'updated_at' => '2025-04-28 07:15:24',
+            ),
+            12 => 
+            array (
+                'id' => 13,
+                'parent_id' => 1,
+                'number' => 4,
+                'scenario_id' => NULL,
+                'name' => '{"en":"Case - Look Inside","ru":"Case - Look Inside"}',
+                'description' => '{"en":null,"ru":null}',
+            'before' => '[{"set":{"message_look_inside":"note.message(\'make-look-inside\', \'Make:\')"}},{"action.case":{"name":">>look-inside","do":">>look","to":[">>inside",">>room",">>interior"],"then":[{"merge":{"messages":["memory.card(\'room\', \'place\')","message_look_inside"]}},{"function.run":{"name":"generate_response"}}]}}]',
+                'after' => NULL,
+                'created_at' => '2025-04-19 10:47:21',
+                'updated_at' => '2025-04-28 07:30:11',
             ),
             13 => 
             array (

@@ -141,7 +141,7 @@ class ActionHandler implements EffectHandlerContract
         $propertiesSchema = [
             'action' => [
                 'type' => 'string',
-                'description' => 'Plain English description of this single user action, to help constrain the generation'
+                'description' => 'Plain English description of this single user action, to help constrain the generation',
             ],
             'do' => [
                 'type' => 'string',
@@ -155,12 +155,12 @@ class ActionHandler implements EffectHandlerContract
                 'items' => [
                     'type' => 'string',
                 ],
-                'description' => $description
+                'description' => $description,
             ];
         }
 
         return [
-            'description' => 'Classify player action. Only English words allowed.',
+            'description' => 'Classify a player action by filling predefined fields with English words only. Each list must contain 2–6 relevant lowercase words based on the user input and context.',
             'parameters' => [
                 'type' => 'object',
                 'properties' => $propertiesSchema,
